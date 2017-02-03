@@ -1,0 +1,652 @@
+/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
+
+/* UPDATED 06.09.2011 - PV*/
+
+#admin {
+
+	margin: 5px 10px 10px 10px;
+
+	/*font-weight: bold;
+
+	border-bottom: 2px dashed #cccccc;*/
+
+	padding-bottom: 10px;
+        display: inline-block;
+        
+}
+
+#admin fieldset{
+
+	background-color: #e1ffc3;
+
+	border: 1px solid #8fbf2f;
+
+	padding: 2px 5px 2px 5px;
+
+}
+
+#admin fieldset label {
+
+	font-style: normal;
+
+	font-weight: bold;
+
+	font-size: 120%;
+
+}
+
+#admin div, #admin div {
+
+	font-size: 90%;
+
+	font-style: normal;
+
+}
+
+#admin table.vyp_adm{
+
+   font-family: "Trebuchet MS", Georgia, "Bitstream Charter", Arial, Helvetica, sans-serif;
+
+	font-size: 90%;
+
+	/*border: 0px solid #91b726;*/
+
+	border: 0;
+
+	/*width: 100%;*/
+
+}
+
+#admin table.vyp_adm th{
+
+	background: #fa0;
+
+	text-align: center;
+
+	border: 1px solid white;
+
+}
+
+#admin table.vyp_adm tr.r1{
+
+	/*border: 1px solid #46515b;*/
+
+	border: 0;
+
+	background: #dbeca7;
+
+}
+
+#admin table.vyp_adm tr.r2{
+
+	/*border: 1px solid #46515b;*/
+
+	border: 0;
+
+	background: #b6d94e;
+
+}
+
+#admin table.vyp_adm td{
+
+	border: 1px solid #708090;
+
+}
+
+#admin table.vyp_adm td A:hover{
+
+	text-decoration: none;
+
+}
+
+#admin table.vyp_adm td A.edit{
+
+	background: url(Obr/ikonky/16/ceruza_cierna16.png) no-repeat left;
+
+}
+
+#admin table.vyp_adm td A.edit:hover{
+
+	background: url(Obr/ikonky/16/ceruza_zelena16.png) no-repeat left;
+
+}
+
+#admin table.vyp_adm td A.vymaz{
+
+	background: url(Obr/ikonky/16/X_tmavy16.png) no-repeat left;
+
+}
+
+#admin table.vyp_adm td A.vymaz:hover{
+
+	background: url(Obr/ikonky/16/X_svetly16.png) no-repeat left;
+
+}
+
+#vyp_adm{
+
+   font-family: "Trebuchet MS", Georgia, "Bitstream Charter", Arial, Helvetica, sans-serif;
+
+	font-size: 12px;
+
+	/*border: 0px solid #91b726;*/
+
+	border: 0;
+
+	/*width: 100%;*/
+
+}
+
+#vyp_adm th{
+
+	background: #fa0;
+
+	text-align: center;
+
+	border: 1px solid white;
+
+}
+
+#vyp_adm tr.r1{
+
+	/*border: 1px solid #46515b;*/
+
+	border: 0;
+
+	background: #dbeca7;
+
+}
+
+#vyp_adm tr.r2{
+
+	/*border: 1px solid #46515b;*/
+
+	border: 0;
+
+	background: #b6d94e;
+
+}
+
+#vyp_adm tr.zmaz{
+
+	text-decoration: line-through;
+
+	color: #708090;
+
+}
+
+#vyp_adm td{
+
+	border: 1px solid #708090;
+
+}
+
+#vyp_adm td A:hover{
+
+	text-decoration: none;
+
+}
+
+#vyp_adm td A.edit{
+
+	background: url(Obr/ikonky/16/ceruza_cierna16.png) no-repeat left;
+
+}
+
+#vyp_adm td A.edit:hover{
+
+	background: url(Obr/ikonky/16/ceruza_zelena16.png) no-repeat left;
+
+}
+
+#vyp_adm td A.vymaz{
+
+	background: url(Obr/ikonky/16/X_tmavy16.png) no-repeat left;
+
+}
+
+#vyp_adm td A.vymaz:hover{
+
+	background: url(Obr/ikonky/16/X_svetly16.png) no-repeat left;
+
+}
+
+.st_zeleno {
+
+	color: green;
+
+	font-weight: bold;
+
+}
+
+.st_cerveno {
+
+	color: #cc0033;
+
+	font-weight: bold;
+
+}
+
+/*#navigacia li a.active{
+
+	  color: navy;
+
+	  font-size: 150%;
+
+	  font-style: italic;
+
+	  font-weight: 300;
+
+	  text-decoration: none;
+
+  }
+
+#navigacia li.sub1{
+
+  	background-color: #d79100;
+
+  	background-image: none;
+
+}
+
+#navigacia li.sub1:hover{
+
+	  background: url(Obr/bg_menuH.png) repeat-x #fc6;
+
+  }
+
+#navigacia li.sub1 a{
+
+	  color: #fff;
+
+	  font-size: 110%;
+
+	  font-style: italic;
+
+	  font-weight: 300;
+
+	  text-decoration: none;
+
+}
+
+#navigacia li.sub1:hover a{
+
+	  color: #000;
+
+	  text-decoration: underline;
+
+  }
+
+#navigacia li.sub2{
+
+ 	background-color: #6b8e23;
+
+  	background-image: none;
+
+}
+
+#navigacia li.sub2:hover{
+
+	  background: url(Obr/bg_menuH.png) repeat-x #fc6;
+
+}
+
+#navigacia li.sub2 a{
+
+	  color: #fff;
+
+	  font-size: 90%;
+
+	  font-style: italic;
+
+	  font-weight: 300;
+
+	  text-decoration: none;
+
+}
+
+#navigacia li.sub2:hover a{
+
+	  color: #000;
+
+	  text-decoration: underline;
+
+}*/
+
+#omrvinky{
+
+	color: #333;
+
+	font-style: italic;
+
+	border: 0;
+
+	/*position: absolute;
+
+	top: 5px;
+
+	left: 50px;*/
+
+	margin: 0;
+
+	width: 75%; max-width: 1024px;
+
+}
+
+/*a.bocne2 {
+
+	text-decoration: none;
+
+	text-align: right;
+
+	border: 0px none;
+
+	padding: 3px 5px 3px 3px;
+
+	font: normal 12px Verdana, Geneva, Arial, Helvetica, sans-serif;
+
+	display: inline-block;
+
+	margin: 0px 0px 2px 5px;
+
+	background: #fa0 url(pozadie_sub_menu2.jpg) repeat-y right; 
+
+	color: #000;
+
+	max-width: 200px;
+
+	min-width: 120px;
+
+}
+
+a.bocne2:hover {
+
+	background: #aaa;
+
+	color: #000;
+
+}*/
+
+a.spec {
+
+	text-decoration: none;
+
+	text-align: left;
+
+	border: medium none;
+
+	padding: 3px 3px 3px 5px;
+
+	display: block;
+
+	margin: 2px 0px;
+
+	background: #91b726 url(pozadie_sub_menu.jpg) repeat-y right;
+
+	color: #000000;
+
+	font-style: normal;
+
+	font-weight: bold;
+
+	font-size: 14px;
+
+}
+
+a.spec:hover {
+
+	background: #999999;
+
+	color: #FFFFFF;
+
+}
+
+#colorbox{
+
+	z-index: 9999;
+
+}
+
+.zalozky{
+
+	border-bottom: 2px solid #aaa;
+
+	float: left;
+
+	width: 100%;
+
+}
+
+.zalozky h3{
+
+	border: 2px solid #aaa;
+
+	border-bottom: none;
+
+	float: left;
+
+	position: relative; top: 4px;
+
+	margin: 0 4px; padding: 2px 4px;
+
+	font-size: 110%;
+
+	background: #ccc;
+
+}
+
+.zalozky h3.active{
+
+	position: relative; top: 2px;
+
+	background: #fff;
+
+	padding: 4px;
+
+	z-index: 1;
+
+}
+
+#kategoriaG{
+
+	/*clear: left;*/
+
+	border-top: 1px dotted #999;
+
+	border-right: 1px dotted #999;
+
+	border-bottom: 1px dotted #999;
+
+	padding: 0;
+
+	margin: 20px 0;
+
+	vertical-align: top;
+
+}
+
+#kategoriaG td{
+
+		padding: 10px; margin: 0;
+
+		width: 25%;
+
+		vertical-align: top;
+
+		text-align: center;
+
+		border-bottom: 1px dotted #999;
+
+		border-left: 1px dotted #999;
+
+  }
+
+  #kategoriaG td img{
+
+		border: 4px solid #ddd;
+
+  }
+
+ #kategoriaG td h4{
+
+	  margin: 0;
+
+	  text-align: center;
+
+  }
+
+  #kategoriaG td a{
+
+	  font-weight: 100;
+
+  }
+
+  #kategoriaG td h4 span{
+
+	  color: #777;
+
+	  font-size: 80%;
+
+  }
+
+#kategoriaF{
+
+	clear: left;
+
+	border-top: 1px dotted #999;
+
+	border-right: 1px dotted #999;
+
+	border-bottom: 1px dotted #999;
+
+	padding: 0;
+
+	margin: 20px 0;
+
+	margin: 0;
+
+}
+
+#kategoriaF td{
+
+		padding: 2px; margin: 0;
+
+		width: 95px;
+
+		vertical-align: top;
+
+		text-align: center;
+
+		border-bottom: 1px dotted #999;
+
+		border-left: 1px dotted #999;
+
+		height: 95px;
+
+  }
+
+  #kategoriaF td a{
+
+	  font-weight: 80%;
+
+	  text-align: center;
+
+  }
+
+  #kategoriaF td a img{
+
+		border: 2px solid #ddd;
+
+		margin: 2px;
+
+		float: none;
+
+  }
+
+.oznam h4{
+
+	margin-right: 90px;
+
+	text-align: center;
+
+	color: #006400;
+
+}
+
+.oznam .imga{
+
+	display: inline-block;
+
+	width: 90px;
+
+	height: 67px;
+
+	text-align: center;
+
+	vertical-align: middle;
+
+	float: left;
+
+	margin-right: 8px;
+
+}
+
+.oznam p.menu{
+
+	text-align: center;
+
+}
+
+.neaktivne{
+
+	color:#666666;
+
+}
+
+a.spec1 {
+
+	text-decoration: none;
+
+	text-align: left;
+
+	border: medium none;
+
+	padding: 3px 3px 3px 5px;
+
+	display: block;
+
+	margin: 2px 0px;
+
+	background: #91b726 url(pozadie_sub_menu.jpg) repeat-y right;
+
+	color: #000000;
+
+	font-style: normal;
+
+	font-size: 14px;
+
+}
+
+a.spec1:hover {
+
+	background: #999999;
+
+	color: #FFFFFF;
+
+}
+
+a.spec1 span{
+
+	font-weight: bold;
+
+	font-style: italic;
+
+	color: maroon;
+
+}
+
+a.spec1:hover span{
+
+	color: #ffb6c1;
+
+}

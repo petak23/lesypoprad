@@ -1,0 +1,97 @@
+/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 15.10.2010 */
+/* UPDATED 31.05.2011*/
+#zobr_clanok {
+	padding: 2px 5px 5px 10px;
+	color: black;
+	text-align: left;
+	vertical-align: top;
+	width: 100%;
+	font-family: "Trebuchet MS", Georgia, "Bitstream Charter", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	border-bottom: 1px dashed #666666;
+	font-style: normal;
+	background: transparent;
+}
+#zobr_clanok h1 {
+	color: #fa0;
+	text-transform: capitalize;
+	text-align: center;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 150%;
+}
+#zobr_clanok h2 {
+	color: #000;
+	text-transform: capitalize;
+	text-align: center;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	font-size: 140%;
+}
+#zobr_clanok h3 {
+	color: #000;
+	text-transform: capitalize;
+	text-align: left;
+	border: 0;
+	margin: 5px 0 4px 20px;
+	font-size: 130%;
+}
+#zobr_clanok h4{
+     font-size: 115%;
+	  text-align: left;
+	  margin: 5px 0 4px 0;
+	  color: #c03;
+}
+#zobr_clanok h5{
+     font-size: 105%;
+	  text-align: left;
+	  margin: 5px 0 4px 0;
+	  color: #000;
+}
+#zobr_clanok h6{
+     font-size: 100%;
+	  text-align: left;
+	  margin: 5px 0 4px 0;
+	  color: #c03;
+}
+#zobr_clanok address{
+     font-size: 100%;
+	  text-align: left;
+	  margin: 5px 0 4px 0;
+	  color: #000;
+}
+#zobr_clanok div{
+     font-size: 100%;
+	  text-align: left;
+	  margin: 0;
+	  color: #000;
+	  font-weight: bold;
+}
+#zobr_clanok a{
+	color: #c03;
+	font-weight: bold;
+	text-decoration: none;
+}
+#zobr_clanok a:hover{
+	color: #91b726;
+	text-decoration: underline;
+}
+#zobr_clanok hr {
+	width: 80%;
+	color: #465826;
+	height: 1px;
+	text-align: center;
+	noshade;
+}
+#zobr_clanok p {
+	font-size: 90%;
+	color: #333;
+}
+#zobr_clanok ol,#zobr_clanok ul,#zobr_clanok li {
+   font-family: "Trebuchet MS", Georgia, "Bitstream Charter", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-size: 90%;
+	color: #333;
+}
