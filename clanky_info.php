@@ -5,12 +5,6 @@
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 if ($zobr_pol>0){  //Ide sa zobrazovať konkrétny článok
   if ($zobr_cast>0) $hladaj=$zobr_cast; else $hladaj=$zobr_pol;
-  /*$clanok_vyb=prikaz_sql("SELECT id_clanok, id_hlavne_menu, podclanok, DATE_FORMAT(datum,'%d.%m.%Y') as datum1, DATE_FORMAT(datum_platnosti,'%d.%m.%Y') as datum_pl,
-                                 clanok.nazov as nazov, text, meno, id_typ, ikonka.nazov as inazov, clenovia.id_clena as c_clena, pocitadlo, clanok.id_ikonka as iikonka
-                          FROM clanok, clenovia, ikonka 
-                          WHERE clanok.id_clena=clenovia.id_clena AND clanok.id_ikonka=ikonka.id_ikonka AND 
-						        id_clanok=$hladaj AND zmazane=0 LIMIT 1",
-  						 "Nájdenie článku (".__FILE__ ." on line ".__LINE__ .")","Žiaľ doško k chybe v databáze. Prosím skúste neskôr!",1);*/ //AND id_reg<=".jeadmin()."
   $clanok_vyb=prikaz_sql("SELECT id_clanok, id_hlavne_menu, podclanok, DATE_FORMAT(datum,'%d.%m.%Y') as datum1, DATE_FORMAT(datum_platnosti,'%d.%m.%Y') as datum_pl,
                                  clanok.nazov as nazov, text, meno, id_typ, clenovia.id_clena as c_clena, pocitadlo, clanok.id_ikonka as iikonka, postscript
                           FROM clanok, clenovia WHERE clanok.id_clena=clenovia.id_clena AND id_clanok=$hladaj AND zmazane=0 LIMIT 1",
@@ -130,5 +124,4 @@ else { //Ak sa práve nezobrazuje žiaden konkrétny článok vyberie všetky č
    }
   }
  }
-} 
-?>
+}

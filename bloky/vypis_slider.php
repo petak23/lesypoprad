@@ -20,12 +20,3 @@ if ($pol_slider && mysql_numrows($pol_slider)>0) {  //Ak bola požiadavka v DB �
 }
 ?>          
 </div>
-<script type="text/javascript">
-         $('#slider').jqFancyTransitions({
-          effect: 'wave',  
-          //width: 700,
-	      height: 250,
-		  navigation: true
-		  });
-</script>
-<noscript><p>Váš prehliadač nepodporuje JavaScript, alebo ho máte vypnutý.</p></noscript>

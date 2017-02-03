@@ -153,11 +153,6 @@ if ($ur_ikonky) {  // Ak bola požiadavka v DB úspešná
 else echo("Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type=\"hidden\" name=\"id_ikonka\" value=1>"); //náhrada ak zlyhá DB
 echo("</fieldset><br />");
 form_textarea("oznam_t", "Text oznamu", $text, "", 70);
-//form_zaskrt("ucast_t", "Potvrdenie účasti <span>(ide o možnosť registrovaných členou potvrdiť účasť na akcii)</span>", $ucast);
-//form_zaskrt("mazanie", "Mazanie po 90 dňoch (či sa má tento oznam po 90-tich dňoch automaticky zmazať z databázy)", $mazanie);
-//if ($zobr_pol==0)
-// form_zaskrt("news_t", "Posielatie NEWS o tomto ozname.(ak má byť registrovaným členom, ktorí to dovolili, zaslaný e-mail o tomto ozname. E-mail sa odošle aj v prípade opravy oznamu ak je toto políčko zaškrtnuté!)",$news);
-
 echo("Podpis:&nbsp;".$_SESSION["prezyvka"]."<input type=\"hidden\" name=\"id_clena\" size=8 maxlength=8 value=\"".(int)$_SESSION["id"]."\">&nbsp;&nbsp;
 	     -&gt;&nbsp;&nbsp;<input name=\"oznamy\" type=\"submit\" value=\"");
 echo($co=="new_oznam" ? "Pridaj" : "Oprav");

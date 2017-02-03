@@ -1,19 +1,6 @@
 <!--prehliadac--> 
-<link rel="stylesheet" type="text/css" href="colorbox.css" media="screen" />
-<script src="js/jquery.colorbox-min.js"></script>
-<script>
-		$(document).ready(function(){
-			//Examples of how to assign the ColorBox event to elements
-			$("a[rel='fotky']").colorbox({
-			   loop: false,
-			   transition:"fade", 
-			   current: "{current} z {total}",
-		       previous: "<-",
-		       next: "->",
-			   close: "Koniec"
-			});
-		});
-</script>
+
+
 
 <!-- koniec prehliadac -->
 <?php

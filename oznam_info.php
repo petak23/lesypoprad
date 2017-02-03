@@ -41,7 +41,6 @@ if ($zobr_pol>0){  //Ide sa zobrazovať konkrétny oznam
     echo("</span></p>");
     echo("<p class=oznam>$oznam[text]");
     if (jeadmin()>2) echo("<br /><span><b>$oznam[meno]</b></span>");
-	//if ($oznam["potvrdenie"]>0 and jeprihlaseny()) include ("./bloky/ucast.php");
     echo("</p></div>");
    }
   }  
@@ -70,14 +69,12 @@ else { //Výpis všetkých oznamov
 	  echo("<br />&nbsp;<a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$oznam[id_oznamu]&amp;co=edit_oznam\" title=\"Editácia oznamu\">Editácia oznamu</a>");
 	  echo("&nbsp;|&nbsp;<a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$oznam[id_oznamu]&amp;co=del_oznam\" title=\"Vymazanie oznamu\">Vymazanie oznamu</a>");
     }
-    //echo("</h3>"); //</span>
 	echo("<br />");
     if (strlen($oznam["text"])>150) {
      $text_oznam=substr(strip_tags($oznam["text"]),0,150)."...";
      $text_oznam=$text_oznam."<a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$oznam[id_oznamu]\" title=\"Zobrazenie celého oznamu\">&gt;&gt;&gt; celý oznam</a>"; //&amp;hlavicka=Oznam
     }
     else $text_oznam=strip_tags($oznam["text"]);
-    //echo("<p>");
    }
    else {
     echo("<div class=\"oznam neaktivne\">"); //Začiatok id-oznamy oznam 
@@ -96,8 +93,7 @@ else { //Výpis všetkých oznamov
     else $text_oznam=strip_tags($oznam["text"]);
    }
    echo("<p>");
-   echo("$text_oznam"); //<br /><span>$oznam[meno]</span>
-   //if ($oznam["potvrdenie"]>0 and jeprihlaseny()) {include ("./bloky/ucast.php");}
+   echo("$text_oznam"); 
    if (jeadmin()>2) echo("<br /><span><b>$oznam[meno]</b></span>");
    echo("</p>");
    echo("</div>");
@@ -107,4 +103,3 @@ else { //Výpis všetkých oznamov
  else stav_dobre("Momentálne nie sú žiadne oznamy!"); // aktuálne
  }
 }
-?>

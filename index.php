@@ -111,25 +111,28 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk" lang="SK" dir="ltr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="robots" content="index, follow" />
-<meta name="Content-Language" content="sk" />
-<meta name="Language" content="Slovak, sk, slovensko"/>
-<meta name="geo.region" content="SK-PV" />
-<meta name="description" content="<?= $hlavicka_str['description'] ?>" />
-<meta name="keywords" content="<?= $hl_udaje['keywords'] ?>" />
-<title><?= $hl_udaje['titulka']." - ".$hlavicka_str['title'] ?></title>
-<meta name="author" content="<?= $hl_udaje['autor'] ?>" />
-<link href="main.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="docasne.css" rel="stylesheet" type="text/css" media="screen" />
-<link rel="stylesheet" type="text/css" href="css/south-street/jquery-ui-1.8.12.custom.css" />
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="js/jquery-1.5.2.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
-<script type="text/javascript" src="js/jquery.ui.datepicker-sk.js"></script>
-<script type="text/javascript" src="js/jquerylazyload.js"></script>
-<script type="text/javascript" src="js/jqFancyTransitions.js"></script>
-<script type="text/javascript" src="js/pomocny.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="robots" content="index, follow" />
+  <meta name="Content-Language" content="sk" />
+  <meta name="Language" content="Slovak, sk, slovensko"/>
+  <meta name="geo.region" content="SK-PV" />
+  <meta name="description" content="<?= $hlavicka_str['description'] ?>" />
+  <meta name="keywords" content="<?= $hl_udaje['keywords'] ?>" />
+  <title><?= $hl_udaje['titulka']." - ".$hlavicka_str['title'] ?></title>
+  <meta name="author" content="<?= $hl_udaje['autor'] ?>" />
+  <link rel="stylesheet" type="text/css" media="screen" href="www/css/main.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="www/css/docasne.css" />
+  <link rel="stylesheet" type="text/css" href="www/css/south-street/jquery-ui-1.8.12.custom.css" />
+  <link rel="stylesheet" type="text/css" href="www/css/colorbox.css" media="screen" />
+  
+  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="www/js/jquery-1.5.2.min.js"></script>
+  <script type="text/javascript" src="www/js/jquery-ui-1.8.12.custom.min.js"></script>
+  <script type="text/javascript" src="www/js/jquery.ui.datepicker-sk.js"></script>
+  <script type="text/javascript" src="www/js/jquerylazyload.js"></script>
+  <script type="text/javascript" src="www/js/jqFancyTransitions.js"></script>
+  <script type="text/javascript" src="www/js/jquery.colorbox-min.js"></script>
+  <script type="text/javascript" src="www/js/pomocny.js"></script>
 </head>
 
 <body>
@@ -137,13 +140,9 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
   <div id="dokument">
     <!-- ——————————————————— veľká hlavička ——————————————————— -->
     <div id="hlavicka">
-    <!--<a href="index.php" title="Logo Mestských lesov poprad"><img id="logo" src="Obr/logoML.png" alt="Logo ML poprad" title="Logo mestských lesov" width="101" height="110" /></a>-->
       <!-- ——————————————————— sekundárna navigácia - o nás, kontakt ——————————————————— -->
       <div id="subnavigacia">
-        <ul>
-          <?php
-		  //if (jeadmin()>3) echo("<li><a href=\"index.php?clanok=$zobr_clanok&amp;co=new_oznam\" title=\"Pridanie nového oznamu\" tabindex=9>Pridanie oznamu</a></li>\n");
-          ?>		  
+        <ul>		  
           <li><a href="./index.php?clanok=-1&amp;id_clanok=1" title="Informácie o mestských lesoch  [klávesová skratka i]" accesskey="i" tabindex="7">o nás</a></li>
           <li><a href="./index.php?clanok=-1&amp;id_clanok=2" title="Kontaktné informácie [klávesová skratka k]" accesskey="k" tabindex="8">kontakt</a></li>
           <?php if (jeadmin() == 5) { ?>
@@ -169,9 +168,7 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
       <!-- ——————————————————— malá hlavička (navigácia, slider, fsc logo) ——————————————————— -->
       <div id="hlavickaM">
         <div id="logofsc">
-		 <!--<a href="./index.php?clanok=-1&amp;id_clanok=3" title="Zodpovedné obhospodarovanie lesov" tabindex="9">-->
-          <img src="Obr/logoML.png" alt="Logo Mestských Lesov Poprad" title="Mestské lesy Poprad" width="101" height="110" />
-		 <!--</a>-->
+          <img src="www/images/logoML.png" alt="Logo Mestských Lesov Poprad" title="Mestské lesy Poprad" width="101" height="110" />
         </div>
         <!-- ——————————————————— primárna navigácia (oranžové tlačidlá) ——————————————————— -->
         <div id="navigacia">
@@ -187,14 +184,13 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
 			  if (@$_REQUEST["vyhladavanie"]<>"") echo("value=\"".$_REQUEST["vyhladavanie"]."\""); //Doplnenie hľadaného textu 
 			  else echo("value=\"\"");
 			 ?>
-			 />
-			 <!--<img src="ikonky/48/lupa48.png" alt="vyhľadávanie" width="48" height="48" class="ikonky" />-->
+			 />			 
 			 <input name="tl_vyhladaj" type="submit" class="najdi" value=" " />
             </fieldset>
             </form>
            </li>
           </ul>
-          <img src="Obr/logo_fsc_web.png" alt="Logo FSC" title="Zodpovedné obhospodarovanie lesov" width="120" height="150" />
+          <img src="www/images/logo_fsc_web.png" alt="Logo FSC" title="Zodpovedné obhospodarovanie lesov" width="120" height="150" />
         </div>
         <!-- primárna navigácia -->
         <!-- ——————————————————— slider ——————————————————— -->
@@ -202,7 +198,7 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
         <!--slider -->
       </div>
       <!-- malá hlavička -->
-      <img id="vetvicka" src="Obr/vetva_02.jpg" width="105" height="127" alt="" />
+      <img id="vetvicka" src="www/images/vetva_02.jpg" width="105" height="127" alt="" />
     </div>
     <!-- veľá hlavička -->
     <!-- ——————————————————— obsah (úvodný text, oznamy) ——————————————————— -->  
@@ -222,7 +218,6 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
 	    } 
 	   }  
       }
-	  if (jeadmin()==5) echo("<br />zobr_clanok: $zobr_clanok, zobr_pol: $zobr_pol, zobr_cast: $zobr_cast, zobr_co: $zobr_co, chyba_pr:".$chyba_pr); 
 	  ?>
 	 </p>
 	 <!-- *** KONIEC omrvinky *** -->
@@ -244,11 +239,7 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
 	  <!-- mapa stránky -->
       <!-- pätička -->
     </div>
-    <div id="pataObr">
-      <?php if (jeadmin() == 5) { ?>
-		<a href="http://seo-servis.cz/source-zdrojovy-kod/7001148" title="SEO Servis, optimalizace pro vyhledávače."><img src="http://seo-servis.cz/optimised.png" alt="Seo servis" /></a>
-      <?php } ?>
-    </div>
+    <div id="pataObr"> </div>
   </div>
 </body>
 </html>

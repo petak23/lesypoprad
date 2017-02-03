@@ -39,4 +39,3 @@ if (@$_REQUEST["tl_vyhladaj"]==" "){  //Idem niečo hľadať
   }
 }
 else stav_dobre("Mal by som niečo hľadať?");
-?>

@@ -190,7 +190,7 @@ if ($zobr_co=="") {
    echo("<table id=vyp_adm cellpadding=2 cellspacing=0 style=\"width: 95%\">\n");
    echo("<tr><th colspan=4>[ $zaz_clen[id_clena] ] ");
    if ($zaz_clen["jeblokovany"]>0) {
-    echo("<img src=\"./Obr/upozornenie_c.png\" alt=\"Blokovaný člen\" style=\"border: 0;\">
+    echo("<img src=\"./www/images/upozornenie_c.png\" alt=\"Blokovaný člen\" style=\"border: 0;\">
 	      <span class=st_cerveno>$zaz_clen[meno] - blokovaný");
 	echo("!</span>");
    }

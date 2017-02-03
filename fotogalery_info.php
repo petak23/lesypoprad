@@ -108,7 +108,7 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
 	 $naz_tit_foto="fotogalery/images/$vyp_min[nazov]";
 	}
 	else { //Ak bola požiadavka v DB NEúspešná
-     $naz_tit_foto="Obr/bez_titulky.gif";
+     $naz_tit_foto="www/images/bez_titulky.gif";
 	}
 	echo("<div class=album><h3><a href=\"./index.php?clanok=$zobr_clanok&amp;id_clanok=$vyber_casti&amp;cast=$podgaleria[id_polozka]\">$podgaleria[nazov]</a>
 	      <span class=datum>$podgaleria[sdatum]</span></h3>");

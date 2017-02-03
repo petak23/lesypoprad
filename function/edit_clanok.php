@@ -172,7 +172,6 @@ if (@$vysledok<>"ok") { //Ak je iný výsledok ako "ok" tak zobraz formulár
  }
  echo("<div class=admin><fieldset>");
  echo("\n<label for=\"nazov\">Nadpis:</label> <input type=\"text\" id=\"nazov\" name=\"nazov\" size=80 maxlength=80 value=\"$nazov\"><br />");
- //echo("\nDátum zadania článku: ".StrFTime("%d.%m.%Y", strtotime($datum))."<br />");
  // --- Sledovanie platnosti stránky a dátum platnosti ---
  if ($podclanok>0) { //Ak je to podclanok
   echo("\n&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"hidden\" name=\"id_typ\" value=$zaz_nad[id_typ]>");
@@ -193,65 +192,16 @@ if (@$vysledok<>"ok") { //Ak je iný výsledok ako "ok" tak zobraz formulár
   // --- Priradenie k hl. menu a zobrazenie odkazu podčlánku---
  if ($podclanok>0) { //Ak je podčlánok priradí sa id nadradeného článku a zvolí spôsob zobrazenia odkazu
   echo("\n<input type=\"hidden\" name=\"id_hlavne_menu\" value=$id_hlavne_menu>"); 
-  /* 17.06.2011 - Nasledujúca časť je vypustená, keďže pre web lesyPP to nie je zatiaľ potrebné. 
-                  Odkaz na podčlánok sa môže objavovať len v záhlaví článku.
-				  
-  $podcl=prikaz_sql("SELECT * FROM podclanok WHERE id_polozka<>0 ORDER BY id_polozka ", "Zobrazenie podčlánku (".__FILE__ ." on line ".__LINE__ .")", "");
-  if ($podcl) {  // Ak bola požiadavka v DB úspešná
-   if ($zaz_nad["id_ikonka"]==-1) { //Nadradená položka je "prázdny článok"
-    echo("\n<input type=\"hidden\" name=\"podclanok\" value=2>");
-   }
-   else {
-    echo("\n<label for=\"podclanok\">Zobrazenie odkazu na pod-článok:</label>");
-    echo("<select id=\"podclanok\" name=\"podclanok\">\n");
-    while($ppod=mysql_fetch_array($podcl)) {
-     echo("<option value=\"$ppod[id_polozka]\"");
-     if (@$podclanok==$ppod["id_polozka"]) echo(" selected");  
-     echo(">$ppod[nazov]</option>\n");
-    }
-    echo("</select>&nbsp;&nbsp;POLOŽKA JE POVINNÁ!<div>(Nastavenie, kde sa bude zobrazovať odkaz na podčlánok.)</div>");
-   } 
-  }
-  else {*/
-   //echo("\nNie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr."); //náhrada ak zlyhá DB
-   echo("<input type=\"hidden\" name=\"podclanok\" value=3>"); //Pre lesyPP nastavená hodnota - len záhlavie článku
-  //} 
+  echo("<input type=\"hidden\" name=\"podclanok\" value=3>"); //Pre lesyPP nastavená hodnota - len záhlavie článku 
  }
  else { //Ak je to článok priradia sa základné hodnoty
   echo("\n<input type=\"hidden\" name=\"id_hlavne_menu\" value=$zobr_clanok>");
   echo("\n<input type=\"hidden\" name=\"podclanok\" value=0>");
  }
- 
- // --- Úroveň registrácie ---
- 
- /*if ($podclanok>0 AND @$zaz_nad["id_ikonka"]==-1) $odk="WHERE id_reg>=$zaz_nad[id_reg]";
- else $odk="";
- $ur_reg=prikaz_sql("SELECT * FROM registracia $odk ORDER BY id_reg", "Úroveň registracie (".__FILE__ ." on line ".__LINE__ .")", "");
- if ($ur_reg) {  // Ak bola požiadavka v DB úspešná
-  echo("\n<label for=\"id_reg\">Povolené prezeranie pre min. úroveň:</label>");
-  echo("<select id=\"id_reg\" name=\"id_reg\">\n");
-  while($uroven=mysql_fetch_array($ur_reg)) {
-    echo("<option value=\"$uroven[id_reg]\"");
-    if ($id_reg==$uroven["id_reg"]) echo(" selected");  
-    echo("> $uroven[id_reg] - $uroven[nazov]</option>\n");
-  }
-  echo("</select>&nbsp;&nbsp;POLOŽKA JE POVINNÁ!<div>(Nastavenie od akej úrovne registrácie bude článok viditeľný)</div>");
- }
- else {
-  echo("\nNie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.");*/
   echo("<input type=\"hidden\" name=\"id_reg\" value=0>"); //náhrada ak zlyhá DB
- /*}*/
- // --- Mazanie ---
- /*if ($podclanok>0) { //Ak je podčlánok
-  echo("\n<input type=\"hidden\" id=\"mazanie\" name=\"mazanie\" value=$zaz_nad[mazanie]>");
-  if ($zaz_nad["mazanie"]>0) echo("<span class=st_cerveno>Článok sa zmaže z databázy po 90 dňoch!</span><br />");
- }
- else form_zaskrt("mazanie", "Mazanie po 90 dňoch", $mazanie);*/
- // --- News ---
- //form_zaskrt("news", "Posielatie NEWS o tejto aktualite", $news);
+
  if($podclanok==0) { // Platí pre článok
- // --- Hlavný článok ---
-    
+ // --- Hlavný článok --- 
    $pom_txt="Článok je hlavným článkom pre danú časť";
    if ($zobr_pol==$hlavicka_str["clanok"]) {
     $hlavny_clanok=1;
@@ -268,34 +218,9 @@ if (@$vysledok<>"ok") { //Ak je iný výsledok ako "ok" tak zobraz formulár
 	$hlavny_clanok=0;
    }
    form_zaskrt("hlavny_clanok", $pom_txt, $hlavny_clanok);
-   //echo("Id_hl_menu: $zobr_clanok.");
    echo("<input type=\"hidden\" name=\"id_hlavne_menu\" value=$zobr_clanok>"); //Pre opravu hlavného článku
    echo("<input type=\"hidden\" name=\"id_ikonka\" value=0>");
- } // POZOR !!! Ak sa použije prázdny článok, alebo ikonky odstrániť riadok
-/* 17.06.2011 - Nasledujúca časť je vypustená, keďže pre web lesyPP to nie je zatiaľ potrebné. 
-                Ikonky sa budú používať len pre oznamy. A nie je použitý ani "prázdny" článok.
-   echo("\n<input type=\"checkbox\" id=\"id_ikonka1\" name=\"id_ikonka1\" value=1");
-   if (@$id_ikonka<0) { echo(" checked"); $viditelnost='none';} else $viditelnost='block';
-   echo(" onClick=\"zobrazdat('id_iko');\"><label for=\"id_iko\"> Prázdny článok</label>\n");
-   echo("<div>(Označ ak sa článok použije len ako položka bočného menu bez možnosti kliknutia)</div>");
-   echo("\n<span id=id_iko style=\"display:$viditelnost\">");
  }
- // --- Ikonky ---
- 
- echo("\n<fieldset><legend><label for=\"id_ikonka\">Ikonka pred článkom:</label></legend>");
- $ur_ikonky=prikaz_sql("SELECT * FROM ikonka ORDER BY id_ikonka", "Výpis ikoniek (".__FILE__ ." on line ".__LINE__ .")", "");
- if ($ur_ikonky) {  // Ak bola požiadavka v DB úspešná
-  echo("<div>(Označ aká ikonka sa objavý na začiatku článku)</div>");
-  $i=1;
-  while($ikonky=mysql_fetch_array($ur_ikonky)) {
-    echo("\n<input type=\"radio\" id=\"id_ikonka\" name=\"id_ikonka\" value=\"$ikonky[id_ikonka]\"");
-    if ($id_ikonka==$ikonky["id_ikonka"]) echo(" checked");  
-    echo("><img src=\"./images/ikonky/64/".$ikonky["nazov"]."64.png\" width=32 height=32>\n");
-	if ($i==11) {echo("<br />"); $i=1;} else $i++;
-  }
- }
- else echo("\nNie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type=\"hidden\" name=\"id_ikonka\" value=1>"); //náhrada ak zlyhá DB
- echo("</fieldset>\n<br />");*/
  // ------ Textový editor ------- 
  echo("Text:<br />"); //Textový editor
  if (jeadmin()>4) $toolbar="AdminToolbar"; 
@@ -306,13 +231,11 @@ if (@$vysledok<>"ok") { //Ak je iný výsledok ako "ok" tak zobraz formulár
  echo("\n<script type=\"text/javascript\">\n
          CKEDITOR.replace( 'CKeditor01', 
 		  { 
-		    customConfig : '../js/config_ckeditor.js',
+		    customConfig : './www/js/config_ckeditor.js',
 			toolbar : '$toolbar',
-			filebrowserBrowseUrl: 'Filemanager/index.php?bezp_kod=$bkod'
+			filebrowserBrowseUrl: './www/editors/filemanager/index.php?bezp_kod=$bkod'
 		  } );
 	   \n</script>\n");
-
- //if($podclanok==0) { echo("</span>");} // POZOR !!! Ak sa použije prázdny článok, alebo ikonky odstrániť komentár
  echo("\nPodpis:&nbsp;".$_SESSION["prezyvka"]."<input type=\"hidden\" name=\"id_clena\" value=\"".(int)$_SESSION["id"]."\">");
  echo("&nbsp;&nbsp;-&gt;&nbsp;&nbsp;<input name=\"clanky_edit\" type=\"submit\" value=\"");
  echo($zobr_co=="new_clanok" ? "Pridaj" : "Oprav");
