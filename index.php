@@ -123,14 +123,6 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
   <link rel="stylesheet" type="text/css" href="www/css/south-street/jquery-ui-1.8.12.custom.css" />
   <link rel="stylesheet" type="text/css" href="www/css/colorbox.css" media="screen" />
   
-  <script type="text/javascript" src="www/editors/ckeditor/ckeditor.js"></script>
-  <script type="text/javascript" src="www/js/jquery-1.5.2.min.js"></script>
-  <script type="text/javascript" src="www/js/jquery-ui-1.8.12.custom.min.js"></script>
-  <script type="text/javascript" src="www/js/jquery.ui.datepicker-sk.js"></script>
-  <script type="text/javascript" src="www/js/jquerylazyload.js"></script>
-  <script type="text/javascript" src="www/js/jqFancyTransitions.js"></script>
-  <script type="text/javascript" src="www/js/jquery.colorbox-min.js"></script>
-  <script type="text/javascript" src="www/js/pomocny.js"></script>
 </head>
 
 <body>
@@ -148,11 +140,10 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
           <?php } 
            if (jeadmin()>2) {
           ?>
- 	  <li>
-	   <?php
-          include("./bloky/prihlasenie.php");  // Prihlásenie registrovaného účastníka 
-	   ?>
-	  </li>
+          <li>
+           <?php include("./bloky/prihlasenie.php");  // Prihlásenie registrovaného účastníka 
+           ?>
+          </li>
           <?php } ?>
         </ul>
       </div>
@@ -170,21 +161,20 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
         </div>
         <!-- ——————————————————— primárna navigácia (oranžové tlačidlá) ——————————————————— -->
         <div id="navigacia">
-		  <ul>
-          <?php include("./bloky/vypis_menu.php");          // Súbor pre výpis menu
-          ?>
+          <ul>
+          <?php include("./bloky/vypis_menu.php");          // Súbor pre výpis menu  ?>
            <li style="padding: 4ex 1ex; background: #CCC;">
             <form id="hladat" action="./index.php?clanok=-2" method="post">
-            <fieldset>
-			 
-             <label for="vyhladavanie"> Vyhľadávanie:<br /></label><input type="text" id="vyhladavanie" name="vyhladavanie"
-			 <?php 
-			  if (@$_REQUEST["vyhladavanie"]<>"") echo("value=\"".$_REQUEST["vyhladavanie"]."\""); //Doplnenie hľadaného textu 
-			  else echo("value=\"\"");
-			 ?>
-			 />			 
-			 <input name="tl_vyhladaj" type="submit" class="najdi" value=" " />
-            </fieldset>
+              <fieldset>
+                <label for="vyhladavanie"> Vyhľadávanie:<br /></label>
+                <input type="text" id="vyhladavanie" name="vyhladavanie"
+                <?php 
+                  if (@$_REQUEST["vyhladavanie"]<>"") { echo("value=\"".$_REQUEST["vyhladavanie"]."\""); //Doplnenie hľadaného textu 
+                  } else  { echo("value=\"\""); }
+                ?>
+                />			 
+                <input name="tl_vyhladaj" type="submit" class="najdi" value=" " />
+              </fieldset>
             </form>
            </li>
           </ul>
@@ -192,7 +182,7 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
         </div>
         <!-- primárna navigácia -->
         <!-- ——————————————————— slider ——————————————————— -->
-        <?php include("./bloky/vypis_slider.php"); ?>
+        <div id="slider"><?php include("./bloky/vypis_slider.php"); ?></div>
         <!--slider -->
       </div>
       <!-- malá hlavička -->
@@ -225,9 +215,20 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
     </div>
     <div id="pata">
       <div id="mapa"><?php include("./bloky/vypis_mapa.php"); ?></div>
-      <p>&copy; <?= $hl_udaje['titulka'] ?> - Posledná aktualizácia 08.02.2017-PV</p>
+      <p>
+        &copy; <?= $hl_udaje['titulka'] ?> - Posledná aktualizácia 08.02.2017-PV <br />
+        <a href="./index.php?co=admin" title="Prihlásenie pre správcu">Prihlásenie pre správcu</a>
+      </p>
     </div>
     <div id="pataObr"> </div>
   </div>
+  <script type="text/javascript" src="www/editors/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="www/js/jquery-1.5.2.min.js"></script>
+  <script type="text/javascript" src="www/js/jquery-ui-1.8.12.custom.min.js"></script>
+  <script type="text/javascript" src="www/js/jquery.ui.datepicker-sk.js"></script>
+  <script type="text/javascript" src="www/js/jquerylazyload.js"></script>
+  <script type="text/javascript" src="www/js/jqFancyTransitions.js"></script>
+  <script type="text/javascript" src="www/js/jquery.colorbox-min.js"></script>
+  <script type="text/javascript" src="www/js/pomocny.js"></script>
 </body>
 </html>

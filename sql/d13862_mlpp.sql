@@ -814,23 +814,26 @@ INSERT INTO `registracia` (`id_reg`, `nazov`) VALUES
 
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
-  `id_polozka` int(11) NOT NULL COMMENT 'Určuje poradie obrázkov v slidery',
-  `popis` varchar(80) COLLATE utf8_bin NOT NULL DEFAULT 'Popis obrázku' COMMENT 'Popis obrázku slideru vypisovaný v dolnej časti',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `poradie` int(11) NOT NULL DEFAULT '1' COMMENT 'Určuje poradie obrázkov v slidery',
+  `nadpis` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'Nadpis obrázku',
+  `popis` varchar(150) COLLATE utf8_bin NOT NULL DEFAULT 'Popis obrázku' COMMENT 'Popis obrázku slideru vypisovaný v dolnej časti',
   `subor` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '*.jpg' COMMENT 'Názov obrázku slideru aj s relatívnou cestou',
   `zobrazenie` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kedy sa obrázok zobrazí',
-  PRIMARY KEY (`id_polozka`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
+  `id_hlavne_menu` int(11) DEFAULT NULL COMMENT 'Odkaz na položku hlavného menu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
-INSERT INTO `slider` (`id_polozka`, `popis`, `subor`, `zobrazenie`) VALUES
-(1,	'',	'www/files/slider/01_obora.jpg',	''),
-(2,	'',	'www/files/slider/02_mravenisko.jpg',	''),
-(3,	'',	'www/files/slider/03_ml.jpg',	''),
-(4,	'',	'www/files/slider/04_poprad.jpg',	''),
-(5,	'',	'www/files/slider/05_tatry.jpg',	''),
-(6,	'',	'www/files/slider/06_preslop.jpg',	''),
-(7,	'',	'www/files/slider/07_obloha.jpg',	''),
-(8,	'',	'www/files/slider/08_preslop.jpg',	''),
-(9,	'',	'www/files/slider/09_pavilon.jpg',	'');
+INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
+(1,	1,	NULL,	'',	'www/files/slider/01_obora.jpg',	'',	NULL),
+(2,	1,	NULL,	'',	'www/files/slider/02_mravenisko.jpg',	'',	NULL),
+(3,	1,	NULL,	'',	'www/files/slider/03_ml.jpg',	'',	NULL),
+(4,	1,	NULL,	'',	'www/files/slider/04_poprad.jpg',	'',	NULL),
+(5,	1,	NULL,	'',	'www/files/slider/05_tatry.jpg',	'',	NULL),
+(6,	1,	NULL,	'',	'www/files/slider/06_preslop.jpg',	'',	NULL),
+(7,	1,	NULL,	'',	'www/files/slider/07_obloha.jpg',	'',	NULL),
+(8,	1,	NULL,	'',	'www/files/slider/08_preslop.jpg',	'',	NULL),
+(9,	1,	NULL,	'',	'www/files/slider/09_pavilon.jpg',	'',	NULL);
 
 DROP TABLE IF EXISTS `sub_menu`;
 CREATE TABLE `sub_menu` (
