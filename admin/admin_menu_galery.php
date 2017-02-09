@@ -120,9 +120,9 @@ if (!(@$_REQUEST["menu_galery"]=="Áno" AND $vysledok=="ok")) {
  echo("\"></fieldset></form></div>"); //
 }
   /* ----- Výpis všetkých položiek menu galérie ----- */
-$navrat=prikaz_sql("SELECT id_polozka, menu_galeria.nazov as mnazov, registracia.nazov as rnazov, registracia.id_reg as id_reg, zobrazenie
+$navrat=prikaz_sql("SELECT id_polozka, menu_galeria.nazov as mnazov, registracia.nazov as rnazov, registracia.id as id_reg, zobrazenie
                     FROM menu_galeria, registracia
-                    WHERE menu_galeria.id_reg=registracia.id_reg ORDER BY id_polozka",
+                    WHERE menu_galeria.id_reg=registracia.id ORDER BY id_polozka",
                    "Výpis položiek menu galérie (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná
   echo("<table id=vyp_adm cellpadding=2 cellspacing=0><tr><th>Id</th><th>Názov</th><th>Registrácia</th><th>Zobr.?</th><th colspan=2></th></tr>\n");
@@ -144,4 +144,3 @@ if ($navrat) { //Ak bola požiadavka do DB úspečná
   echo("</table>");
 } 
 }
-?>

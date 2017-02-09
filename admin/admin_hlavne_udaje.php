@@ -44,39 +44,9 @@ $oprava_udaju=prikaz_sql("UPDATE udaje SET nazov='".$_REQUEST["nazov_f"]."', tex
 if (!$oprava_udaju) return mysql_error();
 return "ok";
 }
-
-//function maz_udaj()
- /* Funkcia "maže" položku udaju v databáze (označí ju ako zmazanú t.j. zobrazenie = -1)
-     Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 03.06.2011 - PV
-  */
-/*{
-$mazanie_sub_menu=prikaz_sql("UPDATE sub_menu SET zobrazenie=-1 WHERE id_sub_menu=".$_REQUEST["id_sub_menu"]." LIMIT 1","Mazanie sub_menu ".__FILE__ ." on line ".__LINE__ ."","");
-if (!$mazanie_sub_menu) return mysql_error();
-return "ok";
-}*/
   /* --- Pridanie/Oprava položky sub menu ak bola daná požiadavka --- */
 if (@$_REQUEST["udaj_f"]=="Pridaj")    $vysledok=pridaj_udaj();
 elseif (@$_REQUEST["udaj_f"]=="Oprav") $vysledok=oprav_udaj();
-//elseif (@$_REQUEST["sub_menu"]=="Áno")   $vysledok=maz_sub_menu();
-
-/*f (@$zobr_co=="adm_del_sub_menu" AND @$vysledok<>"ok") { // vymazanie položky sub. menu
- $vys_sub=prikaz_sql("SELECT * FROM sub_menu WHERE id_sub_menu=".$_REQUEST["id"]." LIMIT 1",
-                     "Nájdenie položky(".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo nájsť položku a teda ani vymazať! Skúste neskôr.");
- if (@$vys_sub) {
-  $zaz_sub=mysql_fetch_array($vys_sub);
-  echo("\n<div class=st_zle>Vymazanie položky sub. menu !!!<br />");
-  echo("Naozaj chceš vymazať položku <B><U>$zaz_sub[nazov]</U></B>!!!");
-  echo("\n<form action=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol\" method=post>");
-  echo("\n<input name=\"id_sub_menu\" type=\"hidden\" value=\"$zaz_sub[id_sub_menu]\">");
-  echo("\n<input name=\"sub_menu\" type=\"submit\" value=\"Áno\">");
-  echo("\n<input name=\"sub_menu\" type=\"submit\" value=\"Nie\"></form></div>\n");
-
- }
-}
-else {*/
   /* ----------- Časť spracovania formulára ---------- */
 if ($vysledok<>"") { // Zapisovalo sa do databázy
   if ($vysledok<>"ok") {  // Načítanie údajov po chybnom zápise do databázy
@@ -128,7 +98,7 @@ if (!(@$_REQUEST["udaj_f"]=="Áno" AND $vysledok=="ok")) {
   /* ----- Výpis všetkých položiek sub. menu ----- */
 $navrat=prikaz_sql("SELECT id_polozka, udaje.nazov as unazov, text, comment, udaje.id_reg as id_reg, registracia.nazov as rnazov
                     FROM udaje, registracia
-                    WHERE udaje.id_reg=registracia.id_reg AND udaje.id_reg<=".jeadmin()."
+                    WHERE udaje.id_reg=registracia.id AND udaje.id_reg<=".jeadmin()."
 					ORDER BY id_polozka",
                    "Výpis položiek udajov (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná
@@ -145,12 +115,7 @@ if ($navrat) { //Ak bola požiadavka do DB úspečná
    echo("<td>
          <a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;id=$polozka[id_polozka]&amp;co=adm_edit_udaj\" class=edit title=\"Editácia položky $polozka[unazov]\">
 		 &nbsp;&nbsp;&nbsp;&nbsp;</a></td>");
-   /*echo("<td>
-         <a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;id=$polozka[id_polozka]&amp;co=adm_del_udaj\" class=vymaz title=\"Vymazanie položky $polozka[unazov]\">&nbsp;&nbsp;&nbsp;&nbsp;</a>
-         </td>");*/
    echo("</tr>\n");
   }
   echo("</table>");
-} 
-//}
-?>
+}

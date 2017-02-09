@@ -152,9 +152,9 @@ if (!(@$_REQUEST["sub_menu"]=="Áno" AND $vysledok=="ok")) {
 }
   /* ----- Výpis všetkých položiek sub. menu ----- */
 $navrat=prikaz_sql("SELECT id_sub_menu, sub_menu.nazov as snazov, registracia.nazov as rnazov, clanok, hlavne_menu.nazov as hnazov, 
-                           registracia.id_reg as id_reg, subor, polozka, sub_menu.clanky as prir_cl, zobrazenie
+                           registracia.id as id_reg, subor, polozka, sub_menu.clanky as prir_cl, zobrazenie
                     FROM sub_menu, registracia, hlavne_menu
-                    WHERE sub_menu.id_reg=registracia.id_reg AND sub_menu.id_hl_menu=hlavne_menu.id_hlavne_menu
+                    WHERE sub_menu.id_reg=registracia.id AND sub_menu.id_hl_menu=hlavne_menu.id_hlavne_menu
 					ORDER BY id_hl_menu, zobrazenie DESC",
                    "Výpis položiek sub. menu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná
@@ -179,4 +179,3 @@ if ($navrat) { //Ak bola požiadavka do DB úspečná
   echo("</table>");
 } 
 }
-?>

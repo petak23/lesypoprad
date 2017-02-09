@@ -125,34 +125,8 @@ form_pole("description_f","Popis",$description,"", 255, 80);
 form_pole("kl_skratka_f","Klávesová skratka",$kl_skratka,"", 5);
 form_pole("clanok_f","Názov priradeného článku",$clanok,"Potrebné ak je navigácia cez súbor *_info.php, alebo číslo článku ako základná položka.", 30);
 form_registr("id_reg", $id_reg, 5);
-/*
-echo("<br /><label for=\"pr_id_blok\">Usporiadanie priradeného článku:</label>");
-$us_str=prikaz_sql("SELECT * FROM blok ORDER BY id_blok", 
-                   "Usporiadanie stránky (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
-if ($us_str) {  // Ak bola požiadavka v DB úspešná
-  echo("<select name=\"pr_id_blok\" id=\"pr_id_blok\">");
-  while($usporiadanie=mysql_fetch_array($us_str)) {
-    echo("<option value=\"$usporiadanie[id_blok]\"");
-    if ($id_blok==$usporiadanie["id_blok"]) echo(" selected");  
-    echo("> $usporiadanie[id_blok] - $usporiadanie[popis]</option>\n");
-  }
-  echo("</select>");
-}*/
 echo("<input type=\"hidden\" name=\"pr_id_blok\" value=0>"); //Typ rozdelenia stránky 0 - Ľavá+Stred
-/*echo("<br /><label for=\"id_hlavicka\">Typ hlavičky:</label>");
-$us_hl=prikaz_sql("SELECT * FROM hlavicka ORDER BY id_polozka", 
-                   "Typ hlavičky (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
-if ($us_hl) {  // Ak bola požiadavka v DB úspešná
-  echo("<select name=\"id_hlavicka\" id=\"id_hlavicka\">");
-  while($hlavicka=mysql_fetch_array($us_hl)) {
-    echo("<option value=\"$hlavicka[id_polozka]\"");
-    if (@$id_hlavicka==$hlavicka["id_polozka"]) echo(" selected");  
-    echo("> $hlavicka[id_polozka] - $hlavicka[nazov]</option>\n");
-  }
-  echo("</select>");
-}
-else*/ echo("<input type=\"hidden\" name=\"id_hlavicka\" value=0>"); //Ak požiadavka nebola úspešná veľká hlavička
-//echo("<br />");
+echo("<input type=\"hidden\" name=\"id_hlavicka\" value=0>"); //Ak požiadavka nebola úspešná veľká hlavička
 form_zaskrt("pr_zvyrazni", "Zvyraznenie pri zmene", $zvyrazni);
 form_zaskrt("clanky_f", "Je možné priradiť články", $clanky);
 echo("<input name=\"hlavne_menu_rob\" id=\"hlavne_menu_rob\" type=\"submit\" value=\"");
@@ -160,38 +134,30 @@ echo(@$_REQUEST["id"]<>"" ? "Oprav" : "Pridaj");
 echo("\"></fieldset></form></div>");
 
   /* ----- Výpis všetkých položiek hl. menu ----- */
-$navrat=prikaz_sql("SELECT id_hlavne_menu, hlavne_menu.nazov as hnazov, title, kl_skratka, clanok, registracia.nazov as rnazov, registracia.id_reg as id_reg, zvyrazni,
+$navrat=prikaz_sql("SELECT id_hlavne_menu, hlavne_menu.nazov as hnazov, title, kl_skratka, clanok, registracia.nazov as rnazov, registracia.id as id_reg, zvyrazni,
                     clanky, description, pocitadlo
                     FROM hlavne_menu, registracia 
-                    WHERE hlavne_menu.id_reg=registracia.id_reg 
-					ORDER BY id_hlavne_menu", //clanok, blok, hlavicka AND hlavne_menu.id_blok=blok.id_blok AND hlavne_menu.id_hlavicka=hlavicka.id_polozka hlavicka.nazov as lnazov, hlavicka.id_polozka as hl_pol, popis,
+                    WHERE hlavne_menu.id_reg=registracia.id 
+                    ORDER BY id_hlavne_menu", 
                    "Výpis položiek hl. menu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná
   echo("<table id=vyp_adm cellpadding=2 cellspacing=0><tr><th>Id</th><th>Názov</th><th>Titulka</th><th>Kl.s.</th>
         <th>Článok</th><th>Registrácia</th>");
-  //echo("<th>Blok</th>");
   echo("<th>Zvýr.?</th>");
-  //echo("<th>Hlavicka</th>");
-  echo("<th>Prir.čl.</th><th>Descr.</th><th>Pocit.</th><th></th></tr>\n");// colspan=2
+  echo("<th>Prir.čl.</th><th>Descr.</th><th>Pocit.</th><th></th></tr>\n");
   $pom=true;  
   while ($polozka = mysql_fetch_array($navrat)){ 
    echo($pom ? "<tr class=\"r1\">" : "<tr class=\"r2\">");
    if ($pom) $pom=false; else $pom=true;
    echo("<td>$polozka[id_hlavne_menu]</td><td><b>$polozka[hnazov]</b></td><td>$polozka[title]</td><td>$polozka[kl_skratka]</td><td>$polozka[clanok]</td><td>");
    echo($polozka["id_reg"]==0 ? "$polozka[id_reg]-$polozka[rnazov]" : "<div style=\"display: inline;\" class=st_zeleno>$polozka[id_reg]-$polozka[rnazov]</div>");
-   //echo("</td><td>$polozka[popis]</td><td>");
    echo("</td><td>");
    echo(@$polozka["zvyrazni"]==1 ? "<div style=\"display: inline;\" class=st_zeleno>Áno</div>" : "Nie");
-   //echo("<td>$polozka[hl_pol]-$polozka[lnazov]");
    echo("</td><td>$polozka[clanky]</td><td>$polozka[description]</td><td>$polozka[pocitadlo]");
    echo("</td><td>
          <a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;operacia=adm_edit_hlavne_menu&amp;id=$polozka[id_hlavne_menu]\" class=edit title=\"Editácia položky $polozka[hnazov]\">
 		 &nbsp;&nbsp;&nbsp;&nbsp;</a></td>");
-   /*echo("<td>
-         <a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;id=$polozka[id_hlavne_menu]&amp;co=adm_del_hlavne_menu\" class=vymaz title=\"Vymazanie položky $polozka[hnazov]\">&nbsp;&nbsp;&nbsp;&nbsp;</a>
-         </td>");*/
    echo("</tr>\n");
   }
   echo("</table>");
 }
-?>

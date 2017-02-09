@@ -145,14 +145,14 @@ elseif ($zobr_co=="adm_edit_clen" OR $zobr_co=="adm_new_clen" AND $vysledok<>"ok
    $jeadmin=jeadmin(); // Zistenie úrovne registrácie prihláseného člena
    if ($jeadmin>2 AND $jeadmin>=$id_reg) {
     echo("<label for=\"pr_id_reg\">Úroveň registrácie:</label>");
-    $ur_reg=prikaz_sql("SELECT * FROM registracia WHERE id_reg<=$jeadmin ORDER BY id_reg", 
+    $ur_reg=prikaz_sql("SELECT * FROM registracia WHERE id<=$jeadmin ORDER BY id", 
                        "Úroveň registracie (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
     if ($ur_reg) {  // Ak bola požiadavka v DB úspešná
       echo("<select name=\"pr_id_reg\" id=\"pr_id_reg\">");
       while($uroven=mysql_fetch_array($ur_reg)) {
-        echo("<option value=\"$uroven[id_reg]\"");
-        if ($id_reg==$uroven["id_reg"]) echo(" selected");  
-        echo("> $uroven[id_reg] - $uroven[nazov]</option>\n");
+        echo("<option value=\"$uroven[id]\"");
+        if ($id_reg==$uroven["id"]) echo(" selected");  
+        echo("> $uroven[id] - $uroven[nazov]</option>\n");
       }
       echo("</select>");
     }
@@ -178,9 +178,9 @@ elseif ($zobr_co=="adm_edit_clen" OR $zobr_co=="adm_new_clen" AND $vysledok<>"ok
   /* ----- Vypísanie členou ----- */
 if ($zobr_co=="") {
  echo("<a href=\"index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;co=adm_new_clen\" title=\"Pridanie člena\">Pridanie nového člena</a><br />");
- $vys_clen=prikaz_sql("SELECT id_clena, meno, telefon, e_mail, prezyvka, heslo, registracia.id_reg as idreg, registracia.nazov as rnazov,  
+ $vys_clen=prikaz_sql("SELECT id_clena, meno, telefon, e_mail, prezyvka, heslo, registracia.id as idreg, registracia.nazov as rnazov,  
 							  jeblokovany, pocet_pr, news, prihlas_teraz, prihlas_predtym, reg_od
-                       FROM clenovia, registracia WHERE clenovia.id_reg=registracia.id_reg ORDER BY id_clena",
+                       FROM clenovia, registracia WHERE clenovia.id_reg=registracia.id ORDER BY id_clena",
                       "Zoznam členov(".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr.");
 
 
@@ -218,4 +218,3 @@ if ($zobr_co=="") {
   }
  }
 }
-?>

@@ -21,13 +21,8 @@ if (@$_REQUEST["prihlas_tlac"]=="Prihlás"){
    else $id_clena=$riadok["id_clena"];            // V poriadku
  }
  if ($id_clena>0) {                               // Ak je všetko v poriadku $id_clena>0(id_clana z DB);
-  //@session_register("id");                        // Registracia a naplnenie session
-  //@session_register("prezyvka");
-  //@session_register("dat_pr");
-  //@session_register("bol_zobr");
   $_SESSION["id"]=$id_clena;
   $_SESSION["prezyvka"]=$_POST["prihlas_meno"];
-  //$_SESSION["bol_zobr"]=5;//Aby sa zobrazilo pole pre prihlasenie
   $chyba_pr=1;                                    // Ak je všetko v poriadku $chyba_pr=1 
   $posledne_prihlasenie=prikaz_sql("SELECT prihlas_teraz FROM clenovia WHERE id_clena=$id_clena LIMIT 1",
                                    "Posledné prihlásenie a počet (".__FILE__ ." on line ".__LINE__ .")", "");
@@ -46,8 +41,6 @@ if (@$_REQUEST["prihlas_tlac"]=="Prihlás"){
 }
 /* ------ Odhlásenie registrovaného uživateľa ------ */
 if (@$_REQUEST["odhlas"]=="odhlas"){  
- //$odhla=prikaz_sql("DELETE FROM online_uziv WHERE clen='".$_SESSION["prezyvka"]."'",
- //                  "Odhlásenie - online (".__FILE__ ." on line ".__LINE__ .")","");
  $_SESSION["id"]="";
  $_SESSION["prezyvka"]="";
  $chyba_pr=1;
@@ -55,6 +48,4 @@ if (@$_REQUEST["odhlas"]=="odhlas"){
  unset($_SESSION["id"]);
  unset($_SESSION["prezyvka"]);
  unset($_SESSION["dat_pr"]);
- //unset($_SESSION["bol_zobr"]);
 }
-?>

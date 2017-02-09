@@ -34,10 +34,10 @@ function jeadmin_typ ($typ)
 {
   if ((int)$typ==0) {
    if (!isset($_SESSION["id"]) or (int)$_SESSION["id"]==0) return false;
-   $vys_reg=prikaz_sql("SELECT id_reg FROM registracia WHERE nazov='$typ'","najdenie v reg (".__FILE__ ." on line ".__LINE__ .")","");
+   $vys_reg=prikaz_sql("SELECT id FROM registracia WHERE nazov='$typ'","najdenie v reg (".__FILE__ ." on line ".__LINE__ .")","");
    if ($vys_reg) {
     $zaz_reg=mysql_fetch_array($vys_reg);
-	$id_reg=$zaz_reg["id_reg"];
+    $id_reg=$zaz_reg["id"];
    }
   } 
   else $id_reg=$typ;
@@ -570,4 +570,3 @@ function pre_r($data, $text="")
 </pre>
 <?php
 }
-?>

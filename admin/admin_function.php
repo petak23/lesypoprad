@@ -100,7 +100,7 @@ function form_registr($nazov, $hodnota=0, $max_reg=10, $filter=NULL)
   */
 {
 if (isset($filter)) $odk="AND $filter"; else $odk=""; //Filter pre id_reg
-$ur_reg=prikaz_sql("SELECT * FROM registracia WHERE id_reg<=$max_reg $odk ORDER BY id_reg", 
+$ur_reg=prikaz_sql("SELECT * FROM registracia WHERE id<=$max_reg $odk ORDER BY id", 
                    "Úroveň registracie (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
 					
 if ($ur_reg) {  // Ak bola požiadavka v DB úspešná
