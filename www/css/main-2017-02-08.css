@@ -1,10 +1,8 @@
-﻿@charset "utf-8";
-
 body{
 
 	margin: 0; padding: 0;
 
-	background: url(Obr/bg_body.jpg) repeat-x;
+	background: url(../images/bg_body.jpg) repeat-x;
 
 	font-family: Georgia, "Times New Roman", Times, serif;
 
@@ -124,7 +122,7 @@ a:hover{
 
 	width: 100%;
 
-	background: url(Obr/vetva_01.jpg) no-repeat top left;
+	background: url(../images/vetva_01.jpg) no-repeat top left;
 
 }
 
@@ -139,8 +137,6 @@ a:hover{
 	width: 75%; max-width: 1024px; height: 300px; 
 
 	overflow: visible;
-
-	/*background: url(Obr/erbpp.png) no-repeat right top;*/
 
 }
 
@@ -181,15 +177,9 @@ a:hover{
 /*--- vedlajsie menu (o nas, kontakt) --------------------------------------------------*/
 
 #subnavigacia{
-
 	margin: 0;
-
 	overflow: hidden;
-
-	/*width: 20%;*/
-
 	float: right;
-
 }
 
 #subnavigacia ul{
@@ -208,13 +198,13 @@ a:hover{
 
 	list-style: none;
 
-	background: url(Obr/bg_submenu.png) #fff repeat-x;
+	background: url(../images/bg_submenu.png) #fff repeat-x;
 
 }
 
 #subnavigacia li:hover{
 
-	background: url(Obr/bg_submenuH.png) #fc6 repeat-x;
+	background: url(../images/bg_submenuH.png) #fc6 repeat-x;
 
 }
 
@@ -235,10 +225,6 @@ a:hover{
 	display:none;
 
 }
-
-
-
-/*--- mala hlavicka --------------------------------------------------*/
 
 #hlavickaM{
 
@@ -286,7 +272,7 @@ a:hover{
 
 	  border: 2px #fff solid;
 
-	  background: url(Obr/bg_menu.png) repeat-x #c75a09;
+	  background: url(../images/bg_menu.png) repeat-x #c75a09;
 
 	  list-style: none;
 
@@ -294,7 +280,7 @@ a:hover{
 
   #navigacia li:hover, #navigacia li.aktivny #sub1 li:hover, #sub2 li:hover{
 
-	  background: url(Obr/bg_menuH.png) repeat-x #fc6;
+	  background: url(../images/bg_menuH.png) repeat-x #fc6;
 
   }
 
@@ -324,9 +310,9 @@ a:hover{
 
 	  padding: 1.3ex; padding-right: 0;
 
-	  background: url(Obr/bg_menuA.png) repeat-x #933;
+	  background: url(../images/bg_menuA.png) repeat-x #933;
 
-	  list-style-image: url(Obr/sipka_menu.png);
+	  list-style-image: url(../images/sipka_menu.png);
 
 	  list-style-position: inside;
 
@@ -376,7 +362,7 @@ a:hover{
 
 	  margin: 0 0 0 6px; padding: 0.6ex 1ex;
 
-	  background: url(Obr/bg_submenu1.png) #850 repeat-x;
+	  background: url(../images/bg_submenu1.png) #850 repeat-x;
 
 	  border: 2px solid #fff;
 
@@ -398,7 +384,7 @@ a:hover{
 
 	  padding: 1ex;
 
-	  list-style-image: url(Obr/sipka_menu.png);
+	  list-style-image: url(../images/sipka_menu.png);
 
 	  list-style-position: inside;
 
@@ -412,7 +398,7 @@ a:hover{
 
   #navigacia li.aktivny #sub1 li.aktivny2:hover{
 
-	  background: url(Obr/bg_submenu1.png) #850 repeat-x;
+	  background: url(../images/bg_submenu1.png) #850 repeat-x;
 
   }
 
@@ -440,7 +426,7 @@ a:hover{
 
 	  float: left;
 
-	  background: url(Obr/bg_submenu2.png) #680 repeat-x;
+	  background: url(../images/bg_submenu2.png) #680 repeat-x;
 
 	  list-style: none;
 
@@ -466,7 +452,7 @@ a:hover{
 
    #navigacia li.adminPol,#navigacia li.aktivny #sub1 li.adminPol{
 
-	  background: url(Obr/bg_menuAd1.png) repeat-x #9c0;
+	  background: url(../images/bg_menuAd1.png) repeat-x #9c0;
 
   }
 
@@ -518,7 +504,7 @@ a:hover{
 
 input.najdi{
 
-	background: url(ikonky/32/lupa32.png) no-repeat center;
+	background: url(../ikonky/32/lupa32.png) no-repeat center;
 
 	width: 32px;
 
@@ -560,13 +546,13 @@ input.najdi{
 
 	  width: 29px; height: 30px;
 
-	  background: url(Obr/sipka_next.png) no-repeat;
+	  background: url(../images/sipka_next.png) no-repeat;
 
   }
 
   #ft-prev-slider{ 
 
-	  background: url(Obr/sipka_prev.png) no-repeat;
+	  background: url(../images/sipka_prev.png) no-repeat;
 
   }
 
@@ -725,7 +711,7 @@ h2.oznamy{
 
 	background-color: #ddd;
 
-	background-image: url(Obr/bg_grey.png);
+	background-image: url(../images/bg_grey.png);
 
 	background-repeat: repeat-y;
 
@@ -797,7 +783,7 @@ h2.oznamy{
 
 	width: 48%;
 
-	background: #bbb url(Obr/bg_album.jpg) no-repeat;
+	background: #bbb url(../images/bg_album.jpg) no-repeat;
 
 	float:left;
 
@@ -874,7 +860,7 @@ h2.oznamy{
 
 	width: 100%; min-height: 150px;
 
-	background: url(Obr/bg_footer.png) repeat-x bottom;
+	background: url(../images/bg_footer.png) repeat-x bottom;
 
 }
 
@@ -884,7 +870,7 @@ h2.oznamy{
 
 	width: 100%; height: 110px;
 
-	background: #6C3 url(Obr/footer.jpg) repeat-x left bottom;
+	background: #6C3 url(../images/footer.jpg) repeat-x left bottom;
 	
 	text-align: center;
 
@@ -901,25 +887,18 @@ h2.oznamy{
 }
 
 #pata p{
-
 	margin: 15px 0 0 0;
-
 	text-align: center;
-
 	font-size: 90%;
-
 	color: #fff;
-
+  display: inline-block;
+  width: 100%;
 }
 
 #pata ul{
-
 	clear: left;
-
 	float: left;
-
 	margin: 0; padding: 0;
-
 }
 
 #pata .mapaStlpec{

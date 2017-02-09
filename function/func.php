@@ -14,8 +14,8 @@ function pripoj_db()
    define("SQL_USERNAME","a13862_mlpp");
    define("SQL_PASSWORD","adminMLPP-5410");
  }
- $GLOBALS["link"]=mysqli_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD, SQL_DBNAME);
- if (!$GLOBALS["link"]) {chyba("Nie je možné sa pripojiť k MySQL: ".mysqli_connect_error(),"");return false;}
+ $GLOBALS["link"]=mysql_connect(SQL_HOST, SQL_USERNAME, SQL_PASSWORD);
+ if (!$GLOBALS["link"]) {chyba("Nie je možné sa pripojiť k MySQL: ".mysql_error(),"");return false;}
  else {
    @$databaza=mysql_select_db(SQL_DBNAME);
    if (!$databaza) {chyba("Nedá sa vybrať databáza: ".mysql_error(),"");return false;}

@@ -1,9 +1,7 @@
 <?php
 /* Hlavný súbor stránky
    (c) Ing. Peter VOJTECH ml. - VZ
-   Zmena: 03.02.2014 -PV
-   Poznámka:
-   PV - 19.07.2011 - Oprava kódovania stránky. Musí byť UTF-8 bez BOM ! Inak to vyhadzuje chybu.
+   Zmena: 08.02.2017
 */
 session_start();
 ob_start();
@@ -120,12 +118,12 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
   <meta name="keywords" content="<?= $hl_udaje['keywords'] ?>" />
   <title><?= $hl_udaje['titulka']." - ".$hlavicka_str['title'] ?></title>
   <meta name="author" content="<?= $hl_udaje['autor'] ?>" />
-  <link rel="stylesheet" type="text/css" media="screen" href="www/css/main.css"/>
-  <link rel="stylesheet" type="text/css" media="screen" href="www/css/docasne.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="www/css/main-2017-02-08.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="www/css/docasne-2017-02-08.css" />
   <link rel="stylesheet" type="text/css" href="www/css/south-street/jquery-ui-1.8.12.custom.css" />
   <link rel="stylesheet" type="text/css" href="www/css/colorbox.css" media="screen" />
   
-  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="www/editors/ckeditor/ckeditor.js"></script>
   <script type="text/javascript" src="www/js/jquery-1.5.2.min.js"></script>
   <script type="text/javascript" src="www/js/jquery-ui-1.8.12.custom.min.js"></script>
   <script type="text/javascript" src="www/js/jquery.ui.datepicker-sk.js"></script>
@@ -221,23 +219,13 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
 	  ?>
 	 </p>
 	 <!-- *** KONIEC omrvinky *** -->
-	 <!-- *** ZAČIATOK článok (id=clanok) *** -->
 	 <div id="clanok">
       <?php require("./function/ukaz_clanok.php"); ?>
 	 </div>
-	 <!-- *** KONIEC článok *** -->
     </div>
-    <!-- obsah (úvodný text, oznamy) -->
-    <!-- ——————————————————— pätička ——————————————————— -->
     <div id="pata">
-      <p>&copy; <?= $hl_udaje['titulka'] ?> - Optimalizované pre IE 7.0+, FF 3.5+, Safari, Opera, Chrome od rozlíšenia 800x600. 
-	  Posledná aktualizácia 16.13.2012(13:00)-PV
-      </p>
-      <!-- ——————————————————— mapa stránky ——————————————————— -->
-      <div id="mapa"><?php include("./bloky/vypis_mapa.php"); ?>
-			</div>
-	  <!-- mapa stránky -->
-      <!-- pätička -->
+      <div id="mapa"><?php include("./bloky/vypis_mapa.php"); ?></div>
+      <p>&copy; <?= $hl_udaje['titulka'] ?> - Posledná aktualizácia 08.02.2017-PV</p>
     </div>
     <div id="pataObr"> </div>
   </div>

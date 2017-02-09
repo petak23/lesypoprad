@@ -231,9 +231,9 @@ if (@$vysledok<>"ok") { //Ak je iný výsledok ako "ok" tak zobraz formulár
  echo("\n<script type=\"text/javascript\">\n
          CKEDITOR.replace( 'CKeditor01', 
 		  { 
-		    customConfig : './www/js/config_ckeditor.js',
+		    customConfig : '../../js/config_ckeditor.js',
 			toolbar : '$toolbar',
-			filebrowserBrowseUrl: './www/editors/filemanager/index.php?bezp_kod=$bkod'
+			filebrowserBrowseUrl: '../www/editors/filemanager/index.php?bezp_kod=$bkod'
 		  } );
 	   \n</script>\n");
  echo("\nPodpis:&nbsp;".$_SESSION["prezyvka"]."<input type=\"hidden\" name=\"id_clena\" value=\"".(int)$_SESSION["id"]."\">");
