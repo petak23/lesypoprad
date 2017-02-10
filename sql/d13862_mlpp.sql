@@ -5,26 +5,27 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP TABLE IF EXISTS `aktualizácia`;
-CREATE TABLE `aktualizácia` (
-  `id_akt` int(11) NOT NULL AUTO_INCREMENT,
-  `id_clena` int(11) NOT NULL DEFAULT '0',
-  `datum` date NOT NULL DEFAULT '0000-00-00',
-  `text` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id_akt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `admin_menu`;
+CREATE TABLE `admin_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `odkaz` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Odkaz',
+  `nazov` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'Názov položky',
+  `id_registracia` int(11) NOT NULL DEFAULT '4' COMMENT 'Min. úroveň registrácie',
+  `avatar` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Odkaz na avatar aj s relatívnou cestou od adresára www',
+  PRIMARY KEY (`id`),
+  KEY `id_registracia` (`id_registracia`),
+  CONSTRAINT `admin_menu_ibfk_1` FOREIGN KEY (`id_registracia`) REFERENCES `registracia` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Administračné menu';
 
-
-DROP TABLE IF EXISTS `blok`;
-CREATE TABLE `blok` (
-  `id_blok` int(11) NOT NULL DEFAULT '0',
-  `popis` varchar(65) COLLATE utf8_bin NOT NULL,
-  PRIMARY KEY (`id_blok`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-INSERT INTO `blok` (`id_blok`, `popis`) VALUES
-(0,	'Stránka má 2 stĺpce L a S+P  |--|-------|'),
-(1,	'Stránka má 1 stĺpec    |----------|');
+INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_registracia`, `avatar`) VALUES
+(1,	'Homepage:',	'Úvod',	3,	'ikonky/AzulLustre_icons/Cerrada.png'),
+(2,	'Lang:',	'Editácia jazykov',	4,	'ikonky/AzulLustre_icons/Webfolder.png'),
+(3,	'Slider:',	'Editácia slider-u',	4,	'ikonky/AzulLustre_icons/Imagenes.png'),
+(4,	'User:',	'Editácia členov',	5,	'ikonky/AzulLustre_icons/Fuentes.png'),
+(5,	'Verzie:',	'Verzie webu',	4,	'ikonky/AzulLustre_icons/URL_historial.png'),
+(6,	'Udaje:',	'Údaje webu',	4,	'ikonky/AzulLustre_icons/Admin.png'),
+(7,	'Oznam:',	'Aktuality(oznamy)',	4,	'ikonky/AzulLustre_icons/Documentos_azul.png'),
+(8,	'Pokladnicka:',	'Pokladnička',	5,	'ikonky/AzulLustre_icons/Favoritos.png');
 
 DROP TABLE IF EXISTS `clanok`;
 CREATE TABLE `clanok` (
@@ -659,6 +660,14 @@ INSERT INTO `menu_galeria` (`id_polozka`, `nazov`, `id_reg`, `zobrazenie`) VALUE
 (2,	'ChodnÃ­ky',	0,	-1),
 (4,	'ChodnÃ­ky',	0,	-1);
 
+DROP TABLE IF EXISTS `news`;
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `text` text COLLATE utf8_bin NOT NULL COMMENT 'Text novinky',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Dátum novinky',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 DROP TABLE IF EXISTS `operacia`;
 CREATE TABLE `operacia` (
   `id_polozka` int(11) NOT NULL AUTO_INCREMENT,
@@ -802,15 +811,16 @@ INSERT INTO `prihlasenie` (`id_clena`, `prihl_dat`) VALUES
 
 DROP TABLE IF EXISTS `registracia`;
 CREATE TABLE `registracia` (
-  `id_reg` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `role` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'guest' COMMENT 'Názov pre ACL',
   `nazov` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'Registracia cez web' COMMENT 'Názov pre úroveň registrácie',
-  PRIMARY KEY (`id_reg`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Úrovne registrácie a ich názvy';
 
-INSERT INTO `registracia` (`id_reg`, `nazov`) VALUES
-(0,	'Bez registrÃ¡cie'),
-(3,	'StarostlivosÅ¥ o obsah'),
-(5,	'AdministrÃ¡tor');
+INSERT INTO `registracia` (`id`, `role`, `nazov`) VALUES
+(1,	'guest',	'Bez registrÃ¡cie'),
+(3,	'guest',	'StarostlivosÅ¥ o obsah'),
+(5,	'guest',	'AdministrÃ¡tor');
 
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
@@ -883,6 +893,19 @@ INSERT INTO `udaje` (`id_polozka`, `nazov`, `text`, `comment`, `id_reg`) VALUES
 (3,	'autor',	'Ing. Peter VOJTECH, Mgr. Jozef PETRENÄŒÃ­K',	'Meno autora',	5),
 (4,	'sub_menu_date',	'0',	'Zobrazenie dÃ¡tumu v boÄnom menu. Ak > 0 tak Ã¡no.',	5),
 (5,	'galeria_small',	'160',	'VeÄ¾kosÅ¥ obrÃ¡zku nÃ¡hÄ¾adu pre titulnÃ© obrÃ¡zky v galÃ©rii',	5);
+
+DROP TABLE IF EXISTS `udaje_typ`;
+CREATE TABLE `udaje_typ` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'text' COMMENT 'Typ input-u pre danú položku',
+  `comment` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'Text' COMMENT 'Popis navonok',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Typy prvkov pre tabuľku udaje';
+
+INSERT INTO `udaje_typ` (`id`, `nazov`, `comment`) VALUES
+(1,	'text',	'Text'),
+(2,	'radio',	'Vyber jednu možnosť'),
+(3,	'checkbox',	'Áno alebo nie');
 
 DROP TABLE IF EXISTS `verzie`;
 CREATE TABLE `verzie` (
