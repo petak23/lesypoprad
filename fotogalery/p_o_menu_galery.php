@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania menu galérie
-   Zmena: 21.06.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
   /*-------- Časť zápisu do databázy    ---------- */ 
@@ -54,5 +54,3 @@ elseif (@$_REQUEST["menu_galery"]=="Áno")   {
  $co=" ";
  $operacia="vymazane";
 }
-
-?>

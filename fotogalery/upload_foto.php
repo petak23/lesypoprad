@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na pridanie fotiek do fotogaléfie a ich zápis do DB
-   Zmena: 07.09.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -27,7 +27,7 @@ if (@$_REQUEST["pr_foto_upload"]=="Nahraj") { //Ak je požiadavka na uploadovani
           Prípustné hodnoty sú $max_obrazok_sirka (má $imageinfo[0]) x $max_obrazok_vyska (má $imageinfo[1])!");
  }
  else {
-  $uploaddir = "fotogalery/";
+  $uploaddir = "www/files/fotogalery/";
   $safe_filename = preg_replace( 
                       array("/\s+/", "/[^-\.\w]+/"), 
                       array("_", ""), 
@@ -68,7 +68,7 @@ echo("<div>Tu sa zadávajú názvy súborov obrázkov. Max. veľkosť obrázku j
 echo("<input name=\"pr_foto_upload\" type=\"submit\" value=\"Nahraj\">");
 echo("</fieldset></form><br />");
   /* --- Hľadanie nových fotiek --- */
-$adresar = opendir("fotogalery/images"); //Adresár s fotkami
+$adresar = opendir("www/files/fotogalery/images"); //Adresár s fotkami
 $pocet=0;
 $i=0;
 $pokracovanie=TRUE; // Ak vznikne vnútry nasledujúceho while chyba - zabezpečí jeho ukončenie
@@ -86,9 +86,9 @@ while (($subor = readdir($adresar)) AND $pokracovanie){
 	                     "Vloženie foto do DB (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo fotku pridať! Skúste neskôr.");
 	 }
    }
-   if (!is_file("fotogalery/small/$subor") AND stripos($subor,".")>0) { //Hľadanie miniatúr k súboru
-    stav_zle("Nenašiel som miniatúru pre súbor fotogalery/small/$subor");
-	$imageinfo = getimagesize("fotogalery/images/$subor");  //Zisti info o obrázku
+   if (!is_file("www/files/fotogalery/small/$subor") AND stripos($subor,".")>0) { //Hľadanie miniatúr k súboru
+    stav_zle("Nenašiel som miniatúru pre súbor www/files/fotogalery/small/$subor");
+	$imageinfo = getimagesize("www/files/fotogalery/images/$subor");  //Zisti info o obrázku
 	echo("Veľkosť fotky: $imageinfo[0] x $imageinfo[1]");
 	if ($imageinfo[0]>$imageinfo[1]) { //Výpočet nových rozmerov pre miniatúru
 	 $new_width=$small_file_length;
@@ -100,16 +100,16 @@ while (($subor = readdir($adresar)) AND $pokracovanie){
     }
 	echo(" -> Nová veľkosť: $new_width x $new_height");
     $image_p = imagecreatetruecolor($new_width, $new_height); //Samotný prevod 
-    $image = imagecreatefromjpeg("fotogalery/images/$subor");
+    $image = imagecreatefromjpeg("www/files/fotogalery/images/$subor");
     imagecopyresampled($image_p, $image, 0, 0, 0, 0, $new_width, $new_height, $imageinfo[0], $imageinfo[1]);
     // Output
-    imagejpeg($image_p, "fotogalery/small/$subor", 65);	//Vytvorenie novej miniatúry
-    stav_dobre("Obrázok fotogalery/small/$subor bol vytvorený v poriadku!"); //Výsledok uploadovania fotiek
+    imagejpeg($image_p, "www/files/fotogalery/small/$subor", 65);	//Vytvorenie novej miniatúry
+    stav_dobre("Obrázok www/files/fotogalery/small/$subor bol vytvorený v poriadku!"); //Výsledok uploadovania fotiek
    }
   }	
 }
-if ($i==0) echo("V adresáry ./fotogalery/images sa nenašli nové fotky bez zápisu do databázy!<br />");
-else stav_dobre("Počet fotiek pridaných do databázy: <B>$i</B>"); //V adresáry ./fotogalery/images boli nájdené tieto nové fotky:<BR>
+if ($i==0) echo("V adresáry ./www/files/fotogalery/images sa nenašli nové fotky bez zápisu do databázy!<br />");
+else stav_dobre("Počet fotiek pridaných do databázy: <B>$i</B>"); //V adresáry ./www/files/fotogalery/images boli nájdené tieto nové fotky:<BR>
 
 $navrat=prikaz_sql("SELECT * FROM fotky WHERE id_galery=0",
                    "Nové fotky (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr.");
@@ -117,7 +117,7 @@ if ($navrat AND mysql_num_rows($navrat)>0) { //Dopit v DB bol úspešný a bol n
   stav_dobre("Nové nezaradené fotky (".(int)mysql_num_rows($navrat)."):");
   echo("<div class=oznam><table id=kategoriaF border=0 cellpadding=0 cellspacing=0><tr>");$i=1;
   while ($foto_new = mysql_fetch_array($navrat)){
-    echo("<td><img src=\"./fotogalery/small/$foto_new[nazov]\" alt=\"$foto_new[nazov]\" /><br />$foto_new[nazov]</td>");
+    echo("<td><img src=\"./www/files/fotogalery/small/$foto_new[nazov]\" alt=\"$foto_new[nazov]\" /><br />$foto_new[nazov]</td>");
     if ($i==7) {
 	 $i=1;
 	 echo("</tr><tr>");
@@ -126,5 +126,4 @@ if ($navrat AND mysql_num_rows($navrat)>0) { //Dopit v DB bol úspešný a bol n
    }
   echo("</tr></table></div>");
 }
-else stav_dobre("V databáze sa nenašli nezaradené fotky!"); 
-?>
+else { stav_dobre("V databáze sa nenašli nezaradené fotky!"); }

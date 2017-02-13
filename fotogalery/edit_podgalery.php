@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania podgalérie
-   Zmena: 22.07.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 
@@ -60,23 +60,7 @@ if (!(@$_REQUEST["podgalery"]=="Áno" AND $vysledok=="ok")) { //Nezobrazím ak s
  echo("\n<div id=admin><fieldset>"); //Samotny formular na zadanie
  form_pole("pr_nazov","Zobrazený názov",$nazov,"Názov položky galérie", 50);
  form_registr("pr_id_reg", $id_reg, jeadmin());
- /*echo("<label for=\"pr_id_menu\">Priradená ku galérii: </label>"); //!!! POZOR Okomentovanie zrušiť pri použití galérií
- $ur_menu=prikaz_sql("SELECT * FROM menu_galeria WHERE zobrazenie>0 ORDER BY id_polozka", 
-                     "Manu galérie (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
- if ($ur_menu) {  // Ak bola požiadavka v DB úspešná
-  echo("<select name=\"pr_id_menu\" id=\"pr_id_menu\">\n");
-  while($menugal=mysql_fetch_array($ur_menu)) {
-    echo("<option value=\"$menugal[id_polozka]\"");
-    if ($id_menu==$menugal["id_polozka"]) echo(" selected");  
-    echo("> $menugal[id_polozka] - $menugal[nazov]</option>\n");
-  }
-  echo("</select><br />");
- }
- else {*/
-  echo("<input type=\"hidden\" name=\"pr_id_menu\" id=\"pr_id_menu\" value=1>");
- /* echo("Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr. //!!! POZOR Okomentovanie zrušiť pri použití galérií
-           Prednastavená hodnota je 1<br />");
- }*/
+ echo("<input type=\"hidden\" name=\"pr_id_menu\" id=\"pr_id_menu\" value=1>");
  form_textarea("pr_popis","Popis podgalérie",$popis,"");
  if ($zobr_co=="edit_podgalery") form_zaskrt("pr_del_pocitadlo", "Zmazať počítadlo", 1);
  echo("<input name=\"podgalery\" type=\"submit\" value=\"");
@@ -84,4 +68,3 @@ if (!(@$_REQUEST["podgalery"]=="Áno" AND $vysledok=="ok")) { //Nezobrazím ak s
  echo("\"></fieldset></form></div>"); 
 }
 }
-?>

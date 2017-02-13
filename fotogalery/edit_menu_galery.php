@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania menu galérie
-   Zmena: 22.07.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 
@@ -55,4 +55,3 @@ if (!(@$_REQUEST["menu_galery"]=="Áno" AND $vysledok=="ok")) { //Nezobrazím ak
  echo("\"></fieldset></form></div>"); //
 }
 }
-?>

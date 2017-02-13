@@ -1,9 +1,8 @@
 <?php 
 /* Tento súbor slúži na vypísanie histórie fotogalérie
-   Zmena: 10.12.2010 - PV
+   Zmena: 13.02.2017 - PV
 */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
-//echo("<div id=foto_history>"); // <div align=center id=oznamy>
 @$nav_hist=prikaz_sql("SELECT id_polozka, text, DATE_FORMAT(datum,'%d.%m.%Y') as hdatum FROM historia ORDER BY datum DESC",
                       "Načítanie histórie(".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo históriu vypísať! Skúste neskôr.");
 if ($nav_hist AND mysql_numrows($nav_hist)>0) {       //Ak bola požiadavka úspešná a je čo vypisovať
@@ -21,5 +20,3 @@ $pomoc=TRUE;
  }
  echo("</p>");
 }
-//echo("</div>");//</div>
-?>

@@ -4,9 +4,8 @@
 
 <!-- koniec prehliadac -->
 <?php
- /* Tento súbor slúži na vypísísanie obsahu zložky fotogalérie a obsluhu pridania/opravy komentáru k akcii
-   Zmena: 21.09.2011 - PV
-   Časti, ktoré sú zakomentované cez hviezdičku sú nezaujímavé pre LesyPP
+ /* Tento súbor slúži na vypísísanie obsahu zložky fotogalérie
+   Zmena: 13.02.2017 - PV
  */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
  //Inicializácia premených
@@ -33,12 +32,7 @@ if ($navrat_podgalery && mysql_numrows($navrat_podgalery)>0) { //Ak bol dotaz ú
    while($vyp_min=mysql_fetch_array($navrat_fotky)){
     if ($zaz_podgalery["tit_foto"]==$vyp_min["id_foto"]) $naz_tit_foto=$vyp_min["nazov"]; //Názov súboru titulnej fotky z databázy
    }
-   /*
-   if ($naz_tit_foto<>"") echo("<div class=oznam><div class=imga><img src=\"./fotogalery/small/$naz_tit_foto\" ></div>"); 
-   else echo("<div class=oznam><img src=\"./images/bez_titulky.gif\" >");
-   */
   }
-  //else echo("<div class=oznam><img src=\"./images/bez_titulky.gif\" >");
   if ($zobr_co=="title_podgalery") $text="<br />Určenie titulnej fotky";           //Určenie druhej časti podnadpisu
   elseif ($zobr_co=="add_podgalery") $text="<br />Pridanie fotiek do albumu"; 
   elseif ($zobr_co=="odstr_podgalery") $text="<br />Odobratie fotiek z albumu";
@@ -53,20 +47,11 @@ if ($navrat_podgalery && mysql_numrows($navrat_podgalery)>0) { //Ak bol dotaz ú
    echo("&nbsp;|&nbsp;<a href=\"$odkaz&amp;co=odstr_podgalery\" title=\"Odobratie fotiek z albumu\">Odobratie fotiek</a>");
    echo("<br /><a href=\"$odkaz&amp;co=title_podgalery\" title=\"Určenie titulnej fotky albumu\">Určenie titulnej fotky</a></p>");
   }
-  /* Pre lesy PP toto nie je nutné vidieť
-  if ($zobr_co=="") { //Ak ideme niečo robiť, tak toto nie je nutné vidieť
-   echo("<p class=oznam><br />");
-   echo("Zobrazená: <b>$pocet</b> x&nbsp;|&nbsp;"); 
-   echo("Pridal: <b>$zaz_podgalery[meno]</b><br />");
-   echo("$zaz_podgalery[popis] </p>"); 
-  }*/
-  //if ($pocet_fotiek>0) {
    if ($zobr_co=="add_podgalery") { //Ak idem pridávať fotky do podgalérie tak vyberem fotky, kde nie je priradená podgaléria
     $navrat_fotky=prikaz_sql("SELECT * FROM fotky WHERE id_galery=0 ORDER BY nazov", // Výber fotiek k podgalérii 
                              "Výber fotiek k podgalérii (".__FILE__ ." on line ".__LINE__ .")", "Bohužiaľ sa nepodarilo spojiť s databázou. Skúste prosím neskôr!"); 
    }
    else if ($pocet_fotiek>0) mysql_data_seek($navrat_fotky,0); //Ak nepridávam fotky presun pointeru na začiatok DB tabuľky ak mám nejaké fotky
-   //echo("<table id=kategoriaF border=0 cellpadding=0 cellspacing=0><tr>");
    
    $i=1;
    if ($zobr_co=="title_podgalery" OR ($zobr_co=="add_podgalery" AND mysql_numrows($navrat_fotky)>0) OR $zobr_co=="odstr_podgalery") { // Začiatok formulára pre zadanie údajov v prípade voľby titulnej fotky
@@ -74,25 +59,22 @@ if ($navrat_podgalery && mysql_numrows($navrat_podgalery)>0) { //Ak bol dotaz ú
    }
    echo("<div class=\"albumRiadok\">"); //Začiatok riadku
    if ($zobr_co=="add_podgalery" AND mysql_numrows($navrat_fotky)==0) { //Ak chcem pridať fotky do galérie, ale žiadna sa nenašla.
-    //echo("<td>");
 	echo("<div>");
     stav_zle("V databáze sa nenašla žiadna nepriradená fotka!");
-	//echo("</td>");
 	echo("</div>");
    }
    while($vyp_min=mysql_fetch_array($navrat_fotky)){ // Vykreslenie miniatúr obrázkov 
-    //echo("<td>");
 	echo("<div>");
 	if ($zobr_co=="title_podgalery") { //Pridanie formulárového prvku ak volím titulnú fotku
 	 echo("\n<input type=\"radio\" id=\"pr_tit_foto\" name=\"pr_tit_foto\" value=\"$vyp_min[id_foto]\""); 
 	 if ($zaz_podgalery["tit_foto"]==$vyp_min["id_foto"]) echo(" checked");
-     echo("><img src=\"./fotogalery/small/$vyp_min[nazov]\" alt=\"$zaz_podgalery[nazov]\" />");
+     echo("><img src=\"./www/files/fotogalery/small/$vyp_min[nazov]\" alt=\"$zaz_podgalery[nazov]\" />");
 	}
 	elseif ($zobr_co=="add_podgalery") { //Pridanie formulárového prvku ak pridávam fotky do galérie
 	 if (mysql_numrows($navrat_fotky)>0) { //Ak sa našli fotky na pridanie
 	  echo("<input type=checkbox name=\"prid_foto[]\" value=$vyp_min[id_foto]>");
-	  echo("<a href=\"./fotogalery/images/$vyp_min[nazov]\" title=\"$vyp_min[id_foto]\" rel=\"fotky\">
-           <img src=\"./fotogalery/small/$vyp_min[nazov]\" alt=\"$vyp_min[id_foto]\" /></a>");    
+	  echo("<a href=\"./www/files/fotogalery/images/$vyp_min[nazov]\" title=\"$vyp_min[id_foto]\" rel=\"fotky\">
+           <img src=\"./www/files/fotogalery/small/$vyp_min[nazov]\" alt=\"$vyp_min[id_foto]\" /></a>");    
 	 }
 	 else {                                //Ak sa nenašli fotky na pridanie
 	  stav_zle("V databáze sa nenašla žiadna nepriradená fotka!");
@@ -101,27 +83,24 @@ if ($navrat_podgalery && mysql_numrows($navrat_podgalery)>0) { //Ak bol dotaz ú
 	elseif ($zobr_co=="odstr_podgalery") { //Pridanie formulárového prvku ak odoberám fotky z galérie
 	 if (mysql_numrows($navrat_fotky)>0) { //Ak sa našli fotky na odobratie
 	  echo("<input type=checkbox name=\"odober_foto[]\" value=$vyp_min[id_foto]>");
-	  echo("<a href=\"./fotogalery/images/$vyp_min[nazov]\" title=\"$vyp_min[id_foto]\" rel=\"fotky\">
-           <img src=\"./fotogalery/small/$vyp_min[nazov]\" alt=\"$vyp_min[id_foto]\" /></a>");    
+	  echo("<a href=\"./www/files/fotogalery/images/$vyp_min[nazov]\" title=\"$vyp_min[id_foto]\" rel=\"fotky\">
+           <img src=\"./www/files/fotogalery/small/$vyp_min[nazov]\" alt=\"$vyp_min[id_foto]\" /></a>");    
 	 }
 	 else {                                //Ak sa nenašli fotky na odobratie
 	  stav_zle("V databáze sa nenašla žiadna fotka!");
 	 }
 	}
 	else {                                 //Ak len zobrazujem fotky z galérie
-     echo("<a href=\"./fotogalery/images/$vyp_min[nazov]\" title=\"$zaz_podgalery[nazov]\" rel=\"fotky\">
-           <img src=\"./fotogalery/small/$vyp_min[nazov]\" alt=\"$zaz_podgalery[nazov]\" /></a>");
+     echo("<a href=\"./www/files/fotogalery/images/$vyp_min[nazov]\" title=\"$zaz_podgalery[nazov]\" rel=\"fotky\">
+           <img src=\"./www/files/fotogalery/small/$vyp_min[nazov]\" alt=\"$zaz_podgalery[nazov]\" /></a>");
     }
-    //echo("</td>");
 	echo("</div>");
     if ($i==4) {
 	 $i=1;
-	 //echo("</tr><tr>");
 	 echo("</div><div class=\"albumRiadok\">");
 	} 
 	else $i++;
    }
-   //echo("</tr></table>");
    echo("</div>");
    if ($zobr_co=="title_podgalery" OR ($zobr_co=="add_podgalery" AND mysql_numrows($navrat_fotky)>0) OR $zobr_co=="odstr_podgalery" ) {
       //V prípade, že sa niečo robí tak pridám na koniec ukončenie formulára
@@ -129,14 +108,8 @@ if ($navrat_podgalery && mysql_numrows($navrat_podgalery)>0) { //Ak bol dotaz ú
 	echo("<input type=\"hidden\" name=\"pr_id_polozka\" value=\"$zaz_podgalery[id_polozka]\">");
 	echo("&nbsp;&nbsp;&nbsp;&nbsp;<input name=\"".$zobr_co."_tl\" type=\"submit\" value=\"Vyber\">");
    }	
-  //}
   echo("</div>");
   if ($zobr_co=="title_podgalery" OR ($zobr_co=="add_podgalery" AND mysql_numrows($navrat_fotky)>0) OR $zobr_co=="odstr_podgalery" ) echo("</form>");
  }
- //else { //Ak sa nepodarilo nájsť fotky v DB kôli chybe, alebo fotky niesú
- //echo("</div>"); //Ak sa nepodarilo nájsť fotky v DB kôli chybe
- // if (mysql_numrows($navrat_fotky)==0) stav_zle("K danej podgalérii sa nenašli priradené žiadne fotky!");
- //}
 }
 else if (mysql_numrows($navrat_podgalery)==0) stav_zle("Daný album sa nenašiel, alebo ho nieje možné zobraziť!");
-?>

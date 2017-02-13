@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania podgalérie
-   Zmena: 23.06.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
   /*-------- Časť zápisu do databázy    ---------- */ 
@@ -98,5 +98,3 @@ elseif (@$_REQUEST["podgalery"]=="Áno")   {
 }
 if (@$_REQUEST["title_podgalery_tl"]=="Vyber")    $vysledok_podgalery=title_podgalery();
 if (@$_REQUEST["add_podgalery_tl"]=="Vyber")      $vysledok_podgalery=pridaj_foto_podgalery();
-
-?>
