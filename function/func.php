@@ -149,7 +149,10 @@ function chyba($text, $hlasenie)
             - $hlasenie -> text hlásenie na obrazovku */
 {
 if ($hlasenie) // Výpis hlásenia na obrazovku ak $hlasenie<>""
-   echo("&nbsp;<div class=st_zle>$hlasenie</div><br>");
+   echo("&nbsp;<div class=st_zle>$hlasenie</div><br />");
+   if (jeadmin()) {
+     echo ("<div>".$text."</div>");
+   }
 }
 
 function chyba_pis($hlasenie)

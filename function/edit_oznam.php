@@ -16,42 +16,13 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
  $id_ikonka=1;//Ikonka oznamu
  $co=$zobr_co; //Čo sa bude robiť na stránke
  if (@$_REQUEST["oznamy"]<>"") $operacia=$_REQUEST["oznamy"]; else $operacia="Nič"; //Čo sa robilo na stránke
-
-function vymaz_oznam()
-  /* Funkcia vymaže oznam z databázy.
-     Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 28.07.2011 - PV
-  */
-{
-$vymaz_oznamu=mysql_query("UPDATE oznam SET zmazane = -1 WHERE id_oznamu = ".$_POST["id_oznamu"]." LIMIT 1 ");						 
-if (!$vymaz_oznamu) return mysql_error();
-return "ok";
-}
- 
-if (@$_REQUEST["vymaz_oznam"]=="Áno")  {$vysledok=vymaz_oznam(); $co="deleted";$operacia="vymazane";} 
  
 echo("<h2>"); //Hlavička stránky
 if ($co=="new_oznam") echo("Pridanie");
-elseif ($co=="del_oznam") echo("Vymazanie");
 elseif ($co=="edit_oznam") echo("Oprava");
 else echo("Spracovanie"); //Kôli chybe
 echo("&nbsp;oznamu</h2>");
 
-if (@$co=="del_oznam") { /* vymazanie clena */
- $vys_oznam=prikaz_sql("SELECT * FROM oznam WHERE id_oznamu=$zobr_pol LIMIT 1",
-                        "Nájdenie oznamu(".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo nájsť tento oznam! Skúste neskôr.");
- if (@$vys_oznam) {
-  $zaz_oznam=mysql_fetch_array($vys_oznam);
-  echo("\n<div class=st_zle>Vymazanie oznamu !!!<br />");
-  echo("Naozaj chceš vymazať oznam <B><U>$zaz_oznam[nazov]</U></B>!!!");
-  echo("\n<form action=\"./index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;co=$zobr_co\" method=post>");
-  echo("\n<input name=\"id_oznamu\" type=\"hidden\" value=\"$zaz_oznam[id_oznamu]\">");
-  echo("\n<input name=\"vymaz_oznam\" type=\"submit\" value=\"Áno\">");
-  echo("\n<input name=\"vymaz_oznam\" type=\"submit\" value=\"Nie\"></form></div>\n");
- }
-}
   /* ----------- Časť spracovania formulára ---------- */
 if (@$vysledok<>"") {     // Zapisovalo sa do databázy
   if ($vysledok<>"ok") {  // Načítanie údajov po chybnom zápise do databázy
@@ -70,39 +41,34 @@ if (@$vysledok<>"") {     // Zapisovalo sa do databázy
   if ($operacia=="Pridaj") {
    $text .="pridaný!";
    $nazov=$_POST["nazov"];   
-   $oznam_n=prikaz_sql("SELECT id_oznamu FROM oznam WHERE datum='$datum' AND nazov='$nazov' AND zmazane=0 ORDER BY id_oznamu DESC LIMIT 1", 
+   $oznam_n=prikaz_sql("SELECT id FROM oznam WHERE datum_platnosti='$datum' AND nazov='$nazov' ORDER BY id DESC LIMIT 1", 
                        "Najdenie id oznamu (".__FILE__ ." on line ".__LINE__ .")",""); //Usporiadanie je len ak by sa v jeden deň boli dva rovnaké názvy
    if ($oznam_n AND mysql_numrows($oznam_n)>0) { //Zistenie id článku, ktorý sa práve zapísal.
     $poznam=mysql_fetch_array($oznam_n);
-	$id_oznamu=$poznam["id_oznamu"];
+	 $id_oznamu=$poznam["id"];
    }
   } 
   elseif($operacia=="Oprav") {
    $text .="opravený!";
    $id_oznamu=$_POST["id_oznamu"]; //Zistenie id čláku, ktorý sa práve opravil
   }
-  elseif($operacia=="vymazane") {  
-   $text .="zmazaný!";
-  }
   else $text .="zmenený!";
   stav_dobre($text); 
  }
 }
-if (@$co=="del_oznam") $vysledok="ok"; //Aby sa nezobrazil formulár pri mazaní článku 
 if  (@$vysledok<>"ok") {
   echo("<form name=\"zadanie\" action=\"./index.php?clanok=$zobr_clanok&amp;co=$co\" method=post>"); //Začiatok formulára
   if ($zobr_pol>0){ //Načítanie údajov, keď sa ide opravovať oznam
-     $navrat_e=prikaz_sql("SELECT * FROM oznam WHERE id_oznamu=$zobr_pol",
+     $navrat_e=prikaz_sql("SELECT * FROM oznam WHERE id=$zobr_pol",
                           "Edit oznamu údaje(".__FILE__ ." on line ".__LINE__ .")","Momentálne sa nepodarilo údaje o ozname nájsť! Prosím skúste neskôr.");
      if ($navrat_e) {
       $zaz_e = mysql_fetch_array($navrat_e);
-      $datum=$zaz_e["datum"];
+      $datum=$zaz_e["datum_platnosti"];
       $nazov=$zaz_e["nazov"];
       $text=$zaz_e["text"];
-      $id_reg=$zaz_e["id_reg"];
+      $id_reg=$zaz_e["id_registracia"];
       $id_ikonka=$zaz_e["id_ikonka"];
-      $mazanie=$zaz_e["mazanie"];
-      echo("<input type=\"hidden\" name=\"id_oznamu\" value=\"$zaz_e[id_oznamu]\">"); //Pri oprave sa do fomulára pridá id_oznamu
+      echo("<input type=\"hidden\" name=\"id_oznamu\" value=\"$zaz_e[id]\">"); //Pri oprave sa do fomulára pridá id_oznamu
      }	
   }
   echo("<div id=admin><fieldset>\n");// Formulár na zadanie/opravu údajou
@@ -117,7 +83,7 @@ if  (@$vysledok<>"ok") {
   if ($ur_ikonky) {  // Ak bola požiadavka v DB úspešná
     echo("<div>(Označ aká ikonka sa objavý na začiatku oznamu)</div>");
     while($ikonky=mysql_fetch_array($ur_ikonky)) {
-      echo("<input type=\"radio\" name=\"id\" value=\"$ikonky[id]\"");
+      echo("<input type=\"radio\" name=\"id_ikonka\" value=\"$ikonky[id]\"");
       if ($id_ikonka==$ikonky["id"]) echo(" checked");  
       echo("><img src=\"./www/ikonky/128/".$ikonky["nazov"]."128.png\" width=32 height=32>\n");
     }
