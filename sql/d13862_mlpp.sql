@@ -625,12 +625,12 @@ INSERT INTO `hlavne_menu` (`id_hlavne_menu`, `nazov`, `title`, `clanok`, `kl_skr
 
 DROP TABLE IF EXISTS `ikonka`;
 CREATE TABLE `ikonka` (
-  `id_ikonka` int(11) NOT NULL AUTO_INCREMENT,
-  `nazov` varchar(30) COLLATE cp1250_bin NOT NULL DEFAULT 'ikonka',
-  PRIMARY KEY (`id_ikonka`)
-) ENGINE=MyISAM DEFAULT CHARSET=cp1250 COLLATE=cp1250_bin;
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'ikonka' COMMENT 'Kmeňová časť názvu súboru ikonky',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Ikonky';
 
-INSERT INTO `ikonka` (`id_ikonka`, `nazov`) VALUES
+INSERT INTO `ikonka` (`id`, `nazov`) VALUES
 (0,	'---'),
 (1,	'info'),
 (2,	'kniha'),
@@ -737,13 +737,6 @@ CREATE TABLE `oznam` (
   `zmazane` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_oznamu`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-INSERT INTO `oznam` (`id_oznamu`, `datum`, `datum_pridania`, `nazov`, `text`, `id_clena`, `id_reg`, `id_ikonka`, `pocitadlo`, `mazanie`, `zmazane`) VALUES
-(20,	'2011-09-15',	'2011-09-13 14:51:44',	'NovÃ½ chodnÃ­k',	'Vybudovali sme pre vÃ¡s novÃ½ chodnÃ­k.',	3,	0,	11,	5,	0,	-1),
-(15,	'2011-09-30',	'2011-09-10 21:27:19',	' NovÃ½ web',	' MÃ¡me novÃ½ web. HurÃ¡!',	2,	0,	1,	3,	1,	-1),
-(16,	'2011-09-15',	'2011-09-12 13:34:50',	' NovÃ½ chodnÃ­k',	' Vybudovali sme novÃ½ turistickÃ½ chodnÃ­k.',	3,	0,	11,	4,	1,	-1),
-(21,	'2011-11-30',	'2011-11-03 06:45:45',	'KrÃ­Å¾ovÃ¡ cesta Kvetnica',	'PozÃ½vame vÅ¡etkÃ½ch na moÅ¾nosÅ¥ zapojenia sa do budovania KrÃ­Å¾ovej cesty Kvetnica. Doneste si vhodnÃ© pracovnÃ© nÃ¡radie (Äakany, hrable, rukavice), chuÅ¥ pracovaÅ¥ a vytvÃ¡raÅ¥ spoloÄenstvo Ä¾udÃ­ dobrej vÃ´le.  ',	3,	0,	11,	10,	0,	1),
-(22,	'2011-09-20',	'2011-09-20 19:20:57',	'dlhÃ½ oznam',	'Unsere Firma entstand im Jahr 2005, nachdem es zur AuflÃ¶sung der Orgel Formation Mixtura4fach gekommen war. Wir sind eine junge Firma hauptsÃ¤chlich mit Fokus auf Orgelbau und Restaurierung, nicht Orgelumbau.\r\n\r\nFirma Bies hat momentan sechs eigene Mitarbeiter, die die Basis darstellen. Jedoch arbeiten wir auch mit einigen externen Mitarbeitern.\r\n\r\nUnsere Instrumente werden ausschliesslich mit Kastenladen (Windladen) und mechanischer Spieltraktur gebaut, was sich in der Orgelgeschichte als beste, zuverlÃ¤ssigste und andauerndste LÃ¶sung erwies.',	3,	0,	1,	5,	0,	-1);
 
 DROP TABLE IF EXISTS `pocitadla`;
 CREATE TABLE `pocitadla` (

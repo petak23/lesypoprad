@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu výpisu a editácie oznamu
-   Zmena: 05.08.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 
@@ -26,7 +26,7 @@ if ($zobr_pol>0){  //Ide sa zobrazovať konkrétny oznam
    else {
     $oznam_datum=StrFTime("%d.%m.%Y", strtotime($oznam["datum"]));
     echo("<h2>Oznam:</h2>");
-    echo("<img src=\"./ikonky/128/".$oznam["inazov"]."128.png\" style=\"float: left; margin: 0px 10px 0px 5px; \" width=96 height=96  class=\"far".vyp_oznam($oznam["datum"])."\">"); 
+    echo("<img src=\"./www/ikonky/128/".$oznam["inazov"]."128.png\" style=\"float: left; margin: 0px 10px 0px 5px; \" width=96 height=96  class=\"far".vyp_oznam($oznam["datum"])."\">"); 
     echo("<div id=oznamy><h3>$oznam[onazov]</h3><p><span>Pridané $oznam[pdatum]");
     if (jeadmin()>2) echo(" | Platí do: $oznam_datum | Zobrazený: $oznam[pocitadlo]");
     echo("</span>");
@@ -61,7 +61,7 @@ else { //Výpis všetkých oznamov
    $oznam_datum=StrFTime("%d.%m.%Y", strtotime($oznam["datum"]));
    if ($oznam["datum"]>=$datumc_ozn) {
     echo("<div class=oznam>"); //Začiatok id-oznamy 
-    echo("<img src=\"./ikonky/128/".$oznam["inazov"]."128.png\" width=72 height=72 class=\"far".vyp_oznam($oznam["datum"])." ikonky\" alt=\"Oznam - $oznam[onazov]\">");
+    echo("<img src=\"./www/ikonky/128/".$oznam["inazov"]."128.png\" width=72 height=72 class=\"far".vyp_oznam($oznam["datum"])." ikonky\" alt=\"Oznam - $oznam[onazov]\">");
 	echo("<h3>$oznam[onazov]</h3><p><span>Pridané $oznam[pdatum]");
     if (jeadmin()>2) echo(" | Platí do: $oznam_datum | Zobrazený: $oznam[pocitadlo]");
     echo("</span>");

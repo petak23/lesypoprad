@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na vypísanie aktuánych oznamov, aktualizácií a článkov
-   Zmena: 10.02.2017 - PV
+   Zmena: 13.02.2017 - PV
 */
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 //Inicializácia
@@ -26,7 +26,7 @@ if ($pocet_akt_ozn>0) {  //Ak existuje aktuálny oznam
   while ($oznam = mysql_fetch_array($navrat)){
    $oznam_datum=StrFTime("%d.%m.%Y", strtotime($oznam["datum"]));
    echo("<div class=oznam>");
-   echo("<img src=\"./ikonky/128/".$oznam["inazov"]."128.png\" width=72 height=72 class=\"far".vyp_oznam($oznam["datum"])." ikonky\" alt=\"Oznam - $oznam[onazov]\">");
+   echo("<img src=\"./www/ikonky/128/".$oznam["inazov"]."128.png\" width=72 height=72 class=\"far".vyp_oznam($oznam["datum"])." ikonky\" alt=\"Oznam - $oznam[onazov]\">");
    echo("<h3>$oznam[onazov]<span> pridané: $oznam[pdatum]");
    if (jeadmin()>2) echo(" | Platí do: $oznam_datum | Zobrazený: $oznam[pocitadlo]");
    echo("</span></h3>");

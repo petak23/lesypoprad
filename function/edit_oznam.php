@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania oznamu
-   Zmena: 13.09.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -14,7 +14,6 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
  $mazanie=0;  //Mazanie po 90 dňoch
  $id_reg=0;   //Úroveň registrácie
  $id_ikonka=1;//Ikonka oznamu
- //$ucast=0;    //potvrdenie účasti
  $co=$zobr_co; //Čo sa bude robiť na stránke
  if (@$_REQUEST["oznamy"]<>"") $operacia=$_REQUEST["oznamy"]; else $operacia="Nič"; //Čo sa robilo na stránke
 
@@ -26,8 +25,6 @@ function vymaz_oznam()
 	 Zmena: 28.07.2011 - PV
   */
 {
-/*$vymaz_oznamu=prikaz_sql("DELETE FROM oznam WHERE id_oznamu=".$_REQUEST["id_oznamu"],
-                         "Zmazanie oznamu(".__FILE__ ." on line ".__LINE__ .")","");*/
 $vymaz_oznamu=mysql_query("UPDATE oznam SET zmazane = -1 WHERE id_oznamu = ".$_POST["id_oznamu"]." LIMIT 1 ");						 
 if (!$vymaz_oznamu) return mysql_error();
 return "ok";
@@ -64,7 +61,6 @@ if (@$vysledok<>"") {     // Zapisovalo sa do databázy
   $text=$_POST["oznam_t"];
   $id_reg=$_POST["id_reg"];
   $id_ikonka=$_POST["id_ikonka"];
-  //$ucast=$_POST["ucast_t"];
   $mazanie=$_POST["mazanie"];
   $news=$_POST["news"];
  }
@@ -80,83 +76,57 @@ if (@$vysledok<>"") {     // Zapisovalo sa do databázy
     $poznam=mysql_fetch_array($oznam_n);
 	$id_oznamu=$poznam["id_oznamu"];
    }
-   //$sprava_e="pribudol nov&yacute; oznam: \n D&aacute;tum pridania: $oznam_datum\n";
   } 
   elseif($operacia=="Oprav") {
    $text .="opravený!";
    $id_oznamu=$_POST["id_oznamu"]; //Zistenie id čláku, ktorý sa práve opravil
-   //$sprava_e="bol opraven&yacute; oznam: \n D&aacute;tum opravy: $oznam_datum\n";
   }
   elseif($operacia=="vymazane") {  
    $text .="zmazaný!";
   }
   else $text .="zmenený!";
   stav_dobre($text); 
-  /*if ($news==1 AND @(int)$_REQUEST["news"]>0) {   //Zaslanie mailu o aktualizacii podla adresara
-    $navrat_n=prikaz_sql("SELECT meno, e_mail, news, id_reg FROM clenovia WHERE news=1",
-	                     "Poslanie mailu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo načítať clenov!");
-    if ($navrat_n) { // Ak bola požiadavka v DB úspešná tak pošli mail všetkým čo to povolili
-	  while ($clen_n = mysql_fetch_array($navrat_n)){ 
-	   if ($clen_n["news"]>0 AND $_POST["id_reg"]<=$clen_n["id_reg"]){
-	    echo("<br />$clen_n[meno] - mail: $clen_n[e_mail]");
-	    $sprava ="<i>$hl_udaje[titulka]</i> \n<br /> --- !!! Na str&aacute;nke www.rodinapp.sk boli uveden&eacute; novinky !!! ---\n<br />";
-	    $sprava .="Na str&aacute;nke ".$sprava_e."<br />";
-	   	$sprava .="N&aacute;zov: <b>$nazov</b> \n<br />";
-	   	if ($id_clanok>0) {
- 		  $sprava .="\n Pre bližšie inform&aacute;cie kliknite \n<br />";
-		  $sprava .="<a href=\"http://www.rodinapp.sk/www/index.php?clanok=$zobr_clanok&id_oznamu=$id_oznamu\" title=\"Bližšie informácie\">sem</a> <br />\n";
-		}
-	   	$sprava .=$_SESSION["prezyvka"];
-	   	$ako = posli_mail($clen_n["e_mail"], "Novinky na stránke www.rodinapp.sk", $sprava);
-	   	echo("<br /><i>--- $ako ----</I>");
-	   }
-	  }
-    }
-  }*/
  }
 }
 if (@$co=="del_oznam") $vysledok="ok"; //Aby sa nezobrazil formulár pri mazaní článku 
 if  (@$vysledok<>"ok") {
-echo("<form name=\"zadanie\" action=\"./index.php?clanok=$zobr_clanok&amp;co=$co\" method=post>"); //Začiatok formulára
-if ($zobr_pol>0){ //Načítanie údajov, keď sa ide opravovať oznam
-   $navrat_e=prikaz_sql("SELECT * FROM oznam WHERE id_oznamu=$zobr_pol",
-                        "Edit oznamu údaje(".__FILE__ ." on line ".__LINE__ .")","Momentálne sa nepodarilo údaje o ozname nájsť! Prosím skúste neskôr.");
-   if ($navrat_e) {
-    $zaz_e = mysql_fetch_array($navrat_e);
-    $datum=$zaz_e["datum"];
-    $nazov=$zaz_e["nazov"];
-    $text=$zaz_e["text"];
-	$id_reg=$zaz_e["id_reg"];
-    $id_ikonka=$zaz_e["id_ikonka"];
-    //$ucast=$zaz_e["potvrdenie"];
-    $mazanie=$zaz_e["mazanie"];
-    echo("<input type=\"hidden\" name=\"id_oznamu\" value=\"$zaz_e[id_oznamu]\">"); //Pri oprave sa do fomulára pridá id_oznamu
-   }	
-}
-echo("<div id=admin><fieldset>\n");// Formulár na zadanie/opravu údajou
-echo("<label for=\"datepicker\">Dátum:</label>"); //[RRRR-MM-DD]
-echo("<input type=\"text\" id=\"datepicker\" value=\"".StrFTime("%d.%m.%Y", strtotime($datum))."\" size=10 maxlength=10>
-      <input type=\"hidden\" id=\"alternate\" name=\"datum\" size=\"10\" value=\"$datum\"/>");
-echo("<div>(Dátum kedy sa má konať daná akcia, alebo dokedy je daný oznam aktuálny. Dovtedy sa bude zobrazovať aj v strednom stĺpci)</div>");
-form_pole("nazov", "Nadpis", $nazov, "", 30);
-form_registr("id_reg", $id_reg, jeadmin());
-echo("<fieldset><legend><label for=\"id_ikonka\">Ikonka pred oznamom:</label></legend>");
-$ur_ikonky=prikaz_sql("SELECT * FROM ikonka WHERE id_ikonka>0 ORDER BY id_ikonka", "Výpis ikoniek (".__FILE__ ." on line ".__LINE__ .")", "");
-if ($ur_ikonky) {  // Ak bola požiadavka v DB úspešná
-  echo("<div>(Označ aká ikonka sa objavý na začiatku oznamu)</div>");
-  while($ikonky=mysql_fetch_array($ur_ikonky)) {
-    echo("<input type=\"radio\" name=\"id_ikonka\" value=\"$ikonky[id_ikonka]\"");
-    if ($id_ikonka==$ikonky["id_ikonka"]) echo(" checked");  
-    echo("><img src=\"./ikonky/128/".$ikonky["nazov"]."128.png\" width=32 height=32>\n");
+  echo("<form name=\"zadanie\" action=\"./index.php?clanok=$zobr_clanok&amp;co=$co\" method=post>"); //Začiatok formulára
+  if ($zobr_pol>0){ //Načítanie údajov, keď sa ide opravovať oznam
+     $navrat_e=prikaz_sql("SELECT * FROM oznam WHERE id_oznamu=$zobr_pol",
+                          "Edit oznamu údaje(".__FILE__ ." on line ".__LINE__ .")","Momentálne sa nepodarilo údaje o ozname nájsť! Prosím skúste neskôr.");
+     if ($navrat_e) {
+      $zaz_e = mysql_fetch_array($navrat_e);
+      $datum=$zaz_e["datum"];
+      $nazov=$zaz_e["nazov"];
+      $text=$zaz_e["text"];
+      $id_reg=$zaz_e["id_reg"];
+      $id_ikonka=$zaz_e["id_ikonka"];
+      $mazanie=$zaz_e["mazanie"];
+      echo("<input type=\"hidden\" name=\"id_oznamu\" value=\"$zaz_e[id_oznamu]\">"); //Pri oprave sa do fomulára pridá id_oznamu
+     }	
   }
+  echo("<div id=admin><fieldset>\n");// Formulár na zadanie/opravu údajou
+  echo("<label for=\"datepicker\">Dátum:</label>"); //[RRRR-MM-DD]
+  echo("<input type=\"text\" id=\"datepicker\" value=\"".StrFTime("%d.%m.%Y", strtotime($datum))."\" size=10 maxlength=10>
+        <input type=\"hidden\" id=\"alternate\" name=\"datum\" size=\"10\" value=\"$datum\"/>");
+  echo("<div>(Dátum kedy sa má konať daná akcia, alebo dokedy je daný oznam aktuálny. Dovtedy sa bude zobrazovať aj v strednom stĺpci)</div>");
+  form_pole("nazov", "Nadpis", $nazov, "", 30);
+  form_registr("id_reg", $id_reg, jeadmin());
+  echo("<fieldset><legend><label for=\"id_ikonka\">Ikonka pred oznamom:</label></legend>");
+  $ur_ikonky=prikaz_sql("SELECT * FROM ikonka WHERE id>0 ORDER BY id", "Výpis ikoniek (".__FILE__ ." on line ".__LINE__ .")", "");
+  if ($ur_ikonky) {  // Ak bola požiadavka v DB úspešná
+    echo("<div>(Označ aká ikonka sa objavý na začiatku oznamu)</div>");
+    while($ikonky=mysql_fetch_array($ur_ikonky)) {
+      echo("<input type=\"radio\" name=\"id\" value=\"$ikonky[id]\"");
+      if ($id_ikonka==$ikonky["id"]) echo(" checked");  
+      echo("><img src=\"./www/ikonky/128/".$ikonky["nazov"]."128.png\" width=32 height=32>\n");
+    }
+  }
+  else echo("Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type=\"hidden\" name=\"id\" value=1>"); //náhrada ak zlyhá DB
+  echo("</fieldset><br />");
+  form_textarea("oznam_t", "Text oznamu", $text, "", 70);
+  echo("Podpis:&nbsp;".$_SESSION["prezyvka"]."<input type=\"hidden\" name=\"id_clena\" size=8 maxlength=8 value=\"".(int)$_SESSION["id"]."\">&nbsp;&nbsp;
+         -&gt;&nbsp;&nbsp;<input name=\"oznamy\" type=\"submit\" value=\"");
+  echo($co=="new_oznam" ? "Pridaj" : "Oprav");
+  echo("\"></fieldset></form></div>");
 }
-else echo("Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type=\"hidden\" name=\"id_ikonka\" value=1>"); //náhrada ak zlyhá DB
-echo("</fieldset><br />");
-form_textarea("oznam_t", "Text oznamu", $text, "", 70);
-echo("Podpis:&nbsp;".$_SESSION["prezyvka"]."<input type=\"hidden\" name=\"id_clena\" size=8 maxlength=8 value=\"".(int)$_SESSION["id"]."\">&nbsp;&nbsp;
-	     -&gt;&nbsp;&nbsp;<input name=\"oznamy\" type=\"submit\" value=\"");
-echo($co=="new_oznam" ? "Pridaj" : "Oprav");
-echo("\"></fieldset></form></div>");
-}
-
-?>

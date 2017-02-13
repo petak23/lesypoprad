@@ -135,7 +135,7 @@ function form_ikonky($nazov, $hodnota=0, $filter=NULL)
   */
 {
 if (isset($filter)) $odk="AND $filter"; else $odk=""; //Filter pre id_reg
-$ur_ikonky=prikaz_sql("SELECT * FROM ikonka WHERE id_ikonka>-1 $odk ORDER BY id_ikonka", "Výpis ikoniek (".__FILE__ ." on line ".__LINE__ .")", "");
+$ur_ikonky=prikaz_sql("SELECT * FROM ikonka WHERE id>-1 $odk ORDER BY id", "Výpis ikoniek (".__FILE__ ." on line ".__LINE__ .")", "");
 if ($ur_ikonky) { //Ak dotaz v DB bol v poriadku
 	$i=1;
 ?>
@@ -143,14 +143,14 @@ if ($ur_ikonky) { //Ak dotaz v DB bol v poriadku
 	<legend>Ikonka pred článkom:</legend>
 	<div>(Označ aká ikonka sa objavý na začiatku článku)</div>
 	<?php while($ikonky=mysql_fetch_array($ur_ikonky)) { ?>
-    <input type="radio" name="id_ikonka" value="<?php echo($ikonky["id_ikonka"]);?>" <?php if ($hodnota==$ikonky["id_ikonka"]) echo("checked=\"checked\""); ?> />
-		<img src="./ikonky/64/<?php echo($ikonky["nazov"]);?>64.png" alt="Ikonka <?php echo($ikonky["id_ikonka"]);?>" class="ikonkySmall" />
+    <input type="radio" name="id" value="<?php echo($ikonky["id"]);?>" <?php if ($hodnota==$ikonky["id"]) echo("checked=\"checked\""); ?> />
+		<img src="./www/ikonky/64/<?php echo($ikonky["nazov"]);?>64.png" alt="Ikonka <?php echo($ikonky["id"]);?>" class="ikonkySmall" />
 		<?php if ($i==9) {echo("<br />"); $i=1;} else $i++; 
 	} ?>
 </fieldset>
 <br />
 <?php }
 else { //náhrada ak zlyhá DB ?>
-Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type="hidden" name="id_ikonka" value="0" />
+Nie je možné zmeniť z dôvodu chyby v databáze. Skúste prosím neskôr.<input type="hidden" name="id" value="0" />
 <?php } 
 }
