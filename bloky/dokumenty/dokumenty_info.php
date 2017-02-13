@@ -1,6 +1,6 @@
 <?php 
 /* Tento súbor slúži na obsluhu výpisu a editácie dokumentov
-   Zmena: 16.03.2012 - PV
+   Zmena: 13.02.2017 - PV
 */ 
 
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
@@ -16,7 +16,7 @@ if ($zobr_cast>0 AND $zobr_co=="") { //Slúži na evidenciu downloadu súborov t
    header("Content-Description: File Transfer");
    header("Content-Type: application/force-download");
    header("Content-Disposition: attachment; filename=\"$zaznam[subor]\"");
-   header("Location: ./dokumenty/$zaznam[subor]");
+   header("Location: ./www/files/dokumenty/$zaznam[subor]");
   } 
  }
 }

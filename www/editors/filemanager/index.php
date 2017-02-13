@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>File Manager</title>
@@ -7,22 +7,30 @@
 <link rel="stylesheet" type="text/css" href="scripts/jquery.filetree/jqueryFileTree.css" />
 <link rel="stylesheet" type="text/css" href="scripts/jquery.contextmenu/jquery.contextMenu-1.01.css" />
 <link rel="stylesheet" type="text/css" href="styles/filemanager.css" />
-<!--[if IE]>
-<link rel="stylesheet" type="text/css" href="styles/ie.css" />
+<!--[if IE 9]>
+<link rel="stylesheet" type="text/css" href="styles/ie9.css" />
+<![endif]-->
+<!--[if lte IE 8]>
+<link rel="stylesheet" type="text/css" href="styles/ie8.css" />
 <![endif]-->
 </head>
 <body>
 <?php
-	if (isset($_GET['bezp_kod']) && $_GET['bezp_kod']=='4RanoS5689q6-498') {
+	if (!(isset($_GET['bezp_kod']) && $_GET['bezp_kod']=='4RanoS5689q6-498')) exit('No direct script access allowed');
 ?>
 <div>
 <form id="uploader" method="post">
 <button id="home" name="home" type="button" value="Home">&nbsp;</button>
 <h1></h1>
 <div id="uploadresponse"></div>
-<input id="mode" name="mode" type="hidden" value="add" /> 
-<input id="currentpath" name="currentpath" type="hidden" /> 
-<input	id="newfile" name="newfile" type="file" />
+<input id="mode" name="mode" type="hidden" value="add" />
+<input id="currentpath" name="currentpath" type="hidden" />
+<div id="file-input-container">
+	<div id="alt-fileinput">
+		<input	id="filepath" name="filepath" type="text" /><button id="browse" name="browse" type="button" value="Browse"></button>
+	</div>
+	<input	id="newfile" name="newfile" type="file" />
+</div>
 <button id="upload" name="upload" type="submit" value="Upload"></button>
 <button id="newfolder" name="newfolder" type="button" value="New Folder"></button>
 <button id="grid" class="ON" type="button">&nbsp;</button>
@@ -34,6 +42,13 @@
 <h1></h1>
 </div>
 </div>
+<form name="search" id="search" method="get">
+		<div>
+			<input type="text" value="" name="q" id="q" />
+			<a id="reset" href="#" class="q-reset"></a>
+			<span class="q-inactive"></span>
+		</div>
+</form>
 
 <ul id="itemOptions" class="contextMenu">
 	<li class="select"><a href="#select"></a></li>
@@ -42,17 +57,14 @@
 	<li class="delete separator"><a href="#delete"></a></li>
 </ul>
 
-<script type="text/javascript" src="scripts/jquery-1.6.1.min.js"></script>
-<script type="text/javascript" src="scripts/jquery.form-2.63.js"></script>
+<script type="text/javascript" src="scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.form-3.24.js"></script>
 <script type="text/javascript" src="scripts/jquery.splitter/jquery.splitter-1.5.1.js"></script>
 <script type="text/javascript" src="scripts/jquery.filetree/jqueryFileTree.js"></script>
 <script type="text/javascript" src="scripts/jquery.contextmenu/jquery.contextMenu-1.01.js"></script>
-<script type="text/javascript" src="scripts/jquery.impromptu-3.1.min.js"></script>
-<script type="text/javascript" src="scripts/jquery.tablesorter-2.0.5b.min.js"></script>
-<script type="text/javascript" src="scripts/filemanager.config.js"></script>
-<script type="text/javascript" src="scripts/filemanager.js"></script></div>
-<?php }
-else { exit('No direct script access allowed'); }
-?>
+<script type="text/javascript" src="scripts/jquery.impromptu-3.2.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.tablesorter-2.7.2.min.js"></script>
+<script type="text/javascript" src="scripts/filemanager.min.js"></script>
+</div>
 </body>
 </html>

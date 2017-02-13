@@ -9,7 +9,7 @@
 *	@license	MIT License
 *	@author		Alan Blount <alan (at) zeroasterisk (dot) com>
 *	@copyright	Authors
-*/	
+*/
 
 /**
  *	Language settings
@@ -51,6 +51,3 @@ $config['rsc-getsize'] = true;
  */
 $config['unallowed_dirs'][] = '.CDN_ACCESS_LOGS';
 $config['unallowed_dirs'][] = 'cloudservers';
-
-
-?>

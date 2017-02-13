@@ -14,7 +14,7 @@
 */
 
 class FilemanagerRSC extends Filemanager {
-	
+
 	public function __construct($config) {
 		$return = parent::__construct($config);
 		require_once('cloudfiles.php');
@@ -26,7 +26,7 @@ class FilemanagerRSC extends Filemanager {
 		}
 		return $return;
 	}
-	
+
 	public function getinfo() {
 		$object = $this->get_object();
 		if (isset($object->name)) {
@@ -41,7 +41,7 @@ class FilemanagerRSC extends Filemanager {
 				'Code' => 0
 				);
 		}
-		
+
 		$container = $this->get_container();
 		if (isset($container->name)) {
 			return array(
@@ -62,7 +62,7 @@ class FilemanagerRSC extends Filemanager {
 		}
 		return array();
 	}
-	
+
 	public function getfolder() {
 		$container = trim($this->get['path'], '/ ');
 		$containerParts = explode('/', $container);
@@ -122,7 +122,7 @@ class FilemanagerRSC extends Filemanager {
 		}
 		return $array;
 	}
-	
+
 	public function rename() {
 		// keep old filename, if missing from new
 		$newNameParts = explode('.', $this->get['new']);
@@ -159,7 +159,7 @@ class FilemanagerRSC extends Filemanager {
 			);
 		return $array;
 	}
-	
+
 	public function delete() {
 		$object = $this->get_object();
 		if (isset($object->name)) {
@@ -186,7 +186,7 @@ class FilemanagerRSC extends Filemanager {
 		}
 		$this->error(sprintf($this->lang('INVALID_DIRECTORY_OR_FILE')));
 	}
-	
+
 	public function add() {
 		$this->setParams();
 		if(!isset($_FILES['newfile']) || !is_uploaded_file($_FILES['newfile']['tmp_name'])) {
@@ -195,7 +195,7 @@ class FilemanagerRSC extends Filemanager {
 		if(($this->config['upload']['size']!=false && is_numeric($this->config['upload']['size'])) && ($_FILES['newfile']['size'] > ($this->config['upload']['size'] * 1024 * 1024))) {
 			$this->error(sprintf($this->lang('UPLOAD_FILES_SMALLER_THAN'),$this->config['upload']['size'] . 'Mb'),true);
 		}
-		
+
 		$size = @getimagesize($_FILES['newfile']['tmp_name']);
 		if($this->config['upload']['imagesonly'] || (isset($this->params['type']) && strtolower($this->params['type'])=='images')) {
 			if(empty($size) || !is_array($size)) {
@@ -206,9 +206,9 @@ class FilemanagerRSC extends Filemanager {
 			}
 		}
 		$_FILES['newfile']['name'] = $this->cleanString($_FILES['newfile']['name'],array('.','-'));
-		
+
 		$container = $this->get_container($this->post['currentpath']);
-		
+
 		if(!$this->config['upload']['overwrite']) {
 			$list = $container->list_objects();
 			$i = 0;
@@ -222,7 +222,7 @@ class FilemanagerRSC extends Filemanager {
 				$_FILES['newfile']['name'] = implode('.', $parts);
 			}
 		}
-		
+
 		$object = $container->create_object($_FILES['newfile']['name']);
 		$object->load_from_filename($_FILES['newfile']['tmp_name']);
 		// set image details
@@ -232,7 +232,7 @@ class FilemanagerRSC extends Filemanager {
 			$object->sync_metadata(); // save back to RSC
 		}
 		unlink($_FILES['newfile']['tmp_name']);
-		
+
 		$response = array(
 			'Path'=>$this->post['currentpath'],
 			'Name'=>$_FILES['newfile']['name'],
@@ -242,7 +242,7 @@ class FilemanagerRSC extends Filemanager {
 		echo '<textarea>' . json_encode($response) . '</textarea>';
 		die();
 	}
-	
+
 	public function addfolder() {
 		$container = trim($this->get['path'], '/ ');
 		$containerParts = explode('/', $container);
@@ -262,7 +262,7 @@ class FilemanagerRSC extends Filemanager {
 			'Code'=>0
 			);
 	}
-	
+
 	public function download() {
 		$object = $this->get_object();
 		if (isset($object->name)) {
@@ -276,9 +276,9 @@ class FilemanagerRSC extends Filemanager {
 		}
 		$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
 	}
-	
+
 	public function preview() {
-		
+
 		if(isset($this->get['path']) && file_exists($this->doc_root . $this->get['path'])) {
 			header("Content-type: image/" .$ext = pathinfo($this->get['path'], PATHINFO_EXTENSION));
 			header("Content-Transfer-Encoding: Binary");
@@ -289,7 +289,7 @@ class FilemanagerRSC extends Filemanager {
 			$this->error(sprintf($this->lang('FILE_DOES_NOT_EXIST'),$this->get['path']));
 		}
 	}
-	
+
 	private function get_container($path=null, $showError=false) {
 		if (empty($path)) {
 			$path = $this->get['path'];
@@ -381,4 +381,3 @@ class FilemanagerRSC extends Filemanager {
 		return $object;
 	}
 }
-?>

@@ -1,10 +1,10 @@
 <?php
  /* Tento súbor vypísanie názvov článkov a sub menu, ktoré mu prislúcha a
     názvy člankov, ktoré mu prislúchajú a odkazy na nich ako mapa stránky
-    Zmena: 09.01.2012 - PV
+    Zmena: 13.02.2017 - PV
 */
 if ($bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
-$hl_menu=prikaz_sql("SELECT * FROM hlavne_menu WHERE id_hlavne_menu>0 ORDER BY id_hlavne_menu", //Načítanie hlavného menu z DB
+$hl_menu=prikaz_sql("SELECT * FROM old_hlavne_menu WHERE id_hlavne_menu>0 ORDER BY id_hlavne_menu", //Načítanie hlavného menu z DB
 	                "Hlavne menu (".__FILE__ ." on line ".__LINE__ .")","Došlo k chybe a hlavné menu nie je možné načítať! Prosím, skúste neskôr."); 
 if ($hl_menu) { //Ak bol dotaz v DB úspešný 
  while ($hl_menu_v=mysql_fetch_array($hl_menu)) {
@@ -46,4 +46,3 @@ if ($hl_menu) { //Ak bol dotaz v DB úspešný
   }
  }
 }
-?>

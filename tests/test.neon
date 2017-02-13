@@ -1,0 +1,4 @@
+testbench:
+    dbname: echo-test
+    sqls:
+        - %testsDir%/../sql/d73150_echomsz.sql

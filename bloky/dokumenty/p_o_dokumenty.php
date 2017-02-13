@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania dokumentu
-   Zmena: 16.03.2012 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -10,10 +10,7 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
 function validate_dokument()
 /* Funkcia skontroluje vstupy .
     Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-		Výstupy: pole hodnôt ak všetko prebehlo správne inak chybová hláška
-		Obmedzenie: Zatiaľ neznáme.
-		Zmena: 16.03.2012 - PV
-*/
+		Výstupy: pole hodnôt ak všetko prebehlo správne inak chybová hláška */
 {
 
 $dataCl = array (
@@ -43,10 +40,7 @@ return $dataCl;
 function pridaj_subor()
   /* Funkcia skontroluje vstupy a zapíše údaje o súbore do databázy.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 10.02.2012 - PV
-  */
+	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška  */
 {
 $dataCl=validate_dokument();
 
@@ -59,7 +53,7 @@ elseif ($_FILES['pr_file']['size'] ==0) { //Kontrola na veľkosť súboru
   return "Je mi ľúto, ale pokúšate sa nahrať prázdny súbor!"; 
 }
 else { //Ak kontroly prebehli v poriadku
-  $uploaddir = "dokumenty/";
+  $uploaddir = "www/files/dokumenty/";
   $safe_filename = preg_replace( 
                       array("/\s+/", "/[^-\.\w]+/"), 
                       array("_", ""), 
@@ -81,10 +75,7 @@ else { //Ak kontroly prebehli v poriadku
 function oprav_subor()
   /* Funkcia skontroluje vstupy a aktualizuje údaje o súbore v databáze.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 10.02.2012 - PV
-  */
+     Výstupy: ok-ak všetko prebehlo správne inak chybová hláška */
 {
 $dataCl=validate_dokument();
 if (isset($data["error"])) return $data["error"];

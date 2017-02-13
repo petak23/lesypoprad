@@ -1,15 +1,14 @@
 <?php
  /* Tento súbor vypísanie názvov článkov a sub menu, ktoré mu prislúcha a
     názvy člankov, ktoré mu prislúchajú a odkazy na nich
-    Zmena: 05.11.2011 - PV
+    Zmena: 13.02.2017 - PV
 */
 if ($bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
-$hl_menu=prikaz_sql("SELECT * FROM hlavne_menu WHERE id_hlavne_menu>0 AND id_reg<=".jeadmin()." ORDER BY id_hlavne_menu", //Načítanie hlavného menu z DB
+$hl_menu=prikaz_sql("SELECT * FROM old_hlavne_menu WHERE id_hlavne_menu>0 AND id_reg<=".jeadmin()." ORDER BY id_hlavne_menu", //Načítanie hlavného menu z DB
 	                     "Hlavne menu (".__FILE__ ." on line ".__LINE__ .")","Došlo k chybe a hlavné menu nie je možné načíta. Prosím skúste neskôr"); 
 if ($hl_menu) { //Ak bol dotaz v DB úspešný 
   $ip=1;
   while ($hl_menu_v=mysql_fetch_array($hl_menu)) {
-   //if (jeadmin()>=$hl_menu_v["id_reg"]) { //Zobrazí sa len tá položka, na ktorú je oprávnenie
     $pocet_sub_menu=0;  // Zistenie počtu nadpisov článkov a položiek sub_menu na vypísanie - inicializácia
     $sub_menu1=prikaz_sql("SELECT polozka FROM sub_menu WHERE id_hl_menu=$hl_menu_v[id_hlavne_menu] AND zobrazenie=1 AND id_reg<=".jeadmin(),
                           "Počet položiek sub-menu (".__FILE__ ." on line ".__LINE__ .")","");
@@ -22,7 +21,6 @@ if ($hl_menu) { //Ak bol dotaz v DB úspešný
 	$class_li=""; //Tvorba class-u pre položku hl. menu
 	if ($hl_menu_v["id_reg"]>2) $class_li="adminPol"; //Ak je to administračná položka
 	if ($hl_menu_v["id_hlavne_menu"]==$zobr_clanok) $class_li=$class_li." aktivny"; //Ak je to aktívna položka
-	//echo($hl_menu_v["id_hlavne_menu"]==$zobr_clanok ? " class=\"aktivny\">" : ">"); //Aktívna položka
 	echo($class_li<>"" ? " class=\"$class_li\">" : ">"); //Pridanie class-u
 	echo("<a href=\"./index.php?clanok=$hl_menu_v[id_hlavne_menu]\" title=\"$hl_menu_v[title]&nbsp;[Klávesová skratka $hl_menu_v[kl_skratka]]\" 
 	       accesskey=\"$hl_menu_v[kl_skratka]\" tabindex=\"$ip\">".ltrim($hl_menu_v["nazov"])."</a>\n"); //Zákl. odkaz s odstránením prázdnych reťazcov zo začiatku názvu
@@ -44,8 +42,8 @@ if ($hl_menu) { //Ak bol dotaz v DB úspešný
      // -------------- Vypísanie bočnej ponuky t.j. názvy článkov a sub_menu ----------------
      if ($pocet_sub_menu>0) { // Ak je čo vypisovať t.j. našli sa články alebo sub_menu
       if ($zobr_clanok>0) {    //Ak je premenná clanok >0, tak najdi id a nazov položky sub menu
-       $sub_menu=prikaz_sql("SELECT sub_menu.nazov as snazov, id_sub_menu, sub_menu.clanky as prir_cl FROM sub_menu, hlavne_menu 
-                             WHERE sub_menu.id_hl_menu=hlavne_menu.id_hlavne_menu AND id_hl_menu=$zobr_clanok AND sub_menu.id_reg<=".jeadmin()." AND zobrazenie>0
+       $sub_menu=prikaz_sql("SELECT sub_menu.nazov as snazov, id_sub_menu, sub_menu.clanky as prir_cl FROM sub_menu, old_hlavne_menu 
+                             WHERE sub_menu.id_hl_menu=old_hlavne_menu.id_hlavne_menu AND id_hl_menu=$zobr_clanok AND sub_menu.id_reg<=".jeadmin()." AND zobrazenie>0
 		 	         			 ORDER BY sub_menu.nazov",
                             "Výber položiek sub-menu (".__FILE__ ." on line ".__LINE__ .")","Pod-menu sa nenašlo! Nabudúce...");
        if ($sub_menu && mysql_numrows($sub_menu)>0)  //Ak bola požiadavka v DB úspešná a ak sa našli položky sub-menu
@@ -96,7 +94,5 @@ if ($hl_menu) { //Ak bol dotaz v DB úspešný
     if ($pocet_sub_menu>0 OR $hl_menu_v["clanky"]==1 OR $zobr_clanok==$index_oznam) echo("</ul>");	//Ukončenie 1. úrovne - sub menu
     }
 	echo("</li>"); //Ukončenie základnej 0. úrovne - hlavné menu
-   //}
   }
 }
-?>

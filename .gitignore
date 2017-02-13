@@ -1,2 +1,14 @@
 /www/checker/
 /nbproject/
+/log/
+/temp/
+/webtemp/
+/vendor/
+/api/
+/tests/_temp/
+/tests/webtemp/
+/www/files/dokumenty/
+/www/editors/filemanager/userfiles/
+/fotogalery/images/
+/fotogalery/novych/
+/fotogalery/small/

@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania dokumentu
-   Zmena: 16.03.2012 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -9,19 +9,16 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
 function vymaz_subor()
   /* Funkcia vymaže dokument z databázy.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
-	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 19.09.2011 - PV
-  */
+	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška */
 {
 	$vys_dok=prikaz_sql("SELECT subor FROM dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"]." LIMIT 1", 
                      "Nájdenie dokumentu(".__FILE__ ." on line ".__LINE__ .")",											
 										 "Žiaľ sa momentálne nepodarilo nájsť tento dokument! Skúste neskôr.");
 	if (!$vys_dok) return mysql_error();$zaz_sub=mysql_fetch_array($vys_dok);
 	$subor=strip_tags(@$_POST["subor"]);
-	if (is_file("dokumenty/".$zaz_sub['subor'])) {
-		chmod("dokumenty/".$zaz_sub['subor'], 0777);
-		if (!unlink("dokumenty/".$zaz_sub['subor'])) return "Vzmazanie sa nepodarilo!";
+	if (is_file("www/files/dokumenty/".$zaz_sub['subor'])) {
+		chmod("www/files/dokumenty/".$zaz_sub['subor'], 0777);
+		if (!unlink("www/files/dokumenty/".$zaz_sub['subor'])) return "Vzmazanie sa nepodarilo!";
 	}
 	$vymaz_subor=prikaz_sql("DELETE FROM dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"], 
 													"Zmazanie dokumentu(".__FILE__ ." on line ".__LINE__ .")","",1);	

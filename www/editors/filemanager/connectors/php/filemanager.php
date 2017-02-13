@@ -1,6 +1,7 @@
 <?php
-error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
-ini_set('display_errors', '1');
+// only for debug
+// error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+// ini_set('display_errors', '1');
 /**
  *	Filemanager PHP connector
  *
@@ -12,19 +13,35 @@ ini_set('display_errors', '1');
  *  @author		Simon Georget <simon (at) linea21 (dot) com>
  *	@copyright	Authors
  */
+
 require_once('./inc/filemanager.inc.php');
-require_once('filemanager.config.php');
 require_once('filemanager.class.php');
 
-if (isset($config['plugin']) && !empty($config['plugin'])) {
-	$pluginPath = 'plugins' . DIRECTORY_SEPARATOR . $config['plugin'] . DIRECTORY_SEPARATOR;
-	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.config.php');
-	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.class.php');
-	$className = 'Filemanager'.strtoupper($config['plugin']);
-	$fm = new $className($config);
-} else {
-	$fm = new Filemanager($config);
+
+/**
+ *	Check if user is authorized
+ *
+ *	@return boolean true is access granted, false if no access
+ */
+function auth() {
+  // You can insert your own code over here to check if the user is authorized.
+  // If you use a session variable, you've got to start the session first (session_start())
+  return true;
 }
+
+
+// @todo Work on plugins registration
+// if (isset($config['plugin']) && !empty($config['plugin'])) {
+// 	$pluginPath = 'plugins' . DIRECTORY_SEPARATOR . $config['plugin'] . DIRECTORY_SEPARATOR;
+// 	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.config.php');
+// 	require_once($pluginPath . 'filemanager.' . $config['plugin'] . '.class.php');
+// 	$className = 'Filemanager'.strtoupper($config['plugin']);
+// 	$fm = new $className($config);
+// } else {
+// 	$fm = new Filemanager($config);
+// }
+
+$fm = new Filemanager();
 
 $response = '';
 
@@ -39,7 +56,7 @@ if(!isset($_GET)) {
   if(isset($_GET['mode']) && $_GET['mode']!='') {
 
     switch($_GET['mode']) {
-      	
+
       default:
 
         $fm->error($fm->lang('MODE_ERROR'));
@@ -53,7 +70,7 @@ if(!isset($_GET)) {
         break;
 
       case 'getfolder':
-        	
+
         if($fm->getvar('path')) {
           $response = $fm->getfolder();
         }
@@ -85,23 +102,27 @@ if(!isset($_GET)) {
           $fm->download();
         }
         break;
+
       case 'preview':
         if($fm->getvar('path')) {
           $fm->preview();
         }
         break;
 
+      case 'maxuploadfilesize':
+        $fm->getMaxUploadFileSize();
+        break;
     }
 
   } else if(isset($_POST['mode']) && $_POST['mode']!='') {
 
     switch($_POST['mode']) {
-      	
+
       default:
 
         $fm->error($fm->lang('MODE_ERROR'));
         break;
-        	
+
       case 'add':
 
         if($fm->postvar('currentpath')) {
@@ -116,5 +137,3 @@ if(!isset($_GET)) {
 
 echo json_encode($response);
 die();
-
-?>

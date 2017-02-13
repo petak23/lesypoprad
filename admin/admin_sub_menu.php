@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania sub menu
-   Zmena: 21.06.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -131,7 +131,7 @@ if (!(@$_REQUEST["sub_menu"]=="Áno" AND $vysledok=="ok")) {
  form_pole("pr_subor","Názov priradeného súboru",$subor,"Vrátane relatívnej cesty k súboru od hlavného adresára kde je index.php napr. skolka/o_nas.php", 30);
  form_registr("pr_id_reg", $id_reg, 5);
  echo("<label for=\"e_id_hl_menu\">Priradené k položke hlavného menu: </label>");
- $us_str=prikaz_sql("SELECT * FROM hlavne_menu ORDER BY id_hlavne_menu", 
+ $us_str=prikaz_sql("SELECT * FROM old_hlavne_menu ORDER BY id_hlavne_menu", 
                    "Usporiadanie stránky (".__FILE__ ." on line ".__LINE__ .")", "Momentálne sa nepodarilo vypísať!");
  if ($us_str) {  // Ak bola požiadavka v DB úspešná
   echo("<select name=\"e_id_hl_menu\" id=\"e_id_hl_menu\">\n");
@@ -151,10 +151,10 @@ if (!(@$_REQUEST["sub_menu"]=="Áno" AND $vysledok=="ok")) {
  echo("\"></fieldset></form></div>"); //
 }
   /* ----- Výpis všetkých položiek sub. menu ----- */
-$navrat=prikaz_sql("SELECT id_sub_menu, sub_menu.nazov as snazov, registracia.nazov as rnazov, clanok, hlavne_menu.nazov as hnazov, 
+$navrat=prikaz_sql("SELECT id_sub_menu, sub_menu.nazov as snazov, registracia.nazov as rnazov, clanok, old_hlavne_menu.nazov as hnazov, 
                            registracia.id as id_reg, subor, polozka, sub_menu.clanky as prir_cl, zobrazenie
-                    FROM sub_menu, registracia, hlavne_menu
-                    WHERE sub_menu.id_reg=registracia.id AND sub_menu.id_hl_menu=hlavne_menu.id_hlavne_menu
+                    FROM sub_menu, registracia, old_hlavne_menu
+                    WHERE sub_menu.id_reg=registracia.id AND sub_menu.id_hl_menu=old_hlavne_menu.id_hlavne_menu
 					ORDER BY id_hl_menu, zobrazenie DESC",
                    "Výpis položiek sub. menu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná

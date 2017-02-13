@@ -8,7 +8,7 @@ if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kó
 echo("<h2>Pridanie/Oprava Hlavného menu a výpis položiek</h2><br />");
 
 //Inicializácia premených
-$min_idd=prikaz_sql("SELECT id_hlavne_menu FROM hlavne_menu ORDER BY id_hlavne_menu","Id hl. menu (".__FILE__ ." on line ".__LINE__ .")","");
+$min_idd=prikaz_sql("SELECT id_hlavne_menu FROM old_hlavne_menu ORDER BY id_hlavne_menu","Id hl. menu (".__FILE__ ." on line ".__LINE__ .")","");
 if ($min_idd){
  $rob=true;
  $id_hlavne_menu=0; //id položky - určuje poradie
@@ -41,7 +41,7 @@ function pridaj_hlavne_menu()
 if (@(int)$_REQUEST["pr_zvyrazni"]>0) $zvyrazni=(int)$_REQUEST["pr_zvyrazni"]; else $zvyrazni=0;
 if (@(int)$_REQUEST["id_hlavicka"]>0) $id_hlavicka=(int)$_REQUEST["id_hlavicka"]; else $id_hlavicka=0;
 if (@(int)$_REQUEST["clanky_f"]>0) $clanky=(int)$_REQUEST["clanky_f"]; else $clanky=0;            
-$pridanie_hlavne_menu=mysql_query("INSERT INTO hlavne_menu (id_hlavne_menu, nazov, title, kl_skratka, clanok, id_reg, id_blok, zvyrazni, id_hlavicka, clanky, description) 
+$pridanie_hlavne_menu=mysql_query("INSERT INTO old_hlavne_menu (id_hlavne_menu, nazov, title, kl_skratka, clanok, id_reg, id_blok, zvyrazni, id_hlavicka, clanky, description) 
                                    VALUES(".$_REQUEST["id_hlavne_menu_f"].", '".$_REQUEST["nazov_f"]."', '".$_REQUEST["title_f"]."', '".$_REQUEST["kl_skratka_f"]."', '".$_REQUEST["clanok_f"]."',
 								   ".$_REQUEST["id_reg"].", ".$_REQUEST["pr_id_blok"].", $zvyrazni, $id_hlavicka, $clanky, '".$_REQUEST["description_f"]."')");
 if (!$pridanie_hlavne_menu) return mysql_error();
@@ -60,7 +60,7 @@ $id_hlavne_menu=(int)$_REQUEST["id_hlavne_menu_f"];
 if (@(int)$_REQUEST["pr_zvyrazni"]>0) $zvyrazni=(int)$_REQUEST["pr_zvyrazni"]; else $zvyrazni=0;
 if (@(int)$_REQUEST["id_hlavicka"]>0) $id_hlavicka=(int)$_REQUEST["id_hlavicka"]; else $id_hlavicka=0;
 if (@(int)$_REQUEST["clanky_f"]>0) $clanky=(int)$_REQUEST["clanky_f"]; else $clanky=0;
-$oprava_hlavne_menu=mysql_query("UPDATE hlavne_menu SET id_hlavne_menu=$id_hlavne_menu, nazov='".$_REQUEST["nazov_f"]."',
+$oprava_hlavne_menu=mysql_query("UPDATE old_hlavne_menu SET id_hlavne_menu=$id_hlavne_menu, nazov='".$_REQUEST["nazov_f"]."',
 														title='".$_REQUEST["title_f"]."', kl_skratka='".$_REQUEST["kl_skratka_f"]."',
                                                         clanok='".$_REQUEST["clanok_f"]."', 
                                                         id_reg=".$_REQUEST["id_reg"].", id_blok=".$_REQUEST["pr_id_blok"].",
@@ -99,7 +99,7 @@ if ($vysledok<>"") { // Zapisovalo sa do databázy
 }  
 echo("<form name=\"zadanie\" action=\"./index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol\" method=post>"); // Začiatok formulára pre zadanie údajov
 if (@$_REQUEST["operacia"]=="adm_edit_hlavne_menu"){ //Ak prišiel údaj o požiadavke na editáciu položky tak sa položka nájde v databáze a načíta do premených
-  $navrat_e=prikaz_sql("SELECT * FROM hlavne_menu WHERE id_hlavne_menu=".$_REQUEST["id"]." LIMIT 1",
+  $navrat_e=prikaz_sql("SELECT * FROM old_hlavne_menu WHERE id_hlavne_menu=".$_REQUEST["id"]." LIMIT 1",
                        "Načítanie položky hl. menu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo položku nájsť! Skúste neskôr.");
   if ($navrat_e) { //Ak bola požiadavka do DB úspečná
    $zaz_e = mysql_fetch_array($navrat_e);
@@ -134,10 +134,10 @@ echo(@$_REQUEST["id"]<>"" ? "Oprav" : "Pridaj");
 echo("\"></fieldset></form></div>");
 
   /* ----- Výpis všetkých položiek hl. menu ----- */
-$navrat=prikaz_sql("SELECT id_hlavne_menu, hlavne_menu.nazov as hnazov, title, kl_skratka, clanok, registracia.nazov as rnazov, registracia.id as id_reg, zvyrazni,
+$navrat=prikaz_sql("SELECT id_hlavne_menu, old_hlavne_menu.nazov as hnazov, title, kl_skratka, clanok, registracia.nazov as rnazov, registracia.id as id_reg, zvyrazni,
                     clanky, description, pocitadlo
-                    FROM hlavne_menu, registracia 
-                    WHERE hlavne_menu.id_reg=registracia.id 
+                    FROM old_hlavne_menu, registracia 
+                    WHERE old_hlavne_menu.id_reg=registracia.id 
                     ORDER BY id_hlavne_menu", 
                    "Výpis položiek hl. menu (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo zoznam vypísať! Skúste neskôr."); 
 if ($navrat) { //Ak bola požiadavka do DB úspečná

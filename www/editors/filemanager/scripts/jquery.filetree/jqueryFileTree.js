@@ -21,18 +21,18 @@
 //           loadMessage    - Message to display while initial tree loads (can be HTML)
 //
 // History:
-//
+// 1.03 (patched by simo for Filemanager) - add an expandedFolder option to open desired folder when init
 // 1.02 (patched by Filemanager) - add a datafunc option to get data through a function instead of a script
 // 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
 // 1.00 - released (24 March 2008)
 //
 // TERMS OF USE
-// 
+//
 // jQuery File Tree is licensed under a Creative Commons License and is copyrighted (C)2008 by Cory S.N. LaViska.
 // For details, visit http://creativecommons.org/licenses/by/3.0/us/
 //
 if(jQuery) (function($){
-	
+
 	$.extend($.fn, {
 		fileTree: function(o, h) {
 			// Defaults
@@ -49,9 +49,10 @@ if(jQuery) (function($){
 			if( o.loadMessage == undefined ) o.loadMessage = 'Loading...';
 			if( o.folderCallback == undefined ) o.folderCallback = null;
 			if( o.after == undefined ) o.after = null;
-			
+			if(o.expandedFolder == undefined) o.expandedFolder = '';
+
 			$(this).each( function() {
-				
+
 				function showTree(c, t) {
 					function showData(data) {
 						$(c).find('.start').html('');
@@ -59,6 +60,17 @@ if(jQuery) (function($){
 						if( o.root == t ) $(c).find('UL:hidden').show();
 						else $(c).find('UL:hidden').slideDown({ duration: o.expandSpeed, easing: o.expandEasing });
 						bindTree(c);
+						if (o.expandedFolder != null) {
+						    $(c).find(".directory.collapsed").each(function (i,f) {
+						       if ((o.expandedFolder).match($(f).children().attr('rel'))) {
+						            showTree($(f), $(f).children().attr('rel').match(/.*\//));
+						            $(f).removeClass('collapsed').addClass('expanded');
+						        };
+
+						    });
+						}
+
+
 						o.after(data);
 					}
 					$(c).addClass('wait');
@@ -66,7 +78,7 @@ if(jQuery) (function($){
 					if (o.datafunc) o.datafunc(t, showData);
 					else $.post(o.script, { dir: t }, showData);
 				}
-				
+
 				function bindTree(t) {
 					$(t).find('LI A').bind(o.folderEvent, function() {
 						if( $(this).parent().hasClass('directory') ) {
@@ -77,16 +89,16 @@ if(jQuery) (function($){
 									$(this).parent().parent().find('LI.directory').removeClass('expanded').addClass('collapsed');
 								}
 								$(this).parent().find('UL').remove(); // cleanup
-								showTree( $(this).parent(), escape($(this).attr('rel').match( /.*\// )) );
+								showTree( $(this).parent(), $(this).attr('rel').match( /.*\// ) );
 								$(this).parent().removeClass('collapsed').addClass('expanded');
 							} else {
 								// Collapse
 								$(this).parent().find('UL').slideUp({ duration: o.collapseSpeed, easing: o.collapseEasing });
 								$(this).parent().removeClass('expanded').addClass('collapsed');
 							}
-								
+
 							o.folderCallback($(this).attr('rel'));
-						
+
 						} else {
 							h($(this).attr('rel'));
 						}
@@ -98,9 +110,9 @@ if(jQuery) (function($){
 				// Loading message
 				$(this).html('<ul class="jqueryFileTree start"><li class="wait">' + o.loadMessage + '<li></ul>');
 				// Get the initial file list
-				showTree( $(this), escape(o.root) );
+				showTree( $(this), o.root );
 			});
 		}
 	});
-	
+
 })(jQuery);

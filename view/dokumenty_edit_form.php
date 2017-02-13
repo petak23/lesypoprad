@@ -22,7 +22,6 @@
 				<input type="text" id="datum_ukoncenia" name="datum_ukoncenia" class="datepicker" value="<?= $dataDokument['datum_ukoncenia'] ?>" size="10" maxlength="10" />
 				<div></div>
 			<?php } 			
-			//form_registr("id_reg", $id_reg, 5);   ALEBO
 				form_pole("id_reg","",0,"", 0, 0, false, "hidden");
 				if ($zobr_cast==0){ ?>
 					<label for="pr_file1">Dokument: </label>

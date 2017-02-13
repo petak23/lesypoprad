@@ -139,53 +139,17 @@ function prikaz_sql($sql_prikaz, $text, $hlasenie, $log=0)
     Zmena: 06.07.2011 - PV */
 {
 $vysledok=mysql_query($sql_prikaz);
-//if ($log==1) log_sql($sql_prikaz." - ".$text);
 if (!$vysledok){ chyba("$text Error: ".mysql_error()."<br /><b><i>&nbsp;&nbsp;&nbsp;SQL prikaz</i></b>: ".$sql_prikaz, $hlasenie); return 0;}
 else return $vysledok;
 }
 
 function chyba($text, $hlasenie)
-   /* Výpíše chybové hlásenie na obrazovku a do súboru chyby.txt
-    Vstupy: - $text     -> text hlásenia do súboru
-            - $hlasenie -> text hlásenie na obrazovku
-    Výstupy: nič
-    Obmedzenie: zatiaľ mi nie je známe
-    Zmena: 26.8.2010 - PV */
+   /* Výpíše chybové hlásenie na obrazovku
+    Vstupy: - $text     -> text hlásenia do súboru //DEPRECADET
+            - $hlasenie -> text hlásenie na obrazovku */
 {
 if ($hlasenie) // Výpis hlásenia na obrazovku ak $hlasenie<>""
    echo("&nbsp;<div class=st_zle>$hlasenie</div><br>");
-if ($text) // Výpis textu do súboru ak $text<>""
- {
-  $cas=StrFTime("%Y-%m-%d %H:%M:%S", Time());
-  $subor=fopen("./chyby.txt", "a");
-  $pom="- <I>";
-  if (@$_SESSION[id]>0) $pom=$pom.$_SESSION["prezyvka"]; // U koho sa chyba vyskytla
-  else $pom=$pom."Neprihl.";
-  $pom=$pom."</I> - $text";
-  $tt="<B>[$cas]</B> $pom<BR>\n";
-  fwrite($subor,$tt);
- } 
-}
-
-function log_sql($text)
-   /* Výpíše chybové hlásenie do súboru log.txt
-    Vstupy: - $text     -> text hlásenia do súboru
-            - $hlasenie -> text hlásenie na obrazovku
-    Výstupy: nič
-    Obmedzenie: zatiaľ mi nie je známe
-    Zmena: 06.07.2011 - PV */
-{
-if ($text) // Výpis textu do súboru ak $text<>""
- {
-  $cas=StrFTime("%Y-%m-%d %H:%M:%S", Time());
-  $subor=fopen("./log.html", "a");
-  $pom="- <I>";
-  if (@$_SESSION[id]>0) $pom=$pom.$_SESSION["prezyvka"]; // U koho sa chyba vyskytla
-  else $pom=$pom."Neprihl.";
-  $pom=$pom."</I> - $text";
-  $tt="<B>[$cas]</B> $pom<br />\n";
-  fwrite($subor,$tt);
- } 
 }
 
 function chyba_pis($hlasenie)

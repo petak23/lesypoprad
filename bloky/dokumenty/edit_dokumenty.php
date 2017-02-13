@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy/vymazania dokumentu
-   Zmena: 16.03.2012 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -22,17 +22,15 @@ $default = array (
 );
 
   // ----------- Časť spracovania formulára ---------- 
-if (isset($vysledok) && $vysledok<>"ok") $zaz_e = $_POST;  // Načítanie údajov po chybnom zápise do databázy
+if (isset($vysledok) && $vysledok<>"ok") { $zaz_e = $_POST; }  // Načítanie údajov po chybnom zápise do databázy
 
 if ($zobr_cast>0){ //Načítanie údajov, keď sa ide opravovať dokument
   $navrat_e=prikaz_sql("SELECT * FROM dokumenty WHERE id_polozka=$zobr_cast LIMIT 1",
                        "Edit dokumentu údaje(".__FILE__ ." on line ".__LINE__ .")",
 											 "Momentálne sa nepodarilo údaje nájsť! Prosím skúste neskôr.");
-  if (!$navrat_e) return;
+  if (!$navrat_e) { return;}
 	$zaz_e = mysql_fetch_array($navrat_e);
 }
-if (isset($zaz_e)) $dataDokument = array_merge($default, $zaz_e); // Zlúčenie nastavení
-else $dataDokument = $default;
+$dataDokument = (isset($zaz_e)) ? array_merge($default, $zaz_e) : $default; // Zlúčenie nastavení
 $dataDokument['odkaz']="index.php?clanok=$zobr_clanok&amp;id_clanok=$zobr_pol&amp;co=$zobr_co";
 require("./view/dokumenty_edit_form.php");
-?>

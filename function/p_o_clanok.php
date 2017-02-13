@@ -1,6 +1,6 @@
 <?php
 /* Tento súbor slúži na obsluhu pridania/opravy článku
-   Zmena: 05.11.2011 - PV
+   Zmena: 13.02.2017 - PV
 */
 
 // Hlavička stránky
@@ -11,9 +11,7 @@ function pridaj_clanok()
   /* Funkcia skontroluje vstupy a zapíše clanok do databázy.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
 	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 02.09.2011 - PV
-  */
+	 Obmedzenie: Zatiaľ neznáme. */
 {
 $datum=StrFTime("%Y-%m-%d %H:%M:%S", Time()); //Aby sa mi to prenieslo do funkcie; 
 $nazov=ltrim(strip_tags($_POST["nazov"])); // Odstránenie HTML tagov z názvu a medzier na začiatku
@@ -38,7 +36,7 @@ if (@(int)$_POST["hlavny_clanok"]>0){ //Idem nastavovať hlavný článok pre da
   $hl_id_clanku=mysql_query("SELECT id_clanok FROM clanok WHERE nazov='$nazov' AND datum='$datum' LIMIT 1");//Nájdenie id pridaného článku
   if (!$hl_id_clanku) return mysql_error();
   $id_clan = mysql_fetch_array($hl_id_clanku);
-  $oprava_hl_clanku=mysql_query("UPDATE hlavne_menu SET clanok = $id_clan[id_clanok] WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");
+  $oprava_hl_clanku=mysql_query("UPDATE old_hlavne_menu SET clanok = $id_clan[id_clanok] WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");
   if (!$oprava_hl_clanku) return mysql_error();
 }
 return "ok";
@@ -48,9 +46,7 @@ function oprav_clanok()
   /* Funkcia skontroluje vstupy a aktualizuje clanok v databáze.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
 	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 02.09.2010 - PV
-  */
+	 Obmedzenie: Zatiaľ neznáme. */
 {
 
 $nazov=ltrim(strip_tags($_POST["nazov"])); // Odstránenie HTML tagov z názvu a medzier na začiatku
@@ -75,7 +71,7 @@ $oprava_clanku=mysql_query("UPDATE clanok SET $dat_pl nazov = '$nazov',
 										WHERE id_clanok = ".$_POST["id_clanok"]." LIMIT 1 ");
 if (!$oprava_clanku) return mysql_error();
 if (@(int)$_POST["hlavny_clanok"]>0){ //Idem nastavovať hlavný článok pre danú časť menu
-  $oprava_hl_clanku=mysql_query("UPDATE hlavne_menu SET clanok = ".$_POST["id_clanok"]." WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");
+  $oprava_hl_clanku=mysql_query("UPDATE old_hlavne_menu SET clanok = ".$_POST["id_clanok"]." WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");
   if (!$oprava_hl_clanku) return mysql_error();
 }
 return "ok";
@@ -85,17 +81,13 @@ function vymaz_clanok()
   /* Funkcia vymaže článok z databázy.
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
 	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška
-	 Obmedzenie: Zatiaľ neznáme.
-	 Zmena: 05.11.2011 - PV
-  */
+	 Obmedzenie: Zatiaľ neznáme.*/
  {
-/*$vymaz_clanku=prikaz_sql("DELETE FROM clanok WHERE id_clanok=".$_REQUEST["id_clanok"],
-                         "Zmazanie článku(".__FILE__ ." on line ".__LINE__ .")","");*/
-$hl_id_clanku=mysql_query("SELECT clanok FROM hlavne_menu WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");//Nájdenie id hlavne menu článku
+$hl_id_clanku=mysql_query("SELECT clanok FROM old_hlavne_menu WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1");//Nájdenie id hlavne menu článku
 if (!$hl_id_clanku) return mysql_error();
 $id_hlm = mysql_fetch_array($hl_id_clanku);
 if ($id_hlm["clanok"]==$_POST["id_clanok"]) { //Zisti či to je hlavný článok pre danú časť
- $vymaz_id_clanku=mysql_query("UPDATE hlavne_menu SET clanok = NULL WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1 ");						 
+ $vymaz_id_clanku=mysql_query("UPDATE old_hlavne_menu SET clanok = NULL WHERE id_hlavne_menu=".$_POST["id_hlavne_menu"]." LIMIT 1 ");						 
  if (!$vymaz_id_clanku) return mysql_error(); 
  $vymaz_clanku=mysql_query("UPDATE clanok SET zmazane = 1 WHERE id_clanok = ".$_POST["id_clanok"]." LIMIT 1 ");						 
  if (!$vymaz_clanku) return mysql_error();
@@ -114,4 +106,3 @@ elseif ($operacia=="Áno")  {
  $co=" ";
  $operacia="vymazane";
 }
-?>
