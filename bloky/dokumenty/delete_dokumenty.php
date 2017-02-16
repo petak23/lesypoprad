@@ -11,7 +11,7 @@ function vymaz_subor()
      Vstupy: - hodnoty prichádzajú cez $_POST z formulára
 	 Výstupy: ok-ak všetko prebehlo správne inak chybová hláška */
 {
-	$vys_dok=prikaz_sql("SELECT subor FROM dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"]." LIMIT 1", 
+	$vys_dok=prikaz_sql("SELECT subor FROM old_dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"]." LIMIT 1", 
                      "Nájdenie dokumentu(".__FILE__ ." on line ".__LINE__ .")",											
 										 "Žiaľ sa momentálne nepodarilo nájsť tento dokument! Skúste neskôr.");
 	if (!$vys_dok) return mysql_error();$zaz_sub=mysql_fetch_array($vys_dok);
@@ -20,7 +20,7 @@ function vymaz_subor()
 		chmod("www/files/dokumenty/".$zaz_sub['subor'], 0777);
 		if (!unlink("www/files/dokumenty/".$zaz_sub['subor'])) return "Vzmazanie sa nepodarilo!";
 	}
-	$vymaz_subor=prikaz_sql("DELETE FROM dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"], 
+	$vymaz_subor=prikaz_sql("DELETE FROM old_dokumenty WHERE id_polozka=".$_REQUEST["id_polozka"], 
 													"Zmazanie dokumentu(".__FILE__ ." on line ".__LINE__ .")","",1);	
 	if (!$vymaz_subor) return mysql_error();
 
@@ -34,7 +34,7 @@ if (@$_REQUEST["dokumenty_vymaz"]=="Áno"){ //Ak prišla požiadavka na mazanie
 }
 
 if ($zobr_co=="del_dokumenty") { // pre vypísanie formuláru na mazanie dokumentu
-	$vys_dok=prikaz_sql("SELECT subor FROM dokumenty WHERE id_polozka=$zobr_cast LIMIT 1",
+	$vys_dok=prikaz_sql("SELECT subor FROM old_dokumenty WHERE id_polozka=$zobr_cast LIMIT 1",
                       "Nájdenie dokumentu(".__FILE__ ." on line ".__LINE__ .")",
 											"Žiaľ sa momentálne nepodarilo nájsť tento dokument! Skúste neskôr.");
 	if ($vys_dok) {

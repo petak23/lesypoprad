@@ -6,11 +6,11 @@
 if (@$bzpkod<>1934572) exit("Neoprávnený prístup!!!");  // Bezpečnostný kód
 if ($zobr_cast>0 AND $zobr_co=="") { //Slúži na evidenciu downloadu súborov t.j. ak nie je operácia a mám konkrétne id
  $_REQUEST=0;
- @$navrat=prikaz_sql("SELECT subor FROM dokumenty WHERE id_polozka=$zobr_cast AND id_skupina=$zobr_pol",
+ @$navrat=prikaz_sql("SELECT subor FROM old_dokumenty WHERE id_polozka=$zobr_cast AND id_skupina=$zobr_pol",
                      "Download (".__FILE__ ." on line ".__LINE__ .")","Žiaľ sa momentálne nepodarilo dokument nájsť! Skúste neskôr.");
  if ($navrat){
   $zaznam=mysql_fetch_array($navrat);
-  @$zmena_p=prikaz_sql("UPDATE dokumenty SET pocitadlo=pocitadlo+1 WHERE id_polozka=$zobr_cast AND id_skupina=$zobr_pol",
+  @$zmena_p=prikaz_sql("UPDATE old_dokumenty SET pocitadlo=pocitadlo+1 WHERE id_polozka=$zobr_cast AND id_skupina=$zobr_pol",
                        "Update počítadla (".__FILE__ ." on line ".__LINE__ .")","Nedalo sa pripočítať...");
   if ($zmena_p){ 
    header("Content-Description: File Transfer");
@@ -58,13 +58,13 @@ $dataDok = array (
 	'datumVN'		=> ($pom[0]=="zmluvy") ? "Dátum uzatvorenia zmluvy" : "Dátum vystavenia",
 );
 $navRokDokumenty=prikaz_sql("SELECT id_polozka, ".$triedenie[$dataDok['triedenie']]['podm']." as drok, 
-																		DATE_FORMAT(datum_vystavenia,'%d.%m.%Y') as datumV, dokumenty.nazov as dnazov, 
+																		DATE_FORMAT(datum_vystavenia,'%d.%m.%Y') as datumV, old_dokumenty.nazov as dnazov, 
 																		registracia.nazov as rnazov, registracia.id as rid_reg, 
 																		cislo, predmet, cena, subjekt, DATE_FORMAT(datum_vystavenia,'%d.%m.%Y') as datumV, DATE_FORMAT(datum_ukoncenia,'%d.%m.%Y') as datumU,	subor, DATE_FORMAT(kedy,'%d.%m.%Y') as datum,
-																		meno, pocitadlo FROM dokumenty, registracia, clenovia
-                             WHERE dokumenty.id_reg=registracia.id 
-																	 AND dokumenty.id_clena=clenovia.id_clena 
-																	 AND dokumenty.id_reg<=".jeadmin()." 
+																		meno, pocitadlo FROM old_dokumenty, registracia, clenovia
+                             WHERE old_dokumenty.id_reg=registracia.id 
+																	 AND old_dokumenty.id_clena=clenovia.id_clena 
+																	 AND old_dokumenty.id_reg<=".jeadmin()." 
 																	 AND id_skupina=$zobr_pol	 
 														 ORDER by drok DESC, datum_vystavenia DESC",
                             "Výpis položiek dokumenty (".__FILE__ ." on line ".__LINE__ .")",

@@ -25,7 +25,7 @@ $default = array (
 if (isset($vysledok) && $vysledok<>"ok") { $zaz_e = $_POST; }  // Načítanie údajov po chybnom zápise do databázy
 
 if ($zobr_cast>0){ //Načítanie údajov, keď sa ide opravovať dokument
-  $navrat_e=prikaz_sql("SELECT * FROM dokumenty WHERE id_polozka=$zobr_cast LIMIT 1",
+  $navrat_e=prikaz_sql("SELECT * FROM old_dokumenty WHERE id_polozka=$zobr_cast LIMIT 1",
                        "Edit dokumentu údaje(".__FILE__ ." on line ".__LINE__ .")",
 											 "Momentálne sa nepodarilo údaje nájsť! Prosím skúste neskôr.");
   if (!$navrat_e) { return;}

@@ -5,7 +5,7 @@
 # http://nette.org/security-warning
 #
 parameters:
-  homepage_redirect: FALSE #Oznam:default #Presmerovanie na hlavnej stranke Cesta|FALSE
+  homepage_redirect: Clanky:default 1 #Presmerovanie na hlavnej stranke Cesta|FALSE
   add_uroven0: FALSE # Globalne povolenie pre pridavanie do urovne 0 pre spravcu. TRUE|FALSE
   send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE

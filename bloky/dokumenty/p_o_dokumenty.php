@@ -63,7 +63,7 @@ else { //Ak kontroly prebehli v poriadku
   }
   $uploadfile = $uploaddir.$safe_filename; //Vytvorenie samotného názvu súboru pre adresár dokumenty
   if (move_uploaded_file($_FILES['pr_file']['tmp_name'], $uploadfile)) {
-		$pridanie_subor=mysql_query("INSERT INTO dokumenty (nazov, cislo, predmet, cena, subjekt, datum_vystavenia, datum_ukoncenia, subor, id_clena, id_reg, id_skupina, id_rok) 
+		$pridanie_subor=mysql_query("INSERT INTO old_dokumenty (nazov, cislo, predmet, cena, subjekt, datum_vystavenia, datum_ukoncenia, subor, id_clena, id_reg, id_skupina, id_rok) 
 																 VALUES('".$dataCl['nazov']."', '".$dataCl['cislo']."','".$dataCl['predmet']."','".$dataCl['cena']."','".$dataCl['subjekt']."','".$dataCl['datum_vystavenia']."','".$dataCl['datum_ukoncenia']."','$safe_filename', ".$dataCl["id_clena"].", ".$dataCl["id_reg"].", ".$dataCl["id_skupina"].", ".$dataCl["id_rok"].")");
 		if (!$pridanie_subor) return mysql_error();
     return "ok";
@@ -79,7 +79,7 @@ function oprav_subor()
 {
 $dataCl=validate_dokument();
 if (isset($data["error"])) return $data["error"];
-$oprava_subor=mysql_query("UPDATE dokumenty SET nazov = '".$dataCl['nazov']."', 
+$oprava_subor=mysql_query("UPDATE old_dokumenty SET nazov = '".$dataCl['nazov']."', 
 																								cislo = '".$dataCl['cislo']."', 
 																								predmet = '".$dataCl['predmet']."', 
 																								cena = '".$dataCl['cena']."', 
