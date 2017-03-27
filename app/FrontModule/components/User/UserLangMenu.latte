@@ -1,4 +1,4 @@
-<div class="user-panel {*col-xs-12 col-md-8*}" n:snippet="userLangMenu" n:if="count($menu_user)">
+<div class="user-panel" n:snippet="userLangMenu" n:if="count($menu_user)">
 	<ul  n:inner-foreach="$menu_user as $mu">
 		<li>
 			<a href="{ifset $mu->abs_link}{$mu->abs_link}{else}{if is_array($mu->odkaz)}{plink $mu->odkaz[0], $mu->odkaz[1]['meno']=>$mu->odkaz[1]['obsah']}{else}{plink $mu->odkaz}{/if}{/ifset}" 

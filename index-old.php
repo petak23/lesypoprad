@@ -189,6 +189,7 @@ if ($zobr_clanok==-1) { //Pre záporné hodnoty hl. menu
       <img id="vetvicka" src="www/images/vetva_02.jpg" width="105" height="127" alt="" />
     </div>
     <!-- veľá hlavička -->
+    
     <!-- ——————————————————— obsah (úvodný text, oznamy) ——————————————————— -->  
     <div id="obsah">
 	 <!-- *** ZAČIATOK omrvinky (id=odrobinky) *** -->

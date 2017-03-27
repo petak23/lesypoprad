@@ -1,0 +1,7 @@
+{if isset($startNode)}
+  {var $ukaz = isset($startNode->nodes) && count($startNode->nodes)}
+  {var $level=1}
+  <div class="{$nastav['divClass']}" n:if="count($startNode->nodes)" n:tag-if="$nastav['divClass'] && $ukaz">
+    {include 'LesyPP_menu_node.latte' node => $startNode, hideName => true, path=>$path, showAll=>$showAll, level=>$level, nastav=>$nastav, akoLi=>1}
+  </div>
+{/if}

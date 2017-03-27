@@ -1,15 +1,14 @@
 <footer id="footer">
-<!--[if lt IE 9]><div id="footer"><![endif]-->
   {* --- Mapa stranky --- *}
   {control menu templateType=>'mapa'}
   {* --- Info o stranke --- *}
   <p>
-    <span>Admin: {$user_admin->meno} {$user_admin->priezvisko|upper} ({$user_admin->users->email|uprav_email})</span>
+    <span n:if="FALSE">Admin: {$user_admin->meno} {$user_admin->priezvisko|upper} ({$user_admin->users->email|uprav_email})</span>
     <span n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
       {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
       ({$user_spravca->users->email|uprav_email})
     </span>
-    <span>&copy; {$udaje['copy']} 2012 - {date('Y')}</span>
+    <span>&copy; {$udaje['copy']} 2011 - {date('Y')}</span>
     <span>{$udaje['last_update']} {$verzia->datum|date:'j.n.Y'}</span>
 		<br>
     <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">
@@ -21,5 +20,4 @@
 			<a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
 		</span>
   </p>
-<!--[if lt IE 9]></div><![endif]-->
 </footer>

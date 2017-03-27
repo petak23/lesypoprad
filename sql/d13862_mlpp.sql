@@ -1339,15 +1339,15 @@ CREATE TABLE `slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
-(1,	1,	NULL,	'',	'www/files/slider/01_obora.jpg',	'',	NULL),
-(2,	1,	NULL,	'',	'www/files/slider/02_mravenisko.jpg',	'',	NULL),
-(3,	1,	NULL,	'',	'www/files/slider/03_ml.jpg',	'',	NULL),
-(4,	1,	NULL,	'',	'www/files/slider/04_poprad.jpg',	'',	NULL),
-(5,	1,	NULL,	'',	'www/files/slider/05_tatry.jpg',	'',	NULL),
-(6,	1,	NULL,	'',	'www/files/slider/06_preslop.jpg',	'',	NULL),
-(7,	1,	NULL,	'',	'www/files/slider/07_obloha.jpg',	'',	NULL),
-(8,	1,	NULL,	'',	'www/files/slider/08_preslop.jpg',	'',	NULL),
-(9,	1,	NULL,	'',	'www/files/slider/09_pavilon.jpg',	'',	NULL);
+(1,	1,	NULL,	'',	'01_obora.jpg',	'',	NULL),
+(2,	1,	NULL,	'',	'02_mravenisko.jpg',	'',	NULL),
+(3,	1,	NULL,	'',	'03_ml.jpg',	'',	NULL),
+(4,	1,	NULL,	'',	'04_poprad.jpg',	'',	NULL),
+(5,	1,	NULL,	'',	'05_tatry.jpg',	'',	NULL),
+(6,	1,	NULL,	'',	'06_preslop.jpg',	'',	NULL),
+(7,	1,	NULL,	'',	'07_obloha.jpg',	'',	NULL),
+(8,	1,	NULL,	'',	'08_preslop.jpg',	'',	NULL),
+(9,	1,	NULL,	'',	'09_pavilon.jpg',	'',	NULL);
 
 DROP TABLE IF EXISTS `sub_menu`;
 CREATE TABLE `sub_menu` (

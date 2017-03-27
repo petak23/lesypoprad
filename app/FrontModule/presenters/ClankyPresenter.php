@@ -6,15 +6,15 @@ use DbTable, Language_support;
 
 /**
  * Prezenter pre vypisanie clankov.
- * Posledna zmena(last change): 17.05.2016
+ * Posledna zmena(last change): 27.03.2017
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7a
+ * @version 1.0.8
  */
 
 class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -52,7 +52,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
       $this->setView("notFound");
     } else { 
-      if (isset($this->zobraz_clanok->hlavne_menu->redirect_id)) { //Ak mám presmerovanie na podclanok
+      if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
         $this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);              
       }
     }

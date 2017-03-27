@@ -133,6 +133,7 @@ services:
   - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
 
   - App\FrontModule\Presenters\Forms\User\SignInFormFactory
+  - App\FrontModule\Presenters\Forms\User\RegisterFormFactory
 # component services 
 
   - App\AdminModule\Components\Article\IAdminAddMenu
