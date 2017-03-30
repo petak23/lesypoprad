@@ -74,6 +74,7 @@ services:
   - DbTable\Debata
   - DbTable\Dlzka_novinky
   - DbTable\Dokumenty
+  - DbTable\OldDokumenty
   - DbTable\Druh
   - DbTable\Hlavicka
   - DbTable\Hlavne_menu
