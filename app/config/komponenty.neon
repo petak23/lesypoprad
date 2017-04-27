@@ -21,16 +21,13 @@ parameters:
             to_foto_galery: 'Odkaz na fotogalériu'
             to_article: 'Odkaz na článok'
             foto_album: 'Odkaz pre fotogalériu'
-#            products: 'Odkaz na produkty'
-#            dielnabies: 'Špeciálne pre web dielnabies.sk'
     aktualne:
       nazov: 'Aktualne oznamy(aktuality)'
       fa_ikonka: 'newspaper-o'
       jedinecna: TRUE
       parametre: NULL
-#    produktZoznam:
-#      id: 2
-#      nazov: 'Zoznam produktov'
-#      fa_ikonka: 'columns'
-#      jedinecna: TRUE
-#      parametre: NULL
+    viewFaktury:
+      nazov: 'Zobrazenie faktúr'
+      jedinecna: TRUE
+      fa_ikonka: 'id-card-o'
+      parametre: NULL

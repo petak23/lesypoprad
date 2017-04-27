@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 27.03.2017
+ * Posledna zmena(last change): 27.04.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -54,6 +54,8 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
   public $titleArticleControlFactory;
   /** @var \App\AdminModule\Components\Article\TitleImage\ITitleImageControl @inject */
   public $titleImageControlFactory;
+  /** @var \App\AdminModule\Components\Faktury\IViewFakturyControl @inject */
+  public $viewFakturyControlFactory;
   
   /** @var int hodnota id pre pridanie do menu */
   public $add_menu_id;
@@ -509,5 +511,16 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
     $out["parametre"] = substr($out["parametre"], 0, strlen($out["parametre"])-1);
     $this->clanok_komponenty->pridaj($out);
     $this->flashRedirect("this", "Komponenta bola pridaná", "success");
+  }
+  
+  /** 
+   * Komponenta pre zobrazenie priloh
+   * @return \App\AdminModule\Components\Faktury\ViewFakturyControl */
+  public function createComponentViewFaktury() {
+//    $servise = $this;
+		return new Multiplier(function ($id)/* use ($servise)*/ {
+      $viewFaktury = $this->viewFakturyControlFactory->create();
+      return $viewFaktury;
+    });
   }
 }

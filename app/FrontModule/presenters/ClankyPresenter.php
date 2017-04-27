@@ -32,6 +32,8 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   public $komentarControlControlFactory;
   /** @var \App\FrontModule\Components\Clanky\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
+  /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
+  public $viewFakturyControlFactory;
   
 	/** @var \Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok = FALSE;
@@ -120,5 +122,17 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
                 "nie_je"	    =>"",
                 ]);
     return $prilohy;
+  }
+  
+  /** 
+   * Komponenta pre zobrazenie priloh
+   * @return \App\FrontModule\Components\Faktury\ViewFakturyControl */
+  public function createComponentViewFaktury() {
+    $servises = $this;
+//    return new Multiplier(function ($id) use ($servises){
+      $viewFaktury = $this->viewFakturyControlFactory->create();
+      $viewFaktury->setSkupina($servises->zobraz_clanok->id_hlavne_menu);
+      return $viewFaktury;
+//    });
   }
 }

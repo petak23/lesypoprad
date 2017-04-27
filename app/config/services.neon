@@ -76,6 +76,7 @@ services:
   - DbTable\Dokumenty
   - DbTable\OldDokumenty
   - DbTable\Druh
+  - DbTable\Faktury
   - DbTable\Hlavicka
   - DbTable\Hlavne_menu
   - DbTable\Hlavne_menu_lang
@@ -148,6 +149,7 @@ services:
   - App\AdminModule\Components\User\IUserLastControl
   - App\AdminModule\Components\Clanky\IZobrazClanokControl
   - App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
+  - App\AdminModule\Components\Faktury\IViewFakturyControl
 
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
   - App\FrontModule\Components\Oznam\IPotvrdUcastControl
@@ -160,6 +162,7 @@ services:
   - App\FrontModule\Components\Slider\ISliderControl
   - App\FrontModule\Components\User\IUserLangMenuControl
   - App\FrontModule\Components\News\INewsControl
+  - App\FrontModule\Components\Faktury\IViewFakturyControl
 
 # PeterVojtech
   - PeterVojtech\Email\IEmailControl

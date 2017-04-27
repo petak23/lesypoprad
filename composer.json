@@ -34,7 +34,9 @@
     "janmarek/webloader": "^2.5",
 	  "joseki/webloader-filters": "^1.1",
     "olicek/google-map-api": "dev-master",
-		"lukyrys/nette-forms-gpspicker": "^1.4"
+		"lukyrys/nette-forms-gpspicker": "^1.4",
+    "ublaboo/datagrid": "^5.2",
+    "ublaboo/datagrid-nette-database-data-source": "^1.0"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"
