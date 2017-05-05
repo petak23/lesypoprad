@@ -4,13 +4,13 @@ namespace DbTable;
 
 /**
  * Model, ktory sa stara o tabulku user_profiles
- * Posledna zmena 19.01.2016
+ * Posledna zmena 05.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class User_profiles extends Table {
   /** @var string */
@@ -80,8 +80,6 @@ class User_profiles extends Table {
    */
   public function delUser($clen_id_up) {
     try {
-      $this->connection->table('clanok_komentar')->where(['id_user_profiles'=>$clen_id_up])->delete();
-      $this->connection->table('oznam_komentar')->where(['id_user_profiles'=>$clen_id_up])->delete();
       $this->connection->table('user_prihlasenie')->where(['id_user_profiles'=>$clen_id_up])->delete();
       $this->connection->table('clanok')->where(['id_user_profiles'=>$clen_id_up])->update(['id_user_profiles'=>1]);
       $this->connection->table('dokumenty')->where(['id_user_profiles'=>$clen_id_up])->update(['id_user_profiles'=>1]);

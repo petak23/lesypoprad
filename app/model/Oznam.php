@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Model, ktory sa stara o tabulku oznam
- * Posledna zmena 28.01.2016
+ * Posledna zmena 05.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class Oznam extends Table {
   /** @var string */
@@ -53,14 +53,7 @@ class Oznam extends Table {
    */
   public function vymazOznam($id) {
     try {
-      $oznam = $this->find($id);
-      if ($oznam->potvrdenie) { 
-        $this->connection->table('oznam_ucast')->where(["id_oznam"=>$id])->delete(); 
-      }
-      $this->connection->table('oznam_komentar')->where(["id_oznam"=>$id])->delete();
-      
-      return $oznam->delete();
-      
+      return $this->find($id)->delete();
     } catch (Exception $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     } 

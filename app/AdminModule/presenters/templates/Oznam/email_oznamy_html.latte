@@ -25,12 +25,5 @@
   <p>
     <i>Príjemný deň praje <strong><a href="http://{$site_name}" title="{$site_name}">{$site_name}</a></strong></i>
   </p>
-  <div n:if="$oznam_ucast" class="col-xs-12 col-md-6 potvrdenieUcasti">
-    <h4>Potvrdenie účasti:</h4>
-    {foreach $volby as $k=>$v}
-      <a href="{$v['odkaz']}" title="{$v['nazov']}">{$v['nazov']|trim}</a>
-      {sep} | {/sep}
-    {/foreach}
-  </div>
 </body>
 </html>

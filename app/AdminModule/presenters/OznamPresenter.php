@@ -30,18 +30,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
    * @var DbTable\Oznam */
 	public $oznam;
   
-  /** 
-   * @inject
-   * @var DbTable\Oznam_volba */
-	public $oznam_volba;
-  
   // -- Komponenty
-  /** @var \App\AdminModule\Components\Oznam\PotvrdUcast\IPotvrdUcastControl @inject */
-  public $potvrdUcastControlFactory;
-  /** @var \App\AdminModule\Components\Oznam\PotvrdUcast\IPotvrdUcastEmailControl @inject */
-//  public $potvrdUcastEmailControlFactory;
-  /** @var \App\AdminModule\Components\Oznam\IKomentarControl @inject */
-  public $komentarControlControlFactory;
   /** @var \App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl @inject */
   public $titleOznamControlFactory;
   /** @var PeterVojtech\Email\IEmailControl @inject */
@@ -142,7 +131,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
                 "datum_platnosti" => $values->datum_platnosti,
                 "oznam_ucast" => $this->user->isAllowed('Admin:Oznam', 'ucast') && $this->udaje->getKluc("oznam_ucast") && $values->potvrdenie,
                 "oznam_id"    => $values->id,
-                "volby"       => $this->_volby($values->id, $values->oznam_kluc),
+                "volby"       => [],
               ];
     $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Oznam/email_oznamy_html.latte', 1, $values->id_registracia);
     try {
@@ -151,18 +140,6 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
       $this->flashMessage($e->getMessage(), 'danger');
     }
 	}
-  
-  private function _volby($id, $oznam_kluc) {
-    $volby = $this->oznam_volba->volby();
-    $out = [];
-    foreach ($volby as $k => $v) {
-      $out[] = ['nazov' => $v,
-                'odkaz' => $this->link('//:Front:Oznam:UcastFromEmail', ['id_user_profiles'=>1, 'id_oznam'=>$id, 'id_volba_oznam'=>$k, 'oznam_kluc'=>$oznam_kluc])
-             ];
-    }
-    return $out;
-  }
-
 
   /** Signal pre odoslanie informacneho emailu */
   public function handlePosliEmail($id) {
@@ -180,37 +157,8 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
    * @return \App\AdminModule\Components\Oznam\TitleOznam */
   public function createComponentTitleOznam() {
     $title = $this->titleOznamControlFactory->create();
-//    $title->setTitle($this->zobraz_clanok, $this->name, $this->udaje_webu['komentare'], $this->nastavenie['aktualny_projekt_enabled'], $this->nastavenie['clanky']['zobraz_anotaciu']);
     return $title;
   }
-  
-  /** Komponenta na obsluhu potvrdenia ucasti */
-	public function createComponentPotvrdUcast() {
-		return new Multiplier(function ($id_oznam) {
-      $potvrd = $this->potvrdUcastControlFactory->create();
-      $potvrd->setParametre($id_oznam, $this->user->isAllowed('Admin:Oznam', 'ucast'));
-			return $potvrd;
-		});
-	}
-  
-  /** Komponenta na obsluhu potvrdenia ucasti cez email*/
-//	public function createComponentPotvrdUcastEmail() {
-//		return new Multiplier(function ($id_oznam) {
-//      $potvrd = $this->potvrdUcastEmailControlFactory->create();
-//      $potvrd->setParametre($id_oznam);
-//			return $potvrd;
-//		});
-//	}
-  
-  /** Obsluha komentara
-   * @return Multiplier */
-	public function createComponentKomentar() {
-		return new Multiplier(function ($id_oznam) {
-      $komentar = $this->komentarControlControlFactory->create();
-      $komentar->setParametre($id_oznam, $this->user->isInRole('admin'));
-			return $komentar;
-		});
-	}
   
   /** Funkcia pre spracovanie signálu vymazavania
 	  * @param int $id Id oznamu */

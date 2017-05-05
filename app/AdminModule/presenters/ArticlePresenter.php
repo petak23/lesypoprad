@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 27.04.2017
+ * Posledna zmena(last change): 05.05.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.4
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -32,8 +32,6 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
 	public $clanok_lang;
   /** @var DbTable\Clanok_komponenty @inject */
 	public $clanok_komponenty;
-  /** @var DbTable\Clanok_komentar @inject */
-	public $clanok_komentar;
   /** @var DbTable\Druh @inject */
 	public $druh;
   /** @var DbTable\Dokumenty @inject */
@@ -454,7 +452,6 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
   protected function _delClanok($id) {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
-    $komentar = $this->clanok_komentar->findBy(["id_hlavne_menu"=>$id]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
       $do = 0;
@@ -464,7 +461,6 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
       $out = ($do == $pocita) ? ($dokumenty->delete() == $pocita ? TRUE : FALSE) : FALSE;
     } else { $out = TRUE; }
     $out_k = ($komponenty !== FALSE && ($pocita = count($komponenty))) ? ($komponenty->delete() == $pocita ? TRUE : FALSE) : TRUE;
-    $out_d = ($komentar !== FALSE && ($pocita = count($komentar))) ? ($komentar->delete() == $pocita ? TRUE : FALSE) : TRUE;
     $pocita = 0;
     $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->update(["id_clanok_lang"=>NULL]);
     foreach ($hl_m_m as $k=>$v) {
@@ -476,7 +472,7 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
     }
     $out_c = (count($hl_m_m) == $pocita);
     $out_h = $this->_delHlMenu($id);
-    return $out_k AND $out_d AND $out_c AND $out_h;
+    return $out_k AND $out_c AND $out_h;
   }
   
   /** Komponenta pre vypis kontaktneho formulara

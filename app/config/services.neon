@@ -42,7 +42,6 @@ services:
       - allow('guest', 'Front:User', ['registracia', 'activateUser', 'forgottenPassword', 'resetPassword', 'default'])
       - allow('guest', 'Front:UserLog', ['activateNewEmail'])
       - allow('register', 'Front:UserLog', ['default', 'mailChange', 'passwordChange'])
-      - allow('register', 'Front:Oznam', 'ucast')
       - allow('pasivny', ['Front:Oznam', 'Front:Clanky'], 'komentar')
       - allow('aktivny', 'admin', 'enter')
       - allow('aktivny', ['Admin:Clanky', 'Admin:Menu'], ['default', 'edit', 'edit2', 'add', 'add2', 'prilohy', 'del'])
@@ -60,7 +59,6 @@ services:
       - allow('admin')
 
   - DbTable\Admin_menu
-  - DbTable\Clanok_komentar
   - DbTable\Clanok_komponenty
   - DbTable\Clanok_lang
   - DbTable\Dlzka_novinky
@@ -87,9 +85,6 @@ services:
   - DbTable\Verzie
 #blok Oznam
   - DbTable\Oznam
-  - DbTable\Oznam_komentar
-  - DbTable\Oznam_ucast
-  - DbTable\Oznam_volba
 
   - App\RouterFactory 
   router: @App\RouterFactory::createRouter
@@ -129,9 +124,6 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ITitleArticleControl
   - App\AdminModule\Components\Article\TitleImage\ITitleImageControl
   - App\AdminModule\Components\Oznam\IAktualneOznamyControl
-  - App\AdminModule\Components\Oznam\PotvrdUcast\IPotvrdUcastControl
-  - App\AdminModule\Components\Oznam\PotvrdUcast\IPotvrdUcastEmailControl
-  - App\AdminModule\Components\Oznam\IKomentarControl
   - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
   - App\AdminModule\Components\User\IUserLastControl
   - App\AdminModule\Components\Clanky\IZobrazClanokControl
@@ -139,8 +131,6 @@ services:
   - App\AdminModule\Components\Faktury\IViewFakturyControl
 
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
-  - App\FrontModule\Components\Oznam\IPotvrdUcastControl
-  - App\FrontModule\Components\Oznam\IKomentarControl
   - App\FrontModule\Components\Clanky\IAktualneClankyControl
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
   - App\FrontModule\Components\Clanky\IKomentarControl
