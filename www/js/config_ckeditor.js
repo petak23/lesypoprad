@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2011, Ing. Peter VOJTECH ml. 
+Copyright (c) 05.05.2017, Ing. Peter VOJTECH ml. 
 */
 
 CKEDITOR.editorConfig = function( config )
@@ -7,7 +7,7 @@ CKEDITOR.editorConfig = function( config )
 	// Define changes to default configuration here. For example:
 	config.language = 'sk';
 	// config.uiColor = '#AADC6E';
-	// originál toolbaru je uložený v ..\ckeditor\_source\plugins\toolbar\plugin.js
+	// original toolbaru je ulozeny v ..\ckeditor\_source\plugins\toolbar\plugin.js
 	//config.toolbar = 'MyToolbar';
 	config.toolbar_AdminToolbar =
 [
@@ -21,11 +21,10 @@ CKEDITOR.editorConfig = function( config )
 	['Link','Unlink','Anchor'],
 	['Image','Table','HorizontalRule','Smiley','SpecialChar'],
 	'/',
-	['Format','-','TextColor','BGColor','ShowBlocks']
+	['Format','-','TextColor','BGColor','ShowBlocks','Zalomenie','Registrovany','anigraph_reg1']
 ];
     config.toolbar_UserToolbar =
 [
-        ['Source'],
 	['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
 	['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
 	'/',
@@ -35,7 +34,7 @@ CKEDITOR.editorConfig = function( config )
 	['Link','Unlink','Anchor'],
 	['Image','Table','HorizontalRule','Smiley','SpecialChar'],
 	'/',
-	['Format','-','TextColor','BGColor','About']
+	['Format','-','TextColor','BGColor','Zalomenie', 'Registrovany', 'About']
 ];
     config.toolbar_UserToolbarSmall =
 [
@@ -43,8 +42,26 @@ CKEDITOR.editorConfig = function( config )
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 	['Link','Image','Table','HorizontalRule','Smiley','SpecialChar'],
 	'/',
-	['Format','-','TextColor','BGColor','-','Cut','Copy','Paste','PasteText','SpellChecker','-','Undo','Redo']
+	['Format','-','TextColor','BGColor','-','Cut','Copy','Paste','PasteText','SpellChecker','-','Undo','Redo', 'Registrovany']
 ];
-	config.format_tags = 'p;h2;h3;h4';
+	config.toolbar_Todo =
+[
+	['Source','Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+	['NumberedList','BulletedList','-','TextColor', 'Registrovany']
+];
+	config.toolbar_Oznam1Toolbar =
+[
+	['Source'/*],
+	['Cut','Copy','Paste'*/, 'SpellChecker'],
+	[/*'Undo','Redo','-','Find','Replace','-',*/'Link','Unlink'/*,'Anchor'*/],
+  ['Image','Table',/*'HorizontalRule',*/'Smiley','SpecialChar'],
+	'/',
+  ['Format'],
+	['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','NumberedList','BulletedList'],
+	/*['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],*/
+	['TextColor','BGColor','Zalomenie'/*,'Registrovany','anigraph_reg1'*/]
+];
+	config.format_tags = 'p;h2;h3;h4;div';
+	config.format_div = { element : 'div', attributes : { 'class' : 'oznam' } };
 	config.skin = 'kama';
 };

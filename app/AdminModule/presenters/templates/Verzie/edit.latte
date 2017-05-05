@@ -5,11 +5,11 @@
   {control verzieEditForm}
 {/block}  
 {block spec_js}
-  <script type="text/javascript">
-    CKEDITOR.replace( 'frm-verzieEditForm-text', {
+<script>
+  $('.jquery_ckeditor').ckeditor( function() { /* callback code */ }, {
       extraPlugins : 'zalomenie',
       customConfig : '../../js/config_ckeditor.js',
-      toolbar : 'Todo'
- 		});
-	</script>
+      toolbar : 'Todo',
+    } );
+</script>
 {/block}
