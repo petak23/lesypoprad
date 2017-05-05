@@ -29,7 +29,7 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  {control js}
+  {control jsBefore}
 </head>
 
 <body>
@@ -93,6 +93,8 @@
     <div id="pataObr"> </div>
   </div>
 
+  {control jsAfter}
+  {control files:js}
   {block spec_js}{/block}
   <script>
     ga=function(){ ga.q.push(arguments) };ga.q=[];ga.l=+new Date;

@@ -6,6 +6,8 @@
 #
 parameters:
   web_files:
+    Front:
+      js: []    
     Admin:
       js: []
       Oznam_add:
@@ -34,6 +36,7 @@ services:
 #    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
 #    lessFilter: WebLoader\Filter\LessFilter
     jwlCssMinFilter: Joseki\Webloader\CssMinFilter
+    jsMin: Joseki\Webloader\JsMinFilter
 
 extensions:
   webloader: WebLoader\Nette\Extension
@@ -75,19 +78,25 @@ webloader:
         - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/admin}
 
   js:
-    front:
+    frontBefore:
       files:
         - %wwwDir%/www/js/jquery-1.12.4.js
         - %wwwDir%/www/js/bootstrap.min.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/modernizr-2.6.2.min.js
-        - %wwwDir%/www/js/js-image-slider.js
-        - %wwwDir%/www/js/lightbox.min.js
         - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/datagrid.js
+        - %wwwDir%/www/js/js-image-slider.js
         - %wwwDir%/www/js/pomocne_front.js
+      filters:
+        - @jsMin
+    frontAfter:
+      files:
+        - %wwwDir%/www/js/lightbox.min.js
+        - %wwwDir%/www/js/lightbox.config.front.js
+      filters:
+        - @jsMin
 
     admin:
       files:
@@ -99,3 +108,5 @@ webloader:
         - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/pomocne_admin.js
+      filters:
+        - @jsMin

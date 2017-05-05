@@ -6,11 +6,12 @@ use Nette\Utils\Strings;
 use Nette\Http;
 use Nette\Application\UI;
 use DbTable;
+use PeterVojtech;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 04.05.2017
+ * Posledna zmena(last change): 05.05.2017
  *
  *	Modul: FRONT
  *
@@ -18,7 +19,7 @@ use DbTable;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.2.8
+ * @version 1.2.9
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -27,8 +28,6 @@ use DbTable;
 abstract class BasePresenter extends UI\Presenter {
 
   // -- DB
-  /** @var DbTable\Adresar @inject */
-  public $adresar;
   /** @var DbTable\Dokumenty @inject */
 	public $dokumenty;
   /** @var DbTable\Druh @inject */
@@ -260,8 +259,19 @@ abstract class BasePresenter extends UI\Presenter {
   }
 
   /** @return JavaScriptLoader */
-  protected function createComponentJs(){
-    return $this->webLoader->createJavaScriptLoader('front');
+  protected function createComponentJsBefore(){
+    return $this->webLoader->createJavaScriptLoader('frontBefore');
+  }
+  
+  /** @return JavaScriptLoader */
+  protected function createComponentJsAfter(){
+    return $this->webLoader->createJavaScriptLoader('frontAfter');
+  }
+  
+  /** Komponenta pre výpis css a js súborov
+   * @return \PeterVojtech\Base\CssJsFilesControl */
+  public function createComponentFiles() {
+    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
   
   /**
@@ -348,16 +358,6 @@ abstract class BasePresenter extends UI\Presenter {
         ]);
       $ukaz_clanok->setClanokHlavicka($servise->udaje_webu['clanok_hlavicka']);
       return $ukaz_clanok;
-    });
-  }
-  
-  /** 
-   * Komponenta pre zobrazenie adresy
-   * @return Multiplier */
-  public function createComponentUkazAdresu() {
-    $servise = $this;
-		return new Multiplier(function ($id) use ($servise) {
-      return New \App\FrontModule\Components\Adresar\ZobrazAdresuControl($servise->adresar->find($id));
     });
   }
   

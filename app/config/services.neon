@@ -23,7 +23,6 @@ services:
       - addResource('Front:Error')
       - addResource('admin')
       - addResource('Front:Oznam')
-      - addResource('Front:Debata')
       - addResource('Front:Clanky')
       - addResource('Front:Menu')
       - addResource('Front:Faktury')
@@ -37,21 +36,17 @@ services:
       - addResource('Admin:Slider')
       - addResource('Admin:Registracia')
       - addResource('Admin:Oznam')
-      - addResource('Admin:Debata')
       - addResource('Admin:Clanky')
       - addResource('Admin:Texyla')
-      - addResource('Admin:Adresar')
       - allow('guest', ['Front:Dokumenty', 'Front:Oznam', 'Front:Clanky', 'Front:Menu', 'Front:Homepage', 'Front:Error'])
       - allow('guest', 'Front:User', ['registracia', 'activateUser', 'forgottenPassword', 'resetPassword', 'default'])
       - allow('guest', 'Front:UserLog', ['activateNewEmail'])
       - allow('register', 'Front:UserLog', ['default', 'mailChange', 'passwordChange'])
       - allow('register', 'Front:Oznam', 'ucast')
-      - allow('register', 'Front:Debata', ['default', 'edit', 'del'])
       - allow('pasivny', ['Front:Oznam', 'Front:Clanky'], 'komentar')
       - allow('aktivny', 'admin', 'enter')
       - allow('aktivny', ['Admin:Clanky', 'Admin:Menu'], ['default', 'edit', 'edit2', 'add', 'add2', 'prilohy', 'del'])
       - allow('aktivny', 'Admin:Homepage', 'default')
-      - allow('aktivny', 'Admin:Adresar', ['default', 'edit'])
       - allow('aktivny', 'Admin:Dokumenty')
       - allow('spravca', ['Front:Faktury'], ['add', 'default', 'edit'])
       - allow('spravca', ['Admin:Clanky', 'Admin:Menu'], ['addpol', 'delete', 'pocitadlo'])
@@ -65,11 +60,9 @@ services:
       - allow('admin')
 
   - DbTable\Admin_menu
-  - DbTable\Adresar
   - DbTable\Clanok_komentar
   - DbTable\Clanok_komponenty
   - DbTable\Clanok_lang
-  - DbTable\Debata
   - DbTable\Dlzka_novinky
   - DbTable\Dokumenty
   - DbTable\OldDokumenty
@@ -104,7 +97,6 @@ services:
 # services for language support
   - Language_support\Clanky
   - Language_support\Dokumenty
-  - Language_support\Debata
   - Language_support\Error
   - Language_support\Homepage
   - Language_support\Oznam
@@ -125,7 +117,6 @@ services:
   - App\AdminModule\Presenters\Forms\User\AddUserFormFactory
   - App\AdminModule\Presenters\Forms\User\EditUserFormFactory
   - App\AdminModule\Presenters\Forms\User\EditCategoriFormFactory
-  - App\AdminModule\Presenters\Forms\Adresar\EditAdresarFormFactory
   - App\AdminModule\Presenters\Forms\Verzie\EditVerzieFormFactory
   - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
 
