@@ -45,10 +45,9 @@ webloader:
         - %wwwDir%/www/css/font-awesome.min.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
+        - %wwwDir%/www/css/jquery-ui-only-datepicker-1_12_1.css
         - %wwwDir%/www/css/datagrid.css
-#        - %wwwDir%/www/css/colorbox.css
         - %wwwDir%/www/css/lightbox.css
-#        - %appDir%/../bower_components/nittro/dist/css/nittro.full.min.css
         - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
@@ -63,7 +62,8 @@ webloader:
         - %wwwDir%/www/css/font-awesome.min.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/colorbox.css
+        - %wwwDir%/www/css/jquery-ui-only-datepicker-1_12_1.css
+        - %wwwDir%/www/css/lightbox.css
         - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
@@ -77,26 +77,25 @@ webloader:
   js:
     front:
       files:
-        - %wwwDir%/www/js/jquery.js
+        - %wwwDir%/www/js/jquery-1.12.4.js
         - %wwwDir%/www/js/bootstrap.min.js
         - %wwwDir%/www/js/netteForms.min.js
-#        - %appDir%/../bower_components/nittro/dist/js/nittro.full.min.js
         - %wwwDir%/www/js/nette.ajax.js
-#        - %wwwDir%/www/js/jquery.colorbox-min.js
         - %wwwDir%/www/js/modernizr-2.6.2.min.js
         - %wwwDir%/www/js/js-image-slider.js
         - %wwwDir%/www/js/lightbox.min.js
+        - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
+        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/pomocne_front.js
 
     admin:
       files:
-        - %wwwDir%/www/js/jquery.js
+        - %wwwDir%/www/js/jquery-1.12.4.js
         - %wwwDir%/www/js/bootstrap.min.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/jquery.colorbox-min.js
-        - %wwwDir%/www/js/jquery-ui.min.js
+        - %wwwDir%/www/js/lightbox.min.js
+        - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/www/js/grid.js
         - %wwwDir%/www/js/pomocne_admin.js
