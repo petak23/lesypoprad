@@ -23,10 +23,10 @@ services:
       - addResource('Front:Error')
       - addResource('admin')
       - addResource('Front:Oznam')
-      - addResource('Front:Pokladnicka')
       - addResource('Front:Debata')
       - addResource('Front:Clanky')
       - addResource('Front:Menu')
+      - addResource('Front:Faktury')
       - addResource('Admin:Homepage')
       - addResource('Admin:User')
       - addResource('Admin:Verzie')
@@ -37,7 +37,6 @@ services:
       - addResource('Admin:Slider')
       - addResource('Admin:Registracia')
       - addResource('Admin:Oznam')
-      - addResource('Admin:Pokladnicka')
       - addResource('Admin:Debata')
       - addResource('Admin:Clanky')
       - addResource('Admin:Texyla')
@@ -49,12 +48,12 @@ services:
       - allow('register', 'Front:Oznam', 'ucast')
       - allow('register', 'Front:Debata', ['default', 'edit', 'del'])
       - allow('pasivny', ['Front:Oznam', 'Front:Clanky'], 'komentar')
-      - allow('pasivny', 'Front:Pokladnicka', 'default')
       - allow('aktivny', 'admin', 'enter')
       - allow('aktivny', ['Admin:Clanky', 'Admin:Menu'], ['default', 'edit', 'edit2', 'add', 'add2', 'prilohy', 'del'])
       - allow('aktivny', 'Admin:Homepage', 'default')
       - allow('aktivny', 'Admin:Adresar', ['default', 'edit'])
       - allow('aktivny', 'Admin:Dokumenty')
+      - allow('spravca', ['Front:Faktury'], ['add', 'default', 'edit'])
       - allow('spravca', ['Admin:Clanky', 'Admin:Menu'], ['addpol', 'delete', 'pocitadlo'])
       - allow('spravca', ['Admin:Verzie', 'Admin:User'], 'default')
       - allow('spravca', ['Admin:Udaje'], ['default', 'edit'])
@@ -62,7 +61,6 @@ services:
       - allow('spravca', ['Admin:Slider', 'Admin:Texyla'])
       - allow('spravca', 'Admin:Lang', ['default', 'add', 'edit'])
       - allow('spravca', 'Admin:Registracia', ['default', 'edit'])
-      - allow('spravca', 'Admin:Pokladnicka', 'default')
       - allow('spravca', 'Admin:Homepage', 'udrzba')
       - allow('admin')
 
@@ -84,7 +82,6 @@ services:
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
-  - DbTable\Pokladnicka
   - DbTable\Registracia
   - DbTable\Slider
   - DbTable\Udaje
@@ -110,7 +107,6 @@ services:
   - Language_support\Debata
   - Language_support\Error
   - Language_support\Homepage
-  - Language_support\Pokladnicka
   - Language_support\Oznam
   - Language_support\UserLog
   - Language_support\User
@@ -123,7 +119,6 @@ services:
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
-  - App\AdminModule\Presenters\Forms\Pokladnicka\EditPokladnickaFormFactory
   - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory
   - App\AdminModule\Presenters\Forms\Udaje\EditUdajeFormFactory
   - App\AdminModule\Presenters\Forms\Udaje\AddTypeUdajeFormFactory
@@ -136,6 +131,7 @@ services:
 
   - App\FrontModule\Presenters\Forms\User\SignInFormFactory
   - App\FrontModule\Presenters\Forms\User\RegisterFormFactory
+  - App\FrontModule\Components\Faktury\DokumentFormFactory
 # component services 
 
   - App\AdminModule\Components\Article\IAdminAddMenu

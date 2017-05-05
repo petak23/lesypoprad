@@ -330,13 +330,13 @@ input.najdi{
   margin-bottom: 0;
   color: #333;
 	font-style: italic;
+  margin: 0 0 0 22%;
 }
 
 .user-panel {
   background-color: #ffffff;
   background-color: rgba(255,255,255,.8);
-  display: inline-block;
-  margin: 0;
+  margin: 0 0 0 22%;
   padding: 0.5ex;
   position: relative;
 }
@@ -399,6 +399,10 @@ input.najdi{
 }
 .article-main .page-header {
   margin-top: 10px;
+}
+.article-main .main-text {
+  display: inline-block;
+  width: 100%;
 }
 .article-main h3{
 	margin: 1ex;

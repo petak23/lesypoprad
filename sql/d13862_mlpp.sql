@@ -24,8 +24,7 @@ INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_registracia`, `avatar`) VA
 (4,	'User:',	'Editácia členov',	5,	'ikonky/AzulLustre_icons/Fuentes.png'),
 (5,	'Verzie:',	'Verzie webu',	4,	'ikonky/AzulLustre_icons/URL_historial.png'),
 (6,	'Udaje:',	'Údaje webu',	4,	'ikonky/AzulLustre_icons/Admin.png'),
-(7,	'Oznam:',	'Aktuality(oznamy)',	4,	'ikonky/AzulLustre_icons/Documentos_azul.png'),
-(8,	'Pokladnicka:',	'Pokladnička',	5,	'ikonky/AzulLustre_icons/Favoritos.png');
+(7,	'Oznam:',	'Aktuality(oznamy)',	4,	'ikonky/AzulLustre_icons/Documentos_azul.png');
 
 DROP TABLE IF EXISTS `clanok_komponenty`;
 CREATE TABLE `clanok_komponenty` (
@@ -629,19 +628,6 @@ INSERT INTO `ikonka` (`id`, `nazov`) VALUES
 (12,	'topanka'),
 (13,	'vykricnik');
 
-DROP TABLE IF EXISTS `komponenty`;
-CREATE TABLE `komponenty` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `nazov` varchar(30) COLLATE utf8_bin NOT NULL COMMENT 'Názov použitej komponenty',
-  `parametre` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov parametrov oddelený čiarkou',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Zoznam použiteľných komponent';
-
-INSERT INTO `komponenty` (`id`, `nazov`, `parametre`) VALUES
-(1,	'odkazNaClanky',	'id_clanok'),
-(2,	'aktualne',	NULL),
-(3,	'produktZoznam',	NULL);
-
 DROP TABLE IF EXISTS `lang`;
 CREATE TABLE `lang` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
@@ -864,5 +850,3 @@ CREATE TABLE `verzie` (
 
 INSERT INTO `verzie` (`id`, `id_user_profiles`, `cislo`, `subory`, `text`, `datum`) VALUES
 (1,	1,	'0.1.',	NULL,	'Východzia verzia',	'2017-02-13 08:03:32');
-
--- 2017-04-27 10:41:56

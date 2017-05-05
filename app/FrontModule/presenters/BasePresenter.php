@@ -6,12 +6,11 @@ use Nette\Utils\Strings;
 use Nette\Http;
 use Nette\Application\UI;
 use DbTable;
-//use Nittro\Bridges\NittroUI\Presenter;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 27.03.2017
+ * Posledna zmena(last change): 04.05.2017
  *
  *	Modul: FRONT
  *
@@ -19,8 +18,11 @@ use DbTable;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.2.7
+ * @version 1.2.8
  */
+\Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
+    return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
+});
 
 abstract class BasePresenter extends UI\Presenter {
 
@@ -96,9 +98,6 @@ abstract class BasePresenter extends UI\Presenter {
   /** @var int Maximalna velkost suboru pre upload */
   public $upload_size = 0;
   
-  /** @var Pre nittro */
-//  private $signalled = false;
-  
   /** Vratenie textu pre dany kluc a jazyk
    * @param string $key - kluc daneho textu
    * @return string - hodnota pre dany text
@@ -109,7 +108,6 @@ abstract class BasePresenter extends UI\Presenter {
 
 	protected function startup() {
     parent::startup();
-//    $this->signalled = $this->getSignal() !== null;
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
@@ -233,18 +231,7 @@ abstract class BasePresenter extends UI\Presenter {
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
-//    $this->template->sign = $this->signalled;
 	}
-
-//  public function afterRender() {
-//    if ($this->isAjax() && !$this->isControlInvalid() && !$this->isSignalled()) {
-//      $this->redrawControl();
-//    }
-//  }
-  
-//  public function isSignalled() {
-//    return $this->signalled;
-//  }
   
   /** Signal pre odhlasenie sa */
 	public function handleSignOut() {
