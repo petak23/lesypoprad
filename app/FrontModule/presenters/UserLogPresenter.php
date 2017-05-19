@@ -5,6 +5,8 @@ use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 use Nette\Utils\Image;
 use Nette\Utils\Html;
+use Nette\Utils\Random;
+use Nette\Security\Passwords;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 use Latte;
@@ -13,36 +15,34 @@ use DbTable, Language_support;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 16.05.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  *
  */
 class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
-  /** Nazov prvku na zmazanie
-    * @var string */
-  public $zdroj_na_zmazanie = 'člena';
   
   /** 
    * @inject
-   * @var DbTable\Users */
-	public $users;
+   * @var DbTable\User_main */
+	public $user_main;
+    /** 
+   * @inject
+   * @var DbTable\User_profiles */
+	public $user_profiles;
   /**
    * @inject
-   * @var Language_support\UserLog
-   */
+   * @var Language_support\UserLog */
   public $texty_presentera;
   
   /** @var \Nette\Database\Table\ActiveRow|FALSE */
-  private $clen;
-  /** @var mix */
-  private $hasser;
+  private $uzivatel;
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
 
@@ -58,27 +58,16 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
       $this->flashRedirect('Homepage:', sprintf($this->trLang('base_nie_je_opravnenie'), $this->action), 'danger');
     }
     //Najdem aktualne prihlaseneho clena
-    $this->clen = $this->user_profiles->findOneBy(['id_users'=>$this->user->getIdentity()->getId()]);
-    $this->hasser = $this->user->getAuthenticator(); //Ziskanie objektu pre vytvaranie hash hesla a iných
-    $this->hasser->PasswordHash(8,FALSE);            //Nastavenie
+    $this->uzivatel = $this->user_main->find($this->user->getIdentity()->getId());
     $this->user_view_fields = $this->nastavenie['user_view_fields'];
 	}
   
   public function actionDefault() {
-    $clen = $this->clen;
-    $this["userEditForm"]->setDefaults($clen);
-    $this["userEditForm"]->setDefaults([ //Nastav vychodzie hodnoty
-      'username'    => $clen->users->username,
-      'email'       => $clen->users->email,
-      'registracia' => $clen->id_registracia." - ".$clen->registracia->nazov." (".$clen->registracia->role.")",
-      'prihlasenie' => ($clen->prihlas_teraz !== NULL ? $clen->prihlas_teraz->format('d.m.Y H:i:s')." - " : '').($clen->prihlas_predtym !== NULL ? $clen->prihlas_predtym->format('d.m.Y H:i:s') : ''),
-      'created'     => $clen->created->format('d.m.Y H:i:s'),
-      'modified'    => $clen->modified->format('d.m.Y H:i:s'), 
-    ]);
+    $this["userEditForm"]->setDefaults($this->uzivatel);
   }
   
   public function renderDefault() {
-    $this->template->clen = $this->clen;
+    $this->template->uzivatel = $this->uzivatel;
     $this->template->h2 = $this->trLang('h2');
     $this->template->pass_change = $this->trLang('default_pass_change');
     $this->template->zdroj_na_zmazanie = $this->trLang('zdroj_na_zmazanie');
@@ -94,22 +83,21 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	protected function createComponentUserEditForm() {
 		$form = new Form();
 		$form->addProtection();
-    $form->addHidden('id');$form->addHidden('avatar_75');$form->addHidden('avatar_25');
-		$form->addText('meno', $this->trLang('UserEditForm_meno'), 50, 80)
+    $form->addHidden('id');$form->addHidden('id_user_profiles');
+		$form->addText('meno', $this->trLang('UserEditForm_meno'), 0, 50)
 				 ->addRule(Form::MIN_LENGTH, $this->trLang('UserEditForm_meno_ar'), 3)
 				 ->setRequired($this->trLang('UserEditForm_meno_sr'));
-    $form->addText('priezvisko', $this->trLang('UserEditForm_priezvisko'), 50, 50)
+    $form->addText('priezvisko', $this->trLang('UserEditForm_priezvisko'), 0, 50)
 				 ->addRule(Form::MIN_LENGTH, $this->trLang('UserEditForm_priezvisko_ar'), 3)
 				 ->setRequired($this->trLang('UserEditForm_priezvisko_sr'));
-    $form->addText('username', $this->trLang('default_log_name').":", 50)->setDisabled(TRUE);
-    $form->addText('email', $this->trLang('default_email').":", 50)->setDisabled(TRUE);
-    $form->addText('registracia', $this->trLang('default_registracia').":", 50)->setDisabled(TRUE);
+    $form->addText('username', $this->trLang('default_log_name').":", 0)->setDisabled(TRUE);
+    $form->addText('email', $this->trLang('default_email').":", 0)->setDisabled(TRUE);
     if ($this->user_view_fields["rok"]) {
-      $form->addText('rok', $this->trLang('UserEditForm_rok'), 4, 5)->setRequired(FALSE)
+      $form->addText('rok', $this->trLang('UserEditForm_rok'), 0, 5)->setRequired(FALSE)
            ->addRule(Form::RANGE, $this->trLang('UserEditForm_rok_ar'), [1900, StrFTime("%Y", Time())]);
     }
-    if ($this->user_view_fields["telefon"]) { $form->addText('telefon', $this->trLang('UserEditForm_telefon'), 20, 20); }
-    if ($this->user_view_fields["poznamka"]) { $form->addText('poznamka', $this->trLang('UserEditForm_poznamka'), 50, 250); }
+    if ($this->user_view_fields["telefon"]) { $form->addText('telefon', $this->trLang('UserEditForm_telefon'), 0, 20); }
+    if ($this->user_view_fields["poznamka"]) { $form->addText('poznamka', $this->trLang('UserEditForm_poznamka'), 0, 250); }
     if ($this->user_view_fields["pohl"]) {
       $form->addSelect('pohl', $this->trLang('UserEditForm_pohl'),
                      ['M'=>$this->trLang('UserEditForm_m'),'Z'=>$this->trLang('UserEditForm_z')]);
@@ -119,9 +107,10 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
                        ['A'=>$this->trLang('UserEditForm_news_a'),'N'=>$this->trLang('UserEditForm_news_n')]);
     }
     if ($this->user_view_fields["avatar"]) {
+      $src = ($this->uzivatel->user_profiles->avatar && is_file('www/'.$this->uzivatel->user_profiles->avatar)) ? $this->uzivatel->user_profiles->avatar : 'ikonky/64/figurky_64.png';
       $form->addUpload('avatar', $this->trLang('UserEditForm_avatar').":")
          ->setOption('description', Html::el('p')->setHtml(
-              Html::el('img')->src($this->template->basePath.'/www/'.('/www/'.isset($this->clen->avatar_75) ? $this->clen->avatar_75 : 'ikonky/64/figurky_64.png'))->alt('avatar').
+              Html::el('img')->src($this->template->basePath.'/www/'.$src)->alt('avatar').
               " ".$this->trLang('default_avatar_txt')))
          ->addCondition(Form::FILLED)
             ->addRule(Form::IMAGE, $this->trLang('UserEditForm_avatar_oi'))
@@ -132,24 +121,26 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
          ->onClick[] = [$this, 'userEditFormSubmitted'];
     $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')
          ->setValidationScope([])
-         ->onClick[] = [$this, 'formCancelled'];
-    $form->addText('prihlasenie', $this->trLang('default_last_log').":", 50)->setDisabled(TRUE);
-    $form->addText('pocet_pr', $this->trLang('default_count_log').":", 50)->setDisabled(TRUE);
-    $form->addText('created', $this->trLang('default_created').":", 50)->setDisabled(TRUE);
-    $form->addText('modified', $this->trLang('default_modified').":", 50)->setDisabled(TRUE);
-
+         ->onClick[] = function () { $this->redirect('UserLog:'); };
 		return $this->_vzhladForm($form);
 	}
   
   public function userEditFormSubmitted($button) {
 		$values = $button->getForm()->getValues(TRUE); 	//Nacitanie hodnot formulara
-		$id_pol = $values['id']; // Ak je == 0 tak sa pridava
+		$id = $values['id']; // Ak je == 0 tak sa pridava
 
     $values['modified'] = StrFTime("%Y-%m-%d %H:%M:%S", Time());
-
+    $user_profiles_data =[
+      'rok' => $this->user_view_fields["rok"] ? $values["rok"] : NULL,
+      'telefon'=> $this->user_view_fields["telefon"] ? $values["telefon"] : NULL,
+      'poznamka'=> $this->user_view_fields["poznamka"] ? $values["poznamka"] : NULL,
+      'pohl'=> $this->user_view_fields["pohl"] ? $values["pohl"] : 'M',
+      'news'=> $this->nastavenie['send_e_mail_news'] ? $values["news"] : 'A',
+    ];
+    unset($values["rok"], $values["telefon"], $values["poznamka"], $values["pohl"], $values["news"]);
     if (isset($values['avatar']) && $values['avatar'] && $values['avatar']->name != "") {
       if ($values['avatar']->isImage()){
-        $avatar_path = "files/".$id_pol."/";
+        $avatar_path = "files/".$id."/";
         $path = $this->context->parameters['wwwDir']."/www/".$avatar_path;
         $pi = pathinfo($values['avatar']->getSanitizedName());
         $ext = $pi['extension'];
@@ -158,28 +149,18 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
             @unlink($file);
           }
         }	else { mkdir($path, 0777); }
-        $randfn = Strings::random(25)."_";
-        $avatar75_name = $randfn."75.".$ext;
-        $avatar25_name = $randfn."25.".$ext;
-        $values['avatar']->move($path.$avatar75_name);
-        $image = Image::fromFile($path.$avatar75_name);
+        $avatar_name = Random::generate(25).".".$ext;
+        $values['avatar']->move($path.$avatar_name);
+        $image = Image::fromFile($path.$avatar_name);
         $image->resize(75, 75, Image::SHRINK_ONLY);
-        $image->save($path.$avatar75_name, 90);
-        $values['avatar_75'] = $avatar_path.$avatar75_name;
-        copy($path.$avatar75_name, $path.$avatar25_name);
-        $thumb = Image::fromFile($path.$avatar25_name);
-        $thumb->resize(25, 25, Image::SHRINK_ONLY);
-        $thumb->save($path.$avatar25_name, 90);
-        $values['avatar_25'] = $avatar_path.$avatar25_name;
+        $image->save($path.$avatar_name, 90);
+        $this->user_profiles->uloz(array_merge($user_profiles_data, ['avatar'=>$avatar_path.$avatar_name]), $values['id_user_profiles']);
       } else {
         $this->flashMessage($this->trLang('user_edit_avatar_err'), 'danger');
-        unset($values['avatar_75'], $values['avatar_25']);
       }
-    } else {
-      unset($values['avatar_75'], $values['avatar_25']);
     }
     unset($values['id'], $values['avatar']);
-    $uloz = $this->user_profiles->uloz($values, $id_pol);
+    $uloz = $this->user_main->uloz($values, $id);
     if (isset($uloz['id'])) { //Ulozenie v poriadku
       $this->flashRedirect('UserLog:', $this->trLang('user_edit_save_ok'),'success');
     } else {													//Ulozenie sa nepodarilo
@@ -188,8 +169,8 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   public function actionMailChange() {
-    $this->template->h2 = sprintf($this->trLang('mail_change_h2'),$this->clen->meno,$this->clen->priezvisko);
-    $this->template->email = sprintf($this->trLang('mail_change_txt'),$this->clen->users->email);
+    $this->template->h2 = sprintf($this->trLang('mail_change_h2'),$this->uzivatel->meno, $this->uzivatel->priezvisko);
+    $this->template->email = sprintf($this->trLang('mail_change_txt'),$this->uzivatel->email);
 	}
 
 	/**
@@ -199,7 +180,7 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	protected function createComponentMailChangeForm() {
 		$form = new Form();
 		$form->addProtection();
-    $form->addHidden('id', $this->clen->id);
+    $form->addHidden('id', $this->uzivatel->id);
 		$form->addPassword('heslo', $this->trLang('MailChangeForm_heslo'), 50, 80)
 				 ->setRequired($this->trLang('MailChangeForm_heslo_sr'));
     $form->addText('email', $this->trLang('MailChangeForm_new_email'), 50, 80)
@@ -217,18 +198,17 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 
 	public function userMailChangeFormSubmitted($button) {
 		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-    $this->clen = $this->user_profiles->find($values->id); //Najdenie clena
-		if (!$this->hasser->CheckPassword($values->heslo, $this->clen->users->password)) {
+		if (!Passwords::verify($values->heslo, $this->uzivatel->password)) {
 			$this->flashRedirect('this', $this->trLang('pass_incorect'), 'danger');
 		}
     // Over, ci dany email uz existuje. Ak ano konaj.
-    if ($this->users->testEmail($values->email)) {
+    if ($this->user_main->testEmail($values->email)) {
       $this->flashMessage(sprintf($this->trLang('mail_change_email_duble'), $values->email), 'danger');
       return;
     }
     //Vygeneruj kluc pre zmenu e-mailu
-    $email_key = $this->hasser->HashPassword($values->email.StrFTime("%Y-%m-%d %H:%M:%S", Time()));
-    $clen = $this->user_profiles->find(1); //Najdenie odosielatela emailu
+    $email_key = Random::generate(25);//$this->hasser->HashPassword($values->email.StrFTime("%Y-%m-%d %H:%M:%S", Time()));
+    $uzivatel = $this->user_main->find(1); //Najdenie odosielatela emailu
     $templ = new Latte\Engine;
     $params = [
       "site_name" => $this->nazov_stranky,
@@ -238,17 +218,17 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
       "email_nefunkcny_odkaz" => $this->trLang('email_nefunkcny_odkaz'),
       "email_pozdrav" => $this->trLang('email_pozdrav'),
       "nazov"     => $this->trLang('mail_change'),
-      "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("UserLog:activateNewEmail", $this->clen->id, $email_key),
+      "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("UserLog:activateNewEmail", $this->uzivatel->id, $email_key),
     ];
     $mail = new Message;
-    $mail->setFrom($this->nazov_stranky.' <'.$clen->users->email.'>')
+    $mail->setFrom($this->nazov_stranky.' <'.$uzivatel->email.'>')
          ->addTo($values->email)
          ->setSubject($this->trLang('mail_change'))
          ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/UserLog/email_change-html.latte', $params));
     try {
       $sendmail = new SendmailMailer;
       $sendmail->send($mail);
-      $this->users->find($this->clen->id_users)->update(['new_email'=>$values->email,'new_email_key'=>$email_key]);
+      $this->uzivatel->update(['new_email'=>$values->email, 'new_email_key'=>$email_key]);
       $this->flashRedirect('UserLog:', $this->trLang('mail_change_send_ok'), 'success');
     } catch (Exception $e) {
       $this->flashMessage($this->trLang('mail_change_send_err').$e->getMessage(), 'danger');
@@ -256,15 +236,13 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	}
 
   public function actionActivateNewEmail($id, $new_email_key) {
-    $users_data = $this->user_profiles->find($id);
-    if ($new_email_key == $users_data->users->new_email_key){ //Aktivacia prebeha v poriadku
+    $user_main_data = $this->user_main->find($id);
+    if ($new_email_key == $user_main_data->new_email_key){ //Aktivacia prebeha v poriadku
       try {
-        $this->users->uloz(['email'=>$users_data->users->new_email,
-                                 'new_email'=>NULL,
-                                 'new_email_key'=>NULL], $users_data->id_users);
-        $this->user_profiles->uloz(['modified' => StrFTime("%Y-%m-%d %H:%M:%S", Time())],$id);
-        $pomocny = $this->user->isLoggedIn() ? '' : $this->trLang('activate_mail_login');
-        $this->flashMessage($this->trLang('activate_mail_ok').$pomocny, 'success');
+        $this->user_main->uloz(['email'=>$user_main_data->new_email,
+                                'new_email'=>NULL,
+                                'new_email_key'=>NULL], $user_main_data->id);
+        $this->flashMessage($this->trLang('activate_mail_ok').($this->user->isLoggedIn() ? '' : $this->trLang('activate_mail_login')), 'success');
       } catch (Exception $e) {
         $this->flashMessage($this->trLang('activate_mail_err').$e->getMessage(), 'danger,n');
       }
@@ -273,7 +251,7 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   public function actionPasswordChange() {
-    $this->template->h2 = sprintf($this->trLang('pass_change_h2'),$this->clen->meno,$this->clen->priezvisko);
+    $this->template->h2 = sprintf($this->trLang('pass_change_h2'),$this->uzivatel->meno,$this->uzivatel->priezvisko);
 	}
 
 	/**
@@ -283,7 +261,7 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	protected function createComponentPasswordChangeForm() {
 		$form = new Form();
 		$form->addProtection();
-    $form->addHidden('id', $this->clen->id);
+    $form->addHidden('id', $this->uzivatel->id);
 		$form->addPassword('heslo', $this->trLang('PasswordChangeForm_heslo'), 50, 80)
 				 ->setRequired($this->trLang('PasswordChangeForm_heslo_sr'));
     $form->addPassword('new_heslo', $this->trLang('PasswordChangeForm_new_heslo'), 50, 80)
@@ -307,17 +285,14 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 		if ($values->new_heslo != $values->new_heslo2) {
 			$this->flashRedirect('this', $this->trLang('PasswordChangeForm_new_heslo2_ar'), 'danger');
 		}
-    $this->clen = $this->user_profiles->find($values->id); //Najdenie clena
-		if (!$this->hasser->CheckPassword($values->heslo, $this->clen->users->password)) {
+		if (!Passwords::verify($values->heslo, $this->uzivatel->password)) {
 			$this->flashRedirect('this', $this->trLang('pass_incorect'), 'danger');
 		}
 		//Vygeneruj kluc pre zmenu hesla
-		$new_password = $this->hasser->HashPassword($values->new_heslo);
-    $values->new_heslo = 'xxxxx'; //Len pre istotu
-    $values->new_heslo2= 'xxxxx'; //Len pre istotu
+		$new_password = Passwords::hash($values->new_heslo);
+    unset($values->new_heslo, $values->new_heslo2);
     try {
-      $this->users->find($this->clen->id_users)->update(['password'=>$new_password]);
-      $this->user_profiles->uloz(['modified' => StrFTime("%Y-%m-%d %H:%M:%S", Time())],$values->id);
+      $this->uzivatel->update(['password'=>$new_password]);
 			$this->flashMessage($this->trLang('pass_change_ok'), 'success');
 		} catch (Exception $e) {
 			$this->flashMessage($this->trLang('pass_change_err').$e->getMessage(), 'danger,n');
@@ -338,23 +313,19 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
       }
       rmdir($path);
     }
-    $clen_id_up = $this->user_profiles->findOneBy(['id_users'=>$id])->id;
+    $uzivatel_id_up = $this->user_profiles->findOneBy(['id_user_main'=>$id])->id;
     try {
       $this->getUser()->logout();
-      $this->user_profiles->delUser($clen_id_up);
-      $this->user_profiles->oprav($clen_id_up, ['id_users'=>1]);
-      $this->users->zmaz($id);
-      $this->user_profiles->zmaz($clen_id_up);
+      $this->user_profiles->delUser($uzivatel_id_up);
+      $this->user_main->oprav($uzivatel_id_up, ['id_user_profiles'=>1]);
+      $this->user_profiles->zmaz($uzivatel_id_up);
+      $this->user_main->zmaz($id);
+      
       $this->flashMessage(sprintf($this->trLang('delete_user_ok'),$nazov), 'success');
       
 		} catch (Exception $e) {
 			$this->flashMessage($this->trLang('delete_user_err').$e->getMessage(), 'danger');
 		}
     if (!$this->isAjax()) { $this->redirect('User:'); }
-	}
-  
-  /** Spolocna obluha formularov pri stornovani formulara */
-	public function formCancelled() {
-		$this->redirect('UserLog:');
 	}
 }

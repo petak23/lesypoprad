@@ -28,8 +28,6 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
    * @var Language_support\Clanky */
   public $texty_presentera;
   
-  /** @var \App\FrontModule\Components\Clanky\IKomentarControl @inject */
-  public $komentarControlControlFactory;
   /** @var \App\FrontModule\Components\Clanky\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
   /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */

@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 29.03.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2a
+ * @version 1.0.3
  */
 
 class PrilohyClanokControl extends Nette\Application\UI\Control {
@@ -79,7 +79,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * @return Nette\Application\UI\Form */
   public function createComponentEditPrilohyForm() {
     $form = $this->editPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
-    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_registracia"=>$this->clanok->hlavne_menu->id_registracia]);
+    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Príloha bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};

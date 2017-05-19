@@ -4,13 +4,15 @@ namespace App\FrontModule\Presenters;
 use Nette\Application\UI\Form;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
+use Nette\Security\Passwords;
+use Nette\Utils\Random;
 use Latte;
 use DbTable, Language_support;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
  *
- * Posledna zmena(last change): 20.03.2017
+ * Posledna zmena(last change): 19.05.2017
  *
  *	Modul: FRONT
  *
@@ -18,7 +20,7 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	/**
@@ -27,12 +29,11 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
   public $texty_presentera;
   /** 
    * @inject
-   * @var DbTable\Users */
-	public $users;
+   * @var DbTable\User_main */
+	public $user_main;
   /** @var mix */
   private $clen;
-  /** @var mix */
-  private $hasser;
+
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
   // -- Forms
@@ -50,11 +51,9 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
     if ($this->user->isLoggedIn()) { 
       $this->flashRedirect('Homepage:', $this->trLang('base_loged_in_bad'), 'danger');
     }
-    $this->hasser = $this->user->getAuthenticator(); //Ziskanie objektu pre vytvaranie hash hesla a iných
-    $this->hasser->PasswordHash(8,FALSE);            //Nastavenie
     $this->template->form_required = $this->trLang('base_form_required');
     $this->template->h2 = $this->trLang('h2_'.$this->action); //Nacitanie hlavneho nadpisu
-    $this->clen = $this->user_profiles->find(1);  //Odosielatel e-mailu
+    $this->clen = $this->user_main->find(1);  //Odosielatel e-mailu
     $this->user_view_fields = $this->nastavenie['user_view_fields'];
 	}
 
@@ -70,14 +69,14 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
   
   /** Akcia pre aktivaciu registrovaneho uzivatela */
   public function actionActivateUser($id_pol, $new_password_key) {
-    $users_data = $this->user_profiles->find($id_pol);
-    if ($new_password_key == $users_data->users->new_password_key){ //Aktivacia prebeha v poriadku
+    $user_main_data = $this->user_profiles->find($id_pol);
+    if ($new_password_key == $user_main_data->user_main->new_password_key){ //Aktivacia prebeha v poriadku
       try {
-        $this->users->uloz(['activated'=>1, 'new_password_key'=>NULL], $users_data->users->id);
+        $this->user_main->uloz(['activated'=>1, 'new_password_key'=>NULL], $user_main_data->user_main->id);
         $this->user_profiles->uloz([
-            'id_registracia'=>1,
+            'id_user_roles'=>1,
             'modified' => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
-            ], $users_data->id);
+            ], $user_main_data->id);
         $this->flashRedirect('User:', $this->trLang('activate_ok'), 'success');
       } catch (Exception $e) {
         $this->flashMessage($this->trLang('activate_err1').$e->getMessage(), 'danger,n');
@@ -99,14 +98,14 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
     if (!isset($id) OR !isset($new_password_key)) {
       $this->flashRedirect('Homepage:', $this->trLang('reset_pass_err1'), 'danger');
     } else {
-      $users_data = $this->users->find($id);
-      if ($new_password_key == $users_data->new_password_key){ 
-        $this->template->email = sprintf($this->trLang('reset_pass_email'), $users_data->email);
+      $user_main_data = $this->user_main->find($id);
+      if ($new_password_key == $user_main_data->new_password_key){ 
+        $this->template->email = sprintf($this->trLang('reset_pass_email'), $user_main_data->email);
         $this->template->reset_pass_txt1 = $this->trLang('reset_pass_txt1');
         $this->template->reset_pass_txt2 = $this->trLang('reset_pass_txt2');
         $this["resetPasswordForm"]->setDefaults(["id"=>$id]); //Nastav vychodzie hodnoty
       } else { 
-        $this->flashRedirect('Homepage:', $this->trLang('reset_pass_err'.($users_data->new_password_key == NULL ? '2' : '3')), 'danger');
+        $this->flashRedirect('Homepage:', $this->trLang('reset_pass_err'.($user_main_data->new_password_key == NULL ? '2' : '3')), 'danger');
       }
     }
   }
@@ -142,7 +141,7 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
   public function userRegisterFormSubmitted($button) {
 		// Inicializacia
     $values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-    $new_password_key = $this->hasser->HashPassword($values->heslo.StrFTime("%Y-%m-%d %H:%M:%S", Time()));
+    $new_password_key = Random::generate(25);
     $uloz_data_user_profiles = [ //Nastavenie vstupov pre tabulku user_profiles
       'meno'      => $values->meno,
       'priezvisko'=> $values->priezvisko,
@@ -151,15 +150,15 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
       'created'   => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
     ];
 
-    $uloz_data_users = [ //Nastavenie vstupov pre tabulku users
+    $uloz_data_user_main = [ //Nastavenie vstupov pre tabulku user_main
       'username'  => $values->username,
-      'password'  => $this->hasser->HashPassword($values->heslo),
+      'password'  => Passwords::hash($values->heslo),
       'email'     => $values->email,
       'activated' => 0,
     ];
-    //Uloz info do tabulky users
-    if (($uloz_users = $this->users->uloz($uloz_data_users)) !== FALSE) { //Ulozenie v poriadku
-      $uloz_data_user_profiles['id_users'] = $uloz_users['id']; //nacitaj id ulozeneho clena
+    //Uloz info do tabulky user_main
+    if (($uloz_user_main = $this->user_main->uloz($uloz_data_user_main)) !== FALSE) { //Ulozenie v poriadku
+      $uloz_data_user_profiles['id_user_main'] = $uloz_user_main['id']; //nacitaj id ulozeneho clena
       $uloz_user_profiles = $this->user_profiles->uloz($uloz_data_user_profiles);
     }
     if ($uloz_user_profiles !== FALSE) { //Ulozenie v poriadku
@@ -175,13 +174,13 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
         "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:activateUser", $uloz_user_profiles['id'], $new_password_key),
       ];
       $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->users->email.'>')
+      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->user_main->email.'>')
            ->addTo($values->email)->setSubject($this->trLang('register_aktivacia'))
            ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/User/email_activate-html.latte', $params));
       try {
         $sendmail = new SendmailMailer;
         $sendmail->send($mail);
-        $this->users->find($uloz_users['id'])->update(['new_password_key'=>$new_password_key]);
+        $this->user_main->find($uloz_user_main['id'])->update(['new_password_key'=>$new_password_key]);
         $this->flashMessage($this->trLang('register_email_ok'), 'success');
       } catch (Exception $e) {
         $this->flashMessage($this->trLang('send_email_err').$e->getMessage(), 'danger,n');
@@ -213,9 +212,9 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
   public function forgotPasswordFormSubmitted($button) {
 		//Inicializacia
     $values = $button->getForm()->getValues();                 //Nacitanie hodnot formulara
-    $clen = $this->users->findOneBy(['email'=>$values->email]);
+    $clen = $this->user_main->findOneBy(['email'=>$values->email]);
     $new_password_requested = StrFTime("%Y-%m-%d %H:%M:%S", Time());
-    $new_password_key = $this->hasser->HashPassword($values->email.$new_password_requested);
+    $new_password_key = Random::generate(25);
     if (isset($clen->email) && $clen->email == $values->email) { //Taky clen existuje
       $templ = new Latte\Engine;
       $params = [
@@ -228,13 +227,13 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
         "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $clen->id, $new_password_key),
       ];
       $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->users->email.'>')
+      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->user_main->email.'>')
            ->addTo($values->email)->setSubject($this->trLang('forgot_pass'))
            ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/User/forgot_password-html.latte', $params));
       try {
         $sendmail = new SendmailMailer;
         $sendmail->send($mail);
-        $this->users->find($clen->id)->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>$new_password_requested]);
+        $this->user_main->find($clen->id)->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>$new_password_requested]);
         $this->flashMessage($this->trLang('forgot_pass_email_ok'), 'success');
       } catch (Exception $e) {
         $this->flashMessage($this->trLang('send_email_err').$e->getMessage(), 'danger,n');
@@ -269,11 +268,10 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
 			$this->flashRedirect('this', $this->trLang('reset_pass_hesla_err'), 'danger');
 		}
 		//Vygeneruj kluc pre zmenu hesla
-    $new_password = $this->hasser->HashPassword($values->new_heslo);
-    $values->new_heslo = 'xxxxx'; //Len pre istotu
-    $values->new_heslo2= 'xxxxx'; //Len pre istotu
+    $new_password = Passwords::hash($values->new_heslo);
+    unset($values->new_heslo, $values->new_heslo2); //Len pre istotu
     try {
-      $this->users->find($values->id)->update(['password'=>$new_password, 'new_password_key'=>NULL, 'new_password_requested'=>NULL]);
+      $this->user_main->find($values->id)->update(['password'=>$new_password, 'new_password_key'=>NULL, 'new_password_requested'=>NULL]);
 			$this->flashRedirect('User:', $this->trLang('reset_pass_ok'), 'success');
 		} catch (Exception $e) {
 			$this->flashRedirect('Homepage:', $this->trLang('reset_pass_err').$e->getMessage(), 'danger,n');

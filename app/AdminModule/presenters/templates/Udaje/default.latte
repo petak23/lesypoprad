@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 16.06.2016
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 19.05.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -23,7 +23,7 @@
       <td>{$u->nazov}</td>
       <td n:if="$u->id_udaje_typ == 3 " n:class="$u->text == 1 ? success : danger">{$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}</td>
       <td n:if="$u->id_udaje_typ <> 3 ">{$u->text}</td>
-      <td>{$u->registracia->role}</td>
+      <td>{$u->user_roles->role}</td>
       <td>{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
       <td>{$u->udaje_typ->nazov}</td>
       <td class="editacne center" n:if="$user->isAllowed('Admin:Udaje', 'edit')">

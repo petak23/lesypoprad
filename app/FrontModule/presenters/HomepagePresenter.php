@@ -6,15 +6,15 @@ use Language_support;
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 15.12.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 class HomepagePresenter extends \App\FrontModule\Presenters\BasePresenter {
   /** @var Language_support\Homepage @inject */
@@ -25,7 +25,7 @@ class HomepagePresenter extends \App\FrontModule\Presenters\BasePresenter {
     parent::startup();
     //Len na to aby som vedel zobraziť odkaz na aktuality
     $this->template->aktuality = $this->hlavne_menu->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'",
-                                                             "id_registracia <= ".(($this->user->isLoggedIn()) ? $this->user->getIdentity()->id_registracia : 0),
+                                                             "id_user_roles <= ".(($this->user->isLoggedIn()) ? $this->user->getIdentity()->id_user_roles : 0),
                                                              "id_nadradenej = ".($this->template->id_nadradeny_aktuality = 1)]);
   }
   

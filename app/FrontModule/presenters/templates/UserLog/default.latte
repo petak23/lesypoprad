@@ -1,20 +1,35 @@
 {var $robots = noindex}
 {block content}
 
-<article class="article-main row">
+<article class="article-main row user-info">
 <!--[if lt IE 9]><div id="article row"><![endif]-->
-  <div class="col-md-8 col-md-offset-2 bg-info">
-    {control confirmForm}
+  <div class="col-md-6 bg-info">
+    {*control confirmForm*}
     <h2 n:inner-block="title">{$h2}</h2>
     {control userEditForm}
+    
+    
+  </div>
+  <div class="col-md-6 bg-success">
+    <h2>Doplňujúce údaje:</h2>
+    <dl>
+      <dt>Úroveň registrácie:</dt>
+      <dd>{$uzivatel->id_user_roles} - {$uzivatel->user_roles->name} ({$uzivatel->user_roles->role})</dd>
+      <dt>Posledné prihlásenie:</dt>
+      <dd>{$uzivatel->user_profiles->prihlas_teraz|date:'d.m.Y H:i:s'}</dd>
+      <dt>Počet prihlásení:</dt>
+      <dd>{$uzivatel->user_profiles->pocet_pr}</dd>
+      <dt>Vytvorenie účtu:</dt>
+      <dd>{$uzivatel->created|date:'d.m.Y H:i:s'}</dd>
+    </dl>
     <a n:href="UserLog:mailChange" title="{$default_email_change}" class="btn btn-info" role="button">
       <i class="fa fa-edit"></i> {$default_email_change}
     </a>
     <a n:href="UserLog:passwordChange" title="{$pass_change}" class="btn btn-warning" role="button">
       <i class="fa fa-key"></i> {$pass_change}
     </a>
-    <a n:if="$clen->id_users >= 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $clen->id_users, nazov => $clen->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{$default_delete} {$clen->priezvisko}" class="btn btn-danger" role="button">
-      <i class="fa fa-remove"></i> {$default_delete}{$clen->meno} {$clen->priezvisko|upper}
+    <a n:if="$uzivatel->id >= 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{$default_delete} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
+      <i class="fa fa-remove"></i> {$default_delete}
     </a>
   </div>
 </article>

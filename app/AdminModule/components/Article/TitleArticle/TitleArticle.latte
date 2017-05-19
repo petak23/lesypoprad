@@ -26,9 +26,9 @@
     </a>
   </div>
   <div n:snippet="uroven" class="btn-group edit-link-bar" role="group" aria-label="uroven-link">
-    <div n:if="$admin_links['vlastnik']" class="btn btn-warning disabled" title="Prístupný od úrovne: {$clanok->hlavne_menu->id_registracia} - {$clanok->hlavne_menu->registracia->nazov}">
+    <div n:if="$admin_links['vlastnik']" class="btn btn-warning disabled" title="Prístupný od úrovne: {$clanok->hlavne_menu->id_user_roles} - {$clanok->hlavne_menu->user_roles->nazov}">
       <i class="fa fa-users"></i>
-      <strong class="uroven-registracie-{$clanok->hlavne_menu->id_registracia}">{$clanok->hlavne_menu->registracia->nazov}</strong>
+      <strong class="uroven-registracie-{$clanok->hlavne_menu->id_user_roles}">{$clanok->hlavne_menu->user_roles->nazov}</strong>
     </div>
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalRegistraciaChange" title="Zmeň úroveň prístupu"><i class="fa fa-pencil"></i></button>
   </div>
@@ -96,7 +96,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Zmena úrovne prístupu k položke: {$clanok->nazov}</h4>
-        <p>Aktuálna úroveň: {$clanok->hlavne_menu->registracia->id} - {$clanok->hlavne_menu->registracia->nazov}</p>
+        <p>Aktuálna úroveň: {$clanok->hlavne_menu->user_roles->id} - {$clanok->hlavne_menu->user_roles->nazov}</p>
       </div>
       <div class="modal-body">
         {control zmenUrovenRegistracieForm}

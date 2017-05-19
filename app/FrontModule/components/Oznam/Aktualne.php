@@ -5,14 +5,13 @@ use DbTable;
 
 /**
  * Komponenta pre zobrazenie aktualnych oznamov pre FRONT modul
- * Posledna zmena(last change): 15.01.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
- *
+ * @version 1.0.5
  */
 class AktualneOznamyControl extends Nette\Application\UI\Control {
   /** @var \Nette\Database\Table\Selection */
@@ -86,7 +85,7 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
 			}
       return $vysledok;
     });
-    $template->addFilter('textreg', function ($text, $id_registracia, $max_id_reg) {
+    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
       for ($i = $max_id_reg; $i>=0; $i--) {
         $znacka_zac = "#REG".$i."#"; //Pociatocna znacka
         $znacka_kon = "#/REG".$i."#";//Koncova znacka
@@ -94,7 +93,7 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
         if (!($poloha === false)) {                 //Ak som našiel
           $poloha_kon = strpos($text, $znacka_kon); //Nájdem koncovu znacku
           if (!($poloha_kon === false)) {           //Ak som našiel
-            if ($i > $id_registracia) {             //Som nad mojou dovolenou urovnou
+            if ($i > $id_user_roles) {             //Som nad mojou dovolenou urovnou
               $text = substr($text, 0, $poloha).substr($text, $poloha_kon+strlen($znacka_kon));
             } else {
               //Vypusť pociatocnu a koncovu znacku

@@ -38,23 +38,21 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
 			throw new Nette\Security\AuthenticationException("User '$username' not activated. Užívateľ '$username' ešte nie je aktivovaný!", self::FAILURE);
 		}
     //Nasledujuca podmnienka je docasna a je len pre echo-msz a rodinapp
-    if ($row->password == 'chyba') {
-      if (md5($password) != $row->password) {
-        throw new Nette\Security\AuthenticationException("Invalid login name or password. Chybné meno alebo heslo.", self::INVALID_CREDENTIAL);
-      } else {
-        $this->PasswordHash(8,FALSE);   //Nastavenie
-        $new_password = $this->HashPassword($row->password);
-        $this->database->table('users')->get($row->id)->update(array(
-          'password'	=> $new_password,
-          'old_pass'	=> NULL,
-          'last_ip'   => $this->context->httpRequest->getRemoteAddress(),
-        ));
-      }
-    } else {
-      if (!$this->CheckPassword($password, $row->password)) {
-        throw new Nette\Security\AuthenticationException("Invalid login name or password. Chybné meno alebo heslo.", self::INVALID_CREDENTIAL);
-      }
+//    if ($row->password == 'chyba') {
+//      if (md5($password) != $row->password) {
+//        throw new Nette\Security\AuthenticationException("Invalid login name or password. Chybné meno alebo heslo.", self::INVALID_CREDENTIAL);
+//      } else {
+//        $this->database->table('user_new')->get($row->id)->update([
+//          'password'	=> Passwords::hash($password),
+//          'old_pass'	=> NULL,
+//          'last_ip'   => $this->context->httpRequest->getRemoteAddress(),
+//        ]);
+//      }
+//    } else {
+    if (!Passwords::verify($password, $row->password)) {
+      throw new Nette\Security\AuthenticationException("Invalid login name or password. Chybné meno alebo heslo.", self::INVALID_CREDENTIAL);
     }
+//    }
     //data z tabulky user_profiles
     $prof1 = $this->database->table('user_profiles')->where(array('id_users'=>$row->id))->limit(1)->fetch();
     //login ok
@@ -78,7 +76,7 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
     //Koniec Docasne riadky
 		$this->database->table('user_profiles')->get($prof1->id)->update($nastav);
 
-		return new Nette\Security\Identity($row->id, $prof1->registracia->role, $uzivatel);
+		return new Nette\Security\Identity($row->id, $prof1->user_roles->role, $uzivatel);
 	}
   
 	#

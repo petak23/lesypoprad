@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 25.11.2015
- * @copyright  Copyright (c) 2012 - 2015 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 19.05.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -25,7 +25,7 @@
       <td class="avatar center" n:if="$user_view_fields['avatar']"><img src="{$basePath}/www/{$clen->avatar_25}" alt="avatar" n:if="is_file('www/'.$clen->avatar_25)"></td>
       <td class="center">{$clen->id}</td>
       <td class="{if $clen->users->activated == 0}notActivated" title="Neaktivovaný člen{/if}" >
-        {if $clen->id_registracia <= $user->getIdentity()->id_registracia}
+        {if $clen->id_user_roles <= $user->getIdentity()->id_user_roles}
           <a n:href="User:edit $clen->id" title="{$clen->priezvisko|upper}"> {$clen->meno} {$clen->priezvisko|upper}</a>
         {else}
           {$clen->meno} {$clen->priezvisko|upper}
@@ -33,7 +33,7 @@
         <br /><i>{$clen->users->email}</i>
       </td>
       <td>
-        <span class="uroven-registracie uroven-registracie-{$clen->id_registracia}">{$clen->id_registracia} - {$clen->registracia->nazov} ({$clen->registracia->role})</span>
+        <span class="uroven-registracie uroven-registracie-{$clen->id_user_roles}">{$clen->id_user_roles} - {$clen->user_roles->nazov} ({$clen->user_roles->role})</span>
         <br>{$clen->users->username}
       </td>
       <td n:if="$user_view_fields['rok']">{$clen->rok}</td>
@@ -48,7 +48,7 @@
       </td>
       <td class="editacne center" n:if="$user->isInRole('admin')">
         <a href="{link confirmForm:confirmDelete! id => $clen->id, nazov => $clen->meno.' '.$clen->priezvisko, druh =>'admin', zdroj_na_zmazanie => 'užívateľa'}"
-          n:if="$clen->id_registracia <= $user->getIdentity()->id_registracia" title="Vymazanie člena {$clen->priezvisko}" class="button-right"><i class="fa fa-trash-o fa-1_5x"></i></a>
+          n:if="$clen->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie člena {$clen->priezvisko}" class="button-right"><i class="fa fa-trash-o fa-1_5x"></i></a>
       </td>
     </tr>
   </table>

@@ -6,7 +6,7 @@ body{
 }
 
 /*--- vseobecne vlastnosti pre prvky --------------------------------------------------*/
-h1, h2, h3, h4, a, label, #footer p, noscript, #odrobinky, #logofsc p, .st_dobre, .st_zle{
+h1, h2, h3, h4, a, label, footer p, noscript, #odrobinky, #logofsc p, .st_dobre, .st_zle{
 	font-family: "Myriad Pro", "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
@@ -22,7 +22,8 @@ h1{
 }
 
 h2{
-	margin: 0; padding: 1ex 0 0 0;
+	margin: 0; 
+  padding: 1ex 0 1ex 0;
 	color: #893;
 	font-weight: 600;
 	font-size: 200%;
@@ -509,7 +510,7 @@ h2.oznamy{
 }
 
 /*--- footer --------------------------------------------------*/
-#footer{
+footer{
 	text-align: center;
 	float: left;
 	clear:left;
@@ -523,7 +524,7 @@ h2.oznamy{
 	background: #6C3 url(../www/images/footer.jpg) repeat-x left bottom;
   text-align: center;
 }
-#footer p{
+footer p{
 	margin: 15px 0 0 0;
 	text-align: center;
 	font-size: 90%;
@@ -531,19 +532,19 @@ h2.oznamy{
   display: inline-block;
   width: 100%;
 }
-#footer ul{
+footer ul{
   padding: 2% 0 0 2%;
 	text-align: center;
   display: inline-block;
 }
-#footer li{
+footer li{
 	float: left;
 	margin: 0; padding: 0 1ex;
 	text-align: left;
 	border-right: 1px dotted #fff;
   list-style-type: none;
 }
-#footer li a{
+footer li a{
 	color: #ef6;
 	font-weight: 300;
 }

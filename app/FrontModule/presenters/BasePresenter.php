@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 05.05.2017
+ * Posledna zmena(last change): 19.05.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.2.9
+ * @version 1.3.0
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -40,12 +40,12 @@ abstract class BasePresenter extends UI\Presenter {
   public $hlavne_menu_lang;
   /** @var DbTable\Lang @inject*/
 	public $lang;
-  /** @var DbTable\Registracia @inject */
-	public $registracia;
+  /** @var DbTable\User_roles @inject */
+	public $user_roles;
   /** @var DbTable\Udaje @inject */
 	public $udaje;
-  /** @var DbTable\User_profiles @inject */
-	public $user_profiles;
+  /** @var DbTable\User_main @inject */
+	public $user_main;
   /** @var DbTable\Verzie @inject */
 	public $verzie;
 
@@ -110,7 +110,7 @@ abstract class BasePresenter extends UI\Presenter {
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
-    $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_registracia : 0;
+    $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
     // Nastavenie z config-u
     $this->nastavenie = $this->context->parameters;
     $modul_presenter = explode(":", $this->name);
@@ -146,7 +146,7 @@ abstract class BasePresenter extends UI\Presenter {
     $this->nazov_stranky = $httpR->host.$httpR->scriptPath; // Nazov stranky v tvare www.nieco.sk
     $this->nazov_stranky = substr($this->nazov_stranky, 0, strlen($this->nazov_stranky)-1);
     // Priradenie hlavnych parametrov a udajov
-    $this->max_id_reg = $this->registracia->findAll()->max('id');//Najdi max. ur. reg.
+    $this->max_id_reg = $this->user_roles->findAll()->max('id');//Najdi max. ur. reg.
     //Najdi info o druhu
     $tmp_druh = $this->druh->findBy(["druh.presenter"=>ucfirst($this->udaje_webu['meno_presentera'])])
                            ->where("druh.modul IS NULL OR druh.modul = ?", $modul_presenter[0])->limit(1)->fetch();
@@ -222,8 +222,8 @@ abstract class BasePresenter extends UI\Presenter {
 		$this->template->urovregistr = $this->id_reg;
     $this->template->maxurovregistr = $this->max_id_reg;
     $this->template->language = $this->language;
-    $this->template->user_admin = $this->user_profiles->findOneBy(['id_registracia'=>$this->max_id_reg]);
-    $this->template->user_spravca = $this->user_profiles->findOneBy(['id_registracia'=>$this->max_id_reg-1, 'poznamka'=>'Správca']);
+    $this->template->user_admin = $this->user_main->findOneBy(['user_roles.role'=>'admin']);
+    $this->template->user_spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
     $this->template->nazov_stranky = $this->nazov_stranky;
 		$this->template->avatar_path = $this->avatar_path;
     $this->template->text_title_image = $this->trLang("base_text_title_image");
@@ -396,7 +396,7 @@ abstract class BasePresenter extends UI\Presenter {
         'send_ok'   => $this->trLang('komponent_kontakt_send_ok'),
         'send_er'   => $this->trLang('komponent_kontakt_send_er') 
       ]);
-    $spravca = $this->user_profiles->findOneBy(["users.username" => "spravca"]);
+    $spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
 		$kontakt->setSpravca($spravca->users->email);
     $kontakt->setNazovStranky($this->nazov_stranky);
 		return $kontakt;	
@@ -474,8 +474,8 @@ abstract class BasePresenter extends UI\Presenter {
 			}
       return $vysledok;
     });
-    $template->addFilter('hlmenuclass', function ($id, $id_registracia, $hl_udaje) {
-    	$polozka_class = $id_registracia>2 ? 'adminPol' : '';
+    $template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
+    	$polozka_class = $id_user_roles>2 ? 'adminPol' : '';
       //TODO $classPol .= ' zvyrazni';
       if ($id == $hl_udaje) { $polozka_class .= ' active'; }
       return $polozka_class;
@@ -487,7 +487,7 @@ abstract class BasePresenter extends UI\Presenter {
 
       return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
     });
-    $template->addFilter('textreg', function ($text, $id_registracia, $max_id_reg) {
+    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
       for ($i = $max_id_reg; $i>=0; $i--) {
         $z_zac = "#REG".$i."#"; //Pociatocna znacka
         $z_alt = "#REG-A".$i."#"; //Alternativna znacka
@@ -495,8 +495,8 @@ abstract class BasePresenter extends UI\Presenter {
         if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
           $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
                   .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
-                   ($i < $id_registracia ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
-                   ($i < $id_registracia ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
                   .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
 			  } 
       }

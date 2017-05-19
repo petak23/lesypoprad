@@ -15,7 +15,7 @@
           <a href="#" class="btn btn-primary btn-sm disabled button-right" role="button" n:if="$nastavenie['datum_platnosti']">Platí do: {*$plati_do*}<strong>{$oznam->datum_platnosti|date:'j.n.Y'}</strong></a>
           <small n:if="$nastavenie['datum_zadania']">{*$zverejnene*}{$oznam->datum_zadania|date:'j.n.Y'}</small>
           {if $user->isLoggedIn()}
-            {$oznam->text|noescape|textreg:$user->getIdentity()->id_registracia, 5|koncova_znacka} {*$maxurovregistr*}
+            {$oznam->text|noescape|textreg:$user->getIdentity()->id_user_roles, 5|koncova_znacka} {*$maxurovregistr*}
           {else}
             {$oznam->text|noescape|textreg:0, 5|koncova_znacka} {*$maxurovregistr*}
           {/if}

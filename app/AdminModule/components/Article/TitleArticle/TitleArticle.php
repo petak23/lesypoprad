@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 04.03.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -145,7 +145,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre zmenu vlastnika.
    * @return Nette\Application\UI\Form */
   public function createComponentZmenUrovenRegistracieForm() {
-    return $this->_formMessage($this->zmenUrovenRegistracie->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_registracia));
+    return $this->_formMessage($this->zmenUrovenRegistracie->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_roles));
   }
   
   /** 

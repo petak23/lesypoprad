@@ -7,15 +7,15 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 30.05.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.4
  */
 
 class ClankyPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
@@ -181,7 +181,7 @@ class ClankyPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
                 "odkaz" 		=> $this->link(":Front:Clanky:default", $this->zobraz_clanok->id_hlavne_menu),
                 "datum_platnosti" => $this->zobraz_clanok->hlavne_menu->datum_platnosti,
               ];
-    $send = new PeterVojtech\Email\EmailControl(__DIR__.'/templates/Clanky/email_clanky_html.latte', $this->user_profiles, 1, $this->zobraz_clanok->hlavne_menu->id_registracia);
+    $send = new PeterVojtech\Email\EmailControl(__DIR__.'/templates/Clanky/email_clanky_html.latte', $this->user_profiles, 1, $this->zobraz_clanok->hlavne_menu->id_user_roles);
     try {
       $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nový článok na stránke '.$this->nazov_stranky), 'success');
     } catch (Exception $e) {

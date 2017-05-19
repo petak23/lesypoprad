@@ -5,13 +5,13 @@ use Nette;
 
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
- * Posledna zmena 08.06.2015
+ * Posledna zmena 19.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2015 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 class Hlavne_menu_lang extends Table {
   /** @var string */
@@ -21,15 +21,15 @@ class Hlavne_menu_lang extends Table {
 	  * a min. urovne registracie uzivatela
 		* @param string $spec_nazov - specificky nazov clanku v hl. menu
 		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
-		* @param int $id_registracia - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
+		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
 		* @return array|FALSE
 		*/
-	public function getOneArticleSp($spec_nazov, $language_id = 1, $id_registracia = 5) {
+	public function getOneArticleSp($spec_nazov, $language_id = 1, $id_user_roles = 5) {
     $articles = clone $this;
 		//Najdi v tabulke hlavne_menu polozku podla spec. nazvu a urovne registracie
     return $articles->getTable()->where("hlavne_menu.spec_nazov", $spec_nazov)
                                 ->where("id_lang", $language_id)
-                                ->where("hlavne_menu.id_registracia <= ?", $id_registracia)
+                                ->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)
                                 ->fetch();
   }
   
@@ -37,15 +37,15 @@ class Hlavne_menu_lang extends Table {
 	  * a min. urovne registracie uzivatela
 		* @param int $id - id polozky v hl. menu
 		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
-		* @param int $id_registracia - min. uroven registracie uzivatela. Ak nemam tak sa berie 5 - admin
+		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5 - admin
 		* @return Nette\Database\Table\ActiveRow|array
 		*/
-  public function getOneArticleId($id, $language_id = 1, $id_registracia = 5) {
+  public function getOneArticleId($id, $language_id = 1, $id_user_roles = 5) {
     $articles = clone $this;
     //Najdi v tabulke hlavne_menu polozku podla id a urovne registracie
     return $articles->getTable()->where("id_hlavne_menu", $id)
                                 ->where("id_lang", $language_id)
-                                ->where("hlavne_menu.id_registracia <= ?", $id_registracia)
+                                ->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)
                                 ->fetch();
   }
   

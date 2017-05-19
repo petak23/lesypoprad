@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 26.05.2016
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 19.05.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -23,7 +23,7 @@
       <td class="center"><i n:ifset="$ca->fa_class" class="fa fa-{$ca->fa_class}"></i></td>
       <td class="center">{$ca->id}</td>
       <td>
-        {if $ca->id_registracia <= $user->getIdentity()->id_registracia}
+        {if $ca->id_user_roles <= $user->getIdentity()->id_user_roles}
           <a n:href="User:editCategori $ca->id" title="Editácia kategórie: {$ca->nazov}">{$ca->nazov}</a>
         {else}
           {$ca->nazov}
@@ -31,7 +31,7 @@
       </td>
       <td class="editacne center" n:if="$user->isInRole('admin')">
         <a href="{link confirmForm:confirmDelete! id => $ca->id, nazov => $ca->nazov, druh =>'categori', zdroj_na_zmazanie => 'kategóriu'}"
-          n:if="$ca->id_registracia <= $user->getIdentity()->id_registracia" title="Vymazanie kategórie {$ca->nazov}" class="button-right">
+          n:if="$ca->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie kategórie {$ca->nazov}" class="button-right">
           <i class="fa fa-trash-o fa-1_5x"></i></a>
       </td>
     </tr>

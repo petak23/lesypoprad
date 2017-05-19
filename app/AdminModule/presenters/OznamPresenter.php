@@ -2,22 +2,22 @@
 namespace App\AdminModule\Presenters;
 
 use Nette\Forms\Container;
-use Nette\Application\UI\Multiplier;
+//use Nette\Application\UI\Multiplier;
 use DbTable;
 use PeterVojtech;
 
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 19.12.2016
+ * Posledna zmena(last change): 19.05.2017
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -60,7 +60,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
 
   /** Render pre vypis oznamov */
   public function renderDefault() {
-		$this->template->oznamy = $this->oznam->vsetky($this->oznam_usporiadanie);
+		$this->template->oznamy = $this->oznam->vsetky($this->oznam_usporiadanie, $this->id_reg);
   }
 
   /** Akcia pre pridanie oznamu */
@@ -68,7 +68,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
     $this["oznamEditForm"]->setDefaults([ //Nastav vychodzie hodnoty
       'id'							=> 0,
       'id_user_profiles'=> $this->getUser()->getId(),
-      'id_registracia'	=> 0,
+      'id_user_roles'	=> 0,
       'id_ikonka'				=> 0,
       'datum_platnosti'	=> StrFTime("%Y-%m-%d", Time()),
       'datum_zadania'   => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
@@ -106,7 +106,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
 	 * @return Nette\Application\UI\Form
 	 */
 	protected function createComponentOznamEditForm() {
-    $form = $this->editOznamForm->create($this->udaje_webu['oznam_ucast'], $this->nastavenie['send_e_mail_news'], $this->template->oznam_title_image_en, $this->nazov_stranky); 
+    $form = $this->editOznamForm->create($this->udaje_webu['oznam_ucast'], $this->template->oznam_title_image_en, $this->nazov_stranky); 
     $form['uloz']->onClick[] = function ($button) { 
       $form_val = $button->getForm();
       if (!count($form_val->errors) && $form_val->getValues()->posli_news) { $this->_sendOznamyEmail($form_val->getValues()->id);}
@@ -133,7 +133,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
                 "oznam_id"    => $values->id,
                 "volby"       => [],
               ];
-    $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Oznam/email_oznamy_html.latte', 1, $values->id_registracia);
+    $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Oznam/email_oznamy_html.latte', 1, $values->id_user_roles);
     try {
       $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nový oznam na stránke '.$this->nazov_stranky), 'success');
     } catch (Exception $e) {

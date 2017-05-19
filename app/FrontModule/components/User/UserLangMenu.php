@@ -26,6 +26,8 @@ class UserLangMenuControl extends Control {
   
   /** @var DbTable\Lang */
   public $lang;
+  /** @var DbTable\User_main */
+  public $user_main;
 
   /** @var User */
   protected $user;
@@ -34,11 +36,12 @@ class UserLangMenuControl extends Control {
    * @param DbTable\Lang $lang
    * @param User $user
    * @param Language_support\User $lang_supp */
-  public function __construct(DbTable\Lang $lang, User $user, Language_support\User $lang_supp) {
+  public function __construct(DbTable\Lang $lang, DbTable\User_main $user_main, User $user, Language_support\User $lang_supp) {
     parent::__construct();
     $this->lang = $lang;
     $this->user = $user;
     $this->texty = $lang_supp;
+    $this->user_main = $user_main;
   }
   
   /** 
@@ -89,11 +92,11 @@ class UserLangMenuControl extends Control {
    * @return \App\FrontModule\Components\User\MenuItem */
   private function _panelPrihlaseny($baseUrl, $log_out) {
     $menu_user = [];
-    $udata = $this->user->getIdentity();
+    $udata = $this->user_main->find($this->user->getIdentity()->getId());
     if ($this->nastavenie['view_avatar']) {
       $obb = Html::el('img class="avatar"');
-      if ($udata->avatar_25 && is_file('www/'.$udata->avatar_25)) {
-        $obb = $obb->src($baseUrl.'/www/'.$udata->avatar_25)->alt('avatar');
+      if ($udata->user_profiles->avatar && is_file('www/'.$udata->user_profiles->avatar)) {
+        $obb = $obb->src($baseUrl.'/www/'.$udata->user_profiles->avatar)->alt('avatar');
       } else {
         $obb = $obb->src($baseUrl.'/www/ikonky/64/figurky_64.png')->alt('bez avatara');
       }
@@ -102,7 +105,7 @@ class UserLangMenuControl extends Control {
           'odkaz'=>'UserLog:', 
           'nazov'=>$obb." ".$udata->meno.' '.$udata->priezvisko,
           'title'=>$udata->meno.' '.$udata->priezvisko]);
-    if ($this->user->isAllowed('admin', 'enter')) {
+    if ($this->user->isAllowed('Admin:Homepage', 'default')) {
       $menu_user[] = new MenuItem([
         'odkaz'=>':Admin:Homepage:',
         'title'=>'Administrácia',

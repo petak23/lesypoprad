@@ -5,59 +5,60 @@
 # http://nette.org/security-warning
 #
 services:
-  - DbTable\Authenticator
+#  - DbTable\Authenticator
 
-  authorizator:
-    class: Nette\Security\Permission
-    setup:
-      - addRole('guest')
-      - addRole('register', 'guest')
-      - addRole('pasivny', 'register')
-      - addRole('aktivny', 'pasivny')
-      - addRole('spravca', 'aktivny')
-      - addRole('admin', 'spravca')
-      - addResource('Front:Homepage')
-      - addResource('Front:User')
-      - addResource('Front:UserLog')
-      - addResource('Front:Dokumenty')
-      - addResource('Front:Error')
-      - addResource('admin')
-      - addResource('Front:Oznam')
-      - addResource('Front:Clanky')
-      - addResource('Front:Menu')
-      - addResource('Front:Faktury')
-      - addResource('Admin:Homepage')
-      - addResource('Admin:User')
-      - addResource('Admin:Verzie')
-      - addResource('Admin:Menu')
-      - addResource('Admin:Udaje')
-      - addResource('Admin:Dokumenty')
-      - addResource('Admin:Lang')
-      - addResource('Admin:Slider')
-      - addResource('Admin:Registracia')
-      - addResource('Admin:Oznam')
-      - addResource('Admin:Clanky')
-      - addResource('Admin:Texyla')
-      - allow('guest', ['Front:Dokumenty', 'Front:Oznam', 'Front:Clanky', 'Front:Menu', 'Front:Homepage', 'Front:Error'])
-      - allow('guest', 'Front:User', ['registracia', 'activateUser', 'forgottenPassword', 'resetPassword', 'default'])
-      - allow('guest', 'Front:UserLog', ['activateNewEmail'])
-      - allow('register', 'Front:UserLog', ['default', 'mailChange', 'passwordChange'])
-      - allow('pasivny', ['Front:Oznam', 'Front:Clanky'], 'komentar')
-      - allow('aktivny', 'admin', 'enter')
-      - allow('aktivny', ['Admin:Clanky', 'Admin:Menu'], ['default', 'edit', 'edit2', 'add', 'add2', 'prilohy', 'del'])
-      - allow('aktivny', 'Admin:Homepage', 'default')
-      - allow('aktivny', 'Admin:Dokumenty')
-      - allow('spravca', ['Front:Faktury'], ['add', 'default', 'edit'])
-      - allow('spravca', ['Admin:Clanky', 'Admin:Menu'], ['addpol', 'delete', 'pocitadlo'])
-      - allow('spravca', ['Admin:Verzie', 'Admin:User'], 'default')
-      - allow('spravca', ['Admin:Udaje'], ['default', 'edit'])
-      - allow('spravca', 'Admin:Oznam', ['default', 'neaktualne', 'add', 'edit'])
-      - allow('spravca', ['Admin:Slider', 'Admin:Texyla'])
-      - allow('spravca', 'Admin:Lang', ['default', 'add', 'edit'])
-      - allow('spravca', 'Admin:Registracia', ['default', 'edit'])
-      - allow('spravca', 'Admin:Homepage', 'udrzba')
-      - allow('admin')
-
+#  authorizator:
+#    class: Nette\Security\Permission
+#    setup:
+#      - addRole('guest')
+#      - addRole('register', 'guest')
+#      - addRole('pasivny', 'register')
+#      - addRole('aktivny', 'pasivny')
+#      - addRole('spravca', 'aktivny')
+#      - addRole('admin', 'spravca')
+#      - addResource('Front:Homepage')
+#      - addResource('Front:User')
+#      - addResource('Front:UserLog')
+#      - addResource('Front:Dokumenty')
+#      - addResource('Front:Error')
+#      - addResource('admin')
+#      - addResource('Front:Oznam')
+#      - addResource('Front:Clanky')
+#      - addResource('Front:Menu')
+#      - addResource('Front:Faktury')
+#      - addResource('Admin:Homepage')
+#      - addResource('Admin:User')
+#      - addResource('Admin:Verzie')
+#      - addResource('Admin:Menu')
+#      - addResource('Admin:Udaje')
+#      - addResource('Admin:Dokumenty')
+#      - addResource('Admin:Lang')
+#      - addResource('Admin:Slider')
+#      - addResource('Admin:Registracia')
+#      - addResource('Admin:Oznam')
+#      - addResource('Admin:Clanky')
+#      - addResource('Admin:Texyla')
+#      - allow('guest', ['Front:Dokumenty', 'Front:Oznam', 'Front:Clanky', 'Front:Menu', 'Front:Homepage', 'Front:Error'])
+#      - allow('guest', 'Front:User', ['registracia', 'activateUser', 'forgottenPassword', 'resetPassword', 'default'])
+#      - allow('guest', 'Front:UserLog', ['activateNewEmail'])
+#      - allow('register', 'Front:UserLog', ['default', 'mailChange', 'passwordChange'])
+#      - allow('pasivny', ['Front:Oznam', 'Front:Clanky'], 'komentar')
+#      - allow('aktivny', 'admin', 'enter')
+#      - allow('aktivny', ['Admin:Clanky', 'Admin:Menu'], ['default', 'edit', 'edit2', 'add', 'add2', 'prilohy', 'del'])
+#      - allow('aktivny', 'Admin:Homepage', 'default')
+#      - allow('aktivny', 'Admin:Dokumenty')
+#      - allow('spravca', ['Front:Faktury'], ['add', 'default', 'edit'])
+#      - allow('spravca', ['Admin:Clanky', 'Admin:Menu'], ['addpol', 'delete', 'pocitadlo'])
+#      - allow('spravca', ['Admin:Verzie', 'Admin:User'], 'default')
+#      - allow('spravca', ['Admin:Udaje'], ['default', 'edit'])
+#      - allow('spravca', 'Admin:Oznam', ['default', 'neaktualne', 'add', 'edit'])
+#      - allow('spravca', ['Admin:Slider', 'Admin:Texyla'])
+#      - allow('spravca', 'Admin:Lang', ['default', 'add', 'edit'])
+#      - allow('spravca', 'Admin:Registracia', ['default', 'edit'])
+#      - allow('spravca', 'Admin:Homepage', 'udrzba')
+#      - allow('admin')
+  - DbTable\UserManager
+  authorizator: DbTable\AuthorizatorFactory::create(@Nette\Database\Context)
   - DbTable\Admin_menu
   - DbTable\Clanok_komponenty
   - DbTable\Clanok_lang
@@ -73,15 +74,15 @@ services:
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
-  - DbTable\Registracia
   - DbTable\Slider
   - DbTable\Udaje
   - DbTable\Udaje_typ
-  - DbTable\User_in_categories
   - DbTable\User_categories
+  - DbTable\User_in_categories
+  - DbTable\User_main
   - DbTable\User_prihlasenie
   - DbTable\User_profiles
-  - DbTable\Users
+  - DbTable\User_roles
   - DbTable\Verzie
 #blok Oznam
   - DbTable\Oznam
@@ -133,7 +134,6 @@ services:
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
   - App\FrontModule\Components\Clanky\IAktualneClankyControl
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  - App\FrontModule\Components\Clanky\IKomentarControl
   - App\FrontModule\Components\Clanky\IPrilohyClanokControl
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
   - App\FrontModule\Components\Slider\ISliderControl

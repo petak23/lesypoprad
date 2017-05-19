@@ -5,13 +5,13 @@ use Nette\Utils\Strings;
 
 /**
  * Reprezentuje repozitar pre databázovu tabulku
- * Posledna zmena(last change): 27.03.2017
+ * Posledna zmena(last change): 19.05.2017
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
 */
 abstract class Table {
 
@@ -106,7 +106,7 @@ abstract class Table {
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function hladaj_spec($spec_nazov, $id_reg = NULL) {
     if (!isset($spec_nazov)) { return FALSE; } //Spec nazov nie je nastaveny
-    $pom = $this->findOneBy(isset($id_reg) ? ["spec_nazov"=>$spec_nazov, "id_registracia <= ".$id_reg] : ["spec_nazov"=>$spec_nazov]);
+    $pom = $this->findOneBy(isset($id_reg) ? ["spec_nazov"=>$spec_nazov, "id_user_roles <= ".$id_reg] : ["spec_nazov"=>$spec_nazov]);
     return ($pom !== FALSE && count($pom) == 1) ? $pom : FALSE;
   }
 
@@ -116,7 +116,7 @@ abstract class Table {
    * @param int $id_reg
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function hladaj_id($id = 0, $id_reg = NULL) {
-    return (isset($id_reg)) ? $this->findOneBy(["id"=>$id, "id_registracia <= ".$id_reg]) : $this->find($id);
+    return (isset($id_reg)) ? $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]) : $this->find($id);
   }
 
   /**
