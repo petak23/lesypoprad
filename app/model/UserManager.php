@@ -8,13 +8,13 @@ use DbTable;
 
 /**
  * Model starajuci sa o uzivatela
- * Posledna zmena(last change): 18.05.2017
+ * Posledna zmena(last change): 22.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 class UserManager implements Nette\Security\IAuthenticator {
 	use Nette\SmartObject;
@@ -30,6 +30,8 @@ class UserManager implements Nette\Security\IAuthenticator {
     COLUMN_PRIEZVISKO = 'priezvisko',
 		COLUMN_EMAIL = 'email',
     COLUMN_ACTIVATED = 'activated',
+    COLUMN_BANNED = 'banned',
+    COLUMN_BAN_REASON = 'ban_reason',
     COLUMN_CREATED = 'created',
     // Mandatory columns for table user_profiles
     // Mandatory columns for table user_roles
@@ -67,6 +69,8 @@ class UserManager implements Nette\Security\IAuthenticator {
 			throw new Nette\Security\AuthenticationException("The username '$username' is incorrect. Užívateľské meno '$username' nie je správne!", self::IDENTITY_NOT_FOUND);
     } elseif (!$row[self::COLUMN_ACTIVATED]) {
 			throw new Nette\Security\AuthenticationException("User '$username' not activated. Užívateľ '$username' ešte nie je aktivovaný!", self::FAILURE);
+		} elseif ($row[self::COLUMN_BANNED]) {
+			throw new Nette\Security\AuthenticationException("User '$username' is banned! Because: ".$row[self::COLUMN_BAN_REASON]." | Užívateľ '$username' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], self::FAILURE);
 		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
 			throw new Nette\Security\AuthenticationException('Invalid username or password. Chybné užívateľské meno alebo heslo!', self::INVALID_CREDENTIAL);
 		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
@@ -82,38 +86,4 @@ class UserManager implements Nette\Security\IAuthenticator {
     $this->user_prihlasenie->addLogIn($row[self::COLUMN_ID]);
 		return new Nette\Security\Identity($row[self::COLUMN_ID], $role, $arr);
 	}
-
-	/**
-	 * Adds new user.
-   * @param string $meno
-   * @param string $priezvisko
-   * @param string $username
-   * @param string $email
-   * @param string $password
-   * @param int $activated
-   * @param int $role
-   * @return void
-   * @throws DuplicateNameEmailException */
-	public function add($meno, $priezvisko, $username, $email, $password, $activated = 0, $role = 0)	{
-		try {
-			$user_profiles = $this->user_profiles->pridaj([]); 
-      $this->user_main->pridaj([
-        self::COLUMN_MENO             => $meno,
-        self::COLUMN_PRIEZVISKO       => $priezvisko,
-				self::COLUMN_USERNAME         => $username,
-				self::COLUMN_PASSWORD_HASH    => Passwords::hash($password),
-				self::COLUMN_EMAIL            => $email,
-        self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
-        self::COLUMN_ACTIVATED        => $activated,
-        self::COLUMN_ID_USER_ROLES    => $role,
-        self::COLUMN_CREATED          => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
-			]);
-		} catch (Nette\Database\UniqueConstraintViolationException $e) {
-      $message = explode("key", $e->getMessage());
-      throw new DuplicateNameEmailException($message[1]);
-		}
-	}
 }
-
-class DuplicateNameEmailException extends \Exception
-{}

@@ -4,16 +4,19 @@ namespace DbTable;
 
 /**
  * Model starajuci sa o tabulku user_prihlasenie
- * Posledna zmena 19.05.2016
+ * Posledna zmena 22.05.2016
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */ 
-class User_prihlasenie extends Table
-{
+class User_prihlasenie extends Table {
+  const
+    COLUMN_LOG_IN_DATETIME = 'log_in_datetime',
+    COLUMN_ID_USER_MAIN = 'id_user_main';
+  
   /** @var string */
   protected $tableName = 'user_prihlasenie';
 
@@ -22,7 +25,7 @@ class User_prihlasenie extends Table
    * @param int $pocet
    * @return \Nette\Database\Table\Selection */
   public function getLastPr($pocet = 25) {
-		return $this->findAll()->order('prihlasenie_datum DESC')->limit($pocet);
+		return $this->findAll()->order(self::COLUMN_LOG_IN_DATETIME.' DESC')->limit($pocet);
 	}
   
   /**
@@ -30,9 +33,14 @@ class User_prihlasenie extends Table
    * @param int $id_user_main
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function addLogIn($id_user_main) {
-    return $this->pridaj(['id_user_main' => $id_user_main, 'prihlasenie_datum' => StrFTime("%Y-%m-%d %H:%M:%S", Time())]);
+    return $this->pridaj([self::COLUMN_ID_USER_MAIN => $id_user_main, 
+                          self::COLUMN_LOG_IN_DATETIME => StrFTime("%Y-%m-%d %H:%M:%S", Time())
+                         ]);
   }
   
-  
-
+  /**
+   * Vymaze vstetky data z DB */
+  public function delAll() {
+    $this->getTable()->delete();
+  }
 }

@@ -157,7 +157,7 @@ abstract class Table {
    * @param array $data
    * @return integer|FALSE */
   public function oprav($id, $data) {
-      return $this->getTable()->where(['id'=>$id])->update($data);
+      return $this->getTable()->get($id)->update($data);
   }
 
   /**
@@ -175,6 +175,6 @@ abstract class Table {
    * @return integer|FALSE */
   public function zmaz($id) {
     if (!$id) { return FALSE; }//id nie je zadane
-    return $this->getTable()->where(array('id'=>$id))->delete(); 
+    return $this->getTable()->where(['id'=>$id])->delete(); 
   }
 }

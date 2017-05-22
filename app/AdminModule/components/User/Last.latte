@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 22.05.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -12,14 +12,14 @@
  * @param array    $user    Data o uzivatelovy
 *}
 <div class="last-login">
-	<h4>{$h3}</h4>
+  <h4>{$h3}<small><a n:href="ZoznamErase!" title="Vymazanie zoznamu"><i class="fa fa-trash-o"></i></a></small></h4>
   <table n:inner-foreach="$last as $c">
     <tr n:class="$iterator->isOdd() ? r1 : r2">
       <td n:class="$user->id == $c->id_user_main ? zvyrazni">
         {$c->user_main->meno} {$c->user_main->priezvisko|upper}
       </td>
       <td n:class="$user->id == $c->id_user_main ? zvyrazni">
-        {$c->user_main->user_profiles->log_in_datetime|date:'%d.%m.%Y %H:%M'}
+        {$c->log_in_datetime|date:'%d.%m.%Y %H:%M'}
       </td>
     </tr>
   </table>

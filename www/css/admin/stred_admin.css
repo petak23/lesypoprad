@@ -32,9 +32,16 @@ h6 {
   float: none;
   border: 0;
 }
-.table-clenovia td.notActivated {
+.notActivated {
   background-color: #ff4500;
   background-color: rgba(255, 250, 120, 0.8);
+}
+.user-banned {
+  background-color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.8);
+}
+.user-banned span {
+  color: #FBEB03;
 }
 
 .table-clenovia td.pocet_pr {

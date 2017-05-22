@@ -31,7 +31,7 @@ parameters:
 #			1 = v hl. menu
 # 		2 = v titulke clanku
   article_avatar_view_in: 2 
-  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
+#  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 800        #Zakladny rozmer
     y: 600

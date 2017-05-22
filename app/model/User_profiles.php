@@ -4,13 +4,13 @@ namespace DbTable;
 
 /**
  * Model, ktory sa stara o tabulku user_profiles
- * Posledna zmena 19.05.2017
+ * Posledna zmena 22.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class User_profiles extends Table {
   
@@ -110,24 +110,15 @@ class User_profiles extends Table {
   public function delUser($clen_id_up) {
     try {
       $this->connection->table('user_prihlasenie')->where(['id_user_main'=>$clen_id_up])->delete();
-      $this->connection->table('clanok')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
-      $this->connection->table('dokumenty')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
-      $this->connection->table('oznam')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
+//      $this->connection->table('clanok_lang')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
+//      $this->connection->table('dokumenty')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
+//      $this->connection->table('oznam')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
       $this->connection->table('verzie')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
+      $this->zmaz($clen_id_up);
     } catch (Exception $e) {
       throw new Database\DriverException('DB error: '.$e->getMessage());
     }
   }
-  
-  /**
-   * @param array $data
-   * @param int $id
-   * @return @return \Nette\Database\Table\ActiveRow|FALSE */
-  protected function _saveUsers($data, $id = 0) {
-    $usersTable = $this->connection->table('users');
-    return $id ? ($usersTable->where(['id'=>$id])->update($data) !== FALSE ? $usersTable->get($id) : FALSE): $usersTable->insert($data);
-  }
-    
   
   /**
    * @param Nette\Utils\ArrayHash $values
@@ -135,20 +126,9 @@ class User_profiles extends Table {
    * @throws Nette\Database\DriverException */
   public function saveUser($values) {
     try {
-      $id_user_profiles = (int)$values->id;
-      $id_users = (int)$values->id_users;
-      unset($values->id, $values->id_users);
-
-      //Uloz info do tabulky users
-      $uloz_users = $this->_saveUsers([
-        'username'  => $values->username,
-        'email'     => $values->email,
-      ], $id_users);
-      if (!empty($uloz_users['id'])) {
-        unset($values->username, $values->email);
-        $uloz = $this->user_profiles->uloz($values, $id_user_profiles);
-      }
-      return (!empty($uloz['id']));
+      $id = (int)$values->id;
+      unset($values->id);
+      return $this->uloz($values, $id);
     } catch (Exception $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
