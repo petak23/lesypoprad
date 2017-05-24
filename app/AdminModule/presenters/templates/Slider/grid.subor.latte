@@ -1,0 +1,5 @@
+{*<a n:href="Slider:edit $riadok->id" title="{$riadok->subor} - editácia položky slider-u">*}
+  {var $slider_o = is_file('www/files/slider/'.$item->subor) ? 'files/slider/'.$item->subor : 'images/otaznik.png'}
+  <img src="{$basePath}/www/{$slider_o}" alt="obrazok" class="slider-small-img">
+{*</a>*}
+     

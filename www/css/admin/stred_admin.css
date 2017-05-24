@@ -88,7 +88,7 @@ h6 {
   background-color: rgba(255, 0, 0, 0.6);
   color: #ccc;
 }
-.table-slider tr td a img {
+.table-slider tr td a img, .slider-small-img {
 	width: 90px;
 	float: left;
 }

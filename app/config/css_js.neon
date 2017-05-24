@@ -48,7 +48,7 @@ webloader:
         - %wwwDir%/www/css/font-awesome.min.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/jquery-ui-only-datepicker-1_12_1.css
+        - %wwwDir%/www/css/jquery-ui.css
         - %wwwDir%/www/css/datagrid.css
         - %wwwDir%/www/css/lightbox.css
         - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
@@ -65,7 +65,8 @@ webloader:
         - %wwwDir%/www/css/font-awesome.min.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/jquery-ui-only-datepicker-1_12_1.css
+        - %wwwDir%/www/css/jquery-ui.css
+        - %wwwDir%/www/css/datagrid.css
         - %wwwDir%/www/css/lightbox.css
         - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
       filters:
@@ -84,7 +85,7 @@ webloader:
         - %wwwDir%/www/js/bootstrap.min.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
+        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/js-image-slider.js
@@ -105,8 +106,9 @@ webloader:
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
         - %wwwDir%/www/js/lightbox.min.js
-        - %wwwDir%/www/js/jquery-ui.only-datepicker-1.12.1.min.js
+        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+        - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/pomocne_admin.js
       filters:
         - @jsMin

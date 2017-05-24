@@ -8,13 +8,13 @@ use DbTable;
 
 /**
  * Komponenta pre zjedndusenie odoslania emailu
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 24.05.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 class EmailControl extends UI\Control {
@@ -74,6 +74,7 @@ class EmailControl extends UI\Control {
     }
   }
 }
+
 interface IEmailControl {
   /** @return EmailControl */
   function create();
