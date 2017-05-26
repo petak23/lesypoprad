@@ -164,9 +164,14 @@ a.button-left {
   cursor: default;
 }
 .fa-1_5x { font-size: 1.5em;}
-.edit-ikon {
-  color: #228b22;
+.edit-ikon { color: #228b22; }
+.del-ikon { color: #b50000; }
+.datagrid table thead tr th {
+  font-weight: bold;
+  font-size: 120%;
+  background-color: #333;
+  color: #FFF;
 }
-.del-ikon {
-  color: #b50000;
+.datagrid table thead tr th a{
+  color: #ffeb3b;
 }

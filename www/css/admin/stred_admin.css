@@ -15,7 +15,7 @@ h6 {
   height: 100px;
   float: none;
 }
-.table-clenovia, .table-slider {
+.table-clenovia {
   margin-top: 1em;
 }
 .table-clenovia td {
@@ -71,14 +71,14 @@ h6 {
 .table-clenovia td.pocet_pr div.vyb3 { background-color: #ffd700; }
 .table-clenovia td.pocet_pr div.vyb4 { background-color: #b22222; }
 .table-clenovia td.pocet_pr div.vyb5 { background-color: #000000; }
-.table-clenovia td.center, .table-slider td.center {
+.table-clenovia td.center {
   text-align: center;
 }
 .table-clenovia td.right {
   text-align: right;
   padding-right: 2px;
 }
-.table-clenovia td.editacne, .table-slider td.editacne {
+.table-clenovia td.editacne {
   width: 50px;
 }
 .table-clenovia td.vklad {
@@ -88,9 +88,12 @@ h6 {
   background-color: rgba(255, 0, 0, 0.6);
   color: #ccc;
 }
-.table-slider tr td a img, .slider-small-img {
-	width: 90px;
-	float: left;
+.slider-small-img {
+	width: 50%;
+	/*float: left;*/
+}
+.slider-file-name {
+  margin-top: -.5em;
 }
 
 .uroven-registracie {

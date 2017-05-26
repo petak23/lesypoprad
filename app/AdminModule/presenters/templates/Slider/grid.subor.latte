@@ -1,5 +1,4 @@
-{*<a n:href="Slider:edit $riadok->id" title="{$riadok->subor} - editácia položky slider-u">*}
-  {var $slider_o = is_file('www/files/slider/'.$item->subor) ? 'files/slider/'.$item->subor : 'images/otaznik.png'}
-  <img src="{$basePath}/www/{$slider_o}" alt="obrazok" class="slider-small-img">
-{*</a>*}
+{var $slider_o = is_file('www/files/slider/'.$item->subor) ? 'files/slider/'.$item->subor : 'images/otaznik.png'}
+<img class="jslghtbx-thmb img-rounded slider-small-img" src="{$basePath}/www/{$slider_o}" alt="obrázok" data-jslghtbx="{$basePath}/www/{$slider_o}" data-jslghtbx-group="mygroup1">
+<p n:if="$popis" class="slider-file-name">{$item->subor}</p>
      

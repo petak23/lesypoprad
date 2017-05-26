@@ -235,9 +235,6 @@ SET foreign_key_checks = 0;
 DROP TABLE `registracia`, `users`;
 
 ALTER TABLE `slider`
-ADD UNIQUE `poradie` (`poradie`);
-
-ALTER TABLE `slider`
 CHANGE `popis` `popis` varchar(150) COLLATE 'utf8_bin' NULL COMMENT 'Popis obrázku slideru vypisovaný v dolnej časti' AFTER `nadpis`;
 
 UPDATE `slider` SET

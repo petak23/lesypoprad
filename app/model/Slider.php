@@ -32,5 +32,41 @@ class Slider extends Table {
     $poradie = $this->findAll()->max('poradie');
     return $poradie ? (++$poradie) : 1;
   }
+  
+  /**
+   * Zmeni poradie prvkov
+   * @param int $item_id Prvok, ktoreho poradie sa meni
+   * @param int $prev_id Za ktory prvok sa vklada
+   * @param int $next_id Pred ktory prvok sa vklada */
+  public function sortItem($item_id, $prev_id, $next_id) {
+    $item = $this->find($item_id);
+
+    // 1. Find out order of item BEFORE current item 
+    $previousItem = (!$prev_id) ? NULL : $this->find($prev_id);
+
+    // 2. Find out order of item AFTER current item 
+    $nextItem = (!$next_id) ? NULL : $this->find($next_id);
+
+    // 3. Find all items that have to be moved one position up 
+    $itemsToMoveUp = $this->findBy(['poradie <='.($previousItem ? $previousItem->poradie : 0), 'poradie >'. $item->poradie]);
+    foreach ($itemsToMoveUp as $t) {
+      $t->update(['poradie'=>($t->poradie - 1)]);
+    }
+
+    // 4. Find all items that have to be moved one position down
+    $itemsToMoveDown = $this->findBy(['poradie >='.($nextItem ? $nextItem->poradie : 0), 'poradie <'. $item->poradie]);
+    foreach ($itemsToMoveDown as $t) {
+      $t->update(['poradie'=>($t->poradie + 1)]);
+    }
+
+    // 5. Update current item order
+    if ($previousItem) {
+      $item->update(['poradie'=>($previousItem->poradie + 1)]);
+    } else if ($nextItem) {
+      $item->update(['poradie'=>($nextItem->poradie - 1)]);
+    } else {
+      $item->update(['poradie'=>1]);
+    }
+  }
 
 }
