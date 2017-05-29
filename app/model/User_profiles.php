@@ -4,13 +4,13 @@ namespace DbTable;
 
 /**
  * Model, ktory sa stara o tabulku user_profiles
- * Posledna zmena 22.05.2017
+ * Posledna zmena 29.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class User_profiles extends Table {
   
@@ -86,19 +86,6 @@ class User_profiles extends Table {
       if ($c->users->email != '---') {
         $out .= $sum == $iter ? $c->users->email : $c->users->email.', '; 
       }
-    }
-    return $out;
-  }
-  
-  /**
-   * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
-   * @return array Pole uzivatelov vo formate: id => "meno priezvisko"
-   */
-  public function uzivateliaForm() {
-    $u = $this->findAll();
-    $out = [];
-    foreach ($u as $v) {
-      $out[$v->id] = $v->meno." ".$v->priezvisko;
     }
     return $out;
   }

@@ -5,13 +5,13 @@ use Nette\Security\Passwords;
 
 /**
  * Model, ktory sa stara o tabulku user_main
- * Posledna zmena 18.05.2017
+ * Posledna zmena 29.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 class User_main extends Table {
   const
@@ -26,6 +26,7 @@ class User_main extends Table {
     COLUMN_ACTIVATED = 'activated',
     COLUMN_BANNED = 'banned',
     COLUMN_BAN_REASON = 'ban_reason',
+    COLUMN_LAST_IP = 'last_ip',
     COLUMN_CREATED = 'created';  
   
   /** @var string */
@@ -121,6 +122,18 @@ class User_main extends Table {
     } catch (Exception $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
+  }
+  
+  /**
+   * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
+   * @return array Pole uzivatelov vo formate: id => "meno priezvisko" */
+  public function uzivateliaForm() {
+    $u = $this->findAll();
+    $out = [];
+    foreach ($u as $v) {
+    $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO}." ".$v->{self::COLUMN_PRIEZVISKO};
+    }
+    return $out;
   }
   
 }

@@ -1,6 +1,6 @@
 <div class="page-header title-image">
   <div n:if="$admin_links['alink']['druh_opravnenia'] || isset($clanok->hlavne_menu->avatar)" data-toggle="tooltip" data-placement="top">
-  {ifset $clanok->hlavne_menu->avatar}
+  {if $clanok->hlavne_menu->avatar}
     {var $title_form = 'Zmena titulného obrázku'}
     <img src="{$basePath}/www/files/menu/{$clanok->hlavne_menu->avatar}" alt="{$clanok->nazov}">
     <button n:if="$admin_links['elink']" type="button" class="edit edit-title-image" data-toggle="modal" data-target="#myModalTitleImageChange" title="{$title_form}">E</button>
@@ -9,7 +9,7 @@
   {else}
     {var $title_form = 'Pridanie titulného obrázku'}
     <button n:if="$admin_links['alink']['druh_opravnenia']" type="button" class="add-title-image btn btn-primary btn-xs" data-toggle="modal" data-target="#myModalTitleImageChange" title="{$title_form}">{$title_form}</button>
-  {/ifset}
+  {/if}
   </div>
   <h2>{$clanok->nazov} <small>[id={$clanok->id_hlavne_menu}]</small></h2>
 </div>

@@ -45,7 +45,7 @@ webloader:
   css:
     front:
       files:
-        - %wwwDir%/www/css/font-awesome.min.css
+        - %wwwDir%/www/css/font-awesome.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/jquery-ui.css
@@ -62,7 +62,7 @@ webloader:
         - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
     admin:
       files:
-        - %wwwDir%/www/css/font-awesome.min.css
+        - %wwwDir%/www/css/font-awesome.css
         - %wwwDir%/www/css/bootstrap.min.css
         - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/jquery-ui.css

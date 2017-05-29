@@ -117,12 +117,12 @@ a.pridaj, .edit, a.vymaz, a.delPocitadlo {
   opacity: 0.6;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: transparent;
+  background-color: #fff;
 }
-a.pridaj { background-image: url(../../ikonky/16/pridaj_16.png);}
-.edit { background-image: url(../../ikonky/16/uprav_16.png);}
-a.vymaz {  background-image: url(../../ikonky/16/vymaz_16.png);}
-a.delPocitadlo {  background-image: url(../../ikonky/16/document_delete16.png);}
+a.pridaj { background-image: url(../www/ikonky/16/pridaj_16.png);}
+.edit { background-image: url(../www/ikonky/16/uprav_16.png);}
+a.vymaz {  background-image: url(../www/ikonky/16/vymaz_16.png);}
+a.delPocitadlo {  background-image: url(../www/ikonky/16/document_delete16.png);}
 
 a.pridaj:hover, .edit:hover, a.vymaz:hover, a.delPocitadlo:hover {
   background-color: silver;
@@ -174,4 +174,7 @@ a.button-left {
 }
 .datagrid table thead tr th a{
   color: #ffeb3b;
+}
+.datagrid .handle-sort i {
+  font-size: 2em;
 }

@@ -152,7 +152,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre zmenu urovne registracie.
    * @return Nette\Application\UI\Form */
   public function createComponentZmenVlastnikaForm() {
-    return $this->_formMessage($this->zmenVlastnika->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_profiles));
+    return $this->_formMessage($this->zmenVlastnika->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_main));
   }
   
   /** 

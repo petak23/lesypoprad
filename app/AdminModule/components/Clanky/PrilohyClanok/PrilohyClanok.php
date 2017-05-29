@@ -2,6 +2,7 @@
 namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 
 use Nette;
+use Nette\Security\User;
 use DbTable;
 
 /**
@@ -34,15 +35,20 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   public $editPrilohyForm;
   /** @var array */
   private $admin_links;
-
+  /** @var Nette\Security\User */
+  private $user;
+  /** @var DbTable\Hlavne_menu */
+  private $hlavne_menu;
 
   /**
    * @param DbTable\Dokumenty $dokumenty
    * @param EditPrilohyFormFactory $editPrilohyFormFactory */
-  public function __construct(DbTable\Dokumenty $dokumenty, EditPrilohyFormFactory $editPrilohyFormFactory) {
+  public function __construct(DbTable\Dokumenty $dokumenty, EditPrilohyFormFactory $editPrilohyFormFactory, User $user, DbTable\Hlavne_menu $hlavne_menu) {
     parent::__construct();
     $this->dokumenty = $dokumenty;
     $this->editPrilohyForm = $editPrilohyFormFactory;
+    $this->user = $user;
+    $this->hlavne_menu = $hlavne_menu;
   }
   
   /** Nastavenie komponenty
@@ -53,23 +59,40 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * @param array $prilohy_images Nastavenie obrazkov pre prilohy
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl
    */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images, $admin_links) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images/*, $admin_links*/, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $this->upload_size = $upload_size;
     $this->prilohy_adresar = $prilohy_adresar;
     $this->prilohy_images = $prilohy_images;
-    $this->admin_links = $admin_links;
+    
+    $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
+    $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
+    // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
+    $opravnenie_add = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 1);
+    $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 2);
+    $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 4);
+    // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
+    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
+    $this->admin_links = [
+      "alink" => ["druh_opravnenia" => $druh_opravnenia,
+                  "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$this->presenter->name.':addpol']
+                                                                         : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
+                  "text"    => "Pridaj podčlánok"
+                 ],
+      "elink" => $opravnenie_edit && $this->user->isAllowed($name, 'edit'),
+      "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del') && !$this->hlavne_menu->maPodradenu($this->clanok->id_hlavne_menu),
+      "vlastnik" => $vlastnik,
+    ];
     return $this;
   }
   
   /** 
-   * Render 
-   * @param array $params Parametre komponenty - [admin_links]*/
+   * Render */
 	public function render() {
     $this->template->setFile(__DIR__ . '/PrilohyClanok.latte');
     $this->template->clanok = $this->clanok;
-    $this->template->admin_links = $this->admin_links;
+    $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->dokumenty = $this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]);
 		$this->template->render();
 	}
@@ -96,9 +119,8 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 		if (!$this->presenter->isAjax()) {
       $this->redirect('this');
     } else {
-      $this->redrawControl('');
+      $this->redrawControl('prilohy');
     }
-    
   }
 }
 

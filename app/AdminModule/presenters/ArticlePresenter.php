@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 05.05.2017
+ * Posledna zmena(last change): 29.05.2017
  *
  * Modul: ADMIN
  *
@@ -18,14 +18,14 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.4
+ * @version 1.2.5
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
 });
 
-abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresenter {
+abstract class ArticlePresenter extends BasePresenter {
   
   // -- DB
   /** @var DbTable\Clanok_lang @inject*/
@@ -117,20 +117,20 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
   
   /** 
    * Funkcia overi vlastnictvo clanku
-   * @param int $id_user_profiles
+   * @param int $id_user_main
    * @return boolean */
-  public function vlastnik($id_user_profiles = 0) {
+  public function vlastnik($id_user_main = 0) {
     $user = $this->user;
-    return $user->isInRole('admin') ? TRUE : $user->getIdentity()->id == $id_user_profiles;
+    return $user->isInRole('admin') ? TRUE : $user->getIdentity()->id == $id_user_main;
   }
   
   /** Render pre defaultnu akciu */
   public function renderDefault() {
     $hlm = $this->zobraz_clanok->hlavne_menu; // Pre skratenie zapisu
     // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
-    $opravnenie_add = $this->vlastnik($hlm->id_user_profiles) ? TRUE : (boolean)($hlm->povol_pridanie & 1);
-    $opravnenie_edit = $this->vlastnik($hlm->id_user_profiles) ? TRUE : (boolean)($hlm->povol_pridanie & 2);
-    $opravnenie_del = $this->vlastnik($hlm->id_user_profiles) ? TRUE : (boolean)($hlm->povol_pridanie & 4);
+    $opravnenie_add = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 1);
+    $opravnenie_edit = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 2);
+    $opravnenie_del = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
     $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($this->name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
     $this->admin_links = [
@@ -141,7 +141,7 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
                  ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($this->name, 'edit'),
       "dlink" => $opravnenie_del && $this->user->isAllowed($this->name, 'del') && !$this->hlavne_menu->maPodradenu($this->zobraz_clanok->id_hlavne_menu),
-      "vlastnik" => $this->vlastnik($hlm->id_user_profiles),
+      "vlastnik" => $this->vlastnik($hlm->id_user_main),
     ];
     $this->template->admin_links = $this->admin_links;
     $this->template->clanok = $this->zobraz_clanok;
@@ -214,7 +214,7 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
     $this->pol_menu = [
       'id'                  => 0,
       'id_druh'             => $druh->id,
-      'id_user_profiles'    => $this->getUser()->getId(),
+      'id_user_main'        => $this->getUser()->getId(),
       'poradie'             => $poradie,
       'uroven'              => $this->uroven,
       'id_hlavne_menu_cast' => (int)$id, // ?????
@@ -256,7 +256,7 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
   public function createComponentMenuEditForm()  {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, 
                                                        $this->menuformuloz["text"], 
-                                                       $this->vlastnik($this->pol_menu['id_user_profiles']), 
+                                                       $this->vlastnik($this->pol_menu['id_user_main']), 
                                                        $this->menuformuloz["edit"],
                                                        $this->nastavenie["clanky"]["opravnenia"]
                                                       );
@@ -513,10 +513,8 @@ abstract class ArticlePresenter extends \App\AdminModule\Presenters\BasePresente
    * Komponenta pre zobrazenie priloh
    * @return \App\AdminModule\Components\Faktury\ViewFakturyControl */
   public function createComponentViewFaktury() {
-//    $servise = $this;
-		return new Multiplier(function ($id)/* use ($servise)*/ {
-      $viewFaktury = $this->viewFakturyControlFactory->create();
-      return $viewFaktury;
-    });
+    $viewFaktury = $this->viewFakturyControlFactory->create();
+    $viewFaktury->setSkupina($this->zobraz_clanok->id_hlavne_menu);
+    return $viewFaktury;
   }
 }
