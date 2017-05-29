@@ -355,12 +355,12 @@ abstract class ArticlePresenter extends BasePresenter {
     return $title;
   }
   
-  /** Komponenta pre pre titulku polozky(titulny obrazok a nadpis).
-   * @return \App\AdminModule\Components\Article\TitleArticle
-   */
+  /** 
+   * Komponenta pre pre titulku polozky(titulny obrazok a nadpis).
+   * @return \App\AdminModule\Components\Article\TitleArticle */
   public function createComponentTitleImage() {
     $title = $this->titleImageControlFactory->create();
-    $title->setTitle($this->zobraz_clanok, $this->avatar_path, $this->context->parameters["wwwDir"]);
+    $title->setTitle($this->zobraz_clanok, $this->avatar_path, $this->context->parameters["wwwDir"], $this->name);
     return $title;
   }
   

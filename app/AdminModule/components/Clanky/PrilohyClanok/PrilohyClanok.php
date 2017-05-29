@@ -51,15 +51,15 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $this->hlavne_menu = $hlavne_menu;
   }
   
-  /** Nastavenie komponenty
+  /** 
+   * Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $nazov_stranky
    * @param int $upload_size
    * @param string $prilohy_adresar
    * @param array $prilohy_images Nastavenie obrazkov pre prilohy
-   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl
-   */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images/*, $admin_links*/, $name) {
+   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $this->upload_size = $upload_size;
