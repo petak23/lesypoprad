@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 29.05.2017
+ * Posledna zmena(last change): 31.05.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.5
+ * @version 1.2.6
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -217,7 +217,7 @@ abstract class ArticlePresenter extends BasePresenter {
       'id_user_main'        => $this->getUser()->getId(),
       'poradie'             => $poradie,
       'uroven'              => $this->uroven,
-      'id_hlavne_menu_cast' => (int)$id, // ?????
+      'id_hlavne_menu_cast' => (int)$id,
       'id_nadradenej'       => $this->uroven == 0 ? NULL : (int)$id,
 			'datum_platnosti'     => NULL,
     ];
@@ -257,7 +257,6 @@ abstract class ArticlePresenter extends BasePresenter {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, 
                                                        $this->menuformuloz["text"], 
                                                        $this->vlastnik($this->pol_menu['id_user_main']), 
-                                                       $this->menuformuloz["edit"],
                                                        $this->nastavenie["clanky"]["opravnenia"]
                                                       );
     $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
@@ -296,11 +295,10 @@ abstract class ArticlePresenter extends BasePresenter {
     $values->absolutna = isset($values->absolutna) && strlen($values->absolutna) > 7 ? $values->absolutna : NULL;
     $values->id_nadradenej = isset($values->id_nadradenej) && (int)$values->id_nadradenej > 0 ? $values->id_nadradenej : NULL;
     $values->nazov_ul_sub = isset($values->nazov_ul_sub) && strlen($values->nazov_ul_sub) > 1 ? $values->nazov_ul_sub : NULL;
-    if (!$this->menuformuloz["edit"] && !$values->platnost) { $values->datum_platnosti = NULL; } 
     if ($id_pol == 0) { //Pridavam
       $values->spec_nazov = $this->hlavne_menu->najdiSpecNazov($uloz_txt["sk"]["nazov"]);
 		}
-    unset($values->platnost, $values->id);
+    unset($values->id);
     $ulozenie = 0; //Kontrola spravnosti ulozenia
     $uloz = $this->hlavne_menu->uloz($values, $id_pol);
     if (!empty($uloz['id'])) { //Ulozenie v poriadku
@@ -365,13 +363,13 @@ abstract class ArticlePresenter extends BasePresenter {
   }
   
   /** Komponenta pre vykreslenie odkazu na clanok s anotaciou
-   * @return \PeterVojtech\Clanky\OdkazNaClankyControl
+   * @return \PeterVojtech\Clanky\OdkazNaClanky\OdkazNaClankyControl
    */
   public function createComponentOdkazNaClanky() {
     $servise = $this;
 		return new Multiplier(function ($id) use ($servise) {
       $modul_presenter = explode(":", $servise->name); //Nazov modulu t.j Admin
-			$odkaz = New PeterVojtech\Clanky\OdkazNaClankyControl();
+			$odkaz = New PeterVojtech\Clanky\OdkazNaClanky\OdkazNaClankyControl();
       $odkaz->setTextNotFoundClanok("Odkaz na požadovaný článok sa nenašiel!");
       $odkaz->setModul($modul_presenter[0]); //Meno aktualneho modulu
       $odkaz->setDelLink(TRUE);
@@ -392,9 +390,7 @@ abstract class ArticlePresenter extends BasePresenter {
       $presenter = $hl_m->hlavne_menu->druh->presenter;
     }
     if ($druh == 'avatar') {
-      $hl = $this->hlavne_menu->find($id);
-      $this->vymazSubor("www/".$this->avatar_path.$hl->avatar);
-      $uloz = $this->hlavne_menu->uloz(["avatar"=>NULL], $id);
+      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
       $this->_ifMessage($uloz !== FALSE ? TRUE : FALSE, 'Titulný obrázok bol vymazaný!', 'Došlo k chybe a titulný obrázok nebol vymazaný!');
       $this->redirect($presenter.':', $id);
     } elseif ($druh == 'priloha') { //Poziadavka na zmazanie prilohy
@@ -445,13 +441,14 @@ abstract class ArticlePresenter extends BasePresenter {
     return $out; 
 	}
   
-  /** Vymaze clanok so vsetkym co k tomu patri 
+  /** 
+   * Vymaze clanok so vsetkym co k tomu patri 
    * @param int $id Id mazaqneho clanku
-   * @return boolean
-   */
+   * @return boolean */
   protected function _delClanok($id) {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
+    $titleImage = $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
       $do = 0;

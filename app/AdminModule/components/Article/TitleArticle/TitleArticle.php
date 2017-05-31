@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 31.05.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -40,21 +40,27 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenUrovenRegistracie;
   /** @var ZmenDatumPlatnostiFormFactory */
 	public $zmenDatumPlatnosti;
+  /** @var ZmenDlzkuNovinkyFormFactory */
+	public $zmenDlzkuNovinky;
 
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
-   * @param ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory
-   * @param ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory */
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory */
   public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
                               ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory, 
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
-                              ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory
+                              ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
+                              ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory
                              ) {
     parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->zmenVlastnika = $zmenVlastnikaFormFactory;
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
+    $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
   }
   
   /** Nastavenie komponenty
@@ -160,6 +166,13 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @return Nette\Application\UI\Form */
   public function createComponentZmenDatumPlatnostiForm() {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
+  }
+  
+  /** 
+   * Komponenta formulara pre zmenu dlzky sledovania ako novinky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenDlzkuNovinkyForm() {
+    return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
   }
   
   /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */

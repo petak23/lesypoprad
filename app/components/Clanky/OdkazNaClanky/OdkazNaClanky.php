@@ -1,5 +1,5 @@
 <?php
-namespace PeterVojtech\Clanky;
+namespace PeterVojtech\Clanky\OdkazNaClanky;
 use Nette;
 
 /**

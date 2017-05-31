@@ -52,6 +52,7 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
@@ -73,6 +74,7 @@ services:
   - App\AdminModule\Components\Article\IAdminAddMenu
   - App\AdminModule\Components\Article\TitleArticle\ITitleArticleControl
   - App\AdminModule\Components\Article\TitleImage\ITitleImageControl
+#  arguments: [%wwwDir%]
   - App\AdminModule\Components\Oznam\IAktualneOznamyControl
   - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
   - App\AdminModule\Components\User\IUserLastControl

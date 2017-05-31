@@ -56,6 +56,13 @@
       <i class="fa fa-pencil"></i>
     </button>
   </div>
+  <div n:snippet="dlzka_novinky" class="btn-group edit-link-bar" role="group" aria-label="dlzka_novinky-link">
+    <div n:if="$admin_links['vlastnik']" class="btn btn-warning disabled" title="Sledovanie dĺžky novinky: {$clanok->hlavne_menu->dlzka_novinky->nazov}">
+      <i class="fa fa-newspaper-o"></i>
+      Ako novinka: {$clanok->hlavne_menu->dlzka_novinky->nazov}
+    </div>
+    <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalDlzkaNovinkyChange" title="Zmeň sledovanie dĺžky novinky"><i class="fa fa-pencil"></i></button>
+  </div>
   <div n:if="$komentare_enabled" n:snippet="komentare" class="btn-group edit-link-bar" role="group" aria-label="komentare-enabled-link">
     {var $kom_enab = $clanok->hlavne_menu->komentar}
     {var $kom_text = $kom_enab ? 'Zakázať' : 'Povoliť'}
@@ -119,6 +126,21 @@
       </div>
       <div class="modal-body">
         {control zmenDatumPlatnostiForm}
+      </div>
+    </div>
+  </div>
+</div>
+{* -- Modal dialog pre zmenu dlzky sledovania ako novinky -- *}
+<div class="modal fade" id="myModalDlzkaNovinkyChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Zmena sledovania dĺžky novinky pre položku: {$clanok->nazov}</h4>
+        <p>Aktuálna dĺžka: {$clanok->hlavne_menu->dlzka_novinky->nazov}</p>
+      </div>
+      <div class="modal-body">
+        {control zmenDlzkuNovinkyForm}
       </div>
     </div>
   </div>
