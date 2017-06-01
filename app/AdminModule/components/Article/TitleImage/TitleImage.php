@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 29.05.2017
+ * Posledna zmena(last change): 01.06.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
@@ -59,7 +59,7 @@ class TitleImageControl extends Nette\Application\UI\Control {
     //Vlastnik je admin a autor clanku
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;
     //Opravnenie mam ak som vlastnik alebo mi to vlastnik povolil
-    $opravnenie = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 2);
+    $opravnenie = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
     $this->admin_links = [
       "edit" => $opravnenie && $this->user->isAllowed($name, 'edit'),
       "del"  => $opravnenie && $this->user->isAllowed($name, 'del'),

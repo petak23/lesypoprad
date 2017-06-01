@@ -55,7 +55,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @param int $uroven - uroven menu
    */
   public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2", "edit"=>FALSE];
+		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2"/*, "edit"=>FALSE*/];
     parent::actionAdd($id, $uroven);
 	}
 	
@@ -63,7 +63,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @param int $id - id editovanej polozky
    */
   public function actionEdit($id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default", "edit"=>TRUE];
+    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"/*, "edit"=>TRUE*/];
     parent::actionEdit($id);
 	}
   

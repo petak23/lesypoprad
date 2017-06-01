@@ -8,13 +8,13 @@ use DbTable;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 01.06.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 class PrilohyClanokControl extends Nette\Application\UI\Control {
@@ -69,9 +69,9 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
     // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
-    $opravnenie_add = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 1);
-    $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 2);
-    $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->povol_pridanie & 4);
+    $opravnenie_add = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 1);
+    $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
+    $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
     $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
     $this->admin_links = [

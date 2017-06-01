@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 31.05.2017
+ * Posledna zmena(last change): 01.06.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -42,6 +42,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDatumPlatnosti;
   /** @var ZmenDlzkuNovinkyFormFactory */
 	public $zmenDlzkuNovinky;
+  /** @var ZmenOpravnenieNevlastnikovFormFactory */
+	public $zmenOpravnenieNevlastnikov;
 
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
@@ -53,7 +55,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
                               ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory, 
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
-                              ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory
+                              ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
+                              ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
                              ) {
     parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
@@ -61,6 +64,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
+    $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
   }
   
   /** Nastavenie komponenty
@@ -166,6 +170,13 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @return Nette\Application\UI\Form */
   public function createComponentZmenDatumPlatnostiForm() {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
+  }
+  
+  /** 
+   * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenOpravnenieNevlastnikovForm() {
+    return $this->_formMessage($this->zmenOpravnenieNevlastnikov->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_opravnenie));
   }
   
   /** 

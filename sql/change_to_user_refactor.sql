@@ -242,6 +242,23 @@ UPDATE `slider` SET
 `popis` = NULL,
 `zobrazenie` = NULL;
 
+DROP TABLE IF EXISTS `hlavne_menu_opravnenie`;
+CREATE TABLE `hlavne_menu_opravnenie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(40) COLLATE utf8_bin NOT NULL COMMENT 'Názov oprávnenia',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Oprávnenia nevlastníkov položiek hlavného menu';
+
+INSERT INTO `hlavne_menu_opravnenie` (`id`, `nazov`) VALUES
+(0,	'Žiadne'),
+(1,	'Pridávanie podčlánkov'),
+(2,	'Editácia položky'),
+(3,	'Pridávanie podčlánkov a editácia položky');
+
+ALTER TABLE `hlavne_menu`
+CHANGE `povol_pridanie` `id_hlavne_menu_opravnenie` int(11) NOT NULL DEFAULT '0' COMMENT 'Povolenie pre nevlastníkov (0-žiadne,1- podčlánky,2-editacia,4-všetko)' AFTER `id_hlavicka`,
+ADD FOREIGN KEY (`id_hlavne_menu_opravnenie`) REFERENCES `hlavne_menu_opravnenie` (`id`),
+COMMENT='Položky hlavného menu';
 -- ---------------------------------------------------------------------------------------------------------------------------------------
 -- DROP TABLE IF EXISTS `debata`;
 -- CREATE TABLE `debata` (

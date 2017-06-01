@@ -27,7 +27,7 @@ class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
    * @param int $uroven - uroven menu
    */
   public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default", "edit"=>TRUE];
+		$this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"/*, "edit"=>TRUE*/];
     parent::actionAdd($id, $uroven);
 	}
 	
@@ -35,7 +35,7 @@ class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
    * @param int $id - id editovanej polozky
    */
   public function actionEdit($id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default", "edit"=>TRUE];
+    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"/*, "edit"=>TRUE*/];
     parent::actionEdit($id);
 	}
 }

@@ -128,9 +128,9 @@ abstract class ArticlePresenter extends BasePresenter {
   public function renderDefault() {
     $hlm = $this->zobraz_clanok->hlavne_menu; // Pre skratenie zapisu
     // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
-    $opravnenie_add = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 1);
-    $opravnenie_edit = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 2);
-    $opravnenie_del = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->povol_pridanie & 4);
+    $opravnenie_add = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 1);
+    $opravnenie_edit = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
+    $opravnenie_del = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
     $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($this->name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
     $this->admin_links = [
@@ -175,7 +175,7 @@ abstract class ArticlePresenter extends BasePresenter {
     if (($hlm_lang = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])) !== FALSE) {
       $this->pol_menu = $hlm_lang->fetch()->hlavne_menu;
       $this["menuEditForm"]->setDefaults($this->pol_menu);
-      $vychodzie_pre_form = ["langtxt"=>"", "platnost"=> $this->pol_menu->datum_platnosti==NULL ? 0 : 1 ]; 
+      $vychodzie_pre_form = ["langtxt"=>""]; 
       foreach ($hlm_lang as $j) { //Pridanie vychodzich hodnot pre jazyky
         $la = $j->lang->skratka."_";
         $vychodzie_pre_form = array_merge($vychodzie_pre_form, [
@@ -219,7 +219,6 @@ abstract class ArticlePresenter extends BasePresenter {
       'uroven'              => $this->uroven,
       'id_hlavne_menu_cast' => (int)$id,
       'id_nadradenej'       => $this->uroven == 0 ? NULL : (int)$id,
-			'datum_platnosti'     => NULL,
     ];
     if (!$this->uroven) { //Pridavam priamo do casti
       $nad_pol = $this->hlavne_menu_cast->find($id);
@@ -254,11 +253,7 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return Nette\Application\UI\Form
    */
   public function createComponentMenuEditForm()  {
-		$form = $this->editMenuFormFactory->create()->form($this->uroven, 
-                                                       $this->menuformuloz["text"], 
-                                                       $this->vlastnik($this->pol_menu['id_user_main']), 
-                                                       $this->nastavenie["clanky"]["opravnenia"]
-                                                      );
+		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"]);
     $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
     $form['cancel']->onClick[] = function ($button) {
       $values = $button->getForm()->getValues();
@@ -300,7 +295,7 @@ abstract class ArticlePresenter extends BasePresenter {
 		}
     unset($values->id);
     $ulozenie = 0; //Kontrola spravnosti ulozenia
-    $uloz = $this->hlavne_menu->uloz($values, $id_pol);
+    $uloz = $this->hlavne_menu->uloz($values, $id_pol);//dump($uloz['id']);die();
     if (!empty($uloz['id'])) { //Ulozenie v poriadku
       $ulozenie = 1;
       if (($utc = count($uloz_txt))) { 

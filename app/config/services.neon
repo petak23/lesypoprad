@@ -19,6 +19,7 @@ services:
   - DbTable\Hlavne_menu
   - DbTable\Hlavne_menu_lang
   - DbTable\Hlavne_menu_cast
+  - DbTable\Hlavne_menu_opravnenie
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
@@ -53,6 +54,7 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
