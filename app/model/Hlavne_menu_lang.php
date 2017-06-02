@@ -5,13 +5,13 @@ use Nette;
 
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
- * Posledna zmena 19.05.2017
+ * Posledna zmena 02.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class Hlavne_menu_lang extends Table {
   /** @var string */
@@ -82,6 +82,28 @@ class Hlavne_menu_lang extends Table {
     $clanok_lang = $this->connection->table('clanok_lang');
     return $id ? ($clanok_lang->where(array('id'=>$id))->update($data) !== FALSE ? $clanok_lang->get($id) : FALSE): $clanok_lang->insert($data);
   }
+  
+  /** Ulozi texty pre tabulku hlavne_menu:lang
+   * @param array $data
+   * @param int $id
+   * @return boolean */
+  public function ulozHlavneMenuLang($data, $id = 0) {
+    $ulozenie = 0;
+    foreach($data as $id_lang => $ut){
+      $hlid = $ut["id"]; 
+      unset($ut["id"]);
+      if ($hlid == 0)  { //pridavam
+        $ut["id_lang"] = $id_lang;
+        $ut["id_hlavne_menu"] = $id;
+      }
+      $uloz_t = $this->uloz($ut, $hlid);
+      if (!empty($uloz_t['id'])) { //Ulozenie v poriadku
+        $ulozenie++;
+      }
+    }
+    return ($ulozenie == count($data));
+  }
+  
   /** Ak pridavam tak vytvorim zavislost na hlavne_menu_lang
    * @param int $cid
    * @param int $id_hlavne_menu

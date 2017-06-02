@@ -49,11 +49,6 @@ parameters:
     datum_platnosti: TRUE    #Zobrazenie datumu platnosti
   clanky:
     zobraz_anotaciu: TRUE   #Zobrazenie anotacie vseobecne
-    opravnenia:
-      0: Žiadne
-      1: Pridávanie podčlánkov
-      2: Editácia položky
-      3: Pridávanie podčlánkov a editácia položky
 
 php:
   date.timezone: Europe/Prague

@@ -5,13 +5,13 @@ use Nette\Utils\Strings;
 
 /**
  * Reprezentuje repozitar pre databázovu tabulku
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 02.06.2017
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
 */
 abstract class Table {
 
@@ -157,7 +157,8 @@ abstract class Table {
    * @param array $data
    * @return integer|FALSE */
   public function oprav($id, $data) {
-      return $this->getTable()->get($id)->update($data);
+    $this->getTable()->get($id)->update($data);
+    return $this->find($id);
   }
 
   /**
@@ -166,7 +167,7 @@ abstract class Table {
   * @param int $id
   * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function uloz($data, $id = 0) {
-    return $id ? ($this->oprav($id, $data) !== FALSE ? $this->find($id) : FALSE): $this->pridaj($data);
+    return $id ? $this->oprav($id, $data) : $this->pridaj($data);
   }
   
   /**

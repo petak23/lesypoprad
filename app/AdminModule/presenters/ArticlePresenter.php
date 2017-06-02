@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 31.05.2017
+ * Posledna zmena(last change): 02.06.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.6
+ * @version 1.2.7
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -102,8 +102,7 @@ abstract class ArticlePresenter extends BasePresenter {
 
   protected function startup() {
     parent::startup();
-    //Premenne pre formulare
-    $this->jaz = $this->lang->findAll();
+    $this->jaz = $this->lang->akceptovane();
   }
   
   /** Akcia pre zobrazenie polozky.
@@ -175,18 +174,17 @@ abstract class ArticlePresenter extends BasePresenter {
     if (($hlm_lang = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])) !== FALSE) {
       $this->pol_menu = $hlm_lang->fetch()->hlavne_menu;
       $this["menuEditForm"]->setDefaults($this->pol_menu);
-      $vychodzie_pre_form = ["langtxt"=>""]; 
+      $vychodzie_pre_form = []; 
       foreach ($hlm_lang as $j) { //Pridanie vychodzich hodnot pre jazyky
         $la = $j->lang->skratka."_";
-        $vychodzie_pre_form = array_merge($vychodzie_pre_form, [
+        $vychodzie_pre_form = [
+          $la.'id'=>$j->id,
           $la.'nazov'=>$j->nazov,
           $la.'h1part2'=>$j->h1part2,
           $la.'description'=>$j->description,
-        ]);
+        ];
         $this->form_nazov_modifi = array_merge($this->form_nazov_modifi, [$la=>$j->nazov]);
-        $vychodzie_pre_form["langtxt"] .= " ".$j->lang->skratka;
       }
-      $vychodzie_pre_form["langtxt"] = trim($vychodzie_pre_form["langtxt"]);
       $this["menuEditForm"]->setDefaults($vychodzie_pre_form);
       $this->template->pridanie = [];
     } else { return $this->_toNotFound("K požadovanému id som nenašiel položku na editovanie! id=' $id'!");}
@@ -231,16 +229,15 @@ abstract class ArticlePresenter extends BasePresenter {
         'id_hlavicka'         => $nad_pol->hlavne_menu->id_hlavicka,
       ]);
     }
-    $vychodzie_pre_form = array_merge($this->pol_menu, ['langtxt' => ""]);
+    $vychodzie_pre_form = [];
 		foreach ($this->jaz as $j) { //Pridanie vychodzich hodnot pre jazyky
-      $vychodzie_pre_form = array_merge($vychodzie_pre_form, [
+      $vychodzie_pre_form = [
+        $j->skratka.'_id'=>0,
         $j->skratka.'_nazov'=>"",
         $j->skratka.'_h1part2'=>"",
         $j->skratka.'_description'=>"",
-      ]);
-      $vychodzie_pre_form["langtxt"] .= " ".$j->skratka;
+      ];
     }
-    $vychodzie_pre_form["langtxt"] = trim($vychodzie_pre_form["langtxt"]);
     $this["menuEditForm"]->setDefaults($vychodzie_pre_form);
     //-----------------------------------
     $this->template->h2 = 'Pridanie položky pre: '.$nad_pol->nazov;
@@ -253,7 +250,7 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return Nette\Application\UI\Form
    */
   public function createComponentMenuEditForm()  {
-		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"]);
+		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"], $this->udaje_webu["meno_presentera"]);
     $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
     $form['cancel']->onClick[] = function ($button) {
       $values = $button->getForm()->getValues();
@@ -264,70 +261,36 @@ abstract class ArticlePresenter extends BasePresenter {
 		return $this->_vzhladForm($form);
 	}
 
-  /** Spracovanie formulara pre editaciu udajov menu(clanku).
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara
-   */
+  /** 
+   * Spracovanie formulara pre editaciu udajov menu(clanku).
+   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
 	public function menuEditFormSubmitted($button) {
 		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-    
  		$uloz_txt = [];
-    $id_pol = (int)$values->id;// Ak je == 0 tak sa pridava
-    if (strlen($values->langtxt)) {//Mam aj texty
-			foreach(explode(" ", $values->langtxt) as $j){
-				$pom = [];
-				foreach(["nazov", "h1part2", "description"] as $f){
-					$new = $values->{$j."_".$f};
-					if (isset($new)) {
-            $pom[$f] = $new; 
-            unset($values->{$j."_".$f});
-          }
-				}
-        if (count($pom)) { $uloz_txt[$j] = $pom; }
-			}
-      unset($values->langtxt);
-		}
-    $values->modified = new \DateTime(date('Y-m-d H:i:s'));
+    $id_pol = $values->id;// Ak je == 0 tak sa pridava
+    unset($values->id);
+    foreach($this->jaz as $j){
+      $pom = [];
+      foreach(["id", "nazov", "h1part2", "description"] as $f){
+        $new = $values->{$j->skratka."_".$f};
+        $pom[$f] = $new; 
+        unset($values->{$j->skratka."_".$f});
+      }
+      if (count($pom)) { 
+        $uloz_txt[$j->id] = $pom; 
+      }
+    }
     $values->absolutna = isset($values->absolutna) && strlen($values->absolutna) > 7 ? $values->absolutna : NULL;
     $values->id_nadradenej = isset($values->id_nadradenej) && (int)$values->id_nadradenej > 0 ? $values->id_nadradenej : NULL;
     $values->nazov_ul_sub = isset($values->nazov_ul_sub) && strlen($values->nazov_ul_sub) > 1 ? $values->nazov_ul_sub : NULL;
     if ($id_pol == 0) { //Pridavam
       $values->spec_nazov = $this->hlavne_menu->najdiSpecNazov($uloz_txt["sk"]["nazov"]);
 		}
-    unset($values->id);
-    $ulozenie = 0; //Kontrola spravnosti ulozenia
-    $uloz = $this->hlavne_menu->uloz($values, $id_pol);//dump($uloz['id']);die();
+    
+    $ulozenie = FALSE; //Kontrola spravnosti ulozenia
+    $uloz = $this->hlavne_menu->uloz($values, $id_pol);
     if (!empty($uloz['id'])) { //Ulozenie v poriadku
-      $ulozenie = 1;
-      if (($utc = count($uloz_txt))) { 
-        foreach($uloz_txt as $ke => $ut){
-          if (($jid = $this->lang->findOneBy(["skratka"=>$ke])) !== FALSE){
-            $hlid = -1;
-            if ($id_pol) { //editujem
-              $hlh = $this->hlavne_menu_lang->findOneBy(["id_lang"=>$jid->id, "id_hlavne_menu" => $uloz["id"]]);
-              if ($hlh !== FALSE)  $hlid = $hlh->id;
-              else { //pridavam lebo to v DB neexzistuje
-                $ut["id_lang"] = $jid->id;
-                $ut["id_hlavne_menu"] = $uloz["id"];
-                $hlid = 0;
-              }
-            } else { //pridavam
-              $ut["id_lang"] = $jid->id;
-              $ut["id_hlavne_menu"] = $uloz["id"];
-              $hlid = 0;
-            }
-            if ($hlid > -1) {
-              $uloz_t = $this->hlavne_menu_lang->uloz($ut, $hlid);
-              if (isset($uloz_t['id']) && $uloz_t['id']) { //Ulozenie v poriadku
-                $ulozenie++;
-              }
-            } else die("Chyba v hlid = $hlid!");
-          } else die("Chyba v lang!");
-        } 
-        if ($ulozenie != $utc+1) { //Nieco sa neulozilo v poriadku
-          //TODO!!! Zmazanie toho co sa uz ulozilo
-          $ulozenie = 0; 
-        }
-      } else $ulozenie = $id_pol==0 ? 0 : 1; //Ak pri pridani nemam texty je to chyba!
+      $ulozenie = $this->hlavne_menu_lang->ulozHlavneMenuLang($uloz_txt, $uloz["id"]);
     } 
     if ($ulozenie) {
       $this->flashMessage('Položka menu bola uložená!', 'success');
