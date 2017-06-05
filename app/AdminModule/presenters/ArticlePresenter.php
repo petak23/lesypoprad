@@ -10,7 +10,7 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 02.06.2017
+ * Posledna zmena(last change): 05.06.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.7
+ * @version 1.2.8
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -62,7 +62,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	public $pol_menu = [];
         
 	/** @var array - pole pre menu formular */
-	public $menuformuloz = ["text"=>"Ulož", "redirect"=>"", "edit"=>FALSE];
+	public $menuformuloz = ["text"=>"Ulož", "redirect"=>FALSE, "edit"=>FALSE];
   
   /** @var Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok;
@@ -79,7 +79,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	];
   /** @var int */
 	protected $uroven;
-  /** @var \Nette\Database\Table\ActiveRow|FALSE */
+  /** @var \Nette\Database\Table\Selection */
 	public $jaz;
   /** @var array */
   public $admin_links;
@@ -229,6 +229,7 @@ abstract class ArticlePresenter extends BasePresenter {
         'id_hlavicka'         => $nad_pol->hlavne_menu->id_hlavicka,
       ]);
     }
+    $this["menuEditForm"]->setDefaults($this->pol_menu);
     $vychodzie_pre_form = [];
 		foreach ($this->jaz as $j) { //Pridanie vychodzich hodnot pre jazyky
       $vychodzie_pre_form = [
@@ -266,39 +267,13 @@ abstract class ArticlePresenter extends BasePresenter {
    * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
 	public function menuEditFormSubmitted($button) {
 		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
- 		$uloz_txt = [];
-    $id_pol = $values->id;// Ak je == 0 tak sa pridava
-    unset($values->id);
-    foreach($this->jaz as $j){
-      $pom = [];
-      foreach(["id", "nazov", "h1part2", "description"] as $f){
-        $new = $values->{$j->skratka."_".$f};
-        $pom[$f] = $new; 
-        unset($values->{$j->skratka."_".$f});
-      }
-      if (count($pom)) { 
-        $uloz_txt[$j->id] = $pom; 
-      }
-    }
-    $values->absolutna = isset($values->absolutna) && strlen($values->absolutna) > 7 ? $values->absolutna : NULL;
-    $values->id_nadradenej = isset($values->id_nadradenej) && (int)$values->id_nadradenej > 0 ? $values->id_nadradenej : NULL;
-    $values->nazov_ul_sub = isset($values->nazov_ul_sub) && strlen($values->nazov_ul_sub) > 1 ? $values->nazov_ul_sub : NULL;
-    if ($id_pol == 0) { //Pridavam
-      $values->spec_nazov = $this->hlavne_menu->najdiSpecNazov($uloz_txt["sk"]["nazov"]);
-		}
-    
-    $ulozenie = FALSE; //Kontrola spravnosti ulozenia
-    $uloz = $this->hlavne_menu->uloz($values, $id_pol);
-    if (!empty($uloz['id'])) { //Ulozenie v poriadku
-      $ulozenie = $this->hlavne_menu_lang->ulozHlavneMenuLang($uloz_txt, $uloz["id"]);
-    } 
+    $uloz = $this->hlavne_menu->ulozPolozku($values);
+    $ulozenie = (!empty($uloz['id'])) ? $this->hlavne_menu_lang->ulozPolozku($values, $this->jaz, $uloz['id']) : FALSE;
     if ($ulozenie) {
       $this->flashMessage('Položka menu bola uložená!', 'success');
-      if (strlen($this->menuformuloz["redirect"])>2) {
-        $this->redirect($this->menuformuloz["redirect"],$uloz['id']);
-      } else { $this->redirect('Menu:', $uloz['id']);}
-    } else {													//Ulozenie sa nepodarilo
-      $this->flashMessage('Došlo k chybe a položka sa neuložila. Skúste neskôr znovu... - '.$ulozenie."==".$utc+1, 'danger');
+      $this->redirect($this->menuformuloz["redirect"] ? $this->menuformuloz["redirect"] : 'Menu:' ,$uloz['id']);
+    } else {
+      $this->flashMessage('Došlo k chybe a položka sa neuložila. Skúste neskôr znovu...', 'danger');
     }
 	}
 
@@ -406,7 +381,7 @@ abstract class ArticlePresenter extends BasePresenter {
   protected function _delClanok($id) {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
-    $titleImage = $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
+    $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
       $do = 0;

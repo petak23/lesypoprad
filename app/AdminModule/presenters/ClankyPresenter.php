@@ -7,7 +7,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 29.05.2017
+ * Posledna zmena(last change): 05.06.2017
  *
  *	Modul: ADMIN
  *
@@ -15,7 +15,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.5
+ * @version 1.2.6
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -55,7 +55,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @param int $uroven - uroven menu
    */
   public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2"/*, "edit"=>FALSE*/];
+		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2"];
     parent::actionAdd($id, $uroven);
 	}
 	
@@ -63,7 +63,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @param int $id - id editovanej polozky
    */
   public function actionEdit($id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"/*, "edit"=>TRUE*/];
+    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"];
     parent::actionEdit($id);
 	}
   

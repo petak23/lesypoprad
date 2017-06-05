@@ -3,7 +3,7 @@ namespace App\AdminModule\Presenters;
 
 /**
  * Prezenter pre administraciu hlavneho menu.
- * Posledna zmena(last change): 27.03.2017
+ * Posledna zmena(last change): 05.06.2017
  *
  * Modul: ADMIN
  *
@@ -11,7 +11,7 @@ namespace App\AdminModule\Presenters;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
   
@@ -19,7 +19,7 @@ class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
   public function renderDefault() {
     parent::renderDefault();
 		$this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
-    $this->template->obsahuje = $this->hlavne_menu->findBy(array("id_nadradenej"=>$this->zobraz_clanok->hlavne_menu->id))->count();
+    $this->template->obsahuje = $this->hlavne_menu->findBy(["id_nadradenej"=>$this->zobraz_clanok->hlavne_menu->id])->count();
   }
   
   /** Akcia pre 1. krok pridania polozky - udaje pre hl. menu.
@@ -27,7 +27,7 @@ class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
    * @param int $uroven - uroven menu
    */
   public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"/*, "edit"=>TRUE*/];
+		$this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"];
     parent::actionAdd($id, $uroven);
 	}
 	
@@ -35,7 +35,7 @@ class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
    * @param int $id - id editovanej polozky
    */
   public function actionEdit($id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"/*, "edit"=>TRUE*/];
+    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"];
     parent::actionEdit($id);
 	}
 }

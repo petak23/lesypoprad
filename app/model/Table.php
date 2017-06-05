@@ -161,10 +161,9 @@ abstract class Table {
     return $this->find($id);
   }
 
-  /**
-  * Funkcia pridava alebo aktualizuje v DB podla toho, ci je zadané ID
-  * @param array $data
-  * @param int $id
+  /** Funkcia pridava alebo aktualizuje v DB podla toho, ci je zadané ID
+   * @param array $data
+   * @param int $id
   * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function uloz($data, $id = 0) {
     return $id ? $this->oprav($id, $data) : $this->pridaj($data);
