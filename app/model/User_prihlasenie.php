@@ -3,8 +3,9 @@
 namespace DbTable;
 
 /**
- * Model starajuci sa o tabulku user_prihlasenie
- * Posledna zmena 22.05.2016
+ * Model, ktory sa stara o tabulku user_prihlasenie
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
@@ -20,16 +21,14 @@ class User_prihlasenie extends Table {
   /** @var string */
   protected $tableName = 'user_prihlasenie';
 
-  /**
-   * Vrati poslednych x prihlaseni
+  /** Vrati poslednych x prihlaseni
    * @param int $pocet
    * @return \Nette\Database\Table\Selection */
   public function getLastPr($pocet = 25) {
 		return $this->findAll()->order(self::COLUMN_LOG_IN_DATETIME.' DESC')->limit($pocet);
 	}
   
-  /**
-   * Zapise prihlasenie
+  /** Zapise prihlasenie
    * @param int $id_user_main
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function addLogIn($id_user_main) {
@@ -38,8 +37,7 @@ class User_prihlasenie extends Table {
                          ]);
   }
   
-  /**
-   * Vymaze vstetky data z DB */
+  /** Vymaze vstetky data z DB */
   public function delAll() {
     $this->getTable()->delete();
   }

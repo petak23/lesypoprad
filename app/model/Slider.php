@@ -5,7 +5,8 @@ use Nette;
 
 /**
  * Model, ktory sa stara o tabulku slider
- * Posledna zmena 24.05.2017
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
@@ -17,24 +18,21 @@ class Slider extends Table {
   /** @var string */
   protected $tableName = 'slider';
 
-  /**
-   * Vrati vsetky polozky z tabulky slider usporiadane podla "usporiadaj"
+  /** Vrati vsetky polozky z tabulky slider usporiadane podla "usporiadaj"
    * @param string $usporiadaj - názov stlpca, podla ktoreho sa usporiadava a sposob
    * @return Nette\Database\Table\Selection */
   function getSlider($usporiadaj = 'poradie ASC') {
 		return $this->findAll()->order($usporiadaj);//->limit($pocet);
 	}
   
-  /**
-   * Vrati nasledujuce cislo poradia
+  /** Vrati nasledujuce cislo poradia
    * @return int */
   public function getNextCounter() {
     $poradie = $this->findAll()->max('poradie');
     return $poradie ? (++$poradie) : 1;
   }
   
-  /**
-   * Zmeni poradie prvkov
+  /** Zmeni poradie prvkov
    * @param int $item_id Prvok, ktoreho poradie sa meni
    * @param int $prev_id Za ktory prvok sa vklada
    * @param int $next_id Pred ktory prvok sa vklada */
@@ -68,5 +66,4 @@ class Slider extends Table {
       $item->update(['poradie'=>1]);
     }
   }
-
 }

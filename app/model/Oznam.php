@@ -4,6 +4,7 @@ use Nette;
 
 /**
  * Model, ktory sa stara o tabulku oznam
+ * 
  * Posledna zmena 05.05.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
@@ -18,24 +19,21 @@ class Oznam extends Table {
   
   /** Vypisanie vsetkych aktualnych oznamov
    * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
-   * @return \Nette\Database\Table\Selection
-   */
+   * @return \Nette\Database\Table\Selection */
   public function aktualne($usporiadanie = FALSE) {
   	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])
                 ->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
 	}
 
   /** Vrati uz neaktualne oznamy
-   * @return \Nette\Database\Table\Selection
-   */
+   * @return \Nette\Database\Table\Selection */
 	public function neaktualne() {
   	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])->order('datum_platnosti DESC');
 	}
   
   /** Vypisanie vsetkych oznamov aj s priznakom aktualnosti
    * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
-   * @return array
-   */
+   * @return array */
   public function vsetky($usporiadanie = FALSE) {
   	$oznamy = $this->findAll()->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
     $out = [];
@@ -49,8 +47,7 @@ class Oznam extends Table {
   /** Vymazanie oznamu
    * @param int $id Id oznamu
    * @return type
-   * @throws Database\DriverException
-   */
+   * @throws Database\DriverException */
   public function vymazOznam($id) {
     try {
       return $this->find($id)->delete();
@@ -62,8 +59,7 @@ class Oznam extends Table {
   /** Funkcia pre ulozenie oznamu
    * @param Nette\Utils\ArrayHash $values
    * @return Nette\Database\Table\ActiveRow|FALSE
-   * @throws Database\DriverException
-   */
+   * @throws Database\DriverException */
   public function ulozOznam(Nette\Utils\ArrayHash $values) {
     $val = clone $values;
     $id = isset($val->id) ? $val->id : 0;

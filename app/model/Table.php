@@ -5,7 +5,8 @@ use Nette\Utils\Strings;
 
 /**
  * Reprezentuje repozitar pre databázovu tabulku
- * Posledna zmena(last change): 02.06.2017
+ * 
+ * Posledna zmena(last change): 06.06.2017
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
@@ -35,15 +36,13 @@ abstract class Table {
     }
   }
 
-  /**
-   * Vracia celu tabulku z DB
+  /** Vracia celu tabulku z DB
    * @return \Nette\Database\Table\Selection */
   protected function getTable() {
       return $this->connection->table($this->tableName);
   }
 
-  /** 
-   * V poli vrati info o jednotlivych stlpcoch tabulky
+  /** V poli vrati info o jednotlivych stlpcoch tabulky
    * @return array */
   public function getTableColsInfo() {
     $pom = $this->connection->getConnection()->getSupplementalDriver()->getColumns($this->tableName);
@@ -54,8 +53,7 @@ abstract class Table {
     return $out;
   }
 
-  /** 
-   * Funkcia v poli vrati zakladne info. o pripojeni.
+  /** Funkcia v poli vrati zakladne info. o pripojeni.
    * @return array */
   public function getDBInfo() {
     $pom = explode(":", $this->connection->getConnection()->getDsn());
@@ -67,15 +65,13 @@ abstract class Table {
     return $out;
   }
   
-  /**
-   * Vracia vsetky zaznamy z DB
+  /** Vracia vsetky zaznamy z DB
    * @return \Nette\Database\Table\Selection */
   public function findAll() {
     return $this->getTable();
   }
 
-  /**
-   * Vracia vyfiltrovane zaznamy na zaklade vstupneho pola
+  /** Vracia vyfiltrovane zaznamy na zaklade vstupneho pola
    * (pole ['name' => 'David'] sa prevedi na cast SQL dotazu WHERE name = 'David')
    * @param array $by
    * @return \Nette\Database\Table\Selection */
@@ -83,24 +79,21 @@ abstract class Table {
     return $this->getTable()->where($by);
   }
 
-  /**
-   * Rovnak ako findBy ale vracia len jeden zaznam
+  /** Rovnak ako findBy ale vracia len jeden zaznam
    * @param array $by
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function findOneBy(array $by) {
     return $this->findBy($by)->limit(1)->fetch();
   }
 
-  /**
-   * Vracia zaznam s danym primarnym klucom
+  /** Vracia zaznam s danym primarnym klucom
    * @param int $id
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function find($id) {
     return $this->getTable()->get($id);
   }
 
-  /**
-   * Hlada jednu polozku podla specifickeho nazvu a min. urovne registracie uzivatela
+  /** Hlada jednu polozku podla specifickeho nazvu a min. urovne registracie uzivatela
    * @param string $spec_nazov
    * @param int $id_reg
    * @return \Nette\Database\Table\ActiveRow|FALSE */
@@ -110,8 +103,7 @@ abstract class Table {
     return ($pom !== FALSE && count($pom) == 1) ? $pom : FALSE;
   }
 
-  /**
-   * Hlada jednu polozku podla id a min. urovne registracie uzivatela
+  /** Hlada jednu polozku podla id a min. urovne registracie uzivatela
    * @param int $id
    * @param int $id_reg
    * @return \Nette\Database\Table\ActiveRow|FALSE */
@@ -119,16 +111,14 @@ abstract class Table {
     return (isset($id_reg)) ? $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]) : $this->find($id);
   }
 
-  /**
-   * Zmeni spec nazov so spec. nazvom na '-' ak min. uroven registracie uzivatela suhlasi
+  /** Zmeni spec nazov so spec. nazvom na '-' ak min. uroven registracie uzivatela suhlasi
    * @param string $spec_nazov
    * @param int $id_reg */
   public function delSpecNazov($spec_nazov, $id_reg) {
     if (isset($spec_nazov)) { $this->hladaj_spec($spec_nazov, $id_reg)->update(array('spec_nazov'=>'-')); }
   }
 
-  /** 
-   * Funkcia skontroluje a priradi specificky nazov
+  /** Funkcia skontroluje a priradi specificky nazov
    * @param string - nazov clanku
 	 * @return string */
 	public function najdiSpecNazov($nazov = 'spec-nazov') {
@@ -143,16 +133,14 @@ abstract class Table {
     return $spec_nazov.($pom == 0 ? '' : $pom);
 	}
   
-  /**
-   * Prida zaznam do tabulky
+  /** Prida zaznam do tabulky
    * @param array $data
    * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function pridaj($data) {
       return $this->getTable()->insert($data);
   }
 
-  /**
-   * Opravy v tabulke zaznam s danym id
+  /** Opravy v tabulke zaznam s danym id
    * @param int $id
    * @param array $data
    * @return integer|FALSE */
@@ -164,13 +152,12 @@ abstract class Table {
   /** Funkcia pridava alebo aktualizuje v DB podla toho, ci je zadané ID
    * @param array $data
    * @param int $id
-  * @return \Nette\Database\Table\ActiveRow|FALSE */
+   * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function uloz($data, $id = 0) {
     return $id ? $this->oprav($id, $data) : $this->pridaj($data);
   }
   
-  /**
-   * Zmaze v tabulke zaznam s danym id
+  /**Zmaze v tabulke zaznam s danym id
    * @param int $id
    * @return integer|FALSE */
   public function zmaz($id) {

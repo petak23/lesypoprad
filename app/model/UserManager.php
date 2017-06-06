@@ -8,6 +8,7 @@ use DbTable;
 
 /**
  * Model starajuci sa o uzivatela
+ * 
  * Posledna zmena(last change): 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>

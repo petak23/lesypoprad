@@ -4,7 +4,8 @@ namespace DbTable;
 use Nette;
 
 /**
- * Model starající se o tabulku old_dokumenty
+ * Model, ktory sa stara o tabulku old_dokumenty
+ * 
  * Posledna zmena(last change): 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>

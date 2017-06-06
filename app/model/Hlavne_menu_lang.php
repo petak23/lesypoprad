@@ -5,7 +5,8 @@ use Nette;
 
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
- * Posledna zmena 05.06.2017
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
@@ -22,8 +23,7 @@ class Hlavne_menu_lang extends Table {
 		* @param string $spec_nazov - specificky nazov clanku v hl. menu
 		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
 		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
-		* @return array|FALSE
-		*/
+		* @return array|FALSE */
 	public function getOneArticleSp($spec_nazov, $language_id = 1, $id_user_roles = 5) {
     $articles = clone $this;
 		//Najdi v tabulke hlavne_menu polozku podla spec. nazvu a urovne registracie
@@ -38,8 +38,7 @@ class Hlavne_menu_lang extends Table {
 		* @param int $id - id polozky v hl. menu
 		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
 		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5 - admin
-		* @return Nette\Database\Table\ActiveRow|array
-		*/
+		* @return Nette\Database\Table\ActiveRow|array */
   public function getOneArticleId($id, $language_id = 1, $id_user_roles = 5) {
     $articles = clone $this;
     //Najdi v tabulke hlavne_menu polozku podla id a urovne registracie

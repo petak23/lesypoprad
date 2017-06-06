@@ -1,11 +1,12 @@
 <?php
 
 namespace DbTable;
-
 use Nette;
+
 /**
  * Autorizator
- * Posledna zmena(last change): 18.05.2017
+ * 
+ * Posledna zmena(last change): 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.

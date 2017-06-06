@@ -3,7 +3,8 @@ namespace DbTable;
 
 /**
  * Model starajuci sa o tabulku user_roles
- * Posledna zmena 19.05.2016
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
@@ -38,5 +39,4 @@ class User_roles extends Table {
   public function urovneReg($id_reg) {
     return $this->hladaj_urovne(0, $id_reg)->fetchPairs('id', 'name');
   }
-    
 }

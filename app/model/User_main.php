@@ -5,7 +5,8 @@ use Nette\Security\Passwords;
 
 /**
  * Model, ktory sa stara o tabulku user_main
- * Posledna zmena 29.05.2017
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.

@@ -3,8 +3,9 @@
 namespace DbTable;
 
 /**
- * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_opravnenie
- * Posledna zmena 01.06.2017
+ * Model, ktory sa stara o tabulku hlavne_menu_opravnenie
+ * 
+ * Posledna zmena 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
