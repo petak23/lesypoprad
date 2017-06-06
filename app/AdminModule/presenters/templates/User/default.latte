@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 22.05.2017
+ * Posledna zmena(last change): 06.06.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -35,7 +35,6 @@
       </td>
       <td>
         <span class="uroven-registracie uroven-registracie-{$clen->id_user_roles}">{$clen->id_user_roles} - {$clen->user_roles->name} ({$clen->user_roles->role})</span>
-        <br>{$clen->username}
       </td>
       <td n:if="$user_view_fields['rok']">{$clen->user_profiles->rok}</td>
       <td class="pocet_pr">

@@ -259,6 +259,11 @@ ALTER TABLE `hlavne_menu`
 CHANGE `povol_pridanie` `id_hlavne_menu_opravnenie` int(11) NOT NULL DEFAULT '0' COMMENT 'Povolenie pre nevlastníkov (0-žiadne,1- podčlánky,2-editacia,4-všetko)' AFTER `id_hlavicka`,
 ADD FOREIGN KEY (`id_hlavne_menu_opravnenie`) REFERENCES `hlavne_menu_opravnenie` (`id`),
 COMMENT='Položky hlavného menu';
+
+ALTER TABLE `user_main`
+DROP `username`;
+
+UPDATE `admin_menu` SET `nazov` = 'Editácia užívateľov' WHERE `id` = '4';
 -- ---------------------------------------------------------------------------------------------------------------------------------------
 -- DROP TABLE IF EXISTS `debata`;
 -- CREATE TABLE `debata` (

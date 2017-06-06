@@ -2,18 +2,17 @@
 
 namespace Language_support;
 
-
 use Nette;
 
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
- * Posledna zmena(last change): 04.02.2016
+ * Posledna zmena(last change): 06.06.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 abstract class lang_supp_main extends Nette\Object {
@@ -24,8 +23,8 @@ abstract class lang_supp_main extends Nette\Object {
   /** @var array Konkretny jazyk pre vystup */
   protected $out_texty;
   /** @var array Vychodzie texty pre BasePresenter */
-  private $texty_base = array(
-      'sk'=>array( //Slovencina
+  private $texty_base = [
+      'sk'=>[
         'base_lang_not_def'           => 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!',
         'base_nie_je_opravnenie'      => 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!',
         'base_nie_je_opravnenie1'     => 'Nemáte dostatočné oprávnenie na danú operáciu!',
@@ -33,9 +32,9 @@ abstract class lang_supp_main extends Nette\Object {
         'base_internal_error'         => 'Je nám ľúto, ale došlo k vnútornej chybe! Prosím skúste úpredošlú operáciu neskôr znovu...',
         'base_log_out_mess'           => 'Boli ste odhlásený...',
         'base_delete_text'            => 'Naozaj chceš zmazať %s: %s ?',
-        'base_SignInForm_username'    => 'Meno alebo e-mail',
-        'base_SignInForm_username_req'=> 'Uveďte, prosím, užívateľské meno alebo email.',
-        'base_SignInForm_password'    => 'Heslo',
+        'base_SignInForm_email'       => 'Email:',
+        'base_SignInForm_email_req'   => 'Uveďte, prosím, užívateľský email.',
+        'base_SignInForm_password'    => 'Heslo:',
         'base_SignInForm_password_req'=> 'Uveďte, prosím, heslo.',
         'base_SignInForm_remember'    => 'Pamätať si ma',
         'base_SignInForm_login'       => 'Prihlásiť sa...',
@@ -79,28 +78,28 @@ abstract class lang_supp_main extends Nette\Object {
         "base_to_foto_galery"         => "Odkaz na fotogalériu:",
         "base_to_article"             => "Odkaz na článok:",
         'base_component_news_h4'      => "Novinky:",
-      ),
-      'en'=>array( //Anglictina
-        'base_lang_not_def'  => 'Language you require is not defined for this site!',
-        'base_nie_je_opravnenie1' => 'You do not have enough privileges for this operation!',
-        'base_prihlaste_sa' => 'Please log in!',
-        'base_SignInForm_username'      => 'Name or e-mail',
-        'base_SignInForm_username_req'  => 'Please indicate username or email.',
-        'base_SignInForm_password'      => 'Password',
-        'base_SignInForm_password_req'  => 'Please indicate the password.',
-        'base_SignInForm_remember'      => 'Remember Me',
-        'base_SignInForm_login'         => 'Login ...',
-        'base_AdminLink_name'           => "Administration",
-        'base_save' => 'Save',
-        "base_not_found"   =>"Article not found! msg: %s",
-        "base_platnost_do" =>"Expiration date: ",
-        "base_zadal"       =>"Entered: ",
-        "base_zobrazeny"   =>"Displayed: ",  
-        "base_anotacia"    =>"Annotation:",
-        "base_viac"        =>"more",
-        "base_title"       =>"Show more",
-        "base_text_title_image" => "Title image",
-        "base_template_not_found"  => "Display error! Incorect name of template[%s]...",
+      ],
+      'en'=>[
+        'base_lang_not_def'           => 'Language you require is not defined for this site!',
+        'base_nie_je_opravnenie1'     => 'You do not have enough privileges for this operation!',
+        'base_prihlaste_sa'           => 'Please log in!',
+        'base_SignInForm_email'       => 'Email:',
+        'base_SignInForm_email_req'   => 'Please indicate email.',
+        'base_SignInForm_password'    => 'Password:',
+        'base_SignInForm_password_req'=> 'Please indicate the password.',
+        'base_SignInForm_remember'    => 'Remember Me',
+        'base_SignInForm_login'       => 'Login ...',
+        'base_AdminLink_name'         => "Administration",
+        'base_save'                   => 'Save',
+        "base_not_found"              => "Article not found! msg: %s",
+        "base_platnost_do"            => "Expiration date: ",
+        "base_zadal"                  => "Entered: ",
+        "base_zobrazeny"              => "Displayed: ",  
+        "base_anotacia"               => "Annotation:",
+        "base_viac"                   => "more",
+        "base_title"                  => "Show more",
+        "base_text_title_image"       => "Title image",
+        "base_template_not_found"     => "Display error! Incorect name of template[%s]...",
         'komponent_kontakt_h4'        => 'Contact form',
         'komponent_kontakt_uvod'      => '',
         'komponent_kontakt_meno'      => 'Your name:',
@@ -117,45 +116,38 @@ abstract class lang_supp_main extends Nette\Object {
         'base_kontakt_h2'             => 'Contact',
         'base_aktualne_h2'            => 'NEWS',
         'base_component_news_h4'      => "News:",
-      ),
-    );
+      ],
+    ];
 
   /** Funkcia na pridanie textu do pola
    * @param string $key Nazov kluca
-   * @param string $text Hodnota kluca
-   */
+   * @param string $text Hodnota kluca */
   public function addTexty($key, $text) {
-     if (isset($this->texty[$this->language][$key])) {
-       $this->texty[$this->language][$key.'a'] = $text;
-     } else {
-       $this->texty[$this->language][$key] = $text;
-     }
+    if (isset($this->texty[$this->language][$key])) {
+      $this->texty[$this->language][$key.'a'] = $text;
+    } else {
+      $this->texty[$this->language][$key] = $text;
+    }
   }
 
   /** Nastavenie aktualneho jazyka
-   * @param string $language Skratka jazyka
-   */
+   * @param string $language Skratka jazyka */
   public function setLanguage($language) {
     $this->jazyk = $language;
     $this->out_texty = array_merge($this->texty_base[$this->jazyk], $this->texty[$this->jazyk]);
   }
 
-  /**
-   * Vratenie textu pre dany kluc a jazyk
+  /** Vratenie textu pre dany kluc a jazyk
    * @param string $key Kluc daneho textu
-   * @return string 
-   */
+   * @return string */
   public function trText($key) {
     return isset($this->out_texty[$key]) ? $this->out_texty[$key]
-                                         : (isset($this->texty_base['sk'][$key]) ?
-                                           $this->texty_base['sk'][$key] : $key);
+                                         : (isset($this->texty_base['sk'][$key]) ? $this->texty_base['sk'][$key] : $key);
   }
 
-  /**
-   * Vrati pole textov pre prislusny jazyk
+  /** Vrati pole textov pre prislusny jazyk
    * @param string $language Skratka jazyka
-   * @return array|FALSE
-   */
+   * @return array|FALSE */
   public function getLanguageArray($language = 'sk') {
     return (isset($this->texty_base[$language]) && isset($this->texty[$language])) ?
               array_merge($this->texty_base[$language], $this->texty[$language]) : FALSE;

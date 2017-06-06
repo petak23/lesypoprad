@@ -18,7 +18,6 @@ class User_main extends Table {
 		COLUMN_ID = 'id',
     COLUMN_ID_USER_ROLES = 'id_user_roles',
     COLUMN_ID_USER_PROFILES = 'id_user_profiles',
-    COLUMN_USERNAME = 'username',
     COLUMN_PASSWORD_HASH = 'password',
 		COLUMN_MENO = 'meno',
     COLUMN_PRIEZVISKO = 'priezvisko',
@@ -32,31 +31,14 @@ class User_main extends Table {
   /** @var string */
   protected $tableName = 'user_main';
 
-  /** 
-   * Hladanie uzivatela podla username
-   * @param string $username
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
-  public function findByUsername($username) {
-    return $this->findOneBy([self::COLUMN_USERNAME => $username]);
-  }
-  
-  /** 
-   * Test existencie username
-   * @param string $username
-   * @return boolean */
-  public function testUsername($username) {
-    return $this->findBy([self::COLUMN_USERNAME=>$username])->count() > 0 ? TRUE : FALSE;
-  }
-  /** 
-   * Test existencie emailu
+  /** Test existencie emailu
    * @param string $email
    * @return boolean */
   public function testEmail($email) {
     return $this->findBy([self::COLUMN_EMAIL=>$email])->count() > 0 ? TRUE : FALSE;
   }
   
-  /**
-   * Aktualizuje IP adresu posledneho prihlasenia
+  /** Aktualizuje IP adresu posledneho prihlasenia
    * @param int $id
    * @param string $ip
    * @return boolean */
@@ -64,36 +46,21 @@ class User_main extends Table {
     return $this->find($id)->update([self::COLUMN_LAST_IP => $ip]);
   }
   
-  /**
-   * Otestuje existenciu username alebo emailu
-   * @param string $username
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
-  public function testByUsernameOrEmail($username) {
-    $row = $this->findOneBy([self::COLUMN_USERNAME => $username]);
-    if (!$row) { //Ak sa nenajde username skus hladat email
-      $row = $this->findOneBy([self::COLUMN_EMAIL => $username]);
-    }
-    return $row;
-  }
-  
-	/**
-	 * Adds new user.
+	/** Adds new user.
    * @param string $meno
    * @param string $priezvisko
-   * @param string $username
    * @param string $email
    * @param string $password
    * @param int $activated
    * @param int $role
    * @return void
    * @throws DuplicateNameEmailException */
-	public function add($meno, $priezvisko, $username, $email, $password, $activated = 0, $role = 0)	{
+	public function add($meno, $priezvisko, $email, $password, $activated = 0, $role = 0)	{
 		try {
 			$user_profiles = $this->connection->table('user_profiles')->insert([]); 
       $this->pridaj([
         self::COLUMN_MENO             => $meno,
         self::COLUMN_PRIEZVISKO       => $priezvisko,
-				self::COLUMN_USERNAME         => $username,
 				self::COLUMN_PASSWORD_HASH    => Passwords::hash($password),
 				self::COLUMN_EMAIL            => $email,
         self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
@@ -102,8 +69,8 @@ class User_main extends Table {
         self::COLUMN_CREATED          => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
 			]);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
-      $message = explode("key", $e->getMessage());
-      throw new DuplicateNameEmailException($message[1]);
+//      $message = explode("key", $e->getMessage());
+      throw new DuplicateEmailException($e->getMessage());//$message[1]);
 		}
 	}
   
@@ -138,5 +105,5 @@ class User_main extends Table {
   
 }
 
-class DuplicateNameEmailException extends \Exception
+class DuplicateEmailException extends \Exception
 {}

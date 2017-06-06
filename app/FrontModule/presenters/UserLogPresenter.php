@@ -2,7 +2,6 @@
 namespace App\FrontModule\Presenters;
 
 use Nette\Application\UI\Form;
-use Nette\Utils\Strings;
 use Nette\Utils\Image;
 use Nette\Utils\Html;
 use Nette\Utils\Random;
@@ -15,7 +14,7 @@ use DbTable, Language_support;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 06.06.2017
  *
  *	Modul: FRONT
  *
@@ -23,8 +22,7 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
- *
+ * @version 1.1.3
  */
 class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
   
@@ -90,7 +88,6 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $form->addText('priezvisko', $this->trLang('UserEditForm_priezvisko'), 0, 50)
 				 ->addRule(Form::MIN_LENGTH, $this->trLang('UserEditForm_priezvisko_ar'), 3)
 				 ->setRequired($this->trLang('UserEditForm_priezvisko_sr'));
-    $form->addText('username', $this->trLang('default_log_name').":", 0)->setDisabled(TRUE);
     $form->addText('email', $this->trLang('default_email').":", 0)->setDisabled(TRUE);
     if ($this->user_view_fields["rok"]) {
       $form->addText('rok', $this->trLang('UserEditForm_rok'), 0, 5)->setRequired(FALSE)

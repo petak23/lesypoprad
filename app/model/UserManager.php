@@ -8,13 +8,13 @@ use DbTable;
 
 /**
  * Model starajuci sa o uzivatela
- * Posledna zmena(last change): 22.05.2017
+ * Posledna zmena(last change): 06.06.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class UserManager implements Nette\Security\IAuthenticator {
 	use Nette\SmartObject;
@@ -24,7 +24,6 @@ class UserManager implements Nette\Security\IAuthenticator {
 		COLUMN_ID = 'id',
     COLUMN_ID_USER_ROLES = 'id_user_roles',
     COLUMN_ID_USER_PROFILES = 'id_user_profiles',
-    COLUMN_USERNAME = 'username',
     COLUMN_PASSWORD_HASH = 'password',
 		COLUMN_MENO = 'meno',
     COLUMN_PRIEZVISKO = 'priezvisko',
@@ -62,17 +61,17 @@ class UserManager implements Nette\Security\IAuthenticator {
 	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException */
 	public function authenticate(array $credentials) {
-		list($username, $password) = $credentials;
+		list($email, $password) = $credentials;
     
-    $row = $this->user_main->testByUsernameOrEmail($username);
+    $row = $this->user_main->findOneBy([self::COLUMN_EMAIL => $email]);
 		if (!$row) {
-			throw new Nette\Security\AuthenticationException("The username '$username' is incorrect. Užívateľské meno '$username' nie je správne!", self::IDENTITY_NOT_FOUND);
+			throw new Nette\Security\AuthenticationException("The email '$email' is incorrect. Užívateľský email '$email' nie je správny!", self::IDENTITY_NOT_FOUND);
     } elseif (!$row[self::COLUMN_ACTIVATED]) {
-			throw new Nette\Security\AuthenticationException("User '$username' not activated. Užívateľ '$username' ešte nie je aktivovaný!", self::FAILURE);
+			throw new Nette\Security\AuthenticationException("User with email '$email' not activated. Užívateľ s email-om '$email' ešte nie je aktivovaný!", self::FAILURE);
 		} elseif ($row[self::COLUMN_BANNED]) {
-			throw new Nette\Security\AuthenticationException("User '$username' is banned! Because: ".$row[self::COLUMN_BAN_REASON]." | Užívateľ '$username' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], self::FAILURE);
+			throw new Nette\Security\AuthenticationException("User with email '$email' is banned! Because: ".$row[self::COLUMN_BAN_REASON].". Užívateľ s email-om '$email' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], self::FAILURE);
 		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
-			throw new Nette\Security\AuthenticationException('Invalid username or password. Chybné užívateľské meno alebo heslo!', self::INVALID_CREDENTIAL);
+			throw new Nette\Security\AuthenticationException('Invalid email or password. Chybné užívateľský email alebo heslo!', self::INVALID_CREDENTIAL);
 		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update([
 				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),

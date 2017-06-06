@@ -11,8 +11,7 @@ use DbTable, Language_support;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- *
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 06.06.2017
  *
  *	Modul: FRONT
  *
@@ -20,7 +19,7 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	/**
@@ -151,7 +150,6 @@ class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
     ];
 
     $uloz_data_user_main = [ //Nastavenie vstupov pre tabulku user_main
-      'username'  => $values->username,
       'password'  => Passwords::hash($values->heslo),
       'email'     => $values->email,
       'activated' => 0,
