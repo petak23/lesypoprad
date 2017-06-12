@@ -89,6 +89,8 @@ webloader:
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/js-image-slider.js
+        - %wwwDir%/www/js/forestmap.js
+        - %wwwDir%/www/js/dropmenuJQ.js
         - %wwwDir%/www/js/pomocne_front.js
       filters:
         - @jsMin
