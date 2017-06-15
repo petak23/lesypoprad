@@ -40,7 +40,8 @@
   <div n:snippet="platnost" class="btn-group edit-link-bar" role="group" aria-label="platnost-link">
     {var $cl='primary'}
     {if $clanok->hlavne_menu->datum_platnosti}
-      {if $clanok->hlavne_menu->datum_platnosti < strftime("%Y-%m-%d", time())}{var $datum = 'Článok už nie je platný! Platil do:'}{var $cl='warning'}
+      {if $clanok->hlavne_menu->datum_platnosti < strftime("%Y-%m-%d", time())}
+          {var $datum = 'Článok už nie je platný! Platil do:'.strftime('%d.%m.%Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{var $cl='warning'}
       {else}{var $datum = 'Článok platí do:'.strftime('%d.%m.%Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{/if}
     {else}
       {var $datum = 'Dátum platnosti sa nesleduje.'}

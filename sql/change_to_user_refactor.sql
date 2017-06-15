@@ -8,7 +8,6 @@ CREATE TABLE `user_main` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
   `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Úroveň registrácie a rola',
   `id_user_profiles` int(11) DEFAULT NULL COMMENT 'Užívateľský profil',
-  `username` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Užívateľské meno',
   `password` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Heslo',
   `meno` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Meno',
   `priezvisko` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Priezvisko',
@@ -24,7 +23,6 @@ CREATE TABLE `user_main` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Vytvorenie užívateľa',
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Posledná zmena',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `id_registracia` (`id_user_roles`),
   KEY `id_user_profiles` (`id_user_profiles`),
@@ -32,10 +30,10 @@ CREATE TABLE `user_main` (
   CONSTRAINT `user_main_ibfk_3` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
-INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `username`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'petov',	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2017-05-15 10:43:01'),
-(2,	4,	2,	'robo',	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:13:38',	'2017-05-15 08:10:58'),
-(3,	4,	3,	'jozue',	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:12:22',	'2017-05-15 08:10:58');
+INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2017-05-15 10:43:01'),
+(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:13:38',	'2017-05-15 08:10:58'),
+(3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:12:22',	'2017-05-15 08:10:58');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -51,10 +49,10 @@ CREATE TABLE `user_profiles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar_25`, `avatar_75`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	NULL,	'A'),
-(2,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	NULL,	'A'),
-(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	NULL,	'A');
+INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
+(1,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A'),
+(2,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A'),
+(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -259,9 +257,6 @@ ALTER TABLE `hlavne_menu`
 CHANGE `povol_pridanie` `id_hlavne_menu_opravnenie` int(11) NOT NULL DEFAULT '0' COMMENT 'Povolenie pre nevlastníkov (0-žiadne,1- podčlánky,2-editacia,4-všetko)' AFTER `id_hlavicka`,
 ADD FOREIGN KEY (`id_hlavne_menu_opravnenie`) REFERENCES `hlavne_menu_opravnenie` (`id`),
 COMMENT='Položky hlavného menu';
-
-ALTER TABLE `user_main`
-DROP `username`;
 
 UPDATE `admin_menu` SET `nazov` = 'Editácia užívateľov' WHERE `id` = '4';
 -- ---------------------------------------------------------------------------------------------------------------------------------------
