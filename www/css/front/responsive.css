@@ -4,11 +4,11 @@
 .parallax_layer 
   {  background-position: left top;}
   .parallax_layer_0 
-  {  background-image: url(../images/bg-tatry-hi.png);}
+  {  background-image: url(../www/images/bg-tatry-hi.png);}
   .parallax_layer_1 
-  {  background-image: url(../images/bg-les2-hi.png);}
+  {  background-image: url(../www/images/bg-les2-hi.png);}
   .parallax_layer_2 
-  {  background-image: url(../images/bg-les1-hi.png);}
+  {  background-image: url(../www/images/bg-les1-hi.png);}
 }
 @media (max-width: 1199px)
 {

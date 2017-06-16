@@ -1,7 +1,7 @@
 @charset "utf-8";
 body
 {  
-  background: url(../images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
+  background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
   font-family: 'Roboto', sans-serif;
   margin: 0; padding: 0;
   min-width: 320px;

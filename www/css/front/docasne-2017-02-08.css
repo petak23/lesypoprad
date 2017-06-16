@@ -74,27 +74,19 @@
 }
 
 #admin table.vyp_adm td A.edit{
-
-	background: url(../ikonky/16/ceruza_cierna16.png) no-repeat left;
-
+	background: url(../www/ikonky/16/ceruza_cierna16.png) no-repeat left;
 }
 
 #admin table.vyp_adm td A.edit:hover{
-
-	background: url(../ikonky/16/ceruza_zelena16.png) no-repeat left;
-
+	background: url(../www/ikonky/16/ceruza_zelena16.png) no-repeat left;
 }
 
 #admin table.vyp_adm td A.vymaz{
-
-	background: url(../ikonky/16/X_tmavy16.png) no-repeat left;
-
+	background: url(../www/ikonky/16/X_tmavy16.png) no-repeat left;
 }
 
 #admin table.vyp_adm td A.vymaz:hover{
-
-	background: url(../ikonky/16/X_svetly16.png) no-repeat left;
-
+	background: url(../www/ikonky/16/X_svetly16.png) no-repeat left;
 }
 
 #vyp_adm{
@@ -145,25 +137,25 @@
 
 #vyp_adm td A.edit{
 
-	background: url(../ikonky/16/ceruza_cierna16.png) no-repeat left;
+	background: url(../www/ikonky/16/ceruza_cierna16.png) no-repeat left;
 
 }
 
 #vyp_adm td A.edit:hover{
 
-	background: url(../ikonky/16/ceruza_zelena16.png) no-repeat left;
+	background: url(../www/ikonky/16/ceruza_zelena16.png) no-repeat left;
 
 }
 
 #vyp_adm td A.vymaz{
 
-	background: url(../ikonky/16/X_tmavy16.png) no-repeat left;
+	background: url(../www/ikonky/16/X_tmavy16.png) no-repeat left;
 
 }
 
 #vyp_adm td A.vymaz:hover{
 
-	background: url(../ikonky/16/X_svetly16.png) no-repeat left;
+	background: url(../www/ikonky/16/X_svetly16.png) no-repeat left;
 
 }
 

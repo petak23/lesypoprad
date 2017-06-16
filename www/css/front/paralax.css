@@ -38,7 +38,7 @@ v hornej casti (stromy a tatry) webu*/
   -ms-transform: translateZ(-50px) scale(1.55);
   -webkit-transform: translateZ(-50px) scale(1.55);
   transform: translateZ(-50px) scale(1.55);
-  background-image: url(../images/bg-tatry.png);
+  background-image: url(../www/images/bg-tatry.png);
   background-repeat: no-repeat;
   top: 310px;
 }
@@ -57,13 +57,13 @@ header {
   -ms-transform: translateZ(-20px) scale(1.25);
   -webkit-transform: translateZ(-20px) scale(1.25);
   transform: translateZ(-20px) scale(1.25);
-  background-image: url(../images/bg-les2.png);
+  background-image: url(../www/images/bg-les2.png);
   background-repeat: repeat-x;
 }
 
 .parallax_layer_2 
 {
-background-image: url(../images/bg-les1.png);
+background-image: url(../www/images/bg-les1.png);
   background-repeat: repeat-x;
   -ms-transform: translateZ(0) scale(1);
   -webkit-transform: translateZ(0px) scale(1);
