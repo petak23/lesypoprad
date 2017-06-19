@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 19.06.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.0
+ * @version 1.3.1
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -366,8 +366,7 @@ abstract class BasePresenter extends UI\Presenter {
    * @return \App\FrontModule\Components\Oznam\AktualneOznamyControl */
 	public function createComponentAktualne() {
     $aktualne = $this->aktualneOznamyControlFactory->create();
-    $aktualne->setNastavenie($this->context->parameters['oznam'])         
-             ->setTexty(["h2"=>$this->trLang('base_aktualne_h2'),"viac"=>$this->trLang("base_viac"),"title"=>$this->trLang("base_title")]);
+    $aktualne->setNastavenie($this->context->parameters['oznam']);
     return $aktualne;
 	}
   

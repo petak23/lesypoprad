@@ -10,7 +10,7 @@
 
 <nav id="nav-footer" n:if="isset($startNode) && count($startNode)">
   <ul class="nav text-center{if $nastav['divClass']} {$nastav['divClass']}{/if}">
-  {foreach $startNode as $subNode}
+  {foreach $startNode->nodes as $subNode}
     {if $subNode->id > 0 && $subNode->parent->id < 0}
       {include #link n => $subNode}
     {/if}

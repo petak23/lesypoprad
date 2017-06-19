@@ -1,27 +1,83 @@
-{* Posledna zmena(last change): 14.12.2016
+{* Posledna zmena(last change): 19.06.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.0
  *}
 {block content}
+<div class="row">
+  <h2>Príroda blízko mesta</h2>
+  <p class="text-info">Turistické trasy a náučné chodníky, vyhliadky aj malá roklina, archeologické nálezisko, krížová cesta, odpočívadlá s ohniskom, chov muflónov a diviakov. Toto všetko a ešte viac nájdete v lesoch mesta Poprad, ktoré sú blízko a ponúkajú skutočný relax a zážitok v prírode. Turista, cyklista, alebo rodiny s deťmi, každý si nájde niečo pre seba.</p>
+  <section id="parts" class="margin-h">
+    <div class="webPart col-xs-4">
+      <a href="sluzby.html" title="Aktuálna ponuka služieb"><img class="img-responsive" src="{$basePath}/www/ikonky/96/strom_96.png"></a>
+      <div class="box">
+        <h3><a href="sluzby.html" title="Aktuálna ponuka služieb">Služby</a></h3>
+        <p class="text-left">Hlavnou činnosťou v oblasti obchodu a služieb je predaj dreva. Venujeme sa aj pestovaniu a predaju sadeníc v prípade ich prebytku a doplnkovo aj sprievodcovskej činnosti v mestských lesoch.</p>
+      </div>
+    </div>
+    <div class="webPart col-xs-4">
+      <a href="sprievodca.html" title="Turistický sprievodca"><img class="img-responsive" src="{$basePath}/www/ikonky/96/kompas_96.png"></a>
+      <div class="box">
+        <h3><a href="sprievodca.html" title="Turistický sprievodca">pre turistov</a></h3>
+        <p class="text-left">Urobte si výlet na naše značkované chodníky, alebo cyklistické trasy. Na každom z chodníkov nájdete krásne a zaujímavé miesta, na ktoré sa budete radi vracať.</p>
+      </div>
+    </div>
+    <div class="webPart col-xs-4">
+      <a href="galeria.html" title="Fotografie"><img class="img-responsive" src="{$basePath}/www/ikonky/96/foto_96.png"></a>
+      <div class="box">
+        <h3><a href="galeria.html" title="Fotografie">Fotogaléria</a></h3>
+        <p class="text-left">Pozrite si fotografie z našich mestských lesov. Fotografie z turistických chodníkov, zaujímavých miest, ale aj z prác na projektoch, ktoré sme zrealizovali.</p>
+      </div>
+    </div>
+  </section>
+</div>     
 
-
-
-    <div id="clanok">
-      {*<?php require("./function/ukaz_clanok.php"); ?>
+<!-- oznamy -->
+<section id="news" role="tablist" aria-multiselectable="true">
+  <div class="row border-b">
+    <h3>Oznamy</h3> 
+    <div class="leftrow border-t">
+      <div class="col-xs-3">
+        <a href="http://sutaz.lesypoprad.sk" target="new" title="Súťaž - Objav Mestské lesy Poprad"><img alt="" class="img-responsive img-thumbnail" src="{$basePath}/www/images/snezienka.jpg"></a>
+      </div>
+      <div class="card col-xs-9">
+        <div class="card-header" role="tab" id="head1">
+          <h3>
+            <a class="collapsed" data-toggle="collapse" data-parent="#news" href="#text1" aria-expanded="false" aria-controls="text1">
+              Súťaž - Objav Mestské lesy Poprad <span class="glyphicon glyphicon-menu-down glyphicon-news"></span>
+            </a>
+          </h3>
+          <p class="card-block text-justify"> Objav prírodné prostredie mestských lesov, krásu a rozmanitosť prírody a histórie. Zaznamenaj rôznou formou zaujímavosti územia, pomôž k vytvoreniu nových poznatkov o území a vyhraj zaujímavé ceny... </p>
+        </div>
+        <div id="text1" class="collapse" role="tabpanel" aria-labelledby="head1">
+          <p class="card-block text-justify"> Súťaž je určená žiakom škôl na území mesta Poprad a jeho občanov, ktorí sa do súťaže zaregistrujú na stránke sutaz.lesypoprad.sk. Súťaž potrvá v období od od 7.4. - do 30. 9 2017. Súťaže sa môžu zúčastniť aj tímy žiakov z rovnakej školy, ktorí sa do súťaže prihlásia spoločne. Web súťaže: 
+          </p>
+          <strong><a href="http://sutaz.lesypoprad.sk" target="new">sutaz.lesypoprad.sk</a></strong>
+        </div>
+      </div>
     </div>
   </div>
-    
-  {*<div id="pata">
-    <div id="mapa"><?php include("./bloky/vypis_mapa.php"); ?></div>
-    <p>
-      &copy; <?= $hl_udaje['titulka'] ?> - Posledná aktualizácia 08.02.2017-PV <br />
-      <a href="./index.php?co=admin" title="Prihlásenie pre správcu">Prihlásenie pre správcu</a>
-    </p>
+  <div class="row border-b">
+    {control aktualne}
   </div>
-  <div id="pataObr"> </div>*}
- 
-</div>
+</section>
+        
+<!-- mapy -->  
+<section id="googleMaps" class="">
+  <div class="leftrow">
+    <div class="text-box col-xs-12 col-sm-4 shadow-1">
+      <h3><small>Mapa mestských lesov Poprad</small><br>Oblasť Kvetnica</h3>
+    </div>
+    <div id="map1" class="col-xs-12 col-sm-8"></div>
+  </div>
+  <div class="rightrow">
+    <div class="text-box col-xs-12 col-sm-4">
+      <h3><small>Mapa mestských lesov Poprad</small><br>Oblasť Gerlachov</h3>
+    </div>
+    <div id="map2" class="col-xs-12 col-sm-8"></div>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8yGkZAqQpywm922mhn4rNpAUuCpHgjPs&callback=initMap"></script>
+  </div>
+</section>

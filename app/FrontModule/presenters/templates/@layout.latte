@@ -55,30 +55,24 @@
       {*<div class="slider-main">{control slider}</div>*}
       {control confirmForm}
       {* ----- ZACIATOK content - centralna cast ----- *}
-      <section class="main-content container-fluid" n:snippet="content">
-        {*control menu templateType=>'nav', templateFile=>'LesyPP_Nav_Breadcrumb', level=>1*}
-        {control userLangMenu}
-        <div n:tag-if="FALSE" n:if="count($flashes)">
-          <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
-            {var $nees = explode(',', $flash->type)}
-            <div class="alert alert-{$nees[0]} fade in" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
-            </div>
+      <div n:tag-if="FALSE" n:if="count($flashes)">
+        <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+          {var $nees = explode(',', $flash->type)}
+          <div class="alert alert-{$nees[0]} fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
           </div>
         </div>
+      </div>
+      <section id="pageContent">
         {include #content}
-        {*<aside class="article-podclanky">
-          {block article-podclanky}{/block}
-          {control news}
-        </aside>*}
       </section>
       {* ----- Spodok stranky - FOOTER ----- *}
       <footer n:snippet=footer>
         {* --- Mapa stranky --- *}
-        {control menu templateType=>'mapa', templateFile=>'LesyPP_footer_Sidemap'}
+        {control menu templateType=>'fixed', templateFile=>'LesyPP_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
         {* --- Info o stranke --- *}
         <div class="row border-t">
           <div id="logoFSC" class="col-xs-5">
@@ -113,6 +107,7 @@
               {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
               <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
             </span>
+            {control userLangMenu}
           </div>
         </div>
       </footer>

@@ -1,12 +1,18 @@
-<div n:snippet="OznamyAktualne" class="oznamy">
-  <h2 n:inner-block="title">{$texty['h2']}</h2>
+<div n:snippet="OznamyAktualne" class="row border-b">
+  <h3 n:inner-block="title">{$texts->trText('h2')}</h3>
   {if count($oznamy)}
-    <div class="panel panel-primary" n:foreach="$oznamy as $oznam">
+    <div class="leftrow border-t" n:foreach="$oznamy as $oznam">
+      {var $oi = $oznam->ikonka}
+      <div class="col-xs-3" n:if="$oi->id > 0">
+        <a href="http://sutaz.lesypoprad.sk" target="new" title="{$oznam->nazov}">
+          <img alt="" class="img-responsive img-thumbnail" src="{$basePath}/www/images/snezienka.jpg">
+        </a>
+      </div>
       <div class="panel-heading">
-        <h3 class="panel-title">{var $oi = $oznam->ikonka}
-          {ifset $oi->id}
-            <img n:if="$oi->id > 0" src="{$basePath}/www/ikonky/64/{$oi->nazov}_64.png" alt="Ikonka">
-          {/ifset}  
+        <h3 class="panel-title">
+          {if $oi->id}
+            <img  src="{$basePath}/www/ikonky/64/{$oi->nazov}_64.png" alt="Ikonka">
+          {/if}  
           <a name="{$oznam->spec_nazov}"></a>{$oznam->nazov}
         </h3>
       </div>
@@ -27,3 +33,27 @@
     <span class="stav st_info">Nie je žiadna aktuálna aktualita(oznam)</span>
   {/if}
 </div>
+
+<div class="row border-b">
+    <h3>Oznamy</h3> 
+    <div class="leftrow border-t">
+      <div class="col-xs-3">
+        <a href="http://sutaz.lesypoprad.sk" target="new" title="Súťaž - Objav Mestské lesy Poprad"><img alt="" class="img-responsive img-thumbnail" src="{$basePath}/www/images/snezienka.jpg"></a>
+      </div>
+      <div class="card col-xs-9">
+        <div class="card-header" role="tab" id="head1">
+          <h3>
+            <a class="collapsed" data-toggle="collapse" data-parent="#news" href="#text1" aria-expanded="false" aria-controls="text1">
+              Súťaž - Objav Mestské lesy Poprad <span class="glyphicon glyphicon-menu-down glyphicon-news"></span>
+            </a>
+          </h3>
+          <p class="card-block text-justify"> Objav prírodné prostredie mestských lesov, krásu a rozmanitosť prírody a histórie. Zaznamenaj rôznou formou zaujímavosti územia, pomôž k vytvoreniu nových poznatkov o území a vyhraj zaujímavé ceny... </p>
+        </div>
+        <div id="text1" class="collapse" role="tabpanel" aria-labelledby="head1">
+          <p class="card-block text-justify"> Súťaž je určená žiakom škôl na území mesta Poprad a jeho občanov, ktorí sa do súťaže zaregistrujú na stránke sutaz.lesypoprad.sk. Súťaž potrvá v období od od 7.4. - do 30. 9 2017. Súťaže sa môžu zúčastniť aj tímy žiakov z rovnakej školy, ktorí sa do súťaže prihlásia spoločne. Web súťaže: 
+          </p>
+          <strong><a href="http://sutaz.lesypoprad.sk" target="new">sutaz.lesypoprad.sk</a></strong>
+        </div>
+      </div>
+    </div>
+  </div>

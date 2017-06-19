@@ -126,6 +126,9 @@ footer .nav li
   border-right: 1px solid #777;
   padding: 2px 7px;
 }
+footer .nav li:last-child {
+  border-right: 0; 
+}
 footer .nav li a
 { 
   display: inline-block;
