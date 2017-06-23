@@ -90,13 +90,15 @@
         </div>
         <div class="row">
           <div class="col-xs-12">
-            <span n:if="FALSE">Admin: {$user_admin->meno} {$user_admin->priezvisko|upper} ({$user_admin->email|uprav_email})</span>
-            <span n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
-              {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
-              ({$user_spravca->email|uprav_email})
-            </span>
-            <span>&copy; {$udaje['copy']} 2011 - {date('Y')}</span>
-            <span>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'} created by anigraph</span>
+            <ul class="nav">
+              <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
+                {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+                ({$user_spravca->email|uprav_email})
+              </li>
+              <li>&copy; {$udaje['copy']} 2011 - {date('Y')}</li>
+              <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+              <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+            </ul>
           </div>  
           <div class="col-xs-12">
             <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">

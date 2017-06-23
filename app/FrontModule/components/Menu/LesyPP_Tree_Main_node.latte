@@ -6,11 +6,15 @@
       $ulClass
 *}
 {if $node}
-  {var $isDropdown = $node->nodes}
+  {var $isDropdown = count($node->nodes) > 1}
 	{if !isset($hideName) || !$hideName}
     <li class="nav-item{if $isDropdown} dropdown{/if} {$node->itemClass}">
       {if $node->link}
-        <a href="{$node->link}" title="{$node->name}" class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle')}" {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}>{$node->name}</a>
+        <a href="{$node->link}" title="{$node->name}" class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle')}" {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}>
+          {$node->name}
+          <br n:if="isset($node->tooltip)" />
+          <small n:if="isset($node->tooltip)">{$node->tooltip}</small>
+        </a>
       {else}
         <span>{$node->name}</span>
       {/if}

@@ -61,7 +61,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   /** Render pre zobrazenie clanku */
 	public function renderDefault()	{
     $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
-		$this->template->h2 = $this->trLang('h2').$this->zobraz_clanok->nazov;
+		$this->template->h2 = $this->trLang('h2').$this->zobraz_clanok->view_name;
     $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
     $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
     $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;

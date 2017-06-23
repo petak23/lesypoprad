@@ -5,7 +5,7 @@
   </a>
   <a n:if="$admin_links['elink']" href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" title="Zmeň nastavenie článku" class="btn btn-success"><i class="fa fa-pencil"></i>Zmeň nastavenie</a>
   <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang)" href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" title="Zmeň text článku" class="btn btn-success"><i class="fa fa-file-text"></i>Zmeň text</a>
-  <a n:if="$admin_links['dlink']" href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->nazov, zdroj_na_zmazanie=>'článok'}" title="Vymazanie článku" class="btn btn-danger" href="#" role="button">
+  <a n:if="$admin_links['dlink']" href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->view_name, zdroj_na_zmazanie=>'článok'}" title="Vymazanie článku" class="btn btn-danger" href="#" role="button">
     <i class="fa fa-trash-o"></i>
   </a>
   <div n:snippet="zmenVlastnika" class="btn-group edit-link-bar" role="group" aria-label="zmen-vlastnika-link">
@@ -86,7 +86,9 @@
   </div>
   <div n:snippet="priamyClanok" n:if="isset($nadradeny) && $user->isAllowed('Admin:Clanky', 'priamy')" class="btn-group edit-link-bar" role="group" aria-label="priamy-clanok-link">
     {var $pc = isset($nadradeny->redirect_id) && $clanok->id_hlavne_menu == $nadradeny->redirect_id}
-    <div class="btn btn-{if $pc}warning{else}primary{/if} disabled" title="Položka {if $pc}je{else}nie je{/if} priamy článok!"><i class="fa fa-arrow-circle-down"></i>{if $pc} Priamy článok!{/if} </div>
+    <div class="btn btn-{if $pc}warning{else}primary{/if} disabled" title="Položka {if $pc}je{else}nie je{/if} priamy článok!">
+      <i class="fa fa-arrow-circle-down"></i> {if $pc}Priamy článok!{else}<small>Nie je priamy článok</small>{/if}
+    </div>
     <a n:if="$admin_links['vlastnik']" n:href="priamyClanok!" title="{if $pc}Zruš{else}Nastav{/if} ako priamy článok" class="btn btn-info" role="button">
       <i class="fa fa-{if $pc}close{else}check{/if}"></i>
     </a>
@@ -99,7 +101,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena vlastníka položky: {$clanok->nazov}</h4>
+        <h4 class="modal-title" id="myModalLabel">Zmena vlastníka položky: {$clanok->view_name}</h4>
         <p>Aktuálny vlastník: {$clanok->hlavne_menu->user_main->meno} {$clanok->hlavne_menu->user_main->priezvisko}</p>
       </div>
       <div class="modal-body">
@@ -114,7 +116,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena úrovne prístupu k položke: {$clanok->nazov}</h4>
+        <h4 class="modal-title" id="myModalLabel">Zmena úrovne prístupu k položke: {$clanok->view_name}</h4>
         <p>Aktuálna úroveň: {$clanok->hlavne_menu->user_roles->id} - {$clanok->hlavne_menu->user_roles->name}</p>
       </div>
       <div class="modal-body">
@@ -129,7 +131,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena platnosti položky: {$clanok->nazov}</h4>
+        <h4 class="modal-title" id="myModalLabel">Zmena platnosti položky: {$clanok->view_name}</h4>
         <p>Aktuálna platnosť: {ifset $clanok->hlavne_menu->datum_platnosti}{$clanok->hlavne_menu->datum_platnosti|date:'%d.%m.%Y'}{else}Nesleduje sa.{/ifset}</p>
       </div>
       <div class="modal-body">
@@ -144,7 +146,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena sledovania dĺžky novinky pre položku: {$clanok->nazov}</h4>
+        <h4 class="modal-title" id="myModalLabel">Zmena sledovania dĺžky novinky pre položku: {$clanok->view_name}</h4>
         <p>Aktuálna dĺžka: {$clanok->hlavne_menu->dlzka_novinky->nazov}</p>
       </div>
       <div class="modal-body">
@@ -159,7 +161,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena oprávnenia nevlastníkov pre položku: {$clanok->nazov}</h4>
+        <h4 class="modal-title" id="myModalLabel">Zmena oprávnenia nevlastníkov pre položku: {$clanok->view_name}</h4>
         <p>Aktuálne oprávnenia: {$clanok->hlavne_menu->dlzka_novinky->nazov}</p>
       </div>
       <div class="modal-body">

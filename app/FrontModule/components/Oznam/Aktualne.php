@@ -77,6 +77,14 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
 			}
       return $vysledok;
     });
+    $template->addFilter('text_pred', function ($text) {
+      $rozloz = explode("{end}", $text);
+      return $rozloz[0];
+    });
+    $template->addFilter('text_po', function ($text) {
+      $rozloz = explode("{end}", $text);
+      return count($rozloz) > 1 ? $rozloz[1] : "";
+    });
     $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
       for ($i = $max_id_reg; $i>=0; $i--) {
         $znacka_zac = "#REG".$i."#"; //Pociatocna znacka

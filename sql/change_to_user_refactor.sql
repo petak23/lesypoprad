@@ -262,13 +262,30 @@ UPDATE `admin_menu` SET `nazov` = 'Editácia užívateľov' WHERE `id` = '4';
 
 ALTER TABLE `oznam`
 ADD `oznam_kluc` varchar(10) COLLATE 'utf8_general_ci' NULL COMMENT 'Kľúč pre potvrdenie účasti',
-ADD `title_image` varchar(200) COLLATE 'utf8_general_ci' NULL COMMENT 'Názov a cesta k titulnému obrázku' AFTER `oznam_kluc`,
+ADD `title_image` varchar(200) COLLATE 'utf8_general_ci' NULL COMMENT 'Názov titulného obrázku' AFTER `oznam_kluc`,
 ADD `title_image_url` varchar(200) COLLATE 'utf8_general_ci' NULL COMMENT 'Odkaz titulného obrázka' AFTER `title_image`,
+ADD `title_fa_class` varchar(20) COLLATE 'utf8_general_ci' NULL COMMENT 'Názov ikonky pre font awesome' AFTER `title_image`,
+CHANGE `id_ikonka` `id_ikonka` int(11) NULL COMMENT 'Id použitej ikonky' AFTER `id_user_roles`,
 COMMENT='Oznamy';
 
-ALTER TABLE `oznam`
-ADD `title_fa_class` varchar(20) COLLATE 'utf8_general_ci' NULL COMMENT 'Názov ikonky pre font awesome' AFTER `title_image`;
+UPDATE `oznam` SET
+`id` = '5',
+`id_user_main` = '1',
+`id_user_roles` = '0',
+`id_ikonka` = NULL,
+`datum_platnosti` = '2017-06-21',
+`datum_zadania` = '2017-06-21',
+`nazov` = 'Súťaž - Objav Mestské lesy Poprad',
+`text` = '<p class=\"card-block text-justify\"> Objav prírodné prostredie mestských lesov, krásu a rozmanitosť prírody a histórie. Zaznamenaj rôznou formou zaujímavosti územia, pomôž k vytvoreniu nových poznatkov o území a vyhraj zaujímavé ceny... </p>\r\n<p>\r\n	{end}</p>\r\n<p class=\"card-block text-justify\"> Súťaž je určená žiakom škôl na území mesta Poprad a jeho občanov, ktorí sa do súťaže zaregistrujú na stránke sutaz.lesypoprad.sk. Súťaž potrvá v období od od 7.4. - do 30. 9 2017. Súťaže sa môžu zúčastniť aj tímy žiakov z rovnakej školy, ktorí sa do súťaže prihlásia spoločne. Web súťaže: \r\n          </p>\r\n          <strong><a href=\"http://sutaz.lesypoprad.sk\" target=\"new\">sutaz.lesypoprad.sk</a></strong>\r\n',
+`oznam_kluc` = 'ltqdqvhjno',
+`title_image` = 'snezienka.jpg',
+`title_fa_class` = NULL,
+`title_image_url` = 'http://sutaz.lesypoprad.sk/'
+WHERE `id` = '5';
 
+ALTER TABLE `hlavne_menu_lang`
+CHANGE `nazov` `menu_name` varchar(100) COLLATE 'utf8_bin' NULL COMMENT 'Názov položky v hlavnom menu pre daný jazyk' AFTER `id_clanok_lang`,
+CHANGE `description` `view_name` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Zobrazený názov položky pre daný jazyk' AFTER `h1part2`;
 -- ---------------------------------------------------------------------------------------------------------------------------------------
 -- DROP TABLE IF EXISTS `debata`;
 -- CREATE TABLE `debata` (

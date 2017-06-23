@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 19.06.2017
+ * Posledna zmena(last change): 23.06.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.1
+ * @version 1.3.2
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -162,9 +162,9 @@ abstract class BasePresenter extends UI\Presenter {
       $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['id_lang'=>$this->language_id, 
                                                            'id_hlavne_menu'=>$hl_udaje->id]);
       if ($lang_hl_udaje !== FALSE){ //Nasiel som udaje a tak aktualizujem
-        $this->udaje_webu["nazov"] = $lang_hl_udaje->nazov;
+        $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
         $this->udaje_webu["h1part2"] = $lang_hl_udaje->h1part2;
-        $this->udaje_webu["description"] = $lang_hl_udaje->description;
+        $this->udaje_webu["description"] = $lang_hl_udaje->view_name;
       } else { //Len preto aby tam nieco bolo
         $this->udaje_webu["nazov"] = "Error nazov";
         $this->udaje_webu["h1part2"] = "Error h1part2";
@@ -193,7 +193,7 @@ abstract class BasePresenter extends UI\Presenter {
     if ($hl_m !== FALSE) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise) {
-        $poll = ["id", "name", "tooltip", "avatar", "anotacia", "novinka", "node_class", "poradie_podclankov"];
+        $poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class", "poradie_podclankov"];
         foreach ($poll as $v) { $node->$v = $row['node']->$v; }
         // Nasledujuca cast priradi do $node->link odkaz podla kriteria:
         // Ak $rna == NULL - vytvori link ako odkaz do aplikacie
@@ -512,7 +512,7 @@ abstract class BasePresenter extends UI\Presenter {
     });
     $template->addFilter('menu_mutacia_title', function ($id) use($servise){
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? ((isset($pom->description) && strlen ($pom->description)) ? $pom->description : $pom->nazov) : $id;
+      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
     });
     $template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
