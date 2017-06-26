@@ -1,37 +1,18 @@
-{* Posledna zmena(last change): 23.06.2017
+{* Posledna zmena(last change): 26.06.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  *}
 {block content}
 <div class="row">
-  <h2>Príroda blízko mesta</h2>
-  <p class="text-info">Turistické trasy a náučné chodníky, vyhliadky aj malá roklina, archeologické nálezisko, krížová cesta, odpočívadlá s ohniskom, chov muflónov a diviakov. Toto všetko a ešte viac nájdete v lesoch mesta Poprad, ktoré sú blízko a ponúkajú skutočný relax a zážitok v prírode. Turista, cyklista, alebo rodiny s deťmi, každý si nájde niečo pre seba.</p>
+  {control ukazClanok-9}
   <section id="parts" class="margin-h">
-    <div class="webPart col-xs-4">
-      <a n:href="Clanky: 2" title="Aktuálna ponuka služieb"><img class="img-responsive" src="{$basePath}/www/ikonky/96/strom_96.png"></a>
-      <div class="box">
-        <h3><a n:href="Clanky: 2" title="Aktuálna ponuka služieb">Služby</a></h3>
-        <p class="text-left">Hlavnou činnosťou v oblasti obchodu a služieb je predaj dreva. Venujeme sa aj pestovaniu a predaju sadeníc v prípade ich prebytku a doplnkovo aj sprievodcovskej činnosti v mestských lesoch.</p>
-      </div>
-    </div>
-    <div class="webPart col-xs-4">
-      <a n:href="Clanky: 3" title="Turistický sprievodca"><img class="img-responsive" src="{$basePath}/www/ikonky/96/kompas_96.png"></a>
-      <div class="box">
-        <h3><a n:href="Clanky: 3" title="Turistický sprievodca">pre turistov</a></h3>
-        <p class="text-left">Urobte si výlet na naše značkované chodníky, alebo cyklistické trasy. Na každom z chodníkov nájdete krásne a zaujímavé miesta, na ktoré sa budete radi vracať.</p>
-      </div>
-    </div>
-    <div class="webPart col-xs-4">
-      <a n:href="Clanky: 7" title="Fotografie"><img class="img-responsive" src="{$basePath}/www/ikonky/96/foto_96.png"></a>
-      <div class="box">
-        <h3><a n:href="Clanky: 7" title="Fotografie">Fotogaléria</a></h3>
-        <p class="text-left">Pozrite si fotografie z našich mestských lesov. Fotografie z turistických chodníkov, zaujímavých miest, ale aj z prác na projektoch, ktoré sme zrealizovali.</p>
-      </div>
-    </div>
+    {control odkazNaClanky-2 template=>'LesyPP_Homepage'}
+    {control odkazNaClanky-3 template=>'LesyPP_Homepage'}
+    {control odkazNaClanky-7 template=>'LesyPP_Homepage'}
   </section>
 </div>     
 

@@ -10,13 +10,13 @@
  *
  * @param     
 *}
-{if $user->isAllowed('Front:Faktury', 'add')}
+{if FALSE && $user->isAllowed('Front:Faktury', 'add')}
   <button n:if="$user->isAllowed('Front:Faktury', 'add')" type="button" class="btn btn-info" data-toggle="modal" {if $id_dokument}data-show="true"{/if} data-target="#myModalAddFaktura" title="Pridaj dokument">
     <i class="fa fa-pencil"></i> Pridaj
   </button>
 {/if}
 {control fakturyGrid}
-{if $user->isAllowed('Front:Faktury', 'add')}
+{if FALSE && $user->isAllowed('Front:Faktury', 'add')}
   {* -- Modal dialog pre zmenu vlastníka -- *}
   {snippet myModalAddFaktura}
   <div class="modal fade" id="myModalAddFaktura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

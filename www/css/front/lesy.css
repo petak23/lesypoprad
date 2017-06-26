@@ -1,7 +1,7 @@
 @charset "utf-8";
 body
 {  
-  background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
+  background: url(../images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
   font-family: 'Roboto', sans-serif;
   margin: 0; padding: 0;
   min-width: 320px;
@@ -126,9 +126,6 @@ footer .nav li
   border-right: 1px solid #777;
   padding: 2px 7px;
 }
-footer .nav li:last-child {
-  border-right: 0; 
-}
 footer .nav li a
 { 
   display: inline-block;
@@ -243,6 +240,11 @@ footer .small
   {  margin: 0 auto;}
   #parts h3
   {  font-weight: 300;}
+.profilvo table 
+{
+  background: #135535;
+  width: 60%;
+}
 .img-left 
 {
   float: left;
@@ -256,6 +258,30 @@ footer .small
 }
 .webPart:last-child
 {  border-right: solid 2px rgba(255,255,255,.5);}
+.table
+{
+  width: 100%;
+  margin: 0 auto;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #178852;
+}
+.table caption
+{
+  font-size: 180%;
+  color: #fff;
+  text-transform: uppercase; text-align: center;
+  border-bottom: 1px dotted;
+}
+.table > tbody > tr > th
+{ 
+  border-top: none; border-bottom: 2px solid;
+  font-size: 120%;
+}
+.table td, .table th
+{ border-right: 1px dotted #fff;}
+.table td:last-child, .table th:last-child
+{ border-right: none;}
 /*--*/
 /* -- horne menu -- */
 #topmenu

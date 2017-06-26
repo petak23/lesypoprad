@@ -65,6 +65,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
     $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
     $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
+    $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
     $this->template->viac_info = "";//$this->trLang('viac_info');
     //Zisti, ci su k clanku priradene komponenty
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
@@ -132,5 +133,17 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
       $viewFaktury->setSkupina($servises->zobraz_clanok->id_hlavne_menu);
       return $viewFaktury;
 //    });
+  }
+  
+    /** 
+   * Komponenta pre vykreslenie podclankov na kartach
+   * @return \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
+  public function createComponentZobrazKartyPodclankov() {
+    $servise = $this;
+//		return new Multiplier(function ($id) use ($servise) {
+			$odkaz = $this->zobrazKartyPodclankovControlFactory->create();
+      $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $servise->language_id);
+			return $odkaz;
+//		});
   }
 }

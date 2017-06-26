@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 23.06.2017
+ * Posledna zmena(last change): 26.06.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.2
+ * @version 1.3.3
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -61,6 +61,8 @@ abstract class BasePresenter extends UI\Presenter {
   public $userLangMenuControlFactory;
   /** @var \App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl @inject */
   public $odkazNaClankyControlFactory;
+  /** @var \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl @inject */
+  public $zobrazKartyPodclankovControlFactory;
   /** @var \App\FrontModule\Components\News\INewsControl @inject */
   public $newsControlFactory;
 
@@ -323,14 +325,7 @@ abstract class BasePresenter extends UI\Presenter {
     $servise = $this;
 		return new Multiplier(function ($id) use ($servise) {
 			$odkaz = $servise->odkazNaClankyControlFactory->create();
-      $odkaz->setTexts([
-        "to_foto_galery"  => $servise->trLang("base_to_foto_galery"),
-        "to_article"      => $servise->trLang("base_to_article"),
-        "neplatny"        => $servise->trLang("base_neplatny"),
-        "platil_do"       => $servise->trLang("base_platil_do"),
-        "platny_do"       => $servise->trLang("base_platnost_do"),
-        "not_found"       => $servise->trLang('odkazNaClankyControl_not_found'),
-      ])->setLanguage($servise->language_id);
+      $odkaz->setArticle($id, $servise->language_id);
 			return $odkaz;
 		});
   }

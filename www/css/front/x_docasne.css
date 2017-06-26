@@ -1,6 +1,5 @@
 /* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 23.06.2017 - PV*/
-
+/* UPDATED 26.06.2017 - PV*/
 input {
   color: #000;
 }
@@ -48,4 +47,16 @@ input {
 }
 .datagrid .btn-primary:active, .datagrid .btn-primary.active {
   background-color: #006400;
+}
+footer .nav li:last-child {
+  border-right: 0; 
+}
+body {  
+  background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
+}
+.parallax {
+  /*z-index: 1049;*/
+}
+.modal-content {
+  color: #000;
 }
