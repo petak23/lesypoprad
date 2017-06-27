@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 26.06.2017
+ * Posledna zmena(last change): 27.06.2017
  *
  *	Modul: FRONT
  *
@@ -61,8 +61,6 @@ abstract class BasePresenter extends UI\Presenter {
   public $userLangMenuControlFactory;
   /** @var \App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl @inject */
   public $odkazNaClankyControlFactory;
-  /** @var \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl @inject */
-  public $zobrazKartyPodclankovControlFactory;
   /** @var \App\FrontModule\Components\News\INewsControl @inject */
   public $newsControlFactory;
 

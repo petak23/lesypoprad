@@ -1,36 +1,37 @@
 <section id="trails" class="margin-h">
   <div role="tabpanel">
-    <ul class="nav nav-tabs" role="tablist" n:inner-foreach="$articles as $art">
-      <li role="presentation"{first} class="active"{/first}>
-        <a href="#pane{$iterator->counter}" data-toggle="tab" role="tab" aria-controls="tab{$iterator->counter}">
+    <ul class="nav nav-tabs" role="tablist" n:inner-foreach="$articles as $art" id="tabsTrails">
+      <li role="presentation" n:class="($kotva != '' ? $art->hlavne_menu->spec_nazov == $kotva : $iterator->first) ? active">
+        <a href="#{$art->hlavne_menu->spec_nazov}" data-toggle="tab" role="tab" aria-controls="tab{$iterator->counter}">
           {$art->menu_name}
         </a>
       </li>
     </ul>
     <div id="tabContent1" class="tab-content" n:inner-foreach="$articles as $art">
-      <div role="tabpanel" class="tab-pane fade in active" id="pane{$iterator->counter}">
+      <div role="tabpanel" n:class="($kotva != '' ? $art->hlavne_menu->spec_nazov == $kotva : $iterator->first) ? 'tab-pane fade in active' : 'tab-pane fade in'" id="{$art->hlavne_menu->spec_nazov}">
         <div class="leftrow">
           <div class="wrap">
             <h3>{$art->view_name}</h3>
             <p class="text">{$art->clanok_lang->text|noescape}</p>
           </div>
-          <div class="wrap">
-            <iframe frameborder="0" height="350" width="425" marginheight="0" marginwidth="0" scrolling="no" src="mapka.html"></iframe><br />
-            <small>Zobraziť <a href="#" style="color: rgb(0, 0, 255); text-align: left;">Chodník</a> na väčšej mape</small>
-          </div>
         </div>
         <div class="row" >
-          
           <div class="col-sm-4">
-            <div class="thumbnail"><img src="images/kvetnica_krizova_cesta2.jpg" alt="Thumbnail Image 1">
+            <div class="thumbnail"><img src="{$basePath}/www/images/kvetnica_krizova_cesta2.jpg" alt="Thumbnail Image 1">
               <div class="caption">
                 <p>Popis obrázku</p>
               </div>
             </div>
           </div>
-         
         </div>
       </div>
     </div>
   </div>
 </section>
+              
+<script>
+  $('#tabsTrails a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  })
+</script>

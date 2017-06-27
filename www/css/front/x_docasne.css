@@ -54,8 +54,8 @@ footer .nav li:last-child {
 body {  
   background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
 }
-.parallax {
-  /*z-index: 1049;*/
+.modal {
+  top: 50px;
 }
 .modal-content {
   color: #000;
