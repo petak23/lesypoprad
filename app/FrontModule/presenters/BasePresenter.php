@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 03.07.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.3
+ * @version 1.3.4
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -234,10 +234,9 @@ abstract class BasePresenter extends UI\Presenter {
   
   /** Signal pre odhlasenie sa */
 	public function handleSignOut() {
-		$this->getUser()->logout();
+		$this->getUser()->logout(TRUE);
     $this->id_reg = 0;
-		$this->flashMessage($this->trLang('base_log_out_mess'), 'success');
-    $this->redirect('Homepage:');
+		$this->flashRedirect('Homepage:', $this->trLang('base_log_out_mess'), 'success');
 	}
 
   /** 

@@ -1,5 +1,5 @@
 <div n:snippet="ukazClanokMoj" class="zobraz-clanok">
-  <h2>{$clanok->view_name}</h2>
+  <h2>{$clanok->view_name}<small n:if="$user->isInRole('admin')"> - foto_album template</small></h2>
   <div n:ifset="$error" class="st_upozorni">{$error}</div>
   {if ($article_avatar_view_in & 2) && isset($clanok->hlavne_menu->avatar) && is_file('www/'.$avatar_path.$clanok->hlavne_menu->avatar)}
     <div class="avatar-img"><img src="{$basePath}/www/{$avatar_path}{$clanok->hlavne_menu->avatar}" alt="{$texty['text_title_image']}"></div>
@@ -14,4 +14,9 @@
   <div n:if="$clanok->clanok_lang->text" class="text-clanku">
     {$clanok->clanok_lang->text|noescape|obr_v_txt|koncova_znacka}
   </div>
+  {var $podclanky = 0}
+  {dump $menu->getPath()[1]}
+  <ul n:inner-foreach="$menu->getPath()[1]->nodes as $no">
+    <li>{$no->name}</li>
+  </ul>
 </div>

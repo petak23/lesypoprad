@@ -33,9 +33,12 @@
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalRegistraciaChange" title="Zmeň úroveň prístupu"><i class="fa fa-pencil"></i></button>
   </div>
   <div n:if="$clanok->hlavne_menu->nazov_ul_sub !== NULL" n:snippet="vzhlad" class="btn-group edit-link-bar" role="group" aria-label="vzhlad-link">
-    <div class="btn btn-success disabled" role="button" title="Vzhľad pre Front modul vzhľad: {$c = isset($clanok->hlavne_menu->nazov_ul_sub) ? $clanok->hlavne_menu->nazov_ul_sub : 'východzí'}">
-      Vzhľad pre Front modul vzhľad: <strong>{$c = isset($clanok->hlavne_menu->nazov_ul_sub) ? $clanok->hlavne_menu->nazov_ul_sub : 'východzí'}</strong></div>
-    <a n:if="FALSE && $admin_links['vlastnik'] && $clanok->hlavne_menu->nazov_ul_sub !== NULL && $user->isAllowed('Admin:Clanky', 'vzhlad')" href="{plink Clanky:vzhlad $clanok->id_hlavne_menu}" class="btn btn-info" role="button" title="Zmeň vzhľad"><i class="fa fa-pencil"></i></a>
+    <div class="btn btn-success disabled" role="button" title="Vzhľad pre Front modul vzhľad: {$c = $clanok->hlavne_menu->nazov_ul_sub ? $clanok->hlavne_menu->nazov_ul_sub : 'východzí'}">
+      Vzhľad pre Front modul vzhľad: <strong>{$c = $clanok->hlavne_menu->nazov_ul_sub ? $clanok->hlavne_menu->nazov_ul_sub : 'východzí'}</strong>
+    </div>
+    <a n:if="FALSE && $admin_links['vlastnik'] && $clanok->hlavne_menu->nazov_ul_sub !== NULL && $admin_links['elink']" href="{plink Clanky:vzhlad $clanok->id_hlavne_menu}" class="btn btn-info" role="button" title="Zmeň vzhľad">
+      <i class="fa fa-pencil"></i>
+    </a>
   </div>
   <div n:snippet="platnost" class="btn-group edit-link-bar" role="group" aria-label="platnost-link">
     {var $cl='primary'}

@@ -1,4 +1,3 @@
-{dump $startNode}
 {var $ukaz = isset($startNode->nodes) && count($startNode->nodes) ? TRUE : FALSE}
 {var $level=1}
 <div class="{$nastav['divClass']}" n:if="count($startNode->nodes)" n:tag-if="$nastav['divClass'] && $ukaz">
