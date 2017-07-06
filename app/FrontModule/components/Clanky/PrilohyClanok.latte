@@ -1,5 +1,5 @@
 <div n:snippet="prilohyClanok" class="row" n:if="$prilohy->count()">
-	<h3 n:if="strlen($texts->trText('h3'))">{$texts->trText('h3')}</h3>
+	<h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
   <div class="col-xs-12 col-md-12" n:inner-foreach="$prilohy as $subor">
     {var $pr = strtolower($subor->pripona)}
     {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}

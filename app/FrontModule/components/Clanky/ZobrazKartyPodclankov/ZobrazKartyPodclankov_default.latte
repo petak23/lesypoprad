@@ -15,11 +15,13 @@
             <p class="text">{$art->clanok_lang->text|noescape}</p>
           </div>
         </div>
-        <div class="row" >
+        {var $prilohy = $dokumenty->findBy(['id_hlavne_menu'=>$art->id_hlavne_menu])}
+        <div class="row" n:if="count($prilohy)" n:inner-foreach="$prilohy as $p">
           <div class="col-sm-4">
-            <div class="thumbnail"><img src="{$basePath}/www/images/kvetnica_krizova_cesta2.jpg" alt="Thumbnail Image 1">
+            <div class="thumbnail">
+              <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$p->thumb}" alt="{$p->nazov}" data-jslghtbx="{$basePath}/{$p->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
               <div class="caption">
-                <p>Popis obrázku</p>
+                <p>{$p->nazov}</p>
               </div>
             </div>
           </div>

@@ -15,8 +15,12 @@
     {$clanok->clanok_lang->text|noescape|obr_v_txt|koncova_znacka}
   </div>
   {var $podclanky = 0}
-  {dump $menu->getPath()[1]}
-  <ul n:inner-foreach="$menu->getPath()[1]->nodes as $no">
-    <li>{$no->name}</li>
-  </ul>
+  <div class="row foto-album" n:inner-foreach="$menu->getPath()[1]->nodes as $no">
+    <div class="col-xs-6 col-md-3">
+      <a href="{$no->link}" class="thumbnail" title="{$no->name}">
+        <img n:if="isset($no->avatar) && is_file('www/'.$avatar_path.$no->avatar)" src="{$basePath}/www/{$avatar_path}{$no->avatar}" alt="{$no->name}" />
+        <div>{$no->name}</div>
+      </a>
+    </div>
+  </div>
 </div>

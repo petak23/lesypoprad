@@ -60,3 +60,21 @@ body {
 .modal-content {
   color: #000;
 }
+.foto-album .thumbnail {
+  border: none;
+}
+.foto-album .thumbnail div{
+  text-align: center;
+}
+footer .footer-info {
+  padding-bottom: 0;
+}
+footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
+  font-size: 85%;
+}
+footer .user-lang-menu ul.nav {
+  padding: 0;
+}
+#topmenu ul li.selected, #topmenu ul li.in-path {
+  background-color: #91e036;
+}

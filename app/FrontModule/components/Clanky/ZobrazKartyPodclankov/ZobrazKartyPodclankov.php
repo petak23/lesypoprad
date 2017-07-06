@@ -6,7 +6,7 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie odkazu na iny clanok
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 06.07.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
@@ -20,6 +20,8 @@ class ZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
 	public $texts;
   /** @var DbTable\Hlavne_menu_lang */
 	public $hlavne_menu_lang;
+    /** @var DbTable\Dokumenty */
+	public $dokumenty;
   /** @var Nette\Database\Table\Selection */
   protected $articles;
   private $kotva = "";
@@ -28,9 +30,10 @@ class ZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param Language_support\Clanky $texts */
-  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, Language_support\Clanky $texts) {
+  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, DbTable\Dokumenty $dokumenty, Language_support\Clanky $texts) {
     parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
+    $this->dokumenty = $dokumenty;
     $this->texts = $texts;
   }
 
@@ -55,6 +58,7 @@ class ZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
     $this->template->texty = $this->texts;
     $this->template->articles = $this->articles;
     $this->template->kotva = $this->kotva;
+    $this->template->dokumenty = $this->dokumenty;
     $this->template->render();
   }
 }
