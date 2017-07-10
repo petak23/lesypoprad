@@ -19,7 +19,7 @@ CREATE TABLE `admin_menu` (
 
 INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_user_roles`, `avatar`) VALUES
 (1,	'Homepage:',	'Úvod',	3,	'ikonky/AzulLustre_icons/Cerrada.png'),
-(2,	'Lang:',	'Editácia jazykov',	4,	'ikonky/AzulLustre_icons/Webfolder.png'),
+(2,	'Lang:',	'Editácia jazykov',	5,	'ikonky/AzulLustre_icons/Webfolder.png'),
 (3,	'Slider:',	'Editácia slider-u',	4,	'ikonky/AzulLustre_icons/Imagenes.png'),
 (4,	'User:',	'Editácia užívateľov',	5,	'ikonky/AzulLustre_icons/Fuentes.png'),
 (5,	'Verzie:',	'Verzie webu',	4,	'ikonky/AzulLustre_icons/URL_historial.png'),
@@ -670,7 +670,7 @@ CREATE TABLE `hlavne_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
 INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`) VALUES
-(1,	'home',	1,	0,	NULL,	3,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	'Homepage:',	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
+(1,	'home',	1,	0,	NULL,	3,	0,	NULL,	1,	1,	0,	0,	0,	0,	0,	NULL,	'Homepage:',	NULL,	NULL,	0,	'2017-07-10 06:03:03',	NULL,	0,	NULL,	1),
 (2,	'sluzby',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	'36ubhgr5s6abwjj.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
 (3,	'pre-turistov',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	'ho4dhulx5z9nlcu.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
 (4,	'zverejnovanie-dokumentov',	1,	0,	NULL,	3,	0,	NULL,	2,	4,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	23,	1),
@@ -739,7 +739,7 @@ INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_la
 (12,	1,	12,	5,	'Náučný chodník Kvetnica',	NULL,	'Náučný chodník Kvetnica'),
 (13,	1,	13,	6,	'Okruh zdravia',	NULL,	'Okruh zdravia'),
 (14,	1,	14,	7,	'Zámčisko',	NULL,	'Zámčisko'),
-(15,	1,	15,	8,	'Zákazky',	'§ 9 ods. 9 zákona č. 25/2006',	'Zákazky § 9 ods. 9 zákona č. 25/2006'),
+(15,	1,	15,	8,	'Zákazky',	'§ 117 zákona NR SR č. 343/2015 Z.z.',	'§ 117 zákona NR SR č. 343/2015 Z.z.'),
 (16,	1,	16,	9,	'zákazka 1/2013',	NULL,	'zákazka 1/2013'),
 (17,	1,	17,	10,	'zákazka 1/2014',	NULL,	'zákazka 1/2014'),
 (18,	1,	18,	11,	'zákazka 2/2014',	NULL,	'zákazka 2/2014'),
@@ -835,7 +835,7 @@ CREATE TABLE `oznam` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Oznamy';
 
 INSERT INTO `oznam` (`id`, `id_user_main`, `id_user_roles`, `id_ikonka`, `datum_platnosti`, `datum_zadania`, `nazov`, `text`, `oznam_kluc`, `title_image`, `title_fa_class`, `title_image_url`) VALUES
-(5,	1,	0,	NULL,	'2017-12-31',	'2017-06-23',	'Súťaž - Objav Mestské lesy Poprad',	'<p class=\"card-block text-justify\">\n	Objav pr&iacute;rodn&eacute; prostredie mestsk&yacute;ch lesov, kr&aacute;su a rozmanitosť pr&iacute;rody a hist&oacute;rie. Zaznamenaj r&ocirc;znou formou zauj&iacute;mavosti &uacute;zemia, pom&ocirc;ž k vytvoreniu nov&yacute;ch poznatkov o &uacute;zem&iacute; a vyhraj zauj&iacute;mav&eacute; ceny...</p>\n<p>\n	{end}</p>\n<p class=\"card-block text-justify\">\n	S&uacute;ťaž je určen&aacute; žiakom &scaron;k&ocirc;l na &uacute;zem&iacute; mesta Poprad a jeho občanov, ktor&iacute; sa do s&uacute;ťaže zaregistruj&uacute; na str&aacute;nke sutaz.lesypoprad.sk. S&uacute;ťaž potrv&aacute; v obdob&iacute; od od 7.4. - do 30. 9 2017. S&uacute;ťaže sa m&ocirc;žu z&uacute;častniť aj t&iacute;my žiakov z rovnakej &scaron;koly, ktor&iacute; sa do s&uacute;ťaže prihl&aacute;sia spoločne. Web s&uacute;ťaže:</p>\n<p>\n	<strong><a href=\"http://sutaz.lesypoprad.sk\" target=\"new\">sutaz.lesypoprad.sk</a></strong></p>\n',	'ltqdqvhjno',	'snezienka.jpg',	NULL,	'http://sutaz.lesypoprad.sk/');
+(5,	2,	0,	NULL,	'2017-12-31',	'2017-06-23',	'Súťaž - Objav Mestské lesy Poprad',	'<p class=\"card-block text-justify\">\n	Objav pr&iacute;rodn&eacute; prostredie mestsk&yacute;ch lesov, kr&aacute;su a rozmanitosť pr&iacute;rody a hist&oacute;rie. Zaznamenaj r&ocirc;znou formou zauj&iacute;mavosti &uacute;zemia, pom&ocirc;ž k vytvoreniu nov&yacute;ch poznatkov o &uacute;zem&iacute; a vyhraj zauj&iacute;mav&eacute; ceny...</p>\n<p>\n	{end}</p>\n<p class=\"card-block text-justify\">\n	S&uacute;ťaž je určen&aacute; žiakom &scaron;k&ocirc;l na &uacute;zem&iacute; mesta Poprad a jeho občanov, ktor&iacute; sa do s&uacute;ťaže zaregistruj&uacute; na str&aacute;nke sutaz.lesypoprad.sk. S&uacute;ťaž potrv&aacute; v obdob&iacute; od od 7.4. - do 30. 9 2017. S&uacute;ťaže sa m&ocirc;žu z&uacute;častniť aj t&iacute;my žiakov z rovnakej &scaron;koly, ktor&iacute; sa do s&uacute;ťaže prihl&aacute;sia spoločne. Web s&uacute;ťaže:</p>\n<p>\n	<strong><a href=\"http://sutaz.lesypoprad.sk\" target=\"new\">sutaz.lesypoprad.sk</a></strong></p>\n',	'ltqdqvhjno',	'snezienka.jpg',	NULL,	'http://sutaz.lesypoprad.sk/');
 
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
@@ -878,23 +878,23 @@ CREATE TABLE `udaje` (
 
 INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`) VALUES
 (1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke'),
-(2,	4,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk'),
-(3,	4,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu'),
-(4,	4,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke'),
-(5,	4,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk'),
+(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk'),
+(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu'),
+(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke'),
+(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk'),
 (6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová'),
 (7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky'),
-(8,	4,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa'),
-(9,	4,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa'),
-(10,	4,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo'),
-(11,	4,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu'),
-(12,	4,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu'),
+(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa'),
+(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa'),
+(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo'),
+(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu'),
+(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu'),
 (13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu'),
 (14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u'),
-(15,	4,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk'),
-(16,	4,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk'),
+(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk'),
+(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk'),
 (17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov'),
-(18,	4,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)'),
+(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)'),
 (19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]'),
 (21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).'),
 (22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]'),
@@ -943,9 +943,9 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-07-06 07:22:19'),
-(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:13:38',	'2017-05-15 08:10:58'),
-(3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	'2017-05-15 09:12:22',	'2017-05-22 07:59:39');
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-07-10 05:46:55'),
+(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:13:38',	'2017-07-10 05:48:55'),
+(3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:12:22',	'2017-07-10 05:48:21');
 
 DROP TABLE IF EXISTS `user_permission`;
 CREATE TABLE `user_permission` (
@@ -1013,7 +1013,13 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (8,	1,	'2017-07-06 08:07:04'),
 (9,	1,	'2017-07-06 08:08:03'),
 (10,	1,	'2017-07-06 08:28:09'),
-(11,	1,	'2017-07-06 09:22:19');
+(11,	1,	'2017-07-06 09:22:19'),
+(12,	1,	'2017-07-06 15:51:40'),
+(13,	2,	'2017-07-07 08:53:47'),
+(14,	2,	'2017-07-07 08:54:31'),
+(15,	1,	'2017-07-10 07:46:55'),
+(16,	3,	'2017-07-10 07:48:21'),
+(17,	2,	'2017-07-10 07:48:55');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1030,9 +1036,9 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	13,	'M',	'2017-07-06 09:22:19',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
-(2,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A'),
-(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
+(1,	NULL,	NULL,	NULL,	15,	'M',	'2017-07-10 07:46:55',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
+(2,	NULL,	NULL,	NULL,	3,	'M',	'2017-07-10 07:48:55',	NULL,	'A'),
+(3,	NULL,	NULL,	NULL,	1,	'M',	'2017-07-10 07:48:21',	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
 CREATE TABLE `user_resource` (
@@ -1100,4 +1106,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (2,	1,	'0.1.5',	'Datagrid, verzia',	'<ul>\n	<li>\n		&Uacute;prava sql s&uacute;borov DB&nbsp;a pr&iacute;prava na prechod na nov&yacute; sp&ocirc;sob.</li>\n	<li>\n		Upgrade adminer-a na 4.3.1.</li>\n	<li>\n		Pridanie Ublaboo datagridu.</li>\n	<li>\n		Pridanie možnosti edit&aacute;cie a prid&aacute;vania dokumentov - fakt&uacute;r.</li>\n	<li>\n		Vymazanie nepotrebnej časti pokladničky.</li>\n	<li>\n		Odstr&aacute;nenie chyby v administr&aacute;cii verzi&iacute;.</li>\n</ul>\n',	'2017-05-05 05:32:49'),
 (3,	1,	'0.4.1',	'Vzhľad',	'<ul>\n	<li>\n		Kompletne prepracovan&yacute; vzhľad str&aacute;nky.</li>\n	<li>\n		Odstr&aacute;nenie zisten&yacute;ch ch&yacute;b.</li>\n</ul>\n',	'2017-07-06 07:44:33');
 
--- 2017-07-06 07:57:19
+-- 2017-07-10 06:04:58
