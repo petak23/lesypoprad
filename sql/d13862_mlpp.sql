@@ -1111,6 +1111,7 @@ CREATE TABLE `verzie` (
 INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified`) VALUES
 (1,	1,	'0.1.',	NULL,	'Východzia verzia',	'2017-02-13 08:03:32'),
 (2,	1,	'0.1.5',	'Datagrid, verzia',	'<ul>\n	<li>\n		&Uacute;prava sql s&uacute;borov DB&nbsp;a pr&iacute;prava na prechod na nov&yacute; sp&ocirc;sob.</li>\n	<li>\n		Upgrade adminer-a na 4.3.1.</li>\n	<li>\n		Pridanie Ublaboo datagridu.</li>\n	<li>\n		Pridanie možnosti edit&aacute;cie a prid&aacute;vania dokumentov - fakt&uacute;r.</li>\n	<li>\n		Vymazanie nepotrebnej časti pokladničky.</li>\n	<li>\n		Odstr&aacute;nenie chyby v administr&aacute;cii verzi&iacute;.</li>\n</ul>\n',	'2017-05-05 05:32:49'),
-(3,	1,	'0.4.1',	'Vzhľad',	'<ul>\n	<li>\n		Kompletne prepracovan&yacute; vzhľad str&aacute;nky.</li>\n	<li>\n		Odstr&aacute;nenie zisten&yacute;ch ch&yacute;b.</li>\n</ul>\n',	'2017-07-06 07:44:33');
+(3,	1,	'0.4.1',	'Vzhľad',	'<ul>\n	<li>\n		Kompletne prepracovan&yacute; vzhľad str&aacute;nky.</li>\n	<li>\n		Odstr&aacute;nenie zisten&yacute;ch ch&yacute;b.</li>\n</ul>\n',	'2017-07-06 07:44:33'),
+(4,	1,	'0.4.3',	'rôzne',	'<ul>\n	<li>\n		Doplnen&yacute; kontaktn&yacute; formul&aacute;r.</li>\n	<li>\n		&Uacute;pravy vzhľadu.</li>\n	<li>\n		Odstr&aacute;nenie chyby opr&aacute;vnenia v admin časti &uacute;dajov.</li>\n</ul>\n',	'2017-07-13 09:28:45');
 
--- 2017-07-13 09:25:18
+-- 2017-07-13 09:28:56

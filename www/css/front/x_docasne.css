@@ -75,3 +75,7 @@ footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
 footer .user-lang-menu ul.nav {
   padding: 0;
 }
+.map {
+  width: 50%;
+  height: 250px;
+}
