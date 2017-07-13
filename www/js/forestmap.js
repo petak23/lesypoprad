@@ -96,7 +96,8 @@ function initMap()
 	   {lat:49.095958, lng:20.2258301}
   ];
   // Construct the polygons.
-  var urbanForest = new google.maps.Polygon({
+  var urbanForest = new google.maps.Polygon(
+  {
     paths: forestCoords,
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
@@ -105,6 +106,11 @@ function initMap()
     fillOpacity: 0.35
   });
   urbanForest.setMap(map);
+  urbanForest.addListener('click', function() 
+  {
+    var url = "https://drive.google.com/open?id=1wnTfzH11ajigAgGjOlHKD9Rr8O8&usp=sharing";
+    window.open(url, 'Mapa');
+  });
 	
   var urbanForest2 = new google.maps.Polygon({
     paths: forestCoords2,
@@ -114,8 +120,12 @@ function initMap()
     fillColor: '#FF0000',
     fillOpacity: 0.35
   });
-	
   urbanForest2.setMap(map2);
+  urbanForest2.addListener('click', function() 
+  {
+    var url = "https://drive.google.com/open?id=1d-4Hjf_Ru5uSCwF1X_98SOCcCpw&usp=sharing";
+    window.open(url, 'Mapa');
+  });
 	var urbanForest3 = new google.maps.Polygon({
     paths: forestCoords3,
     strokeColor: '#FF0000',
@@ -125,4 +135,10 @@ function initMap()
     fillOpacity: 0.35
   });
   urbanForest3.setMap(map2);
+  urbanForest3.addListener('click', function() 
+  {
+    var url = "https://drive.google.com/open?id=1d-4Hjf_Ru5uSCwF1X_98SOCcCpw&usp=sharing";
+    window.open(url, 'Mapa');
+  });
+  
 }

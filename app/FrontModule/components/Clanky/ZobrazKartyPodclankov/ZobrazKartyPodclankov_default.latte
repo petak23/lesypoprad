@@ -9,17 +9,13 @@
     </ul>
     <div id="tabContent1" class="tab-content" n:inner-foreach="$articles as $art">
       <div role="tabpanel" n:class="($kotva != '' ? $art->hlavne_menu->spec_nazov == $kotva : $iterator->first) ? 'tab-pane fade in active' : 'tab-pane fade in'" id="{$art->hlavne_menu->spec_nazov}">
-        <div class="leftrow">
-          <div class="wrap">
-            <h3>{$art->view_name}</h3>
-            <p class="text">{$art->clanok_lang->text|noescape}</p>
-          </div>
-        </div>
+        <h3>{$art->view_name}</h3>
+        {$art->clanok_lang->text|noescape}
         {var $prilohy = $dokumenty->findBy(['id_hlavne_menu'=>$art->id_hlavne_menu])}
         <div class="row" n:if="count($prilohy)" n:inner-foreach="$prilohy as $p">
           <div class="col-sm-4">
             <div class="thumbnail">
-              <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$p->thumb}" alt="{$p->nazov}" data-jslghtbx="{$basePath}/{$p->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
+              <img class="jslghtbx-thmb" src="{$basePath}/{$p->thumb}" alt="{$p->nazov}" data-jslghtbx="{$basePath}/{$p->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
               <div class="caption">
                 <p>{$p->nazov}</p>
               </div>

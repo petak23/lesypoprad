@@ -36,3 +36,8 @@ parameters:
       jedinecna: FALSE
       fa_ikonka: 'columns'
       parametre: NULL
+    kontakt:
+      nazov: 'Kontaktný formulár'
+      fa_ikonka: 'comments'
+      jedinecna: TRUE
+      parametre: NULL

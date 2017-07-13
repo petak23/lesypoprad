@@ -38,8 +38,9 @@ a:hover
 }
 .border-b
 {
-  padding-bottom: 2em;
-  border-bottom: 2px solid rgba(255,255,255,0.50); 
+  padding-bottom: 1em;
+  border-bottom: 1px solid rgba(255,255,255,0.50);
+  margin-bottom: 2em
 }
 .border-t
 {
@@ -95,6 +96,7 @@ header h1
 { 
   font-size: 400%;
   line-height: 150%;
+  color: #197748;
 }
 header img
 { 
@@ -327,6 +329,10 @@ footer .small
 		color: #000;
 		text-decoration: underline;
 	}
+  #topmenu ul li.selected a, #topmenu ul li.in-path a
+  {
+    text-decoration: underline;
+  }
   #topmenu ul.dropdown-menu
   {
     background: #1F5972;
@@ -417,10 +423,25 @@ footer .small
 {
   font-weight: 100;
 }
+#trails iframe
+{
+  width: 50%; height: 250px;
+	margin: 0;
+}
+#trails .leftrow p
+	{
+		width: 50%;
+		padding: 2ex;
+		text-align: justify;
+	}
+.foto-album
+{
+  width: 100%;
+}
 .thumbnail
 {
   background: none;
-  border: none; border-right: 1px solid white;
+  border: none;
   border-radius: 0;
 }
 .last
@@ -435,6 +456,69 @@ footer .small
 { 
   width: 90%;
   border: 1px solid #fff;
-  padding: 4px;
+  padding: 0;
+}
+.gallery .flex
+{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.gallery .title-img 
+{
+  width: 90%;
+  margin: 0 auto; padding: 2ex;
+  border-bottom: 1px dotted;
+  /*background: #177A4A;*/
+}
+.gallery .title-img:hover
+{
+  background: #177A4A;
+}
+.gallery .title-img h4
+{
+  text-align: center; text-transform: none;
+  font-weight: 300; margin: 0;
+}
+.gallery .title-img h4 a
+{  color: #fff;}
+.gallery .title-img h4 a:hover
+{  color: #9FF39E;}
+.gallery .thumbnail img
+{
+  border: none;
+}
+.thumbnails .thumbnail
+{
+  max-width: 200px; max-height: 200px;
+  margin: 1ex;
+  display: inline-block;
+}
+.thumbnails .flex
+{
+  margin: 0; padding: 0;
+}
+.thumbnails .flex li
+{
+  list-style: none;
+}
+.flash-messages
+{
+  width: 60%;
+	margin: 0 auto;
+	border-radius: 0;
+}
+.sub-menu
+{
+  width: 80%;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+}
+.sub-menu li
+{
+  list-style: none;
+	padding: 0 2ex;
+	border-left: 1px dotted white;
 }
 /*--*/

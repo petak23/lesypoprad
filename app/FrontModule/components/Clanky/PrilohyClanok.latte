@@ -7,7 +7,7 @@
          controls="controls" preload="none"></video>
     {else}
       {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
-        <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
+        <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1"> {* img-rounded*}
       {elseif $pr == "mp3" OR $pr == "wav"}
         <div class="col-sm-12 col-md-6">
           <div class="thumbnail">

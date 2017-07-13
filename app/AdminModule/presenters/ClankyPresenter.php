@@ -36,7 +36,7 @@ class ClankyPresenter extends ArticlePresenter {
   protected function startup() {
     parent::startup();
     $this->template->bezp_kod	= '4RanoS5689q6-498'; //Bezp. kod pre CKEditor$
-    $this->template->CKtoolbar= ($this->user->isInRole('admin')) ? "AdminToolbar" : "UserToolbar";
+    $this->template->CKtoolbar= "AdminToolbar"; //($this->user->isInRole('admin')) ? "AdminToolbar" : "UserToolbar";
     $this->template->jazyky = $this->lang->findAll();
   }
   
