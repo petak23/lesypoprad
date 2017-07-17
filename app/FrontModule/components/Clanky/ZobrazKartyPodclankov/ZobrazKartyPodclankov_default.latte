@@ -29,16 +29,26 @@
               
 <script>
   $('#tabsTrails a').click(function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  })
-  /* Riesenie nefunkcnosti map na taboch: https://stackoverflow.com/questions/27238387/multiple-google-maps-within-bootstrap-tabs */
+    e.preventDefault();
+    $(this).tab('show');
+  });
+  
+  /* Riesenie nefunkcnosti map na taboch: 
+   * https://stackoverflow.com/questions/27238387/multiple-google-maps-within-bootstrap-tabs */
+  // Pre zobrazenie mapky pri zmene tabov
   $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var that=$($(e.target).attr('href')).find('.map');
-    if(that.find('span.fa')){ that.find('span.fa').remove()}
+    if(that.find('span.fa')){ that.find('span.fa').remove();}
     if(!that.find('iframe').length){ 
       that.append($('<iframe/>',{ src:that.data('map') }).css({ height:'100%',width:'100%',border:'none' }) 
                  );
     }
-  }).first().trigger('shown.bs.tab');
+  });
+  // Pre zobrazenie mapky pri nacitani stranky
+  var first_active = $('.tab-content').find('.active').find('.map');
+  if(first_active.find('span.fa')){ first_active.find('span.fa').remove();}
+  if(!first_active.find('iframe').length){ 
+    first_active.append($('<iframe/>',{ src:first_active.data('map') }).css({ height:'100%',width:'100%',border:'none' }) 
+               );
+  }
 </script>

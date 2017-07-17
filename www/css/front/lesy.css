@@ -266,7 +266,7 @@ footer .small
   margin: 0 auto;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #178852;
+    background-color: #128353;
 }
 .table caption
 {
