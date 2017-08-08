@@ -35,8 +35,8 @@ parameters:
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 800        #Zakladny rozmer
     y: 600
-    tx: 150       #Rozmer nahladu
-    ty: 112
+    tx: 280       #Rozmer nahladu
+    ty: 210
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu

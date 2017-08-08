@@ -40,6 +40,8 @@
   }
   .text-box
   { padding: 3em 1em; }
+	.map
+  { width: auto; }
   .text-box h3
   { font-size: 160%; }
   #topmenu ul li
@@ -69,6 +71,12 @@
 	}
 	#trails .leftrow p
 	{	width: 100%;}
+	#contact1
+	{
+		padding: 2% 5%;
+		border-left: none;
+		border-top: 1px dotted #fff;
+	}
 }
 @media (max-width: 800px) and (min-width: 720px)
 {
@@ -117,7 +125,7 @@
   #topmenu
 	{
 		padding: 5px;
-  height: auto;
+		height: auto;
 	}
   #topmenu ul li
 	{
@@ -219,9 +227,13 @@
   #news div
   { width: 100%; padding: .5em }
   #news .leftrow, #news .rightrow
-  { 
-    display: block;
-  }
+  { display: block;  }
+	#contact-form form div, #contact-form form label, #contact-form form input, #contact-form form textarea
+	{		display: block;	}
+	#contact-form form label, #contact-form form input, #contact-form form textarea
+	{		width: 100%;	}
+	#contact-form form label
+	{		text-align: left;	}
   .text-info
   { font-size: 100%; }
 }
@@ -229,6 +241,8 @@
 {
   header h1
   { font-size: 150%; }
+	#contact-form form input, #contact-form form textarea
+	{		display: block;	}
 }
 @media (min-width: 481px)
 {
