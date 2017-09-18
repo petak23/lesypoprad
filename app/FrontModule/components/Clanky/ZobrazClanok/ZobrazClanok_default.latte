@@ -20,3 +20,13 @@
   {$clanok->clanok_lang->text|noescape|obr_v_txt|koncova_znacka}
 </p>
 {/if}
+
+<script>
+  // Pre zobrazenie mapky
+  var first_active = $('.map');
+  if(first_active.find('span.fa')){ first_active.find('span.fa').remove();}
+  if(!first_active.find('iframe').length){ 
+    first_active.append($('<iframe/>',{ src:first_active.data('map') }).css({ height:'200',width:'100%',border: 0 }) 
+               );
+  }
+</script>

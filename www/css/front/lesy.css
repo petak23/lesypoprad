@@ -191,8 +191,6 @@ footer .small
   justify-content: center;
   margin: 9em 0 10px 0;
 }
-.map 
-{ width: 50%; height: 250px; }
 /*--*/
 /*-- oznamy --*/
 #news
@@ -268,7 +266,7 @@ footer .small
   margin: 0 auto;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #128353;
+    background-color: #178852;
 }
 .table caption
 {
@@ -385,12 +383,10 @@ footer .small
   border: 0px solid #dddddd;
   border-radius: 0;
 }
-/*-- turisticke trasy --*/
 #trails .leftrow, #trails .row
 {
   width: 100%;
   align-items: center;
-	margin: 2ex 0;
 }
 #trails .wrap
 {
@@ -424,22 +420,7 @@ footer .small
   border-radius: 0;
 }
 #trails h3
-{
-  font-weight: 100;
-}
-#trails iframe
-{
-  width: 50%; height: 250px;
-	margin: 0;
-}
-#trails .leftrow p
-	{
-		width: 50%;
-		padding: 2ex;
-		text-align: justify;
-	}
-/*--*/
-/*-- kontaktny formular --*/
+{  font-weight: 100;}
 #contact-form form
 {
 	color: #fff;
@@ -478,19 +459,11 @@ footer .small
 {
 	width: 100%;
 }
-/*--*/
-.article-main .sub-menu
-{	align-items: center; }
-.article-main .sub-menu li
-{	padding-top: 5px; }
-.foto-album
-{  width: 100%;}
 .thumbnail
 {
   background: none;
   border: none;
   border-radius: 0;
-	box-shadow: none;
 }
 .last
 { border: none; }
@@ -502,7 +475,7 @@ footer .small
 }
 .thumbnail img
 { 
-  width: 90%; max-width: 280px;
+  width: 90%;
   border: 1px solid #fff;
   padding: 0;
 }
@@ -543,30 +516,8 @@ footer .small
   display: inline-block;
 }
 .thumbnails .flex
-{
-  margin: 0; padding: 0;
-}
+{  margin: 0; padding: 0;}
 .thumbnails .flex li
-{
-  list-style: none;
-}
-.flash-messages
-{
-  width: 60%;
-	margin: 0 auto;
-	border-radius: 0;
-}
-.sub-menu
-{
-  width: 80%;
-	margin: 0 auto;
-	display: flex;
-	flex-direction: row;
-}
-.sub-menu li
-{
-  list-style: none;
-	padding: 0 2ex;
-	border-left: 1px dotted white;
-}
+{  list-style: none;}
+
 /*--*/

@@ -73,3 +73,18 @@ footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
 footer .user-lang-menu ul.nav {
   padding: 0;
 }
+.parallax_layer_0 {
+  background-image: url(../www/images/bg-tatry.png);
+}
+.parallax_layer_1 {
+  background-image: url(../www/images/bg-les2.png);
+}
+.parallax_layer_2 {
+  background-image: url(../www/images/bg-les1.png);
+}
+@media (min-width: 1441px) {
+  .parallax_layer   {  background-position: left top;}
+  .parallax_layer_0 {  background-image: url(../www/images/bg-tatry-hi.png);}
+  .parallax_layer_1 {  background-image: url(../www/images/bg-les2-hi.png);}
+  .parallax_layer_2 {  background-image: url(../www/images/bg-les1-hi.png);}
+}
