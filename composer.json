@@ -1,9 +1,9 @@
 {
-	"name": "lesypoprad",
+	"name": "petak23/lesypoprad",
 	"description": "Web page of sutaz.lesypoprad.sk",
 	"homepage": "http://www.lesypoprad.sk",
 	"type": "project",
-	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"authors": [
 		{
 			"name": "Peter Vojtech",
@@ -15,32 +15,33 @@
 		}
 	],
 	"require": {
-		"php": ">=5.6.0",
-		"nette/application": "^2.4",
-		"nette/bootstrap": "^2.4.2",
-		"nette/caching": "^2.5",
-		"nette/database": "^2.4",
-		"nette/di": "^2.4",
-		"nette/finder": "^2.4",
-		"nette/forms": "^2.4",
-		"nette/http": "^2.4",
-		"nette/mail": "^2.4",
-		"nette/robot-loader": "^2.4",
-		"nette/safe-stream": "^2.3",
-		"nette/security": "^2.4",
-		"nette/utils": "^2.4",
-		"latte/latte": "^2.4",
-		"tracy/tracy": "^2.4",
-    "janmarek/webloader": "^2.5",
-	  "joseki/webloader-filters": "^1.1",
-    "olicek/google-map-api": "dev-master",
-		"lukyrys/nette-forms-gpspicker": "^1.4",
-    "ublaboo/datagrid": "^5.2",
-    "ublaboo/datagrid-nette-database-data-source": "^1.0",
-    "kdyby/translation": "^2.4"
+		"php": ">=7.0",
+		"nette/application": "^3.1",
+		"nette/bootstrap": "^3.0",
+		"nette/caching": "^3.0",
+		"nette/database": "^3.0",
+		"nette/di": "^3.0",
+		"nette/finder": "^2.5",
+		"nette/forms": "^3.0",
+		"nette/http": "^3.0",
+		"nette/mail": "^3.0",
+		"nette/robot-loader": "^3.0",
+		"nette/security": "^3.0",
+		"nette/utils": "^3.0",
+		"latte/latte": "^2.10",
+		"tracy/tracy": "^2.9",
+		"ublaboo/datagrid": "^6.2",
+    "ublaboo/datagrid-nette-database-data-source": "^2.0",
+		"texy/texy": "^3.1",
+		"dg/adminer-custom": "^1.24",
+		"contributte/webpack": "^2.0"
 	},
 	"require-dev": {
-		"nette/tester": "^1.6"
+		"nette/tester": "^2.2",
+		"symfony/thanks": "^1"
+	},
+  "autoload": {
+		"classmap": ["app/Bootstrap.php"]
 	},
 	"minimum-stability": "stable"
 }
