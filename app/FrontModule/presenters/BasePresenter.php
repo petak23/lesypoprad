@@ -21,9 +21,9 @@ use PeterVojtech;
  * @link      http://petak23.echo-msz.eu
  * @version 1.3.5
  */
-\Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
+/*\Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
-});
+});*/
 
 abstract class BasePresenter extends UI\Presenter {
 
@@ -74,8 +74,8 @@ abstract class BasePresenter extends UI\Presenter {
   /** @var Http\Request @inject*/
   public $httpRequest;
   
-  /** @var \WebLoader\Nette\LoaderFactory @inject */
-  public $webLoader;
+//  /** @var \WebLoader\Nette\LoaderFactory @inject */
+  //public $webLoader;
 
   /** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
   public $nazov_stranky;
@@ -253,19 +253,19 @@ abstract class BasePresenter extends UI\Presenter {
 	}
   
   /** @return CssLoader */
-  protected function createComponentCss(){
-    return $this->webLoader->createCssLoader('front');
-  }
+//  protected function createComponentCss(){
+//    return $this->webLoader->createCssLoader('front');
+//  }
 
   /** @return JavaScriptLoader */
-  protected function createComponentJsBefore(){
-    return $this->webLoader->createJavaScriptLoader('frontBefore');
-  }
+//  protected function createComponentJsBefore(){
+//    return $this->webLoader->createJavaScriptLoader('frontBefore');
+//  }
   
   /** @return JavaScriptLoader */
-  protected function createComponentJsAfter(){
-    return $this->webLoader->createJavaScriptLoader('frontAfter');
-  }
+//  protected function createComponentJsAfter(){
+//    return $this->webLoader->createJavaScriptLoader('frontAfter');
+//  }
   
   /** Komponenta pre výpis css a js súborov
    * @return \PeterVojtech\Base\CssJsFilesControl */

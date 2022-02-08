@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 17.07.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 08.02.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -25,12 +25,12 @@
   <meta name="keywords" content="{$udaje['keywords']}" />
   <meta name="author" content="{$udaje['autor']}" />
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
-  {control css}
+  {*control css*}
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,700" rel="stylesheet">
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  {control jsBefore}
+  {*control jsBefore*}
 </head>
 
 <body>
@@ -117,7 +117,7 @@
     </div>
   </div>
 
-  {control jsAfter}
+  {*control jsAfter*}
   {control files:js}
   {block spec_js}{/block}
   <script>

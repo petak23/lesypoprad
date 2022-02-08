@@ -5,8 +5,8 @@
 # http://nette.org/security-warning
 #
 services:
-  - DbTable\UserManager
-  authorizator: DbTable\AuthorizatorFactory::create(@Nette\Database\Context)
+  - App\Model\UserManager
+  authorizator: App\Model\AuthorizatorFactory::create(@Nette\Database\Context)
   - DbTable\Admin_menu
   - DbTable\Clanok_komponenty
   - DbTable\Clanok_lang
@@ -20,6 +20,7 @@ services:
   - DbTable\Hlavne_menu_lang
   - DbTable\Hlavne_menu_cast
   - DbTable\Hlavne_menu_opravnenie
+  - DbTable\Hlavne_menu_template
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
@@ -39,13 +40,7 @@ services:
   router: @App\RouterFactory::createRouter
 
 # services for language support
-  - Language_support\Clanky
-  - Language_support\Dokumenty
-  - Language_support\Error
-  - Language_support\Homepage
-  - Language_support\Oznam
-  - Language_support\UserLog
-  - Language_support\User
+  - Language_support\LanguageMain
 
 # forms
   - App\AdminModule\Presenters\Forms\Article\IEditMenuFormFactory
@@ -97,4 +92,5 @@ services:
   - App\FrontModule\Components\Faktury\IViewFakturyControl
 
 # PeterVojtech
-  - PeterVojtech\Email\IEmailControl
+  - PeterVojtech\MainLayout\Favicon\IFaviconControl
+#  - PeterVojtech\Email\EmailControl(%admin_email%)

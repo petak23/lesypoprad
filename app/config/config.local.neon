@@ -1,6 +1,10 @@
 database:
 	dsn: 'mysql:host=localhost;dbname=d13862_mlpp'
 	user:	root
-	password:
+	password: Ka5t-root
 	options:
 		lazy: yes
+#webpack:
+#  devServer:
+#    enabled: %debugMode%
+#    url: http://http://localhost/~petak23/echo-msz/assets

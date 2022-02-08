@@ -35,82 +35,82 @@ parameters:
 services:
 #    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
 #    lessFilter: WebLoader\Filter\LessFilter
-    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
-    jsMin: Joseki\Webloader\JsMinFilter
+#    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
+#    jsMin: Joseki\Webloader\JsMinFilter
 
 extensions:
-  webloader: WebLoader\Nette\Extension
+#  webloader: WebLoader\Nette\Extension
 
-webloader:
-  css:
-    front:
-      files:
-        - %wwwDir%/www/css/font-awesome.css
-        - %wwwDir%/www/css/bootstrap.css
-        - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/jquery-ui.css
-        - %wwwDir%/www/css/datagrid.css
-        - %wwwDir%/www/css/lightbox.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
-      filters:
-        - @jwlCssMinFilter
+#webloader:
+#  css:
+#    front:
+#      files:
+#        - %wwwDir%/www/css/font-awesome.css
+#        - %wwwDir%/www/css/bootstrap.css
+#        - %wwwDir%/www/css/bootstrap-theme.css
+#        - %wwwDir%/www/css/jquery-ui.css
+#        - %wwwDir%/www/css/datagrid.css
+#        - %wwwDir%/www/css/lightbox.css
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
+#      filters:
+#        - @jwlCssMinFilter
 #      fileFilters:
 #        - @lessFilter
 #        - @wlCssFilter
-      watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
-    admin:
-      files:
-        - %wwwDir%/www/css/font-awesome.css
-        - %wwwDir%/www/css/bootstrap.css
-        - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/jquery-ui.css
-        - %wwwDir%/www/css/datagrid.css
-        - %wwwDir%/www/css/lightbox.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
-      filters:
-        - @jwlCssMinFilter
+#      watchFiles:     # only watch modify file
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front}
+#        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
+#    admin:
+#      files:
+#        - %wwwDir%/www/css/font-awesome.css
+#        - %wwwDir%/www/css/bootstrap.css
+#        - %wwwDir%/www/css/bootstrap-theme.css
+#        - %wwwDir%/www/css/jquery-ui.css
+#        - %wwwDir%/www/css/datagrid.css
+#        - %wwwDir%/www/css/lightbox.css
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
+#      filters:
+#        - @jwlCssMinFilter
 #      fileFilters:
 #        - @lessFilter
 #        - @wlCssFilter
-      watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/admin}
+#      watchFiles:     # only watch modify file
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin}
+#        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/admin}
 
-  js:
-    frontBefore:
-      files:
-        - %wwwDir%/www/js/jquery-1.12.4.js
-        - %wwwDir%/www/js/bootstrap.js
-        - %wwwDir%/www/js/netteForms.min.js
-        - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
-        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/www/js/datagrid.js
-        - %wwwDir%/www/js/js-image-slider.js
-        - %wwwDir%/www/js/forestmap.js
-        - %wwwDir%/www/js/dropmenuJQ.js
-        - %wwwDir%/www/js/pomocne_front.js
-      filters:
-        - @jsMin
-    frontAfter:
-      files:
-        - %wwwDir%/www/js/lightbox.min.js
-        - %wwwDir%/www/js/lightbox.config.front.js
-      filters:
-        - @jsMin
+#  js:
+#    frontBefore:
+#      files:
+#        - %wwwDir%/www/js/jquery-1.12.4.js
+#        - %wwwDir%/www/js/bootstrap.js
+#        - %wwwDir%/www/js/netteForms.min.js
+#        - %wwwDir%/www/js/nette.ajax.js
+#        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
+#        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/www/js/datagrid.js
+#        - %wwwDir%/www/js/js-image-slider.js
+#        - %wwwDir%/www/js/forestmap.js
+#        - %wwwDir%/www/js/dropmenuJQ.js
+#        - %wwwDir%/www/js/pomocne_front.js
+#      filters:
+#        - @jsMin
+#    frontAfter:
+#      files:
+#        - %wwwDir%/www/js/lightbox.min.js
+#        - %wwwDir%/www/js/lightbox.config.front.js
+#      filters:
+#        - @jsMin
 
-    admin:
-      files:
-        - %wwwDir%/www/js/jquery-1.12.4.js
-        - %wwwDir%/www/js/bootstrap.js
-        - %wwwDir%/www/js/netteForms.min.js
-        - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/lightbox.min.js
-        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
-        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/www/js/datagrid.js
-        - %wwwDir%/www/js/pomocne_admin.js
-      filters:
-        - @jsMin
+#    admin:
+#      files:
+#        - %wwwDir%/www/js/jquery-1.12.4.js
+#        - %wwwDir%/www/js/bootstrap.js
+#        - %wwwDir%/www/js/netteForms.min.js
+#        - %wwwDir%/www/js/nette.ajax.js
+#        - %wwwDir%/www/js/lightbox.min.js
+#        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
+#        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/www/js/datagrid.js
+#        - %wwwDir%/www/js/pomocne_admin.js
+#      filters:
+#        - @jsMin

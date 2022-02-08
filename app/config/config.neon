@@ -5,16 +5,23 @@
 # http://nette.org/security-warning
 #
 parameters:
-  homepage_redirect: FALSE # Clanky:default 1 #Presmerovanie na hlavnej stranke Cesta|FALSE
+  admin_email: petak23@echo-msz.eu
+  homepage_redirect: false #Clanky:default 1 #Presmerovanie na hlavnej stranke Cesta|FALSE
   add_uroven0: FALSE # Globalne povolenie pre pridavanie do urovne 0 pre spravcu. TRUE|FALSE
   send_e_mail_news: TRUE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
-  omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
+
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
+  dir_to_images: images/ # Globalne nastanenie adresara pre "pevne obrazky webu" 
+  dir_to_icons: ikonky/ # Globalne nastanenie adresara pre ikonky webu
+  dir_to_user: files/ # Globalne nastanenie adresara pre obrazky uzivatelov
+  dir_to_menu: files/menu/ # Globalne nastanenie adresara pre obrazky menu
   slider:       #Nastavenie slider-u
     x: 700   #Rozmery slider-u
     y: 250
     varianta: 4 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
+    dir: files/slider/
+    sleduj_rozmer: true  # Či sa pri ukladaní sleduje rozmer obrázka
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
     view_avatar: FALSE # Zobrazenie avataru v panely uzivatela. TRUE|FALSE
@@ -35,23 +42,29 @@ parameters:
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 800        #Zakladny rozmer
     y: 600
-    tx: 280       #Rozmer nahladu
-    ty: 210
+    kvalita: 80    
+    tx: 210       #Rozmer nahladu
+    ty: 180
+    tkvalita: 80
+  prilohy_dir: files/prilohy/ #Adresar pre prilohy
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
     pohl: FALSE      #Zobrazenie pohlavia
-    avatar: TRUE    #Zobrazenie avataru
+    avatar: FALSE    #Zobrazenie avataru
     poznamka: FALSE  #Zobrazenie poznamky
     delete: FALSE    #Zobrazenie moznosti zmazat profil
+    titul_pred: FALSE #Zobrazenie titulu pred menom
+    titul_za: FALSE   #Zobrazenie titulu za menom
+    categori: TRUE   #Zobrazenie kategórie
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)
     datum_zadania: TRUE      #Zobrazenie datumu zadania
     datum_platnosti: TRUE    #Zobrazenie datumu platnosti
   clanky:
     zobraz_anotaciu: TRUE   #Zobrazenie anotacie vseobecne
 
-php:
-  date.timezone: Europe/Prague
+#php:
+#  date.timezone: Europe/Prague
 	# zlib.output_compression: yes
 
 
@@ -65,15 +78,28 @@ session:
   autoStart: true
   expiration: 30 days
 
-#latte:
-#	macros:
-#		- Nittro\Bridges\NittroLatte\NittroMacros
-  
+
+
+
+
 tracy:
-  email: petak23@gmail.com
+  email: %admin_email%
 
 includes:
   - services.neon
   - css_js.neon
+#  - ../AdminModule/config/config.neon
+#  - ../ApiModule/config/config.neon
+#  - ../FrontModule/config/config.neon
   - komponenty.neon
   - database.neon
+#extensions:
+#  webpack: Contributte\Webpack\DI\WebpackExtension(%debugMode%, %consoleMode%)
+#webpack:
+#  build:
+#    directory: %wwwDir%/dist
+#    publicPath: dist/
+  # devServer - tato cast je presunuta do config.local.neon
+#  manifest:  # Cez tento subor je prepojenie na filename: '[name].[contenthash:8].[ext]' vo webpack-u
+#    name: webpack-assets.json  # ./www/dist/webpack-assets.json
+#    mapper: Contributte\Webpack\Manifest\Mapper\AssetsWebpackPluginMapper
