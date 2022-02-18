@@ -1,32 +1,27 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use DbTable, Language_support;
+use DbTable;
 
 /**
  * Prezenter pre spravu oznamov.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 05.05.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  *
- * Akcie: Default - zobrazenie vsetkych aktualnych oznamov a rozhodovanie 
  */
-class OznamPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class OznamPresenter extends BasePresenter {
   /** 
    * @inject
    * @var DbTable\Oznam */
 	public $oznam;
-   /**
-   * @inject
-   * @var Language_support\Oznam */
-  public $texty_presentera;
 
 	/** @var \Nette\Database\Table\Selection */
 	private $aktualne;

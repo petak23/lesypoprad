@@ -1,24 +1,20 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use Language_support;
-
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
-class HomepagePresenter extends \App\FrontModule\Presenters\BasePresenter {
-  /** @var Language_support\Homepage @inject */
-  public $texty_presentera;
+class HomepagePresenter extends BasePresenter {
  
   /** Vychodzie nestavenia */
 	protected function startup() {
@@ -31,10 +27,10 @@ class HomepagePresenter extends \App\FrontModule\Presenters\BasePresenter {
   
   /** Zakladna akcia */
   public function actionDefault() {
-    $nastavenie = $this->context->parameters;
+    
     //Ak je presmerovanie povolene v configu
-    if ($nastavenie['homepage_redirect']) {
-      $pom = explode(" ", $nastavenie['homepage_redirect']);
+    if ($this->nastavenie['homepage_redirect']) {
+      $pom = explode(" ", $this->nastavenie['homepage_redirect']);
       if (count($pom)>1) { 
         $this->redirect(301, $pom[0], $pom[1]);
       } else { 

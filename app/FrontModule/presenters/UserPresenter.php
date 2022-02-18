@@ -1,31 +1,27 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
+use Latte;
 use Nette\Application\UI\Form;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
-use Latte;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 06.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
-class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
-	/**
-   * @inject
-   * @var Language_support\User */
-  public $texty_presentera;
+class UserPresenter extends BasePresenter {
   /** 
    * @inject
    * @var DbTable\User_main */

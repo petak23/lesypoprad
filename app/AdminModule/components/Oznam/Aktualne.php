@@ -5,13 +5,13 @@ use DbTable;
 
 /**
  * Komponenta pre zobrazenie aktualnych oznamov pre ADMIN modul
- * Posledna zmena(last change): 12.01.2016
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  *
  */
 class AktualneOznamyControl extends Nette\Application\UI\Control {
@@ -39,13 +39,8 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
   public function render() {
     $this->template->setFile(__DIR__ . '/Aktualne.latte');
     $this->template->oznamy = $this->oznam;
-    $this->template->render();
-  }
-  
-  protected function createTemplate($class = NULL) {
     $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('obr_v_txt', function ($text) use($servise){
+    $this->template->addFilter('obr_v_txt', function ($text) use($servise){
       $rozloz = explode("#", $text);
       $serv = $servise->presenter;
       $vysledok = '';
@@ -53,26 +48,26 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
       foreach ($rozloz as $k=>$cast) {
         if (substr($cast, 0, 2) == "I-") {
           $obr = $serv->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
+          if ($obr !== FALSE) {
             $cast = \Nette\Utils\Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
                                   ->setHtml(\Nette\Utils\Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
-					}
+          }
         }
         $vysledok .= $cast;
       }
       return $vysledok;
     });
-    $template->addFilter('koncova_znacka', function ($text) use($servise){
+    $this->template->addFilter('koncova_znacka', function ($text) use($servise){
       $rozloz = explode("{end}", $text);
       $vysledok = $text;
-			if (count($rozloz)>1) {		 //Ak som nasiel znacku
-				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty["title"])
+      if (count($rozloz)>1) {    //Ak som nasiel znacku
+        $vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty["title"])
                 ->setHtml('&gt;&gt;&gt; '.$servise->texty["viac"]).'<div class="ostatok">'.$rozloz[1].'</div>';
-			}
+      }
       return $vysledok;
     });
-    return $template;
-	}
+    $this->template->render();
+  }
 }
 
 interface IAktualneOznamyControl {

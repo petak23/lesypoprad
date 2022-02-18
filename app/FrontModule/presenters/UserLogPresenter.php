@@ -1,30 +1,30 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
+use Latte;
 use Nette\Application\UI\Form;
+use Nette\Mail\Message;
+use Nette\Mail\SendmailMailer;
 use Nette\Utils\Image;
 use Nette\Utils\Html;
 use Nette\Utils\Random;
 use Nette\Security\Passwords;
-use Nette\Mail\Message;
-use Nette\Mail\SendmailMailer;
-use Latte;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 06.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
-class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class UserLogPresenter extends BasePresenter {
   
   /** 
    * @inject
@@ -34,10 +34,6 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
    * @inject
    * @var DbTable\User_profiles */
 	public $user_profiles;
-  /**
-   * @inject
-   * @var Language_support\UserLog */
-  public $texty_presentera;
   
   /** @var \Nette\Database\Table\ActiveRow|FALSE */
   private $uzivatel;

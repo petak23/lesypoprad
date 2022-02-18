@@ -93,4 +93,4 @@ services:
 
 # PeterVojtech
   - PeterVojtech\MainLayout\Favicon\IFaviconControl
-#  - PeterVojtech\Email\EmailControl(%admin_email%)
+  - PeterVojtech\Email\EmailControl(%admin_email%)

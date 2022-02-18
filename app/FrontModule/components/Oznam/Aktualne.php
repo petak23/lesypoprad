@@ -6,13 +6,13 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie aktualnych oznamov pre FRONT modul
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 class AktualneOznamyControl extends Nette\Application\UI\Control {
   /** @var \Nette\Database\Table\Selection */
@@ -20,11 +20,11 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
 
   private $nastavenie;
   
-  /** @var Language_support\Oznam */
+  /** @var Language_support\LanguageMain */
 	protected $texts;
 
   /** @param DbTable\Oznam $oznam  */
-  public function __construct(DbTable\Oznam $oznam, Language_support\Oznam $oznam_texts) {
+  public function __construct(DbTable\Oznam $oznam, Language_support\LanguageMain $oznam_texts) {
     parent::__construct();
     $this->oznam = $oznam->aktualne();
     $this->texts = $oznam_texts;
@@ -45,13 +45,9 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
     $this->template->oznamy = $this->oznam;
     $this->template->nastavenie = $this->nastavenie;
     $this->template->texts = $this->texts;//dump($this->texts);die();
-    $this->template->render();
-  }
-  
-  protected function createTemplate($class = NULL) {
+
     $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('obr_v_txt', function ($text) use($servise){
+    $this->template->addFilter('obr_v_txt', function ($text) use($servise){
       $rozloz = explode("#", $text);
       $serv = $servise->presenter;
       $vysledok = '';
@@ -105,7 +101,7 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
       }
       return $text;
     });
-    return $template;
+    $this->template->render();
 	}
 }
 

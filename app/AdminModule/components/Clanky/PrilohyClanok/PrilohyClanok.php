@@ -73,10 +73,10 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
     $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
-    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
+    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : ($this->user->isAllowed($this->name, 'add') ? 2 : 0)) : 0;
     $this->admin_links = [
       "alink" => ["druh_opravnenia" => $druh_opravnenia,
-                  "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$this->presenter->name.':addpol']
+                  "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$name.':addpol']
                                                                          : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
                   "text"    => "Pridaj podčlánok"
                  ],

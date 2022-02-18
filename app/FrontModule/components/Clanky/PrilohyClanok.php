@@ -8,20 +8,20 @@ use Language_support;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  *
  */
 class PrilohyClanokControl extends Nette\Application\UI\Control {
 
   /** @var DbTable\Dokumenty */
   private $prilohy;
-  /** @var Language_support\Clanky */
+  /** @var Language_support\LanguageMain */
 	public $texts;
   /** @var int */
   private $id_article;
@@ -30,8 +30,8 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 
   /**
    * @param DbTable\Dokumenty $dokumenty
-   * @param Language_support\Clanky $texts */
-  public function __construct(DbTable\Dokumenty $dokumenty, Language_support\Clanky $texts) {
+   * @param Language_support\LanguageMain $texts */
+  public function __construct(DbTable\Dokumenty $dokumenty, Language_support\LanguageMain $texts) {
     parent::__construct();
     $this->prilohy = $dokumenty;
     $this->texts = $texts;
@@ -55,18 +55,14 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $this->template->prilohy = $this->prilohy->getViditelnePrilohy($this->id_article);
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;
-    $this->template->render();
-  }
-	
-	protected function createTemplate($class = NULL) {
+
     $servise = $this;
-    $template = parent::createTemplate($class);
     $template->addFilter('odkazdo', function ($id) use($servise){
       $serv = $servise->presenter->link("Dokumenty:default", array("id"=>$id));
       return $serv;
     });
     
-    return $template;
+    $this->template->render();
 	}
 }
 

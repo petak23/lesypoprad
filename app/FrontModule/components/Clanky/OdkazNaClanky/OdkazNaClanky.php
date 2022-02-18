@@ -6,19 +6,19 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie odkazu na iny clanok
- * Posledna zmena(last change): 26.06.2017
+ * Posledna zmena(last change): 18.02.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 class OdkazNaClankyControl extends Nette\Application\UI\Control {
   
   /** @var int Id aktualneho jazyka  */
   private $language_id = "Front";
-  /** @var Language_support\Clanky */
+  /** @var Language_support\LanguageMain */
 	public $texts;
   
   /** @var DbTable\Hlavne_menu_lang */
@@ -27,9 +27,10 @@ class OdkazNaClankyControl extends Nette\Application\UI\Control {
 	public $lang;
   
   protected $article;
-  
-  /** @param DbTable\Hlavne_menu_lang $hlavne_menu_lang */   
-  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, DbTable\Lang $lang, Language_support\Clanky $texts) {
+   
+  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
+                              DbTable\Lang $lang, 
+                              Language_support\LanguageMain $texts) {
     parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->lang = $lang;

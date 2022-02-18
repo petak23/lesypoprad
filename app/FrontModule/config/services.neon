@@ -1,0 +1,14 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+services:
+  - App\FrontModule\Presenters\ClankyPresenter(%parameters%)
+  - App\FrontModule\Presenters\DokumentyPresenter(%parameters%)
+  - App\FrontModule\Presenters\ErrorPresenter(%parameters%)
+  - App\FrontModule\Presenters\HomepagePresenter(%parameters%)
+  - App\FrontModule\Presenters\OznamPresenter(%parameters%)
+  - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
+  - App\FrontModule\Presenters\UserPresenter(%parameters%)

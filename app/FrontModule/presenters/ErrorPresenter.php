@@ -1,34 +1,29 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use Tracy\Debugger,
-	  \Nette\Application as NA;
-use Language_support;
+use Nette\Application as NA;
+use Tracy\Debugger;
+
 /**
  * Prezenter pre smerovanie na chybove stranky.
- * Posledna zmena(last change): 10.08.2015
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2015 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  *
  */
 class ErrorPresenter extends \App\FrontModule\Presenters\BasePresenter {
-  /**
-   * @inject
-   * @var Language_support\Error
-   */
-  public $texty_presentera;
+	
 	/**
 	 * @param  Exception
 	 * @return void
 	 */
-	public function renderDefault($exception)
-	{
+	public function renderDefault($exception) {
 		if ($this->isAjax()) { // AJAX request? Just note this error in payload.
 			$this->payload->error = TRUE;
 			$this->terminate();

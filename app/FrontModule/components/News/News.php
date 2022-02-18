@@ -6,23 +6,23 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie aktualnych noviniek pre FRONT modul
- * Posledna zmena(last change): 14.12.2016
+ * Posledna zmena(last change): 18.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  *
  */
 class NewsControl extends Nette\Application\UI\Control {
   /** @var \Nette\Database\Table\Selection */
   private $news;
-  /** @var Language_support\User Prednastavene texty pre komponentu */
+  /** @var Language_support\LanguageMain Prednastavene texty pre komponentu */
   private $texty;
 
   /** @param DbTable\News $news */
-  public function __construct(DbTable\News $news, Language_support\User $lang_supp) {
+  public function __construct(DbTable\News $news, Language_support\LanguageMain $lang_supp) {
     parent::__construct();
     $this->news = $news->findAll();
     $this->texty = $lang_supp;

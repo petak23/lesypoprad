@@ -9,16 +9,16 @@ use Language_support;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 15.11.2016
+ * Posledna zmena(last change): 18.02.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2013 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2013 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 class UserLangMenuControl extends Control {
-  /** @var Language_support\User Prednastavene texty pre prihlasovaci form */
+  /** @var Language_support\LanguageMain Prednastavene texty pre prihlasovaci form */
 	public $texty;
 	
   /** @var array Lokalne nastavenia */
@@ -36,7 +36,10 @@ class UserLangMenuControl extends Control {
    * @param DbTable\Lang $lang
    * @param User $user
    * @param Language_support\User $lang_supp */
-  public function __construct(DbTable\Lang $lang, DbTable\User_main $user_main, User $user, Language_support\User $lang_supp) {
+  public function __construct(DbTable\Lang $lang, 
+                              DbTable\User_main $user_main, 
+                              User $user, 
+                              Language_support\LanguageMain $lang_supp) {
     parent::__construct();
     $this->lang = $lang;
     $this->user = $user;
@@ -169,7 +172,7 @@ class UserLangMenuControl extends Control {
 		
 }
 
-class MenuItem extends \Nette\Object {
+class MenuItem {
   public $odkaz;
   public $abs_link;
   public $nazov = "";

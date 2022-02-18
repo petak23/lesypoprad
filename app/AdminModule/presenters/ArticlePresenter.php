@@ -10,15 +10,15 @@ use DbTable;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 23.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.9
+ * @version 1.3.0
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -131,7 +131,7 @@ abstract class ArticlePresenter extends BasePresenter {
     $opravnenie_edit = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
     $opravnenie_del = $this->vlastnik($hlm->id_user_main) ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
-    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($this->name, 'addpol') ? 1 : $this->user->isAllowed($this->name, 'add') ? 2 : 0) : 0;
+    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($this->name, 'addpol') ? 1 : ($this->user->isAllowed($this->name, 'add') ? 2 : 0)) : 0;
     $this->admin_links = [
       "alink" => ["druh_opravnenia" => $druh_opravnenia,
                   "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$this->name.':addpol']

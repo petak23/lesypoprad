@@ -1,30 +1,30 @@
 <?php
 namespace App\AdminModule\Presenters;
 
-use Nette\Forms\Container;
-use Nette\Application\UI\Multiplier;
 use DbTable;
+use Nette\Application\UI\Multiplier;
+use Nette\Forms\Container;
 use PeterVojtech;
 
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 21.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
 });
 
-class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
+class OznamPresenter extends BasePresenter {
 	/** 
    * @inject
    * @var DbTable\Oznam */
@@ -33,7 +33,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
   // -- Komponenty
   /** @var \App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl @inject */
   public $titleOznamControlFactory;
-  /** @var PeterVojtech\Email\IEmailControl @inject */
+  /** @var PeterVojtech\Email\EmailControl @inject */
   public $emailControl;
 
 
@@ -178,20 +178,17 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
   }
   
   /**
-   * Vytvorenie spolocnych helperov pre sablony
-   * @param type $class
-   * @return type */
-  protected function createTemplate($class = NULL) {
+   * Vytvorenie spolocnych helperov pre sablony */
+  public function beforeRender()  {
+    parent::beforeRender;
     $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('vlastnik', function ($id_user_profiles = 0, $action = 'edit') use($servise) {
+    $this->template->addFilter('vlastnik', function ($id_user_profiles = 0, $action = 'edit') use($servise) {
       $user = $servise->user;
       // Vrati true ak: si prihlaseny && si admin || (mas opravnenie a si valstnik)
       $out = $user->isLoggedIn() ? ($user->isInRole('admin') ? TRUE : 
                                           ($user->isAllowed($servise->name , $action) ? ($id_user_profiles ? $user->getIdentity()->id == $id_user_profiles : FALSE) : FALSE)) : FALSE;
       return $out;
     });
-    return $template;
 	}
   
 }

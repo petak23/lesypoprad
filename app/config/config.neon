@@ -78,10 +78,6 @@ session:
   autoStart: true
   expiration: 30 days
 
-
-
-
-
 tracy:
   email: %admin_email%
 
@@ -90,7 +86,7 @@ includes:
   - css_js.neon
 #  - ../AdminModule/config/config.neon
 #  - ../ApiModule/config/config.neon
-#  - ../FrontModule/config/config.neon
+  - ../FrontModule/config/config.neon
   - komponenty.neon
   - database.neon
 #extensions:

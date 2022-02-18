@@ -1,31 +1,34 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use Nette\Application\UI\Multiplier;
-use Nette\Utils\Strings;
-use Nette\Http;
-use Nette\Application\UI;
 use DbTable;
+use Language_support;
+use Nette\Application\UI;
+use Nette\Application\UI\Multiplier;
+use Nette\Http;
+use Nette\Utils\Strings;
 use PeterVojtech;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 13.07.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 /*\Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
 });*/
 
 abstract class BasePresenter extends UI\Presenter {
+
+  use PeterVojtech\MainLayout\Favicon\faviconTrait;
 
   // -- DB
   /** @var DbTable\Dokumenty @inject */
@@ -49,7 +52,7 @@ abstract class BasePresenter extends UI\Presenter {
   /** @var DbTable\Verzie @inject */
 	public $verzie;
 
-  /** @var mix */
+  /** @var Language_support\LanguageMain @inject */
   public $texty_presentera;
   
   // -- Komponenty
@@ -105,14 +108,17 @@ abstract class BasePresenter extends UI\Presenter {
     return ($this->texty_presentera == NULL) ? $key : $this->texty_presentera->trText($key);
   }
 
+  public function __construct($parameters) {
+    // Nastavenie z config-u
+    $this->nastavenie = $parameters;
+  }
+
 	protected function startup() {
     parent::startup();
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
     $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
-    // Nastavenie z config-u
-    $this->nastavenie = $this->context->parameters;
     $modul_presenter = explode(":", $this->name);
     // Skontroluj ci je nastaveny jazyk a ci pozadovany jazyk existuje ak ano akceptuj
     if (!isset($this->language)) {//Prednastavim hodnotu jazyka
@@ -150,8 +156,8 @@ abstract class BasePresenter extends UI\Presenter {
     //Najdi info o druhu
     $tmp_druh = $this->druh->findBy(["druh.presenter"=>ucfirst($this->udaje_webu['meno_presentera'])])
                            ->where("druh.modul IS NULL OR druh.modul = ?", $modul_presenter[0])->limit(1)->fetch();
-    if ($tmp_druh !== FALSE) {
-      if ($tmp_druh->je_spec_naz) { //Ak je spec_nazov pozadovany a mam id
+    if ($tmp_druh !== null) {
+      if ($tmp_druh->je_spec_naz != null && $tmp_druh->je_spec_naz) { //Ak je spec_nazov pozadovany a mam id
         $hl_udaje = $this->hlavne_menu->hladaj_id(isset($this->params['id']) ? (int)trim($this->params['id']) : 0, $this->id_reg);
       } else {//Ak nie je spec_nazov pozadovany
         $hl_udaje = $this->hlavne_menu->findOneBy(["id_druh"=>$tmp_druh->id]);
@@ -161,7 +167,7 @@ abstract class BasePresenter extends UI\Presenter {
       //Nacitanie textov hl_udaje pre dany jazyk 
       $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['id_lang'=>$this->language_id, 
                                                            'id_hlavne_menu'=>$hl_udaje->id]);
-      if ($lang_hl_udaje !== FALSE){ //Nasiel som udaje a tak aktualizujem
+      if ($lang_hl_udaje !== null){ //Nasiel som udaje a tak aktualizujem
         $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
         $this->udaje_webu["h1part2"] = $lang_hl_udaje->h1part2;
         $this->udaje_webu["description"] = $lang_hl_udaje->view_name;
@@ -228,8 +234,91 @@ abstract class BasePresenter extends UI\Presenter {
 		$this->template->avatar_path = $this->avatar_path;
     $this->template->text_title_image = $this->trLang("base_text_title_image");
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
-    $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
+
+    $servise = $this;
+    $this->template->addFilter('obr_v_txt', function ($text) use($servise){
+      $rozloz = explode("#", $text);
+      $serv = $servise->presenter;
+      $vysledok = '';
+      $cesta = 'http://'.$serv->nazov_stranky."/";
+      foreach ($rozloz as $k=>$cast) {
+        if (substr($cast, 0, 2) == "I-") {
+          $obr = $serv->dokumenty->find((int)substr($cast, 2));
+					if ($obr !== FALSE) {
+            $cast = \Nette\Utils\Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
+                                  ->setHtml(\Nette\Utils\Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
+					}
+        }
+        $vysledok .= $cast;
+      }
+      return $vysledok;
+    });
+    $this->template->addFilter('koncova_znacka', function ($text) use($servise){
+      $rozloz = explode("{end}", $text);
+      $vysledok = $text;
+			if (count($rozloz)>1) {		 //Ak som nasiel znacku
+				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->trLang("base_title"))
+                ->setHtml('&gt;&gt;&gt; '.$servise->trLang("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
+			}
+      return $vysledok;
+    });
+    $this->template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
+    	$polozka_class = $id_user_roles>2 ? 'adminPol' : '';
+      //TODO $classPol .= ' zvyrazni';
+      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
+      return $polozka_class;
+    });
+    $this->template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
+      return (int)rand(0, $max);
+    });
+    $this->template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
+
+      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
+    });
+    $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
+      for ($i = $max_id_reg; $i>=0; $i--) {
+        $z_zac = "#REG".$i."#"; //Pociatocna znacka
+        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
+        $z_kon = "#/REG".$i."#";//Koncova znacka
+        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
+          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
+                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
+                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
+			  } 
+      }
+      return $text;
+    });
+    $this->template->addFilter('vytvor_odkaz', function ($row) use($servise){
+      return isset($row->absolutna) ? $row->absolutna :
+                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
+                                                   : $servise->link($row->druh->presenter.':default'));
+    });
+    $this->template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->nazov : $id;
+    });
+    $this->template->addFilter('menu_mutacia_title', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
+    });
+    $this->template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->h1part2 : $id;
+    });
+    $this->template->addFilter('trLang', function ($key) use($servise){
+      if ($servise->texty_presentera == NULL) { return $key; }
+      return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
+    });
+    $this->template->addFilter('nadpisH1', function ($key){
+      $out = "";
+      foreach (explode(" ", $key) as $v) {
+        $out .= "<div>".$v." </div>";
+      }
+      return $out;
+    }); 
 	}
   
   /** Signal pre odhlasenie sa */
@@ -251,21 +340,6 @@ abstract class BasePresenter extends UI\Presenter {
     }
     $this->redirect('this');
 	}
-  
-  /** @return CssLoader */
-//  protected function createComponentCss(){
-//    return $this->webLoader->createCssLoader('front');
-//  }
-
-  /** @return JavaScriptLoader */
-//  protected function createComponentJsBefore(){
-//    return $this->webLoader->createJavaScriptLoader('frontBefore');
-//  }
-  
-  /** @return JavaScriptLoader */
-//  protected function createComponentJsAfter(){
-//    return $this->webLoader->createJavaScriptLoader('frontAfter');
-//  }
   
   /** Komponenta pre výpis css a js súborov
    * @return \PeterVojtech\Base\CssJsFilesControl */
@@ -430,100 +504,7 @@ abstract class BasePresenter extends UI\Presenter {
       $this->flashMessage($textEr, 'danger');
     }
   }
-  
-    /**
-   * Vytvorenie spolocnych helperov pre sablony
-   * @param type $class
-   * @return type
-   */
-  protected function createTemplate($class = NULL) {
-    $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('obr_v_txt', function ($text) use($servise){
-      $rozloz = explode("#", $text);
-      $serv = $servise->presenter;
-      $vysledok = '';
-      $cesta = 'http://'.$serv->nazov_stranky."/";
-      foreach ($rozloz as $k=>$cast) {
-        if (substr($cast, 0, 2) == "I-") {
-          $obr = $serv->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
-            $cast = \Nette\Utils\Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
-                                  ->setHtml(\Nette\Utils\Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
-					}
-        }
-        $vysledok .= $cast;
-      }
-      return $vysledok;
-    });
-    $template->addFilter('koncova_znacka', function ($text) use($servise){
-      $rozloz = explode("{end}", $text);
-      $vysledok = $text;
-			if (count($rozloz)>1) {		 //Ak som nasiel znacku
-				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->trLang("base_title"))
-                ->setHtml('&gt;&gt;&gt; '.$servise->trLang("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
-			}
-      return $vysledok;
-    });
-    $template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
-    	$polozka_class = $id_user_roles>2 ? 'adminPol' : '';
-      //TODO $classPol .= ' zvyrazni';
-      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
-      return $polozka_class;
-    });
-    $template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
-      return (int)rand(0, $max);
-    });
-    $template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
-
-      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
-    });
-    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
-      for ($i = $max_id_reg; $i>=0; $i--) {
-        $z_zac = "#REG".$i."#"; //Pociatocna znacka
-        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
-        $z_kon = "#/REG".$i."#";//Koncova znacka
-        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
-          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
-                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
-                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
-			  } 
-      }
-      return $text;
-    });
-    $template->addFilter('vytvor_odkaz', function ($row) use($servise){
-      return isset($row->absolutna) ? $row->absolutna :
-                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
-                                                   : $servise->link($row->druh->presenter.':default'));
-    });
-    $template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->nazov : $id;
-    });
-    $template->addFilter('menu_mutacia_title', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
-    });
-    $template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->h1part2 : $id;
-    });
-    $template->addFilter('trLang', function ($key) use($servise){
-      if ($servise->texty_presentera == NULL) { return $key; }
-      return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
-    });
-    $template->addFilter('nadpisH1', function ($key){
-      $out = "";
-      foreach (explode(" ", $key) as $v) {
-        $out .= "<div>".$v." </div>";
-      }
-      return $out;
-    }); 
-    return $template;
-	}
-  
+   
   /**
    * Nastavenie vzhľadu formulara
    * @param \Nette\Application\UI\Form $form

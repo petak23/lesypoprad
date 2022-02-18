@@ -1,26 +1,19 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use Language_support;
 /**
  * Prezenter pre smerovanie na dokumenty.
- * Posledna zmena(last change): 20.07.2015
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2015, Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022, Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3a
+ * @version 1.0.4
  */
-
-class DokumentyPresenter extends \App\FrontModule\Presenters\BasePresenter {
-	/**
-   * @inject
-   * @var Language_support\Dokumenty
-   */
-  public $texty_presentera;
+class DokumentyPresenter extends BasePresenter {
 
   /** Vychodzie nestavenia */
 	protected function startup() {

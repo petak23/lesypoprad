@@ -1,21 +1,21 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
 use Nette\Application\UI\Multiplier;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 18.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -23,11 +23,6 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
    * @inject
    * @var DbTable\Clanok_komponenty */
 	public $clanok_komponenty;
-
-  /**
-   * @inject
-   * @var Language_support\Clanky */
-  public $texty_presentera;
   
   /** @var \App\FrontModule\Components\Clanky\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
