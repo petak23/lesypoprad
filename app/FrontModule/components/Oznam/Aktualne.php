@@ -6,7 +6,7 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie aktualnych oznamov pre FRONT modul
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 19.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
@@ -25,7 +25,6 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
 
   /** @param DbTable\Oznam $oznam  */
   public function __construct(DbTable\Oznam $oznam, Language_support\LanguageMain $oznam_texts) {
-    parent::__construct();
     $this->oznam = $oznam->aktualne();
     $this->texts = $oznam_texts;
     $this->texts->setLanguage("sk");
@@ -64,7 +63,7 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
       }
       return $vysledok;
     });
-    $template->addFilter('koncova_znacka', function ($text) use($servise){
+    $this->template->addFilter('koncova_znacka', function ($text) use($servise){
       $rozloz = explode("{end}", $text);
       $vysledok = $text;
 			if (count($rozloz)>1) {		 //Ak som nasiel znacku
@@ -73,15 +72,15 @@ class AktualneOznamyControl extends Nette\Application\UI\Control {
 			}
       return $vysledok;
     });
-    $template->addFilter('text_pred', function ($text) {
+    $this->template->addFilter('text_pred', function ($text) {
       $rozloz = explode("{end}", $text);
       return $rozloz[0];
     });
-    $template->addFilter('text_po', function ($text) {
+    $this->template->addFilter('text_po', function ($text) {
       $rozloz = explode("{end}", $text);
       return count($rozloz) > 1 ? $rozloz[1] : "";
     });
-    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
+    $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
       for ($i = $max_id_reg; $i>=0; $i--) {
         $znacka_zac = "#REG".$i."#"; //Pociatocna znacka
         $znacka_kon = "#/REG".$i."#";//Koncova znacka

@@ -12,3 +12,5 @@ services:
   - App\FrontModule\Presenters\OznamPresenter(%parameters%)
   - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
   - App\FrontModule\Presenters\UserPresenter(%parameters%)
+
+  - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl

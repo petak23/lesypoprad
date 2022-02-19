@@ -4,7 +4,7 @@ database:
 	password: Ka5t-root
 	options:
 		lazy: yes
-#webpack:
-#  devServer:
-#    enabled: %debugMode%
-#    url: http://http://localhost/~petak23/echo-msz/assets
+webpack:
+  devServer:
+    enabled: %debugMode%
+    url: http://http://localhost/~petak23/lesypoprad/assets

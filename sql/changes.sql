@@ -22,3 +22,9 @@ CREATE TABLE `user_in_categories` (
   CONSTRAINT `user_in_categories_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
   CONSTRAINT `user_in_categories_ibfk_2` FOREIGN KEY (`id_user_categories`) REFERENCES `user_categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+ALTER TABLE `udaje`
+ADD `separate_settings` tinyint NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak má položka vlastnú časť nastavení';
+
+INSERT INTO `udaje` (`id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
+(5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);

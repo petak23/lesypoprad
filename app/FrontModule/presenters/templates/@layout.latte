@@ -25,7 +25,7 @@
   <meta name="keywords" content="{$udaje['keywords']}" />
   <meta name="author" content="{$udaje['autor']}" />
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
-  {*control css*}
+  <link rel="stylesheet" type="text/css" href="{webpack front.css}">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,700" rel="stylesheet">
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
@@ -118,13 +118,9 @@
     </div>
   </div>
 
-  {*control jsAfter*}
+  <script src="{webpack front.js}"></script>
   {control files:js}
   {block spec_js}{/block}
-  <script>
-    ga=function(){ ga.q.push(arguments) };ga.q=[];ga.l=+new Date;
-    ga('create','UA-52835371-1','auto');ga('send','pageview');
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+  {control googleAnalytics}
 </body>
 </html>

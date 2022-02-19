@@ -14,7 +14,7 @@ use Nette\Security\Passwords;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 19.02.2022
  *
  *	Modul: FRONT
  *
@@ -134,7 +134,7 @@ class UserLogPresenter extends BasePresenter {
     if (isset($values['avatar']) && $values['avatar'] && $values['avatar']->name != "") {
       if ($values['avatar']->isImage()){
         $avatar_path = "files/".$id."/";
-        $path = $this->context->parameters['wwwDir']."/www/".$avatar_path;
+        $path = $this->nastavenie['wwwDir']."/www/".$avatar_path;
         $pi = pathinfo($values['avatar']->getSanitizedName());
         $ext = $pi['extension'];
         if (is_dir($path)) {
@@ -299,7 +299,7 @@ class UserLogPresenter extends BasePresenter {
       $this->flashRedirect("User:", $this->trLang('base_nie_je_opravnenie1'), "danger");
       return;
     }
-		$path = $this->context->parameters['wwwDir'] . "/files/".$id;
+		$path = $this->nastavenie['wwwDir'] . "/files/".$id;
     if (is_dir($path)) { //Vymazanie adresaru s avatarom
       foreach (glob("$path*.{jpg,jpeg,gif,png}", GLOB_BRACE) as $file) {
         @unlink($file);

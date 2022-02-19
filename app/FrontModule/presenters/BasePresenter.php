@@ -12,7 +12,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 19.02.2022
  *
  *	Modul: FRONT
  *
@@ -29,6 +29,7 @@ use PeterVojtech;
 abstract class BasePresenter extends UI\Presenter {
 
   use PeterVojtech\MainLayout\Favicon\faviconTrait;
+  use PeterVojtech\MainLayout\GoogleAnalytics\googleAnalyticsTrait;
 
   // -- DB
   /** @var DbTable\Dokumenty @inject */
@@ -77,9 +78,6 @@ abstract class BasePresenter extends UI\Presenter {
   /** @var Http\Request @inject*/
   public $httpRequest;
   
-//  /** @var \WebLoader\Nette\LoaderFactory @inject */
-  //public $webLoader;
-
   /** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
   public $nazov_stranky;
   /** @var int Uroven registracie uzivatela  */
@@ -432,7 +430,7 @@ abstract class BasePresenter extends UI\Presenter {
    * @return \App\FrontModule\Components\Oznam\AktualneOznamyControl */
 	public function createComponentAktualne() {
     $aktualne = $this->aktualneOznamyControlFactory->create();
-    $aktualne->setNastavenie($this->context->parameters['oznam']);
+    $aktualne->setNastavenie($this->nastavenie['oznam']);
     return $aktualne;
 	}
   

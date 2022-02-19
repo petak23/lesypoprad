@@ -9,7 +9,7 @@ use Language_support;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 19.02.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2013 - 2022 Ing. Peter VOJTECH ml.
@@ -40,7 +40,6 @@ class UserLangMenuControl extends Control {
                               DbTable\User_main $user_main, 
                               User $user, 
                               Language_support\LanguageMain $lang_supp) {
-    parent::__construct();
     $this->lang = $lang;
     $this->user = $user;
     $this->texty = $lang_supp;

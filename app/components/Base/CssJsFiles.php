@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Komponenta pre vlozenie css a js suborov do stranky
- * Posledna zmena(last change): 04.04.2016
+ * Posledna zmena(last change): 19.02.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2015 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class CssJsFilesControl extends Nette\Application\UI\Control {
@@ -26,7 +26,6 @@ class CssJsFilesControl extends Nette\Application\UI\Control {
    * @param array $files
    */
   public function __construct($files, $name, $action) {
-    parent::__construct();
     $this->files = $files;
     $modul_presenter = explode(":", $name);
     $this->module = $modul_presenter[0]; //Modul
