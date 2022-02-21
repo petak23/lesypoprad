@@ -76,22 +76,22 @@
         {control menu templateType=>'fixed', templateFile=>'LesyPP_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
         {* --- Info o stranke --- *}
         <div class="row border-t">
-          <div id="logoFSC" class="col-xs-5">
+          <div id="logoFSC" class="col-md-5">
             <img src="{$basePath}/www/images/fsc-logo.png" title="Logo FSC" alt="Logo FSC">
             <p class="text-center clearfix small">Značka zodpovedného obhospodarovania lesov</p>
           </div>
-          <div id="contact" class="col-xs-7">
-            <h4 class="text-left">Mestské lesy Poprad, 2017</h4>
+          <div id="contact" class="col-md-7">
+            <h4 class="text-left">Mestské lesy Poprad</h4>
             <ul class="list-group text-left">
-              <li class="list-unstyled"><span class="glyphicon glyphicon-home"></span> Levočská 3312/37, Poprad, 058 01</li>
-              <li class="list-unstyled"><span class="glyphicon glyphicon-phone-alt"></span> 052 772 41 60</li>
-              <li class="list-unstyled"><span class="glyphicon glyphicon-folder-open"></span> lesypp@stonline.sk</li>
+              <li class="list-unstyled"><span class="fas fa-home"></span> Levočská 3312/37, Poprad, 058 01</li>
+              <li class="list-unstyled"><span class="fas fa-phone-alt"></span> 052 772 41 60</li>
+              <li class="list-unstyled"><span class="fas fa-folder-open"></span> lesypp@stonline.sk</li>
             </ul>
            </div>
         </div>
         <div class="row">
-          <div class="col-xs-12">
-            <ul class="nav footer-info">
+          <div class="col-12">
+            <ul class="nav justify-content-center footer-info">
               <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
                 {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
                 ({$user_spravca->email|uprav_email})
@@ -103,10 +103,10 @@
                 </a>
               </li>
               <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
-              <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+              <li>created by <a href="http://tatravisual.sk/" title="tatravisual.sk" target="_new">tatravisual.sk</a></li>
             </ul>
           </div>  
-          <div class="col-xs-12">
+          <div class="col-12 text-center">
             <span class="vstup-admin" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
               {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
               <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>

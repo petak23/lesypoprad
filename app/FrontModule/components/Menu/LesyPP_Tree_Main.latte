@@ -1,10 +1,11 @@
-{if isset($startNode)}
-  <nav id="topmenu" class="navbar nav-justified navbar-fixed-top navbar-toggleable-xs">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="glyphicon glyphicon-menu-hamburger"></span>
-    </button>
-    <div id="navContent" class="collapse navbar-collapse">
-      {include 'LesyPP_Tree_Main_node.latte' node => $startNode, hideName => true, level=>1}
-    </div>
-  </nav>  
-{/if}  
+{dump $startNode}
+<nav id="topmenu" class="navbar nav-justified navbar-fixed-top navbar-expand-md">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+          data-target="#navContent" aria-controls="navContent" 
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span> Ponuka
+  </button>
+  <div id="navContent" class="collapse navbar-collapse" n:ifset="$startNode" >
+    {include 'LesyPP_Tree_Main_node.latte' node => $startNode, hideName => true, level=>1}
+  </div>
+</nav>

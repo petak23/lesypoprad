@@ -28,3 +28,7 @@ ADD `separate_settings` tinyint NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak má polo�
 
 INSERT INTO `udaje` (`id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
 (5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);
+
+ALTER TABLE `hlavne_menu_cast`
+CHANGE `nazov` `view_name` varchar(50) COLLATE 'utf8_bin' NOT NULL DEFAULT 'Časť' COMMENT 'Názov časti' AFTER `id`;
+

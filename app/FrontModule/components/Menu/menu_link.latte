@@ -21,7 +21,7 @@
 </span>
 {/define}
 
-<li n:tag-if="isset($akoLi) && $akoLi" class="link pol-li-{$akoLi} {$node->itemClass}">
+<li n:tag-if="isset($akoLi) && $akoLi" class="link pol-li-{$akoLi}">
   <span>
     {if $node->link}
       <a href="{$node->link}" title="{$node->name}">{include #vnutro}</a>

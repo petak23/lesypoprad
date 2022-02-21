@@ -8,7 +8,7 @@ use Language_support;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 21.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
@@ -32,7 +32,6 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * @param DbTable\Dokumenty $dokumenty
    * @param Language_support\LanguageMain $texts */
   public function __construct(DbTable\Dokumenty $dokumenty, Language_support\LanguageMain $texts) {
-    parent::__construct();
     $this->prilohy = $dokumenty;
     $this->texts = $texts;
   }
@@ -57,7 +56,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $this->template->avatar_path = $this->avatar_path;
 
     $servise = $this;
-    $template->addFilter('odkazdo', function ($id) use($servise){
+    $this->template->addFilter('odkazdo', function ($id) use($servise){
       $serv = $servise->presenter->link("Dokumenty:default", array("id"=>$id));
       return $serv;
     });

@@ -1,19 +1,8 @@
-{define #link}
-<li class="nav-item {$n->itemClass}">
-  {if $n->link}
-    <a href="{$n->link}" title="{$n->name}">{$n->name}</a>
-  {else}
-    <span>{$n->name}</span>
-  {/if}
-</li>
-{/define}
-
-<nav id="nav-footer" n:if="isset($startNode) && count($startNode)">
-  <ul class="nav text-center{if $nastav['divClass']} {$nastav['divClass']}{/if}">
-  {foreach $startNode->nodes as $subNode}
-    {if $subNode->id > 0 && $subNode->parent->id < 0}
-      {include #link n => $subNode}
-    {/if}
-  {/foreach}
+<nav id="nav-footer" n:ifset="$startNode">
+  <ul n:class="nav, 'justify-content-center', $nastav['divClass'] ? $nastav['divClass']"
+      n:inner-foreach="$startNode->nodes as $node">
+    <li n:if="$node->id > 0 && $node->parent->id < 0" {* class="nav-item"*}>
+      <a href="{$node->link}" title="{$node->name}">{$node->name}</a>
+    </li>
   </ul>
 </nav>

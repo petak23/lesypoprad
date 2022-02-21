@@ -32,52 +32,8 @@ parameters:
         css: []
         js: ['editors/ckeditor/ckeditor.js','editors/ckeditor/adapters/jquery.js']
 
-services:
-#    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
-#    lessFilter: WebLoader\Filter\LessFilter
-#    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
-#    jsMin: Joseki\Webloader\JsMinFilter
-
-extensions:
-#  webloader: WebLoader\Nette\Extension
 
 #webloader:
-#  css:
-#    front:
-#      files:
-#        - %wwwDir%/www/css/font-awesome.css
-#        - %wwwDir%/www/css/bootstrap.css
-#        - %wwwDir%/www/css/bootstrap-theme.css
-#        - %wwwDir%/www/css/jquery-ui.css
-#        - %wwwDir%/www/css/datagrid.css
-#        - %wwwDir%/www/css/lightbox.css
-#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
-#      filters:
-#        - @jwlCssMinFilter
-#      fileFilters:
-#        - @lessFilter
-#        - @wlCssFilter
-#      watchFiles:     # only watch modify file
-#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front}
-#        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
-#    admin:
-#      files:
-#        - %wwwDir%/www/css/font-awesome.css
-#        - %wwwDir%/www/css/bootstrap.css
-#        - %wwwDir%/www/css/bootstrap-theme.css
-#        - %wwwDir%/www/css/jquery-ui.css
-#        - %wwwDir%/www/css/datagrid.css
-#        - %wwwDir%/www/css/lightbox.css
-#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
-#      filters:
-#        - @jwlCssMinFilter
-#      fileFilters:
-#        - @lessFilter
-#        - @wlCssFilter
-#      watchFiles:     # only watch modify file
-#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin}
-#        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/admin}
-
 #  js:
 #    frontBefore:
 #      files:

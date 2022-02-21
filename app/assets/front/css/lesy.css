@@ -31,7 +31,7 @@ a:hover
 }
 .text-info
 {
-  color: #fff;
+  color: #fff  !important;
   font-size: 140%;  font-style: italic; font-weight: 100;
   text-indent: 1em; 
 }
@@ -137,6 +137,7 @@ footer .nav li a:hover
   background: none;
   color: #eee;
   border-bottom: #9FF39E solid 1px;
+  text-decoration: none;
 }
 footer .row
 { 
@@ -192,8 +193,8 @@ footer .small
 }
 /*--*/
 /*-- oznamy --*/
-#news
-{}
+/*#news
+{}*/
 #news a:hover, #news a:focus
 {
   color: #fff;
@@ -344,10 +345,6 @@ footer .small
     box-shadow: inset 0 4px 3px rgba(0,0,0,.5);
     transition: top 1s ease-in-out;
   }
-#topmenu .dropdown-toggle::after
-{
-  content: '\25be';
-}
   #topmenu ul.dropdown-menu li
   {
     width: auto;

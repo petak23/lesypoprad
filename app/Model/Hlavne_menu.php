@@ -56,8 +56,9 @@ class Hlavne_menu extends Table {
 	public function getMenuFront(string $language = 'sk'): array {	
     $id_reg = isset($this->user->getIdentity()->id_user_roles) ? $this->user->getIdentity()->id_user_roles : 0;
     $h = clone $this->hlavne_menu_lang;
-		$s = $h->findBy(["hlavne_menu.id_user_roles <= " . $id_reg, "lang.skratka" => $language])
+		$s = $h->findBy(["hlavne_menu.id_user_roles <= " . $id_reg, "id_lang" => $language])
            ->where("hlavne_menu.druh.modul IS NULL OR hlavne_menu.druh.modul = ?", "Front");
+    //dumpe($s->count());
     $polozky = $s->order('hlavne_menu.id_hlavne_menu_cast, hlavne_menu.uroven, hlavne_menu.poradie ASC');
     return count($polozky) ? $this->_getMenuFront($polozky) : [];
   }
@@ -72,9 +73,9 @@ class Hlavne_menu extends Table {
 		$cislo_casti = 0;
     foreach ($polozky as $ja) {
       $v = $ja->hlavne_menu;
-      $pridaj = ($v->id_user_categories !== null) ? 
+      $pridaj = /*($v->id_user_categories !== null) ? 
                 (boolean)count($this->user_in_categories->where(['id_user_categories'=>$v->id_user_categories, 'id_user_main'=> $this->user->getId()])) :
-                TRUE;
+                */TRUE;
       if ($pridaj) {
         //Mam taku istu cast ako pred tym? Ak nie nastav cislo casti, ale len ak je to dovolene cez $casti
         if ($cislo_casti !== $v->id_hlavne_menu_cast) { //Len jeden prechod cez toto a to na začiatku

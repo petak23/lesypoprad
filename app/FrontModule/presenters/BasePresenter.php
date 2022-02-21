@@ -193,8 +193,8 @@ abstract class BasePresenter extends UI\Presenter {
   public function createComponentMenu() {
     $menu = new \App\FrontModule\Components\Menu\Menu;
     $menu->setTextTitleImage($this->trLang("base_text_title_image"));
-    $hl_m = $this->hlavne_menu->getMenuFront($this->id_reg, $this->language_id);
-    if ($hl_m !== FALSE) {
+    $hl_m = $this->hlavne_menu->getMenuFront(/*$this->id_reg, */$this->language_id);
+    if ($hl_m !== null) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise) {
         $poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class", "poradie_podclankov"];
@@ -215,6 +215,7 @@ abstract class BasePresenter extends UI\Presenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
+    //dumpe($menu);
     return $menu;
   }
     
