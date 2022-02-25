@@ -1,4 +1,4 @@
--- Adminer 4.3.1 MySQL dump
+-- Adminer 4.8.1 MySQL 5.5.33 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -893,7 +893,8 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `nazov` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'Časť' COMMENT 'Názov časti',
+  `nazov` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'Časť' COMMENT 'Názov časti - starý - deprecadet',
+  `view_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov časti - nový',
   `id_user_roles` int(11) NOT NULL DEFAULT '5' COMMENT 'Id min úrovne registrácie pre editáciu',
   `mapa_stranky` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak je časť zahrnutá do mapy',
   PRIMARY KEY (`id`),
@@ -901,9 +902,9 @@ CREATE TABLE `hlavne_menu_cast` (
   CONSTRAINT `hlavne_menu_cast_ibfk_2` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Časti hlavného menu';
 
-INSERT INTO `hlavne_menu_cast` (`id`, `nazov`, `id_user_roles`, `mapa_stranky`) VALUES
-(1,	'Hlavná ponuka',	4,	1),
-(2,	'Druhá časť',	4,	1);
+INSERT INTO `hlavne_menu_cast` (`id`, `nazov`, `view_name`, `id_user_roles`, `mapa_stranky`) VALUES
+(1,	'Hlavná ponuka',	'Hlavná ponuka',	4,	1),
+(2,	'Druhá časť',	'Druhá časť',	4,	1);
 
 DROP TABLE IF EXISTS `hlavne_menu_lang`;
 CREATE TABLE `hlavne_menu_lang` (
@@ -1058,6 +1059,7 @@ CREATE TABLE `udaje` (
   `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
   `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Definícia' COMMENT 'Hodnota prvku',
   `comment` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Komentár k hodnote',
+  `separate_settings` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak má položka vlastnú časť nastavení',
   PRIMARY KEY (`id`),
   KEY `id_reg` (`id_user_roles`),
   KEY `id_druh` (`id_druh`),
@@ -1067,31 +1069,32 @@ CREATE TABLE `udaje` (
   CONSTRAINT `udaje_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
-INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`) VALUES
-(1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke'),
-(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk'),
-(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu'),
-(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke'),
-(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk'),
-(6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová'),
-(7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky'),
-(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa'),
-(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa'),
-(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo'),
-(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu'),
-(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu'),
-(13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu'),
-(14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u'),
-(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk'),
-(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk'),
-(17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov'),
-(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)'),
-(19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]'),
-(21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).'),
-(22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]'),
-(23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.'),
-(24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu'),
-(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.');
+INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
+(1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke',	0),
+(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
+(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
+(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
+(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
+(6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová',	0),
+(7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
+(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
+(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
+(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo',	0),
+(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
+(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
+(13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
+(14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
+(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
+(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
+(17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
+(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
+(19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
+(21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).',	0),
+(22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]',	0),
+(23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
+(24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
+(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
+(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -1105,6 +1108,33 @@ INSERT INTO `udaje_typ` (`id`, `nazov`, `comment`) VALUES
 (1,	'text',	'Text'),
 (2,	'radio',	'Vyber jednu možnosť'),
 (3,	'checkbox',	'Áno alebo nie');
+
+DROP TABLE IF EXISTS `user_categories`;
+CREATE TABLE `user_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A] Index',
+  `name` varchar(60) COLLATE utf8_bin NOT NULL COMMENT 'Názov',
+  `shortcut` varchar(6) COLLATE utf8_bin NOT NULL COMMENT 'Skratka',
+  `main_category` enum('V','R','O','B') COLLATE utf8_bin NOT NULL DEFAULT 'R' COMMENT 'Hlavný druh kategórie(V-Vedenie; R-rodičia; O-ostatné',
+  `move_to_shortcut` varchar(6) COLLATE utf8_bin DEFAULT NULL COMMENT 'Pri posune sa premenuje na skratku.',
+  `poradie` int(11) NOT NULL DEFAULT '1' COMMENT 'Poradie položiek',
+  `child_enable` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Povolenie zadať dieťa pre danú kategóriu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Kategorie užívateľov';
+
+
+DROP TABLE IF EXISTS `user_in_categories`;
+CREATE TABLE `user_in_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A] Index',
+  `id_user_main` int(11) NOT NULL COMMENT 'Id užívateľa',
+  `id_user_categories` int(11) NOT NULL COMMENT 'Id_kategórie',
+  `child` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'Meno a Priezvisko dieťaťa',
+  PRIMARY KEY (`id`),
+  KEY `id_user_main` (`id_user_main`),
+  KEY `id_user_categories` (`id_user_categories`),
+  CONSTRAINT `user_in_categories_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `user_in_categories_ibfk_2` FOREIGN KEY (`id_user_categories`) REFERENCES `user_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 DROP TABLE IF EXISTS `user_main`;
 CREATE TABLE `user_main` (
@@ -1456,4 +1486,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.4.5',	'mapy',	'<ul>\n	<li>\n		Oprava zobrazenia google m&aacute;p na bootstrap tab-och.</li>\n	<li>\n		Oprava zobrazenia hlavn&eacute;ho nadpisu.</li>\n	<li>\n		Drobn&eacute; zmeny v css</li>\n</ul>\n',	'2017-07-17 05:40:37'),
 (6,	1,	'0.4.7',	'nákľady, kontakt',	'<ul>\n	<li>\n		Oprava vzhľadu a veľkosti n&aacute;hľadov.</li>\n	<li>\n		Oprava kontaktn&eacute;ho formul&aacute;ra.</li>\n</ul>\n',	'2017-09-18 11:29:45');
 
--- 2022-02-18 13:09:45
+-- 2022-02-25 13:13:47
