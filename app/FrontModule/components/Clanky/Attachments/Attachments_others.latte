@@ -1,0 +1,20 @@
+<div n:if="$prilohy->count()" class="row attachments">
+  <div class="col-12">
+    <hr />
+    <h4>{_'clanky_h3_prilohy_others'}:</h4>
+  </div>
+  <div class="col-12 col-md-3 mb-2" n:foreach="$prilohy as $subor">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">{$subor->name}</h5>
+      </div>
+      <div class="card-body">
+        <p n:ifset="$subor->description" class="card-text">{$subor->description}</p>
+      </div>
+      <div class="card-footer">
+        <a n:href="fileDownload! $subor->id" class="btn btn-outline-success" title="{$subor->name} - {$subor->description} - {_'dokument_download'}"><i class="fas fa-download"></i></a>
+        <a n:href="fileView! $subor->id" class="btn btn-outline-success" title="{$subor->name} - {$subor->description} - {_'dokument_view'}" target="_blank"><i class="fas fa-file-image"></i></a>
+      </div>
+    </div>
+  </div>
+</div>

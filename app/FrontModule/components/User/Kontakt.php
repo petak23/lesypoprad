@@ -1,99 +1,99 @@
 <?php
 namespace App\FrontModule\Components\User;
 
+use Language_support;
 use Latte;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 
-
 /**
  * Komponenta pre vytvorenie kontaktneho formulara a odoslanie e-mailu
  * 
- * Posledna zmena(last change): 18.09.2017
+ * Posledna zmena(last change): 16.12.2019
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
-class Kontakt extends Control {
-
+class KontaktControl extends Control {
   /** @var string */
-  private $emails = "";
+  private $email_to_send = "";
   /** @var int */
   private $textA_rows = 8;
   /** @var int */
   private $textA_cols = 60;
-	/** @var array */
-	private $text_form = array(
-   'h4'       => 'Kontaktný formulár',
-   'uvod'     => '',
-	 'meno'     => 'Vaše meno:',
-	 'email'    => 'Váš e-mail(aby sme mohli odpovedať...):',
-	 'email_ar'	=> 'Prosím zadajte e-mail v správnom tvare. Napr. jano@hruska.com',
-	 'email_sr'	=> 'Váš e-mail musí byť zadaný!',
-   'text'     => 'Váš dotaz:',
-   'text_sr'	=> 'Text dotazu musí byť zadaný!',
-   'uloz'     => 'Pošli dotaz',
-   'send_ok'  => 'Váš dotaz bol zaslaný v poriadku. Ďakujeme za zaslanie dotazu.',
-   'send_er'  => 'Váš dotaz nebol zaslaný!. Došlo k chybe. Prosím skúste to neskôr znovu.<br />' 
-	);
+	
+  /** @var Language_support\LanguageMain */
+	protected $texts;
+  
   /** @var string */
   private $nazov_stranky = "";
-
-  /** Funkcia pre nastavenie textov formulara a sablony.
-   *  Nastavitelne polia su: 'h4', 'uvod', 'meno', 'email', 'email_ar', 'email_sr', 'text', 'text_sr', 'uloz',
-   *  'send_ok', 'send_er'
-   * @param array $texty - pole textov
-   * @param int $rows - pocet riadkov textarea
-   * @param int $cols - pocet stlpcov textarea */
-  public function setSablona($texty = array(), $rows = NULL, $cols = NULL)
-  {
-    if (is_array($texty) && count($texty)) { $this->text_form = array_merge($this->text_form, $texty);}
-    if (isset($rows)) { $this->textA_rows = $rows;}
-    if (isset($cols)) { $this->textA_cols = $cols;}
+  
+  /** @param Language_support\LanguageMain $texts */
+  public function __construct(Language_support\LanguageMain $texts) {
+    parent::__construct();
+    $this->texts = $texts;
+    $this->texts->setLanguage("sk");
   }
 
-  /** Funkcia pre nastavenie emailovych adries, na ktore sa odosle formular
-	 * @param  string $emails - pole s emailovymi adresami */
-  public function setSpravca($emails) {
-    if (isset($emails)) {
-      $this->emails = $emails;
-    }
+  /** Funkcia pre nastavenie 
+   * @param string $language Skratka Jazyka
+   * @param int $rows Pocet riadkov textarea
+   * @param int $cols Pocet stlpcov textarea */
+  public function setNastav(string $language = 'sk', int $rows = 8, int $cols = 60) {
+    $this->texts->setLanguage($language);
+    $this->textA_rows = (int)$rows;
+    $this->textA_cols = (int)$cols;
+    return $this;
+  }
+
+  /** Funkcia pre nastavenie emailovej adriesy, na ktoru sa odosle formular
+	 * @param string $email emailova adresa */
+  public function setEmailsToSend($email) {
+    if (isset($email)) { $this->email_to_send = $email; }
+    return $this;
   }
   
   /** Funkcia pre nastavenie nazvu stranky
 	 * @param  string $nazov_stranky */
   public function setNazovStranky($nazov_stranky) {
     $this->nazov_stranky = $nazov_stranky;
+    return $this;
   }
 
+  /** @see Nette\Application\Control#render() */
   public function render() {
     $this->template->setFile(__DIR__ . '/Kontakt.latte');
-		$this->template->h4 = $this->text_form['h4'];
-		$this->template->uvod = $this->text_form['uvod'];
+    $this->template->texts = $this->texts;
     $this->template->render();
   }
 
-  /** Potvrdenie ucasti form component factory.
+  /** Kontaktny formular
    * @return Nette\Application\UI\Form */
   protected function createComponentKontaktForm() {
       $form = new Form;
       $form->addProtection();
-      $form->addText('meno', $this->text_form['meno'], 30, 50);
-      $form->addText('email', $this->text_form['email'], 30, 50)
+      $form->setTranslator($this->texts);
+      $form->addText('meno', 'komponent_kontakt_meno', 30, 50);
+      $form->addText('email', 'komponent_kontakt_email', 30, 50)
          ->setType('email')
-				 ->addRule(Form::EMAIL, $this->text_form['email_ar'])
-				 ->setRequired($this->text_form['email_sr']);
-      $form->addTextArea('text', $this->text_form['text'])
+				 ->addRule(Form::EMAIL, 'komponent_kontakt_email_ar')
+				 ->setRequired('komponent_kontakt_email_sr');
+      $form->addTextArea('text', 'komponent_kontakt_text')
            ->setAttribute('rows', $this->textA_rows)
            ->setAttribute('cols', $this->textA_cols)
-           ->setRequired($this->text_form['text_sr']);
-      $form->addSubmit('uloz', $this->text_form['uloz']);
+           ->setRequired('komponent_kontakt_text_sr');
+      $renderer = $form->getRenderer();
+      $renderer->wrappers['controls']['container'] = 'dl';
+      $renderer->wrappers['pair']['container'] = NULL;
+      $renderer->wrappers['label']['container'] = 'dt';
+      $renderer->wrappers['control']['container'] = 'dd';
+      $form->addSubmit('uloz', 'komponent_kontakt_uloz');
       $form->onSuccess[] = [$this, 'onZapisDotaz'];
       return $form;
   }
@@ -101,25 +101,31 @@ class Kontakt extends Control {
   /** Spracovanie formulara
    * @param \Nette\Application\UI\Form $form */
   public function onZapisDotaz(Form $form) {
-    $values = $form->getValues(); 				//Nacitanie hodnot formulara
+    $values = $form->getValues();
     $templ = new Latte\Engine;
     $params = array(
-      "nadpis"      => sprintf('Správa z kontaktného formulará stránky %s', $this->nazov_stranky),
-      "dotaz_meno"  => sprintf('Užívateľ s menom %s poslal nasledujúcu správu:', $values->meno),
+      "nadpis"      => sprintf($this->texts->translate('komponent_kontakt_email_web'), $this->nazov_stranky),
+      "dotaz_meno"  => sprintf($this->texts->translate('komponent_kontakt_email_msg'), $values->meno),
       "dotaz_text"  => $values->text,
     );
     $mail = new Message;
     $mail->setFrom($values->meno.' <'.$values->email.'>')
-         ->addTo($this->emails)
-         ->setSubject(sprintf('Správa z kontaktného formulará stránky %s', $this->nazov_stranky))
+         ->addTo($this->email_to_send)
+         ->setSubject(sprintf($this->texts->translate('komponent_kontakt_email_web'), $this->nazov_stranky))
          ->setHtmlBody($templ->renderToString(__DIR__ . '/Kontakt_email-html.latte', $params));
     try {
       $sendmail = new SendmailMailer;
       $sendmail->send($mail);
-      $this->presenter->flashMessage($this->text_form['send_ok'], 'success');
+      $this->presenter->flashMessage($this->texts->translate('komponent_kontakt_send_ok'), 'success');
     } catch (Exception $e) {
-      $this->presenter->flashMessage($this->text_form['send_er'].$e->getMessage(), 'danger,n');
+      $this->presenter->flashMessage($this->texts->translate('komponent_kontakt_send_er').$e->getMessage(), 'danger,n');
     }
     $this->redirect('this');
   }
+}
+
+
+interface IKontaktControl {
+  /** @return KontaktControl */
+  function create();
 }

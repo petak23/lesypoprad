@@ -1,7 +1,7 @@
 {define #link_in}
   {for $i = 2; $i < $level; $i++}-{/for}
-  <div n:if="strlen($nastav['avatar']) && isset($node->avatar) && is_file('www/'.$nastav['avatar'].$node->avatar)" class="avatar-img">
-    <img src="{$basePath}/www/{$nastav['avatar']}{$node->avatar}" alt="Titulný obrázok">
+  <div n:if="strlen($nastav['avatar']) && isset($node->avatar) && is_file($nastavenie['dir_to_menu'].$node->avatar)" class="avatar-img">
+    <img src="{$basePath}/{$nastavenie['dir_to_menu']}{$node->avatar}" alt="Titulný obrázok">
   </div>
   {$node->name}
   <br n:if="isset($node->tooltip)" />
@@ -9,14 +9,14 @@
 {/define}
 
 {define #link}
-<li class="pol-li-{$akoLi}" n:tag-if="isset($akoLi) && $akoLi">
+<li {*class="pol-li-{$akoLi}" *}n:tag-if="isset($akoLi) && $akoLi">
   <div class="menu-link-in">
     {if $node->link}
-      <a href="{$node->link}" n:class="$node->itemClass" title="{$node->name}">
+      <a href="{$node->link}" n:class="$node->getItemClass()" title="{$node->name}">
         {include #link_in node => $node}
       </a>
     {else}
-      <span n:class="$node->itemClass">
+      <span n:class="$node->getItemClass()">
         {include #link_in node => $node}
       </span>
     {/if}
@@ -56,7 +56,7 @@
       {if $node->link}
         <a href="{$node->link}" title="{$node->name}">{$node->name}</a>
       {else}
-        <span n:class="$node->itemClass">{$node->name}</span>
+        <span n:class="$node->getItemClass()">{$node->name}</span>
       {/if}
       {sep} {$navSeparator} {/sep}
     {/if}

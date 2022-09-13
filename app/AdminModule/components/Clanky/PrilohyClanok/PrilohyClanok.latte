@@ -1,50 +1,93 @@
-<div class="panel panel-default" n:snippet="prilohy">
+<div class="panel panel-default" n:snippet="prilohy-in">
   <div class="panel-heading">
-    <h3>
-      Prílohy 
-      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success button-right" data-toggle="modal" data-target="#myModalAddPrilohaChange" title="Pridaj prílohu k položke: {$clanok->view_name}">
-        <i class="fa fa-file-o"></i> Pridaj
+    <div class="btn-group" role="group"> 
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalAddPrilohaChange" title="Pridaj prílohu k položke: {$clanok->view_name}">
+        <i class="fas fa-file-alt"></i> Pridaj jednu prílohu
       </button>
-    </h3>
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAddMultiPrilohaChange" title="Pridanie viacerích príloh k položke: {$clanok->view_name}">
+        <i class="fas fa-copy"></i> Pridaj naraz viac príloh
+      </button>
+    </div>
   </div>
-  <table class="table table-bordered table-striped table-hover" n:if="count($dokumenty)" >
-    <tr>
-      <th>Značka</th><th>Názov</th><th>Popis</th><th></th>
-    </tr>
-    <tr n:foreach="$dokumenty as $d">
-      <td class="sirka8">{$d->znacka}</td>
-      <td class="sirka30">
-        {var $pr = strtolower($d->pripona)}
-        {if $pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp'}
-          <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$d->thumb}" alt="{$d->nazov}" data-jslghtbx="{$basePath}/{$d->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
-          {$d->nazov}
-        {else}
-          <a href="{plink Dokumenty: $d->id}" title="{$d->nazov}" target="_blank">{$d->nazov}</a>
-        {/if}
-      </td>
-      <td class="sirka40">{$d->popis}</td>
-      <td>
-        <div class="btn-group" role="group" aria-label="adminLinks" n:if="$admin_links_prilohy['elink']" >
-          <a href="{link editPriloha! $d->id}" class="btn btn-success btn-sm" title="Editovať"><i class="fa fa-pencil fa-1_5x"></i></a>
-          <a n:if="$user->isAllowed('Admin:Clanky', 'prilohy')" href="{plink confirmForm:confirmDelete! id=>$d->id, druh=>'priloha', nazov=>$d->nazov, zdroj_na_zmazanie=>'prílohu'}" class="btn btn-danger btn-sm" title="Zmazať">
-            <i class="fa fa-trash-o fa-1_5x"></i></a>
-          <a n:if="$pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp'" n:href="showInText! $d->id" class="btn {if $d->zobraz_v_texte}btn-success{else}btn-warning{/if} btn-sm ajax" title="Nezobraz"><i class="fa fa-adjust fa-1_5x"></i></a>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>  
+  <div class="row" n:snippet="flashes">
+    <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
+      {var $nees = explode(',', $flash->type)}
+      <div class="alert alert-{$nees[0]}" role="alert">{*fade in*}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+      </div>
+    </div>
+  </div>
+  {control prilohyGrid}
+</div>
 
-{* -- Modal dialog pre editaciu titulneho obrazku -- *}
-<div class="modal fade" id="myModalAddPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Pridanie prílohy k položke: {$clanok->view_name}</h4>
+{* -- Modal dialog pre zobrazenie jedneho produktu -- *}
+<div class="modal fade lightbox-img" id="imageModalCenterAttachments" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content" n:snippet="lightbox-image-a">
+      <div class="modal-header text-center text-white" n:ifset="$big_img">
+        <h5 class="modal-title" id="exampleModalCenterTitle" >{$big_img->name}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
-        {control editPrilohyForm}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <img data-src="{$basePath}/" alt="">
+              <div n:ifset="$big_img->description">
+                {$big_img->description}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{* -- Modal dialog pre pridanie jednej prílohy -- *}
+<div class="modal fade" id="myModalAddPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-success">
+        <h5 class="modal-title" id="myModalLabel">Pridanie prílohy k položke: {$clanok->view_name}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        {*control editPrilohyForm*}
+        <single-upload 
+          api-url="api/documents/save"
+          base-path="{$basePath}" 
+          id="single-uploader-component"
+          back-link="{link this}"
+          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+      
+{* -- Modal dialog pre pridanie viacerích priloh -- *}
+<div class="modal fade" id="myModalAddMultiPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-primary">
+        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích príloh</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        {*control addMultiPrilohyForm*}
+        <multiple-upload 
+          api-url="api/documents" 
+          base-path="{$basePath}"
+          id="multiple-uploader-component" 
+          back-link="{link this}"
+          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+        />
       </div>
     </div>
   </div>

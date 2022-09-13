@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Komponenta pre zobrazenie ponuky menu pre FRONT modul
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.5
  *
  */
 class Menu extends Nette\Application\UI\Control {
@@ -151,6 +151,8 @@ class Menu extends Nette\Application\UI\Control {
 }
 
 class MenuNode {
+  use Nette\SmartObject;
+  
 	var $name;
 	var $tooltip;
   var $view_name;
@@ -193,5 +195,11 @@ class MenuNode {
 			$out .= ' in-path';
 		}
     return $out;
+	}
+
+	/**
+	 * Vrati pocet "nodes" */
+	public function countNodes(): int {
+		return count($this->nodes);
 	}
 }

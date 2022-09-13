@@ -8,18 +8,18 @@ use Nette;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 11.11.2020
+ * Posledna zmena(last change): 13.09.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  *
  * @property-read string $jazyk Skratka aktualneho jazyka
  * @property-read int $language_id Id aktualneho jazyka
  */
-class LanguageMain implements Nette\Localization\ITranslator {
+class LanguageMain implements Nette\Localization\Translator {
   use Nette\SmartObject;
   
   /** @var string Skratka jazyka */

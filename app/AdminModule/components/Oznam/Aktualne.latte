@@ -7,7 +7,7 @@
           <span>Platí do: {$o->datum_platnosti|date:'j.n.Y'}</span>
         </span>
       </h3>
-      <p>{$o->text|noescape|koncova_znacka}</p>
+      <p>{$o->text|koncova_znacka|noescape}</p>
       <div class="meno">{$o->user_profiles->meno} {$o->user_profiles->priezvisko}</div>
     </article>
   {else}

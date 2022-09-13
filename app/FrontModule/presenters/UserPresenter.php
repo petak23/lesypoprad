@@ -1,6 +1,7 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Forms;
 use DbTable;
 use Latte;
 use Nette\Application\UI\Form;
@@ -11,7 +12,7 @@ use Nette\Utils\Random;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 18.02.2022
+ * Posledna zmena(last change): 12.09.2022
  *
  *	Modul: FRONT
  *
@@ -19,7 +20,7 @@ use Nette\Utils\Random;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 class UserPresenter extends BasePresenter {
   /** 
@@ -47,13 +48,29 @@ class UserPresenter extends BasePresenter {
       $this->flashRedirect('Homepage:', $this->trLang('base_loged_in_bad'), 'danger');
     }
     $this->template->form_required = $this->trLang('base_form_required');
-    $this->template->h2 = $this->trLang('h2_'.$this->action); //Nacitanie hlavneho nadpisu
+    //$this->template->h2 = 'h2_'.$this->action; //$this->trLang('h2_'.$this->action); //Nacitanie hlavneho nadpisu
     $this->clen = $this->user_main->find(1);  //Odosielatel e-mailu
     $this->user_view_fields = $this->nastavenie['user_view_fields'];
 	}
 
   /** Akcia je urcena pre prihlasenie */
-  public function actionDefault() {}
+  //public function actionDefault() {}
+
+  /** 
+   * Formular pre prihlasenie uzivatela.
+	 * @return Nette\Application\UI\Form */
+	protected function createComponentSignInForm() {
+    $form = $this->signInForm->create($this->language);  
+    $form['login']->onClick[] = function () { 
+      $this->flashMessage('base_login_ok', 'success');
+      $this->restoreRequest($this->backlink);
+      $this->redirect('Homepage:');
+		};
+    $form['forgottenPassword']->onClick[] = function ($button) {
+      $this->redirect('User:forgottenPassword', [$button->getForm()->getHttpData()["email"]]);
+    };
+		return $this->_vzhladForm($form);
+	} 
 
   /** Akcia pre registráciu nového uzivatela */
   public function actionRegistracia() {
@@ -81,8 +98,8 @@ class UserPresenter extends BasePresenter {
   }
 
   /** Akcia pre zobrazenie formularu pri zabudnutom hesle */
-  public function actionForgottenPassword() {
-    $this->template->forgot_pass_txt = $this->trLang('forgot_pass_txt');
+  public function actionForgottenPassword(string $email = "") {
+    $this["forgottenPasswordForm"]->setDefaults(["email"=>$email]);
   }  
   
   /** Akcia pre reset hesla pri zabudnutom hesle 
@@ -103,22 +120,7 @@ class UserPresenter extends BasePresenter {
         $this->flashRedirect('Homepage:', $this->trLang('reset_pass_err'.($user_main_data->new_password_key == NULL ? '2' : '3')), 'danger');
       }
     }
-  }
-
-  /** 
-   * Formular pre prihlasenie uzivatela.
-	 * @return Nette\Application\UI\Form */
-	protected function createComponentSignInForm() {
-    $form = $this->signInForm->create();  
-    $form['login']->onClick[] = function ($form) { 
-      $this->restoreRequest($this->backlink);
-      $this->flashOut(!count($form->errors), 'Homepage:', $this->trLang('base_login_ok'), sprintf($this->trLang('base_login_error'), isset($form->errors[0]) ? $form->errors[0] : ''));
-		};
-    $form->getElementPrototype()->class = 'noajax';
-    $fooo = $this->_vzhladForm($form);
-    
-		return $fooo;
-	}
+  }  
   
   /** 
    * Formular pre registraciu uzivatela.
@@ -190,14 +192,13 @@ class UserPresenter extends BasePresenter {
 	protected function createComponentForgottenPasswordForm() {
     $form = new Form();
 		$form->addProtection();
-    $form->addText('email', $this->trLang('Form_email'), 50, 50)
-         ->setType('email')
-         ->setAttribute('placeholder', $this->trLang('Form_email_ph'))
+    $form->addEmail('email', $this->trLang('Form_email'), 50, 50)
+         ->setHtmlAttribute('placeholder', $this->trLang('Form_email_ph'))
 				 ->addRule(Form::EMAIL, $this->trLang('Form_email_ar'))
 				 ->setRequired($this->trLang('Form_email_sr'));
-		$form->addSubmit('uloz', $this->trLang('ForgottenPasswordForm_uloz'))->setAttribute('class', 'btn btn-success')
+		$form->addSubmit('uloz', $this->trLang('ForgottenPasswordForm_uloz'))->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'forgotPasswordFormSubmitted'];
-    $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')
+    $form->addSubmit('cancel', 'Cancel')->setHtmlAttribute('class', 'btn btn-default')
          ->setValidationScope([])
          ->onClick[] = function () { $this->redirect('Homepage:');}; 
 		return $this->_vzhladForm($form);

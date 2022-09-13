@@ -18,7 +18,7 @@ use Nette\Application\UI\Multiplier;
  * @version 1.1.0
  */
 
-class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class ClankyPresenter extends BasePresenter {
 	/** 
    * @inject
    * @var DbTable\Clanok_komponenty */

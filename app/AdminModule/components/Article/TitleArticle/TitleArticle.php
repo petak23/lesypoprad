@@ -1,19 +1,21 @@
 <?php
 namespace App\AdminModule\Components\Article\TitleArticle;
 
-use Nette;
+use App\AdminModule\Components\Clanky\Komponenty;
 use DbTable;
+use Nette;
+use Nette\Application\UI\Form;
 
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 23.06.2017
+ * Posledna zmena(last change): 04.05.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.2.2
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -27,12 +29,14 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   private $clanok;
   /** @var string $odkaz Odkaz */
   private $odkaz;
-  /** @var boolean $zobraz_anotaciu Zobrazenie anotacie polozky*/
+  /** @var bool $zobraz_anotaciu Zobrazenie anotacie polozky*/
   private $zobraz_anotaciu;
-  /** @var boolean $aktualny_projekt_enabled Povolenie aktualneho projektu */
+  /** @var bool $aktualny_projekt_enabled Povolenie aktualneho projektu */
   private $aktualny_projekt_enabled;
-  /** @var boolean $komentare Povolenie komentarov */
+  /** @var bool $komentare Povolenie komentarov */
   private $komentare;
+  /** @var bool $categori Povolenie zobrazenia kategorie */
+  private $categori;
 
   /** @var ZmenVlastnikaFormFactory */
 	public $zmenVlastnika;
@@ -44,42 +48,51 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDlzkuNovinky;
   /** @var ZmenOpravnenieNevlastnikovFormFactory */
 	public $zmenOpravnenieNevlastnikov;
+  /** @var ZmenOpravnenieKategoriaFormFactory */
+	public $zmenOpravnenieKategoria;
+  /** @var ZmenSablonuFormFactory */
+	public $zmenSablonu;
+  /** @var Komponenty\IKomponentyControl */
+	public $komponentyControlFactory;
 
-  /**
-   * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
-   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory
-   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory
-   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory
-   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory */
-  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
+  /** 
+   * @param bool $aktualny_projekt_enabled Povolenie aktualneho projektu - Nastavenie priamo cez servises.neon
+   * @param bool $zobraz_anotaciu Povolenie zobrazenia anotacie - Nastavenie priamo cez servises.neon
+   * @param bool $categori Povolenie zobrazenia kategorie - Nastavenie priamo cez servises.neon */
+  public function __construct(bool $aktualny_projekt_enabled, bool $zobraz_anotaciu, bool $categori,
+                              DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
                               ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory, 
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
                               ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
-                              ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
+                              ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory,
+                              ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
+                              ZmenSablonuFormFactory $zmenSablonuFormFactory,
+                              Komponenty\IKomponentyControl $komponenty
                              ) {
-    parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->zmenVlastnika = $zmenVlastnikaFormFactory;
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
+    $this->zmenOpravnenieKategoria = $zmenOpravnenieKategoriaFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
+    $this->zmenSablonu = $zmenSablonuFormFactory;
+    $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
+    $this->zobraz_anotaciu = $zobraz_anotaciu;
+    $this->categori = $categori;
+    $this->komponentyControlFactory = $komponenty;
   }
   
   /** Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $odkaz
-   * @param boolean $komentare Povolenie komentarov
-   * @param boolean $aktualny_projekt_enabled Povolenie aktualneho projektu
-   * @param boolean $zobraz_anotaciu Zobrazenie anotacie polozky
-   * @return \App\AdminModule\Components\Article\TitleArticleControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $odkaz, $komentare = FALSE, $aktualny_projekt_enabled = FALSE, $zobraz_anotaciu = FALSE) {
+   * @param bool $komentare Povolenie komentarov
+   * @return TitleArticleControl */
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $odkaz, bool $komentare = FALSE): TitleArticleControl {
     $this->clanok = $clanok;
     $this->odkaz = $odkaz;
     $this->komentare = $komentare;
-    $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
-    $this->zobraz_anotaciu = $zobraz_anotaciu;
     $this->hlavne_menu_nadradeny = $this->hlavne_menu_lang->findOneBy(["id_hlavne_menu" => $this->clanok->hlavne_menu->id_nadradenej]);
     return $this;
   }
@@ -87,10 +100,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * Render 
    * @param array $params Parametre komponenty - [admin_links]*/
-	public function render($params) {
-    $this->template->setFile(__DIR__ . '/TitleArticle.latte');
+	public function render(array $params): void {
     $this->template->clanok = $this->clanok;
-    $this->template->por_podclanky = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=>$this->clanok->id_hlavne_menu]);
     $this->template->odkaz = ":".$this->odkaz.":zmenVlastnika";
     $this->template->vlastnik = $params['admin_links']['vlastnik'];
     $this->template->admin_links = $params['admin_links'];
@@ -98,13 +109,20 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->template->nadradeny = $this->clanok->hlavne_menu->id_nadradenej !== NULL ? $this->hlavne_menu_nadradeny->hlavne_menu : NULL;
     $this->template->aktualny_projekt_enabled = $this->aktualny_projekt_enabled;
     $this->template->zobraz_anotaciu = $this->zobraz_anotaciu;
-		$this->template->render();
+    $this->template->categori = $this->categori;
+    $this->template->komponentyCount = $this["komponenty"]->getKomponentyCount();
+    $this->template->addFilter('border_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+      return $xs;
+    });
+		$this->template->render(__DIR__ . '/TitleArticle.latte');
 	}
   
   /** 
    * Signal pre povolenie/zakazanie komentarov
    * @param int $volba Nastavenie  */
-  public function handleKomentare($volba) {
+  public function handleKomentare(int $volba) {
     if ($this->presenter->udaje_webu["komentare"] && $volba>=0 && $volba<=1) {
 			$this->clanok->hlavne_menu->update(['komentar'=>$volba]);
 		} 
@@ -118,7 +136,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	/** 
    * Signal pre nastavenie/zrusenie aktualneho projektu 
    * @param int $volba Nastavenie  */
-	public function handleAktualnyProjekt($volba) {
+	public function handleAktualnyProjekt(int $volba) {
     if ($this->presenter->nastavenie["aktualny_projekt_enabled"] && $volba>=0 && $volba<=1) {
       $this->clanok->hlavne_menu->update(['aktualny_projekt'=>$volba]);
     }
@@ -142,59 +160,105 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	}
   
   /** 
-   * @param Nette\Application\UI\Form $form
-   * @return Nette\Application\UI\Form */
-  protected function _formMessage($form) {
+   * @param Form $form
+   * @return Form */
+  protected function _formMessage(Form $form): Form {
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
-    return $this->presenter->_vzhladForm($form);
+    $renderer = $form->getRenderer();
+    // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
+    $renderer->wrappers['controls']['container'] = null;
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
+    $renderer->wrappers['pair']['.error'] = 'has-danger';
+    $renderer->wrappers['control']['container'] = 'div class=col-sm-9';
+    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['control']['description'] = 'span class="form-text alert alert-info"';
+    $renderer->wrappers['control']['errorcontainer'] = 'span class="form-control-feedback alert alert-danger"';
+    $renderer->wrappers['control']['.error'] = 'is-invalid';
+
+    foreach ($form->getControls() as $control) {
+      $type = $control->getOption('type');
+      /*if ($type === 'button') {
+        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
+        $usedPrimary = true;
+
+      } else*/if (in_array($type, ['text', 'textarea', 'select'], true)) {
+        $control->getControlPrototype()->addClass('form-control');
+
+      } elseif ($type === 'file') {
+        $control->getControlPrototype()->addClass('form-control-file');
+
+      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+        if ($control instanceof Nette\Forms\Controls\Checkbox) {
+          $control->getLabelPrototype()->addClass('form-check-label');
+        } else {
+          $control->getItemLabelPrototype()->addClass('form-check-label');
+        }
+        $control->getControlPrototype()->addClass('form-check-input');
+        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
+      }
+    }
+    return $form;
   }
 
   /** 
    * Komponenta formulara pre zmenu vlastnika.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenUrovenRegistracieForm() {
+   * @return Form */
+  public function createComponentZmenUrovenRegistracieForm(): Form {
     return $this->_formMessage($this->zmenUrovenRegistracie->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_roles));
   }
   
   /** 
    * Komponenta formulara pre zmenu urovne registracie.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenVlastnikaForm() {
+   * @return Form */
+  public function createComponentZmenVlastnikaForm(): Form {
     return $this->_formMessage($this->zmenVlastnika->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_main));
   }
   
   /** 
    * Komponenta formulara pre zmenu datumu platnosti.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenDatumPlatnostiForm() {
+   * @return Form */
+  public function createComponentZmenDatumPlatnostiForm(): Form {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
   }
   
   /** 
+   * Komponenta formulara pre zmenu opravnenia podla kategorie polozky.
+   * @return Form */
+  public function createComponentZmenOpravnenieKategoriaForm(): Form {
+    return $this->_formMessage($this->zmenOpravnenieKategoria->create($this->clanok->hlavne_menu));
+  }
+  
+  /** 
    * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenOpravnenieNevlastnikovForm() {
+   * @return Form */
+  public function createComponentZmenOpravnenieNevlastnikovForm(): Form {
     return $this->_formMessage($this->zmenOpravnenieNevlastnikov->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_opravnenie));
   }
   
   /** 
    * Komponenta formulara pre zmenu dlzky sledovania ako novinky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenDlzkuNovinkyForm() {
+   * @return Form */
+  public function createComponentZmenDlzkuNovinkyForm(): Form {
     return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
   }
   
-  /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
-  public function handlePodclankyZoradenie() {
-    $this->clanok->hlavne_menu->update(['poradie_podclankov'=>(1 - $this->clanok->hlavne_menu->poradie_podclankov)]);
-		if (!$this->presenter->isAjax()) {
-      $this->redirect('this');
-    } else {
-      $this->redrawControl('');
-    }
-	}
+  /** 
+   * Komponenta formulara pre zmenu sablony.
+   * @return Form */
+  public function createComponentZmenSablonuForm(): Form {
+    return $this->_formMessage($this->zmenSablonu->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_template));
+  }
+
+    /**
+   * Komponenta pre ukazanie komponent clanku.
+   * @return \App\AdminModule\Components\Clanky\Komponenty\KomponentyControl */
+	public function createComponentKomponenty() {
+    $komponenty = $this->komponentyControlFactory->create();
+    $komponenty->setTitle($this->clanok);
+    return $komponenty;
+  }
 }
 
 interface ITitleArticleControl {

@@ -1,5 +1,10 @@
 #
-# Last change 12.01.2022
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http:#nette.org/security-warning
+#
+# Last change 31.08.2022
 #
 base_lang_not_def: 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!'
 base_nie_je_opravnenie: 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!'
@@ -45,6 +50,9 @@ base_edit: 'Editácia'
 base_del: 'Vymazanie'
 base_last_update: 'Posledná aktualizácia'
 base_spravca: 'Správca obsahu'
+base_edit_title: 'Edituj nadpis a podnadpis'
+base_edit_texts: 'Edituj texty'
+base_to_admin: 'Prejdi na článok v administrácii'
 komponent_kontakt_h4: 'Kontaktný formulár'
 komponent_kontakt_uvod: ''
 komponent_kontakt_header: 'Nová správa pre: '
@@ -84,7 +92,6 @@ base_component_news_h4: 'Novinky:'
 base_nice_day: 'Príjemný deň praje '
 
 default_user_logedIn: '<div class="stav st_info">Už ste prihlásený!</div>'
-forgot_pass_txt: 'Zadajte emailovú adresu, ktorá je pripojená k Vášmu účtu a na ktorú bude odoslaný email pre reset hesla.'
 registracia_not_enabled: 'Na tomto webe registrácia nie je dovolená!'
 registracia_email_duble: 'K email-u %s už existuje účet. Ak si nepamätáte prístupové heslo požiadajte o neho cez položku <a href="%s" title="Zabudnuté heslo">Zabudnuté heslo</a> .'
 registracia_email_duble2: 'K email-u %s už existuje účet. Ak si nepamätáte prístupové heslo požiadajte o neho cez položku: "Zabudnuté heslo" v časti prihlásenia.'
@@ -133,6 +140,7 @@ activate_err2: 'Pri pokuse o aktiváciu účtu došlo k chybe. Aktiváciu účtu
 
 ForgottenPasswordForm_uloz: 'Pošli'
 forgot_pass: 'Zabudnuté heslo'
+forgot_pass_txt: 'Zadajte emailovú adresu, ktorá je pripojená k Vášmu účtu a na ktorú bude odoslaný email pre reset hesla.'
 forgot_pass_email_ok: 'Na Vami zadanú emailovú adresu bola odoslaná správa pre resetovanie Vášho hesla. Ďalej prosím postupujte podľa tejto správy!'
 forgot_pass_user_err: 'Došlo k chybe. K danej emailovej adrese %s neexzistuje užívateľ!'
 reset_pass_hesla_err: 'Nové heslá sa nezhodujú!'
@@ -143,6 +151,7 @@ reset_pass_err: 'Došlo k chybe a heslo nebolo zmenené. Skúste neskôr znovu..
 SignInForm_h2: 'Prihlásenie'
 SignInForm_email: 'Email:'
 SignInForm_email_req: 'Uveďte, prosím, užívateľský email.'
+SignInForm_email_ar: 'Musíte zadať platnú e-mailovú adresu a v správnom tvare!(napr.: niekto@niekde.sk)!'
 SignInForm_password: 'Heslo:'
 SignInForm_password_min_lenght: 'Heslo musí mať aspoň %d znaky'
 SignInForm_password_req: 'Uveďte, prosím, heslo.'
@@ -278,3 +287,15 @@ err_4xx_text: 'Váš prehliadač odoslal žiadosť, ktorú tento server nemohol 
 err_500_h2: 'Chyba servera'
 err_500_text: 'Je nám to ľúto! Server zaznamenal internú chybu a nemohol dokončiť vašu požiadavku. Skúste neskôr prosím.'
 err_go_to_homepage: 'Tu môžete prejsť na hlavnú stránu.'
+
+#Search & autocomplete
+search_in_heading: 'V nadpise'
+search_in_text: 'V texte:'
+search_in_headnig_doc: 'V názve dokumentu'
+search_in_text_doc: 'V popise dokumentu:'
+search_in_headnig_pro: 'V názve produktu'
+search_in_text_pro: 'V popise produktu:'
+autocomplete_placeholder: 'Hľadaj'
+autocomplete_searching: 'Hľadám...'
+autocomplete_min_char: 'Zadaj aspoň 3 znaky...'
+autocomplete_not_found: 'Nenájdené...'

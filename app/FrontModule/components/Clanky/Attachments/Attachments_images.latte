@@ -1,0 +1,10 @@
+<div n:if="$prilohy->count()" class="row attachments">
+  <div class="col-12">
+    <hr />
+    <h4>{_'clanky_h3_prilohy_images'}:</h4>
+  </div>
+  <div class="col-12 col-md-2"n:foreach="$prilohy as $subor">
+    <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" 
+         data-jslghtbx="{$basePath}/{$subor->main_file}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
+  </div>
+</div>

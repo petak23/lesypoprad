@@ -1,0 +1,7 @@
+<div n:if="$prilohy->count()" class="thumb" n:foreach="$prilohy as $subor">
+  <img class="img-thumbnail img-rounded jslghtbx-thmb" src="{$basePath}/{$subor->thumb_file}" 
+       alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" data-jslghtbx-caption="{$subor->description}">
+  <a href="{plink bigImg! $subor->id, 0}" title="{$subor->name}" class="ajax{if $subor->id == $big_img_id} selected{/if}">
+    <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}">
+  </a>
+</div>

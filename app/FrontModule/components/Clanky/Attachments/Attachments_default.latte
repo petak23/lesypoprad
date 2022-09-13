@@ -1,0 +1,52 @@
+<div n:snippet="prilohyClanok" class="row" n:if="$prilohy->count()">
+  <div class="col-12">
+    <hr />
+    <h4>{_'clanky_h3_prilohy'}:</h4>
+  </div>
+  <div class="col-12" n:if="count($flashes)" n:inner-foreach="$flashes as $flash">
+    {*var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)*}
+    <div class="alert alert-{$flash->type} alert-dismissible fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {*<i n:if="$fa_code" class="{$fa_code}"></i>*} {_$flash->message|noescape}
+    </div>
+  </div>
+  <div class="col-12 col-md-12">
+    <div class="row" n:inner-foreach="$prilohy as $subor">
+      {var $pr = strtolower($subor->pripona)}
+      {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
+        <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->main_file}" type="video/mp4" 
+           controls="controls" preload="none"></video>
+      {elseif $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
+        <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1"> {* img-rounded*}
+      {elseif $pr == "mp3" OR $pr == "wav"}
+        <div class="col-12 col-md-6">
+          <div class="thumbnail">
+            <audio controls>
+              <source src="{$basePath}/{$subor->main_file}" type="audio/mp3">
+              Your browser does not support the audio element.
+            </audio>
+            <div>
+              <strong>{$subor->name}</strong>
+              <div n:ifset="$subor->description" class="popis">{$subor->description}</div>
+            </div>
+          </div>
+        </div>
+      {else}
+        <div class="col-12 col-md-3">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">{$subor->name}</h5>
+            </div>
+            <div class="card-body">
+              <p n:ifset="$subor->description" class="card-text">{$subor->description}</p>
+              <a n:href="fileDownload! $subor->id" class="btn btn-outline-success" title="{$subor->name} - {$subor->description} - {_'dokument_download'}"><i class="fas fa-download"></i></a>
+              <a n:href="fileView! $subor->id" class="btn btn-outline-success" title="{$subor->name} - {$subor->description} - {_'dokument_view'}" target="_blank"><i class="fas fa-file-image"></i></a>
+            </div>
+          </div>
+        </div>
+      {/if}
+    </div>
+  </div>
+</div>

@@ -1,12 +1,12 @@
 <?php
 
 namespace DbTable;
-use Nette;
+use Nette\Database;
 
 /**
  * Model, ktory sa stara o tabulku user_categories
  * 
- * Posledna zmena 27.01.2022
+ * Posledna zmena 31.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
@@ -36,16 +36,21 @@ class User_categories extends Table {
 
   /** Ulozenie kategorie
    * @param Nette\Utils\ArrayHash $values
-   * @return Nette\Database\Table\ActiveRow|null */
-  public function saveCategori(Nette\Utils\ArrayHash $values) {
-    $id = isset($values->id) ? $values->id : 0;
-    unset($values->id);
-    return $this->uloz($values, $id);
+   * @return Nette\Database\Table\ActiveRow|FALSE
+   * @throws Nette\Database\DriverException */
+  public function saveCategori($values) {
+    try {
+      $id = isset($values->id) ? $values->id : 0;
+      unset($values->id);
+      return $this->uloz($values, $id);
+    } catch (Database\DriverException $e) {
+      throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
+    }
   }
   
   /** Hodnoty id=>nazov pre formulare
    * @return array */
-  public function opravnenieForm(): array {
+  public function opravnenieForm() {
     return $this->findAll()->fetchPairs(self::TABLE_COL_ID, self::TABLE_COL_NAME);
   }
 }

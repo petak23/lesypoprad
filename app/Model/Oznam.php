@@ -5,40 +5,43 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku oznam
  * 
- * Posledna zmena 21.06.2017
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.1.0
  */
 class Oznam extends Table {
   /** @var string */
   protected $tableName = 'oznam';
   
   /** Vypisanie vsetkych aktualnych oznamov
-   * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
-   * @return \Nette\Database\Table\Selection */
-  public function aktualne($usporiadanie = FALSE) {
-  	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])
+   * @param bool $usporiadanie Urcuje usporiadane podla datumu platnosti
+   * @param int $id_user_roles Minimalna uroven registracie
+   * @return Nette\Database\Table\Selection */
+  public function aktualne(bool $usporiadanie = FALSE, int $id_user_roles = 0) {
+  	return $this->findBy(["datum_platnosti >= '".date("Y-m-d",strtotime("0 day"))."'", "id_user_roles <= ".$id_user_roles])
                 ->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
 	}
 
-  /** Vrati uz neaktualne oznamy
-   * @return \Nette\Database\Table\Selection */
-	public function neaktualne() {
-  	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])->order('datum_platnosti DESC');
+  /** 
+   * Vrati uz neaktualne oznamy
+   * @param int $id_user_roles Minimalna uroven registracie
+   * @return Nette\Database\Table\Selection */
+	public function neaktualne(int $id_user_roles = 0) {
+  	return $this->findBy(["datum_platnosti < '".date("Y-m-d",strtotime("0 day"))."'", "id_user_roles <= ".$id_user_roles])->order('datum_platnosti DESC');
 	}
   
   /** Vypisanie vsetkych oznamov aj s priznakom aktualnosti
-   * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
+   * @param bool $usporiadanie Urcuje usporiadane podla datumu platnosti
    * @return array */
-  public function vsetky($usporiadanie = FALSE) {
+  public function vsetky(bool $usporiadanie = FALSE): array {
   	$oznamy = $this->findAll()->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
     $out = [];
     foreach ($oznamy as $o) {
-      $temp = ["oznam" => $o, "aktualny" => $o->datum_platnosti >= StrFTime("%Y-%m-%d",strtotime("0 day"))];
+      $temp = ["oznam" => $o, "aktualny" => $o->datum_platnosti >= date("Y-m-d",strtotime("0 day"))];
       $out[] = $temp;
     }
     return $out;
@@ -48,8 +51,10 @@ class Oznam extends Table {
    * @param int $id Id oznamu
    * @return type
    * @throws Database\DriverException */
-  public function vymazOznam($id) {
+  public function vymazOznam(int $id) {
     try {
+      $this->connection->table('oznam_komentar')->where(['id_oznam'=>$id])->delete();
+      $this->connection->table('oznam_ucast')->where(['id_oznam'=>$id])->delete();
       return $this->find($id)->delete();
     } catch (Exception $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());

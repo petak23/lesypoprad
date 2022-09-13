@@ -3,7 +3,7 @@ namespace App\AdminModule\Presenters;
 
 /**
  * Prezenter pre administraciu hlavneho menu.
- * Posledna zmena(last change): 05.06.2017
+ * Posledna zmena(last change): 31.10.2017
  *
  * Modul: ADMIN
  *
@@ -11,9 +11,9 @@ namespace App\AdminModule\Presenters;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
-class MenuPresenter extends \App\AdminModule\Presenters\ArticlePresenter {
+class MenuPresenter extends ArticlePresenter {
   
   /** Render pre defaultnu akciu */
   public function renderDefault() {

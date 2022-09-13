@@ -1,0 +1,6 @@
+<div n:if="$prilohy->count()" class="thumb video" n:foreach="$prilohy as $subor">
+  <a href="{plink bigImg! $subor->id, 0}" class="ajax">
+    <img src="{$basePath}/{$subor->thumb_file}" alt="" class="img-responsive img-square"/>
+    <img src="{$basePath}/images/icons/play-arrow_200.png" alt="" class="img-responsive img-square img-play"/>
+  </a>
+</div>

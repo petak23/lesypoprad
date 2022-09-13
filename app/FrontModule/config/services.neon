@@ -9,8 +9,62 @@ services:
   - App\FrontModule\Presenters\DokumentyPresenter(%parameters%)
   - App\FrontModule\Presenters\ErrorPresenter(%parameters%)
   - App\FrontModule\Presenters\HomepagePresenter(%parameters%)
-  - App\FrontModule\Presenters\OznamPresenter(%parameters%)
+  - App\FrontModule\Presenters\SearchPresenter(%parameters%)
   - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
   - App\FrontModule\Presenters\UserPresenter(%parameters%)
 
+# forms
+  - App\FrontModule\Forms\Article\EditArticleTitleFormFactory
+  - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
+  - App\FrontModule\Forms\User\SignInFormFactory
+  - App\FrontModule\Forms\User\RegisterFormFactory
+  - App\FrontModule\Forms\User\ResetPasswordFormFactory
+  - App\FrontModule\Components\Faktury\DokumentFormFactory
+  - App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
+
+  - App\FrontModule\Components\Autocomplete\IAutocompleteControl
+
+# component services 
+  AktualneClankyControl:
+    implement: App\FrontModule\Components\Clanky\IAktualneClankyControl
+    arguments:
+      dir_to_menu: %dir_to_menu%
+  - App\FrontModule\Components\Clanky\IAktualnyProjektControl
+  AttachmentsControl:
+    implement: App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl
+    arguments:
+      dir_to_menu: %dir_to_menu%
+
+  ZobrazClanokControl:
+    implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
+    arguments:
+      dir_to_menu: %dir_to_menu%
+
+  SliderControl:
+    implement: App\FrontModule\Components\Slider\ISliderControl
+    arguments:
+      nastavenie: %slider%
+  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
+  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
+#  - App\FrontModule\Components\Products\IProductsViewControl
+  - App\FrontModule\Components\User\IKontaktControl
+
+  - App\FrontModule\Components\News\INewsControl
+  - App\FrontModule\Components\Faktury\IViewFakturyControl
+#  - App\FrontModule\Components\Oznam\IAktualneOznamyControl
+  - App\FrontModule\Components\Clanky\IPrilohyClanokControl
+
+  UserMenuControl:
+    implement: App\FrontModule\Components\User\UserMenu\IUserMenuControl
+    arguments:
+      nastavenie: %user_panel%
+      dir_to_user: %dir_to_user%
+      avatar_view: %user_view_fields.avatar%
+
+  LangMenuControl:
+    implement: App\FrontModule\Components\Lang\LangMenu\ILangMenuControl
+    arguments:
+      nastavenie: %user_panel%
+
   - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
+  - PeterVojtech\News_key\NewsKeyControl

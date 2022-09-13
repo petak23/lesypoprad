@@ -1,27 +1,26 @@
-<div class="page-header edit-link-bar" data-toggle="tooltip" data-placement="bottom">
+<div class="page-header edit-link-bar col-12" data-toggle="tooltip" data-placement="bottom">
   <a n:if="$user->isAllowed('Admin:Oznam', 'add')" href="{plink 'Oznam:add'}" title="Pridaj nový oznam" class="btn btn-success">
-    <i class="fa fa-file-o"></i>Pridaj nový oznam 
+    <i class="fas fa-file"></i>Pridaj nový oznam 
   </a>
-
   <div n:snippet="zmenPresmerovanie" class="btn-group edit-link-bar" role="group" aria-label="zmen-presmerovanie-link">
-    <div class="btn btn-info disabled" title="Aktuálne presmerovanie na: {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->nazov}{else}Nie je nastavené!{/if}" type="button">
-      <i class="fa fa-user"></i> {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->nazov}{else}Nie je nastavené!{/if}
+    <div class="btn btn-info disabled" title="Aktuálne presmerovanie na: {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->menu_name}{else}Nie je nastavené!{/if}" type="button">
+      <i class="fas fa-user"></i> {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->menu_name}{else}Nie je nastavené!{/if}
     </div>
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalRedirectChange" title="Zmeň presmerovanie"><i class="fa fa-pencil"></i></button>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalRedirectChange" title="Zmeň presmerovanie"><i class="fas fa-pencil-alt"></i></button>
   </div>
 
   <div n:snippet="porPodclanoky" class="btn-group edit-link-bar" role="group" aria-label="poradie-podclanky-link">
     <div class="btn btn-info disabled" title="Poradie oznamov podľa dátumu platnosti od {$c = $por_oznamy ? 'najskoršieho' : 'najneskoršieho'}.">
-      Poradie oznamov <i class="fa fa-sort-numeric-{$c = $por_oznamy ? 'asc': 'desc'}"></i>
+      Poradie oznamov <i class="fas fa-sort-numeric-{$c = $por_oznamy ? 'down': 'up'}"></i>
     </div>
     <a n:href="oznamyZoradenie!" title="Zmeň zoradenie oznamov podľa dátumu platnosti od {$por_oznamy ? 'najneskoršieho' : 'najskoršieho'}." class="btn btn-info" role="button">
-      Nastav na <i class="fa fa-sort-numeric-{$c = $por_oznamy ? 'desc': 'asc'}"></i>
+      Nastav na <i class="fas fa-sort-numeric-{$c = $por_oznamy ? 'up': 'down'}"></i>
     </a>
   </div>
   <div n:if="$user->isInRole('admin')" class="btn-group edit-link-bar">
-    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-cogs fa-fw"></i> Nastavenie oznamov <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
+    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><i class="fas fa-cogs fa-fw"></i> Nastavenie oznamov <span class="fa fa-caret-down" title="Toggle dropdown menu"></span></a>
     <ul class="dropdown-menu" n:inner-foreach="$oznamy_nastav as $o">
-      <li><a href="#{$o->id}"><i class="fa fa-pencil fa-fw"></i> {$o->nazov}</a></li>
+      <li><a href="#{$o->id}"><i class="fas fa-pencil-alt fa-fw"></i> {$o->nazov}</a></li>
     </ul>
   </div>
 </div>
@@ -31,9 +30,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena presmerovania:</h4>
-        <p>Aktuálne presmerovanie: {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->nazov}{else}Nie je nastavené!{/if}</p>
+        <h5 class="modal-title">Zmena presmerovania:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         {control zmenPresmerovanieForm}

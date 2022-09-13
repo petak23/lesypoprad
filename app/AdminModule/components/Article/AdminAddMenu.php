@@ -1,21 +1,21 @@
 <?php
 namespace App\AdminModule\Components\Article;
 
-use Nette;
 use DbTable;
+use Nette\Application\UI\Control;
+
 /**
  * Komponenta pre vytvorenie ponuky na pridanie do hlavneho menu na zaklade druhu.
  * 
- * Posledna zmena(last change): 13.02.2016
+ * Posledna zmena(last change): 21.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.6
  */
-
-class AdminAddMenuControl extends Nette\Application\UI\Control {
+class AdminAddMenuControl extends Control {
 	
   /** @var string Pomocna chybova premenna s udajom, ktory je chybny */
   private $chyba = "";
@@ -30,62 +30,60 @@ class AdminAddMenuControl extends Nette\Application\UI\Control {
   /** @var DbTable\Hlavne_menu_lang */
   public $hlavne_menu_lang;
 
-
-
   /**
-   * @param DbTable\Druh $druh DB tabulka druh
-   */
-	public function __construct(DbTable\Druh $druh, DbTable\Hlavne_menu_cast $hlavne_menu_cast, DbTable\Hlavne_menu_lang $hlavne_menu_lang) {
-    parent::__construct();
+   * @param int $id Id nadradenej polozky
+   * @param DbTable\Druh $druh
+   * @param DbTable\Hlavne_menu_cast $hlavne_menu_cast
+   * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang */
+	public function __construct(int $id, 
+                              DbTable\Druh $druh, 
+                              DbTable\Hlavne_menu_cast $hlavne_menu_cast, 
+                              DbTable\Hlavne_menu_lang $hlavne_menu_lang) {
     $this->druh = $druh;
     $this->hlavne_menu_cast = $hlavne_menu_cast;
     $this->hlavne_menu_lang = $hlavne_menu_lang;
-  }
-	
-  /** Nastavenie Id
-   * @param int $id Id clanku, ku ktoremu sa pridáva
-   */
-  public function setId($id = 0) {
     $this->id = (int)$id;
   }
-  
-  /** Rucne nastavenie defaultnej template pre zobrazenie.
-   * @param string $pt Nazov template
-   */
-  public function setClanokTemplate($pt) {
+	
+  /** 
+   * Rucne nastavenie defaultnej template pre zobrazenie.
+   * @param string|null $pt Nazov template */
+  public function setClanokTemplate(?string $pt): self {
     if (isset($pt) && strlen($pt)) {
       if (is_file(__DIR__ . "/AdminAddMenu_".$pt.".latte")) {
         $this->parentTemplate = "AdminAddMenu_".$pt.".latte";
       }
     }
+    return $this;
   }
   
   /** Vytvorenie ponuky
-   * @return array
-   */
-	private function _addpolmenu() {
+   * @return array */
+	private function _addpolmenu(): array {
+    $ponuka = $this->druh->findBy(["povolene"=>1, "je_spec_naz > 0"]);
     if ($this->id<0) { //Zaporne id je pre cast
-      $ponuka = $this->druh->findBy(array("povolene"=>1));
       $this->id = (-1*$this->id);
-			if ((($cast = $this->hlavne_menu_cast->find($this->id)) !== FALSE) && count($cast)) {
-				$out["nadpis"] = $cast->nazov;
-      } else { $this->chyba = "Chybne zadané id = ".$this->id; return;}
+			if ((($cast = $this->hlavne_menu_cast->find($this->id)) != null)) {
+				$out["nadpis"] = $cast->view_name;
+      } else { 
+        $this->chyba = "Chybne zadané id = ".$this->id; 
+        return [];
+      }
 			$uroven = 0;
     } else { //Kladne id je pre polozku
-      $ponuka = $this->druh->findBy(array("povolene"=>1, "je_spec_naz > 0"));
-			if ((($cast = $this->hlavne_menu_lang->findOneBy(array("id_hlavne_menu"=>$this->id, "id_lang"=>1))) !== FALSE) && count($cast)) {
-				$out["nadpis"] = $cast->nazov;
-      } else { $this->chyba = "Chybne zadané id = ".$this->id; return;}
-			$uroven = $cast->hlavne_menu->uroven+1;
+			if ((($cast = $this->hlavne_menu_lang->findOneBy(["id_hlavne_menu"=>$this->id, "id_lang"=>1])) != null)) {
+				$out["nadpis"] = $cast->view_name;
+      } else { $this->chyba = "Chybne zadané id = ".$this->id; return [];}
+			$uroven = $cast->hlavne_menu->uroven + 1;
     }
 		foreach ($ponuka as $g) {
-      $out["ponuka"][] = array(
+      $out["ponuka"][] = [
           "link" => $g->presenter.":add",
           "id" => $this->id,
           "uroven" => $uroven,
           "presenter" => $g->presenter,
           "popis" => $g->popis,
-         );
+         ];
 		}
     return $out;
   }
@@ -106,6 +104,8 @@ class AdminAddMenuControl extends Nette\Application\UI\Control {
 }
 
 interface IAdminAddMenu {
-  /** @return AdminAddMenuControl */
-  function create();
+  /** 
+   * @param int $id
+   * @return AdminAddMenuControl */
+  function create(int $id);
 }

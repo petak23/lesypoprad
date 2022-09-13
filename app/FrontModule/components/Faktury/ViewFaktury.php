@@ -9,13 +9,13 @@ use DbTable;
 /**
  * Komponenta pre zobrazenie casti faktur pre FRONT modul
  * 
- * Posledna zmena(last change): 19.02.2022
+ * Posledna zmena(last change): 12.09.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 class ViewFakturyControl extends Nette\Application\UI\Control {
 
@@ -107,9 +107,10 @@ class ViewFakturyControl extends Nette\Application\UI\Control {
       ->setIcon('trash')
       ->setTitle('Delete')
       ->setClass('btn btn-xs btn-danger')
-      ->setConfirm('Naozaj chcete zmezať položku %s?', 'predmet');
+      //->setConfirm('Naozaj chcete zmezať položku %s?', 'predmet')
+      ;
     }
-    $grid->setTranslator($this->translator);
+    //$grid->setTranslator($this->translator);
 	}
   
   /**

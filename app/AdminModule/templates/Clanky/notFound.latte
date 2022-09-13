@@ -1,0 +1,9 @@
+{block content}
+<div class="col-12 my-3"> 
+	<h2 n:block="title">{$info['h2']}</h2>
+</div>
+<div class="col-12 col-md-6">
+	<div class="text-center alert alert-danger">
+		<p n:foreach="$info['text'] as $te">{$te}</p>
+	</div>
+</div>

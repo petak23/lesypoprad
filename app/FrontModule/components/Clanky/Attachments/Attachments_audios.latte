@@ -1,0 +1,17 @@
+<div n:if="$prilohy->count()" class="row">
+  <div class="col-12">
+    <hr />
+    <h4>{_'clanky_h3_prilohy_audios'}:</h4>
+  </div>
+  <div class="col-12 col-md-6" n:foreach="$prilohy as $subor">
+    <div class="thumbnail">
+      <audio controls>
+        <source src="{$basePath}/{$subor->main_file}" type="audio/mp3">
+      </audio>
+      <div>
+        <strong>{$subor->name}</strong>
+        <div n:ifset="$subor->description" class="popis">{$subor->description}</div>
+      </div>
+    </div>
+  </div>
+</div>

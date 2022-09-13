@@ -1,0 +1,16 @@
+{block content}
+<div class="col">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+    {control menu:mainFixed, cast=>$id_menu, avatar=>$avatar_path, anotacia => FALSE, article_avatar_view_in=>1}
+    <div class="col mb-4">
+      <div class="card border-success text-center h-100" n:if="$view_add_link">
+        <a href="{plink Menu:addpol -1*$id_menu}" title="Pridanie položky do časti">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-plus fa-4x"></i></h5>
+            <p class="card-text">Pridanie položky do časti</p>
+          </div>
+        </a>
+      </div>  
+    </div>
+  </div>
+</div>       

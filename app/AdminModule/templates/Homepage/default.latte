@@ -1,0 +1,79 @@
+{block content}
+<div class="col">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+    {*<div class="col mb-4" n:foreach="$admin_menu as $am" >
+      <div class="card h-100" n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
+        <a n:href="$am->odkaz" title="{$am->nazov}">
+          <img class="card-img-top" src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
+          <div class="card-body">
+            <p class="card-text">{$am->nazov}</p>
+          </div>
+        </a>
+      </div>  
+    </div>*}
+    <div class="col mb-4">
+      <div class="card h-100 last-login">
+        <img class="card-img-top" src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
+        <h5 class="card-header">Časti webu</h5>
+        <div class="card-body">
+          <div class="list-group" n:foreach="$parts as $p">
+            <a n:href="Homepage:section -1*$p->id" title="{$p->view_name}" class="list-group-item list-group-item-action">
+              {$p->view_name}
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col mb-4">
+      <div class="card h-100 last-login">
+        <img class="card-img-top" src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
+        <h5 class="card-header">Užívateľské info</h5>
+        <div class="card-body">
+          <table class="table table-striped table-sm">
+            <tbody>
+              <tr>
+                <th scope="row">Id:</th>
+                <td>{$useri->id}</td>
+              </tr>
+              <tr>
+                <th scope="row">Rola:</th>
+                <td>{$useri->user_roles->name}</td>
+              </tr>
+              <tr>
+                <th scope="row">Meno:</th>
+                <td>{$useri->meno} {$useri->priezvisko}</td>
+              </tr>
+              <tr>
+                <th scope="row">Posledná IP:</th>
+                <td>{$useri->last_ip}</td>
+              </tr>
+              <tr>
+                <th scope="row">Registrácia:</th>
+                <td>{$useri->created|date:'d.m.Y H:i:s'}</td>
+              </tr>
+              <tr>
+                <th scope="row">Posledné prihlásenie:</th>
+                <td>{$useri->user_profiles->prihlas_teraz|date:'d.m.Y H:i:s'}</td>
+              </tr>
+              <tr>
+                <th scope="row">Počet prihlásení:</th>
+                <td>{$useri->user_profiles->pocet_pr}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col mb-4">
+      <lastlogin
+        basepath="{$basePath}"
+        user="{($user->getIdentity()->data|to_json)}"
+      >
+      </lastlogin>
+    </div>
+  </div>
+  
+</div>

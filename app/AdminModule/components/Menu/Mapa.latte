@@ -1,5 +1,5 @@
 {define #link}
-<li n:tag-if="isset($akoLi) && $akoLi" class="pol-li-{$akoLi} {$n->itemClass}">
+<li n:tag-if="isset($akoLi) && $akoLi" class="pol-li-{$akoLi} {$n->getItemClass()}">
   <span>
     {if $n->link}
       <a href="{$n->link}" title="{$n->name}">{$n->name}</a>

@@ -1,0 +1,122 @@
+{* Sablona pre vypis uzivatelov
+ *
+ * Modul: ADMIN
+ *
+ * Posledna zmena(last change): 02.06.2022
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ *
+*}
+{block content}
+<div class="col-12">
+  <h2>Výpis všetkých členov</h2>
+  <div class="row">
+    <div class="col-12">
+      <a n:if="$user->isAllowed('Admin:User', 'add')" n:href="User:add"  title="Pridanie nového užívateľa" 
+        class="btn btn-success button-right">
+        <i class="fas fa-user-plus fa-lg"></i> Pridanie nového užívateľa
+      </a>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <caption class="bg-secondary text-white py-1">
+      <div class="d-flex justify-content-between">
+        <div class="px-2">Počet užívateľov: {count($users_data)}</div>
+        <nav n:if="count($users_data) > 10">
+          <ul class="pagination pagination-sm mb-0" >
+            <li class="page-item">
+              <a class="page-link bg-secondary text-white" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link bg-secondary text-white" href="#">1</a></li>
+            <li class="page-item"><a class="page-link bg-secondary text-white" href="#">2</a></li>
+            <li class="page-item"><a class="page-link bg-secondary text-white" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link bg-secondary text-white" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <form class="px-2 form-inline" n:if="count($users_data) > 10">
+          <label class="my-0 mr-2" for="itemsPerPage">Položiek na stránku:</label>
+          {var $sel_pp = 1}
+          <select class="form-control my-0 mr-sm-2 form-control-sm" id="itemsPerPage" n:inner-foreach="$items_per_page as $v => $t">
+            <option {if $v == $sel_pp} selected {/if} value="{$v}">{$t}</option>
+          </select>
+        </form>
+      </div>
+    </caption>
+    <thead class="thead-dark">
+      <tr>
+        <th n:if="$user_view_fields['avatar']" style="width: 5rem">Avatar</th>
+        <th style="width: 2rem">Id</th>
+        <th>Meno PRIEZVISKO; email</th>
+        <th>Registrácia</th>
+        <th>Počet prihlásení</th>
+        <th>Posledné prihlásenie</th>
+        <th n:if="$user_view_fields['categori']">Kategória</th>
+        <th>Novinky</th>
+        <th n:if="$user->isInRole('admin')">Akcie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr n:foreach="$users_data as $u">
+        <td n:if="$user_view_fields['avatar']" class="text-center align-middle">
+          {var $avatar = $dir_to_user.$u->id.'/'.$u->user_profiles->avatar}
+          {if is_file($avatar)}
+            <img src="{$basePath}/{$avatar}" alt="avatar" />
+          {else}
+            {$u->user_profiles->avatar}
+          {/if}
+        </td>
+        <td class="text-right align-middle">{$u->id}</td>
+        <td n:class="align-middle, $u->banned > 0 ? position-relative">
+          {$u->meno} {$u->priezvisko|upper}<br /><i>{$u->email}</i>
+          <div n:if="$u->banned > 0" class="banned">Blokovaný<br /><small>{$u->ban_reason}</small></div>
+        </td>
+        <td class="align-middle">
+          <div class="uroven-registracie uroven-registracie-{$u->id_user_roles}">
+            {$u->id_user_roles} - {$u->user_roles->name} ({$u->user_roles->role})
+          </div>
+        </td>
+        <td class="pocet_pr align-middle">
+          {var $sirka = (($u->user_profiles->pocet_pr * 180) / $poc_pr_udaje['max']) + 10}
+          {var $prec = 100 * $u->user_profiles->pocet_pr / $poc_pr_udaje['max']}
+          <div class="vyb{$prec>70 ? 1 : ($prec>45 ? 2 : ($prec>30 ? 3 : ($prec>0 ? 4 : 5)))}" 
+              style="width: {(($u->user_profiles->pocet_pr * 180) / $poc_pr_udaje['max']) + 10}px;">
+            <span>{$u->user_profiles->pocet_pr}</span>
+          </div>
+        </td>
+        <td class="text-right align-middle">{$u->user_profiles->prihlas_teraz|date:'d.m.Y H:i:s'}</td>
+        <td class="align-middle" n:if="$user_view_fields['categori']">
+          {var $out = $user_in_categories->findBy(['id_user_main'=>$u->id]);}
+          <span>
+            {foreach $out as $v}
+              <button title="$v->user_categories->name" class="btn btn-success btn-xs disabled">
+                {$v->user_categories->shortcut}
+              </button>
+            {/foreach}
+          </span>
+        </td>
+        <td class="text-center align-middle">
+          <div n:class="$u->user_profile->news == 'A' ? vklad : vyber">{$u->user_profile->news}</div>
+        </td>
+        <td class="align-middle" n:if="$user->isInRole('admin')">
+          <a n:href="User:edit $u->id" title="Edituj užívateľa" class="btn btn-sm btn-default btn-secondary">
+            <span class="fa fa-pencil-alt"></span>
+          </a>
+          <a  n:href="confirmedDeleteUser! $u->id" 
+              title="Zmazať užívateľa" 
+              data-datagrid-confirm="Naozaj chceš zmazať užívateľa: '{$u->meno} {$u->priezvisko|upper}'?"
+              class="btn btn-sm btn-danger">
+            <span class="fa fa-trash-alt"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

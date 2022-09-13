@@ -9,13 +9,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku user_prihlasenie
  * 
- * Posledna zmena 09.11.2021
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */ 
 class User_prihlasenie extends Table {
   const
@@ -55,7 +55,7 @@ class User_prihlasenie extends Table {
    * @return Database\Table\ActiveRow|null */
   public function addLogIn(int $id_user_main): ?Database\Table\ActiveRow {
     return $this->pridaj([self::COLUMN_ID_USER_MAIN => $id_user_main, 
-                          self::COLUMN_LOG_IN_DATETIME => StrFTime("%Y-%m-%d %H:%M:%S", Time())
+                          self::COLUMN_LOG_IN_DATETIME => date("Y-m-d H:i:s", Time())
                          ]);
   }
   

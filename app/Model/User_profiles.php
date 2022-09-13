@@ -5,13 +5,13 @@ namespace DbTable;
 /**
  * Model, ktory sa stara o tabulku user_profiles
  * 
- * Posledna zmena 06.06.2017
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class User_profiles extends Table {
   
@@ -26,7 +26,7 @@ class User_profiles extends Table {
    * Aktualizuje datum a cas prihlasenia
    * @param id $id Id uzívatela*/
   private function logInDatetime($id) {
-    $this->find($id)->update([ self::COLUMN_LOG_IN_DATE_TIME => StrFTime("%Y-%m-%d %H:%M:%S", Time())]);
+    $this->find($id)->update([ self::COLUMN_LOG_IN_DATE_TIME => date("Y-m-d H:i:s", Time())]);
   }
   
   /**
@@ -98,7 +98,6 @@ class User_profiles extends Table {
   public function delUser($clen_id_up) {
     try {
       $this->connection->table('user_prihlasenie')->where(['id_user_main'=>$clen_id_up])->delete();
-//      $this->connection->table('clanok_lang')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
 //      $this->connection->table('dokumenty')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
 //      $this->connection->table('oznam')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
       $this->connection->table('verzie')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);

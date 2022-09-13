@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-12 border komponenty" n:if="$user->isAllowed('Admin:Clanky', 'komponenty') && count($zoznam_komponent)">
+    <ul n:inner-foreach="$zoznam_komponent as $zkk=>$zkv">
+      <li n:if="$zkv['parametre'] == NULL">
+        <a href="{link addKomponenta! komponenta_spec_nazov=>$zkk, id_hlavne_menu => $clanok->id_hlavne_menu}" title="Pridaj komponentu: {$zkv['nazov']}" class="btn btn-lg btn-success">
+          <i class="fas fa-{$zkv['fa_ikonka']} fa-2x fa-border pull-left"></i>{$zkv['nazov']}
+        </a>
+      </li>
+      <li n:if="$zkv['parametre'] !== NULL" class="s-parametrami">
+        <h4>{$zkv['nazov']}</h4>
+        <form n:name="komponentaAddForm" class="form">
+          <input type="hidden" name="spec_nazov" value="{$zkk}"><input type="hidden" name="id_hlavne_menu_clanku" value="{$clanok->id_hlavne_menu}">
+          <div>Parametre:<br>
+            <dl>
+            {foreach $zkv['parametre'] as $k=>$p}
+              <dt><label name="{$k}">{$p['nazov']}: </label></dt>
+              <dd>{ifset $p['hodnoty']}
+                <select name="{$k}" n:inner-foreach="$p['hodnoty'] as $hk =>$hv">
+                  <option value="{$hk}">{$hv}</option>
+                </select>
+              {else}
+                <input type="text" name="{$k}">
+              {/ifset}
+              </dd>
+              {sep}<br>{/sep}
+            {/foreach}
+            </dl>
+          </div>
+          {input uloz}
+        </form>
+      </li>
+    </ul>
+  </div>
+  <div n:inner-foreach="$komponenty as $komp" class="col-12 row">
+    <div class="col-4">
+      <div class="card">
+        <h5 class="card-header">{$komp["nazov"]}</h5>
+        <ul class="card-body"
+            n:if="$komp['parametre'] != null" 
+            n:inner-foreach="$komp['parametre'] as $k=>$v">
+          <li>{$k} => {$v}</li>
+        </ul>
+        <div class="card-footer">
+          <a href="#" class="btn btn-danger" title="Vymaž"><i class="fa-solid fa-trash-can"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,16 @@
-{snippet addpolmenu}
-<h2 n:block=title>Pridanie novej položky do: <i>{$out["nadpis"]}</i></h2>
-<p>Vyberte si, prosím, druh položky, ktorú chcete pridať:</p>
-<ol n:inner-foreach="$out['ponuka'] as $po">
-  <li>
-    <a href="{plink $po['link'], id=>$po['id'], uroven=>$po['uroven']}" title="Pridanie novej položky">
-      <strong>{$po['presenter']}</strong>
-    </a>
-    - <small>{$po['popis']}</small>
-  </li>
-</ol>
-{/snippet}
+<div class="col-12">
+  <h2 n:block=title>Pridanie novej položky do: <i>{$out["nadpis"]}</i></h2>
+  <p>Vyberte si, prosím, druh položky, ktorú chcete pridať:</p>
+</div>
+<div class="col-12 card-deck">
+  <div class="card card-add-menu col-12 col-md-6 col-lg-4 text-center" n:foreach="$out['ponuka'] as $po">
+    {*<img src="..." class="card-img-top" alt="...">*}
+    <h5 class="card-header">{$po['presenter']}</h5>
+    <div class="card-body">
+      <p class="card-text">{$po['popis']}</p>
+      <a href="{plink $po['link'], id=>$po['id'], uroven=>$po['uroven']}" title="Pridanie novej položky" class="btn btn-primary">
+        Pridanie položky - {$po['presenter']}
+      </a>
+    </div>
+  </div>
+</div>

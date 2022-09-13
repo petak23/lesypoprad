@@ -25,7 +25,7 @@ services:
   - DbTable\Lang
   - DbTable\News
   - DbTable\Oznam
-  - DbTable\Slider
+  - DbTable\Slider(%slider.dir%, %wwwDir%)
   - DbTable\Udaje
   - DbTable\Udaje_typ
   - DbTable\User_categories
@@ -38,58 +38,10 @@ services:
 
   - App\RouterFactory 
   router: @App\RouterFactory::createRouter
+  Texy: TexylaExample\MyTexy(@httpRequest)
 
 # services for language support
   - Language_support\LanguageMain
-
-# forms
-  - App\AdminModule\Presenters\Forms\Article\IEditMenuFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
-  - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
-  - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
-  - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
-  - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
-  - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory
-  - App\AdminModule\Presenters\Forms\Udaje\EditUdajeFormFactory
-  - App\AdminModule\Presenters\Forms\Udaje\AddTypeUdajeFormFactory
-  - App\AdminModule\Presenters\Forms\User\AddUserFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditUserMainFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditUserProfilesFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditCategoriFormFactory
-  - App\AdminModule\Presenters\Forms\Verzie\EditVerzieFormFactory
-  - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
-
-  - App\FrontModule\Presenters\Forms\User\SignInFormFactory
-  - App\FrontModule\Presenters\Forms\User\RegisterFormFactory
-  - App\FrontModule\Components\Faktury\DokumentFormFactory
-# component services 
-
-  - App\AdminModule\Components\Article\IAdminAddMenu
-  - App\AdminModule\Components\Article\TitleArticle\ITitleArticleControl
-  - App\AdminModule\Components\Article\TitleImage\ITitleImageControl
-#  arguments: [%wwwDir%]
-  - App\AdminModule\Components\Oznam\IAktualneOznamyControl
-  - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
-  - App\AdminModule\Components\User\IUserLastControl
-  - App\AdminModule\Components\Clanky\IZobrazClanokControl
-  - App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
-  - App\AdminModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
-  - App\AdminModule\Components\Faktury\IViewFakturyControl
-
-  - App\FrontModule\Components\Oznam\IAktualneOznamyControl
-  - App\FrontModule\Components\Clanky\IAktualneClankyControl
-  - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  - App\FrontModule\Components\Clanky\IPrilohyClanokControl
-  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
-  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
-  - App\FrontModule\Components\Slider\ISliderControl
-  - App\FrontModule\Components\User\IUserLangMenuControl
-  - App\FrontModule\Components\News\INewsControl
-  - App\FrontModule\Components\Faktury\IViewFakturyControl
 
 # PeterVojtech
   - PeterVojtech\MainLayout\Favicon\IFaviconControl

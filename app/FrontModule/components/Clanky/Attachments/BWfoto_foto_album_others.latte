@@ -1,0 +1,8 @@
+<div n:if="$prilohy->count()" class="thumb{*col-12 col-md-4 foto-album-other*}" n:foreach="$prilohy as $subor">
+  <a n:href="fileView! $subor->id" title="{$subor->name} - {$subor->description}" target="_blank">
+    <img src="{$basePath}/{if $subor->thumb_file && is_file($subor->thumb_file)}{$subor->thumb_file}{else}icons/Free-file-icons-master/48px/{if is_file($nastavenie['dir_to_icons'].'Free-file-icons-master/48px/'.strtolower($subor->pripona).'.png')}{$subor->pripona|lower}{else}_page{/if}.png{/if}"
+         alt="{$subor->name}" class="small-img img-thumbnail img-rounded"><br>
+    <span>{$subor->name}</span>
+    <div n:ifset="$subor->description" class="popis">{$subor->description}</div>
+  </a>
+</div>

@@ -38,7 +38,7 @@ parameters:
 #			1 = v hl. menu
 # 		2 = v titulke clanku
   article_avatar_view_in: 2 
-#  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
+  dir_to_products: files/products/ # Adresar pre subory produktov
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 800        #Zakladny rozmer
     y: 600
@@ -56,7 +56,7 @@ parameters:
     delete: FALSE    #Zobrazenie moznosti zmazat profil
     titul_pred: FALSE #Zobrazenie titulu pred menom
     titul_za: FALSE   #Zobrazenie titulu za menom
-    categori: TRUE   #Zobrazenie kategórie
+    categori: FALSE   #Zobrazenie kategórie
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)
     datum_zadania: TRUE      #Zobrazenie datumu zadania
     datum_platnosti: TRUE    #Zobrazenie datumu platnosti
@@ -77,15 +77,15 @@ application:
 session:
   autoStart: true
   expiration: 30 days
+  debugger: true
 
 tracy:
   email: %admin_email%
 
 includes:
   - services.neon
-  - css_js.neon
-#  - ../AdminModule/config/config.neon
-#  - ../ApiModule/config/config.neon
+  - ../AdminModule/config/config.neon
+  - ../ApiModule/config/config.neon
   - ../FrontModule/config/config.neon
   - komponenty.neon
   - database.neon

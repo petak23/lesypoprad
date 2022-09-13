@@ -41,3 +41,7 @@ parameters:
       fa_ikonka: 'comments'
       jedinecna: TRUE
       parametre: NULL
+services:
+
+# Component Clanky\OdkazNaClanky
+  - PeterVojtech\Clanky\OdkazNaClanky\IOdkazNaClankyControl

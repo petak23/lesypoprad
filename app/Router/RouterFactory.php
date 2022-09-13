@@ -7,33 +7,34 @@ use Nette;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
-
-
 /**
  * Router
- * Posledna zmena 03.02.2022
+ * Posledna zmena 03.06.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.7
  */
-class RouterFactory {
+class RouterFactory
+{
 
   /** @var DbTable\Hlavne_menu */
   public $hlavne_menu;
-  
+
   /** @param DbTable\Hlavne_menu $hlavne_menu */
-  public function __construct(DbTable\Hlavne_menu $hlavne_menu) {
+  public function __construct(DbTable\Hlavne_menu $hlavne_menu)
+  {
     $this->hlavne_menu = $hlavne_menu;
   }
-  
-	/**
-	 * @return Nette\Application\IRouter */
-	public function createRouter() {
+
+  /**
+   * @return Nette\Application\IRouter */
+  public function createRouter()
+  {
     $servis = $this;
-		$router = new RouteList;
+    $router = new RouteList;
 
     $router->addRoute('index.php', 'Front:Homepage:default', Route::ONE_WAY);
     $router->addRoute('clanky/domov', 'Front:Homepage:default', Route::ONE_WAY);
@@ -42,53 +43,58 @@ class RouterFactory {
     $router->withModule('Admin')
       ->addRoute('administration/clanky[/<action=default>]/<id>', [
         'presenter' => 'Clanky',
-        'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
-                    if (is_numeric($id)) {
-                      return $id;
-                    } else {
-                      $hh = $servis->hlavne_menu->findOneBy(['spec_nazov'=>$id]);
-                      return $hh ? $hh->id : 0;
-                    }
-                },
-                Route::FILTER_OUT => function ($id) use ($servis) {
-                    if (!is_numeric($id)) {
-                      return $id;
-                    } else {
-                      $hh = $servis->hlavne_menu->find($id);
-                      return $hh ? $hh->spec_nazov : "";
-                    }
-                }
-            ],
+        'id' => [
+          Route::FILTER_IN => function ($id) use ($servis) {
+            if (is_numeric($id)) {
+              return $id;
+            } else {
+              $hh = $servis->hlavne_menu->findOneBy(['spec_nazov' => $id]);
+              return $hh ? $hh->id : 0;
+            }
+          },
+          Route::FILTER_OUT => function ($id) use ($servis) {
+            if (!is_numeric($id)) {
+              return $id;
+            } else {
+              $hh = $servis->hlavne_menu->find($id);
+              return $hh ? $hh->spec_nazov : "";
+            }
+          }
+        ],
       ])
       ->addRoute('administration/section[/<id=0>]', 'Homepage:section')
       ->addRoute('administration/<presenter>/<action>', 'Homepage:default');
-    
+
     $router->withModule('Api')
-      ->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
+      ->addRoute('api/menu/<action>[/<id>[/<lmodule>]]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default')
-      ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default');
+      ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
+      ->addRoute('api/products/<action>[/<id>]', 'Products:default')
+      ->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
+      ->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default');
 
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [
         'presenter' => 'Clanky',
         'action' => 'default',
-        'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
-                    if (is_numeric($id)) {
-                      return $id;
-                    } else {
-                      $hh = $servis->hlavne_menu->findOneBy(['spec_nazov'=>$id]);
-                      return $hh ? $hh->id : 0;
-                    }
-                },
-                Route::FILTER_OUT => function ($id) use ($servis) {
-                    if (!is_numeric($id)) {
-                      return $id;
-                    } else {
-                      $hh = $servis->hlavne_menu->find($id);
-                      return $hh ? $hh->spec_nazov : "";
-                    }
-                }
-            ],
+        'id' => [
+          Route::FILTER_IN => function ($id) use ($servis) {
+            if (is_numeric($id)) {
+              return $id;
+            } else {
+              $hh = $servis->hlavne_menu->findOneBy(['spec_nazov' => $id]);
+              return $hh ? $hh->id : 0;
+            }
+          },
+          Route::FILTER_OUT => function ($id) use ($servis) {
+            if (!is_numeric($id)) {
+              return $id;
+            } else {
+              $hh = $servis->hlavne_menu->find($id);
+              return $hh ? $hh->spec_nazov : "";
+            }
+          }
+        ],
       ])
       ->addRoute('forgottenPassword', 'User:forgottenPassword')
       ->addRoute('profile', 'UserLog:default')
@@ -101,7 +107,7 @@ class RouterFactory {
       ->addRoute('search[/<action>]', 'Search:default')
       ->addRoute('<presenter>/<action>[/cokolvek]', 'Homepage:default')
       ->addRoute('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
-		
+
     return $router;
-	}
+  }
 }

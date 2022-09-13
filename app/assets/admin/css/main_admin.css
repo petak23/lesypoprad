@@ -1,20 +1,7 @@
 /* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 22.2.2010 */
-/* UPDATED 08.03.2016 - PV*/
+/* UPDATED 12.11.2018 - PV*/
 
-html {
-  text-align: center;
-}
-body {
-  max-width: 1300px;
-  width: 95%;
-  display: inline-block;
-  padding: 0;
-}
-a {
-  color: #b50000;
-}
-/* -- Zakladne rozlozenie -- */
-.navbar-hore {
+.footer-dark {
   background-image: -webkit-linear-gradient(top, #036 0%, #222 100%);
   background-image:      -o-linear-gradient(top, #036 0%, #222 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#036), to(#222));
@@ -22,29 +9,19 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff003366', endColorstr='#ff222222', GradientType=0);
 }
 
-#lavy {
+.left-col{
   background: #eee;
-  padding: 0;
-  text-align: left;
-}
-#text {
-  padding: 0 0 0 1ex;
-  text-align: left;
 }
 .user {
   padding: 8px;
   border-bottom: 1px solid #ccc;
 }
-#footer {
+footer {
   margin-top: 1em;
   font-size: 75%;
   text-align: center;
 }
-#footer a {
-  color: #C1A303;
-}
-#footer p {
-  text-align: center;
+footer .text-center {
   width: 100%;
 }
 .confirm-dialog {
@@ -94,7 +71,7 @@ a {
 .confirm-dialog input[name=no] {
   background-color: #228B22;
 }
-#dispNone {
+#dispNone, .display-none {
   display: none;
 }
 #dispBlock {
@@ -119,10 +96,10 @@ a.pridaj, .edit, a.vymaz, a.delPocitadlo {
   background-position: center;
   background-color: #fff;
 }
-a.pridaj { background-image: url("./ikonky/16/pridaj_16.png");}
-.edit { background-image: url("./ikonky/16/uprav_16.png");}
-a.vymaz {  background-image: url("./ikonky/16/vymaz_16.png");}
-a.delPocitadlo {  background-image: url("./ikonky/16/document_delete16.png");}
+a.pridaj { background-image: url('./images/pridaj_16.png');}
+.edit { background-image: url('./images/uprav_16.png');}
+a.vymaz {  background-image: url('./images/vymaz_16.png');}
+a.delPocitadlo {  background-image: url('./images/document_delete16.png');}
 
 a.pridaj:hover, .edit:hover, a.vymaz:hover, a.delPocitadlo:hover {
   background-color: silver;
@@ -183,4 +160,26 @@ a.button-left {
   width: 50px;
   height: 50px;
   border: 2px solid blueviolet;
+}
+.jslghtbx-thmb {
+  max-width: inherit;
+}
+
+.panel-body {
+  position: relative;
+}
+.panel-body .panel-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.clanky-tabs li a {
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.vue-logo {
+  width: 16px;
+  height: 16px;
 }

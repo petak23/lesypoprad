@@ -1,5 +1,231 @@
-/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 21.02.2022 - PV*/
+/* 
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @file stred_admin.css
+ * Last update: 07.01.2022 
+ */
+
+ .uroven-registracie {
+  padding: 2px 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+.uroven-registracie-1 { background-color: #29A0B5; }
+.uroven-registracie-2 { background-color: #41B71C; }
+.uroven-registracie-3 { background-color: #FBEB03; color: #333;}
+.uroven-registracie-4 { background-color: #FB7604; color: #fff;}
+.uroven-registracie-5 { background-color: #CC0F08; color: #fff;}
+
+.uroven-registracie-new {
+  padding: .25rem .4rem;
+  border-radius: .25rem;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.uroven-registracie-1-new { background-color: #29a0b583; }
+.uroven-registracie-2-new { background-color: #40b71c83; }
+.uroven-registracie-3-new { 
+  background-color: #FBEB0340;
+  border-color: #FBEB0383;
+}
+.uroven-registracie-4-new { 
+  background-color: #FB760440; 
+  border-color: #FB7604AA;
+}
+.uroven-registracie-5-new { 
+  background-color: #CC0F0840; 
+  border-color: #CC0F08AA;
+} 
+
+.navbar {
+  padding: 0;
+}
+
+.last-login {
+  max-height: 20rem;
+  overflow: auto;
+}
+.last-login .erase {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+.last-login .card-body {
+  padding: .5rem;
+}
+.last-login table {
+  font-size: 70%;
+  margin: 0;
+}
+.last-login table td {
+  padding: .1rem .2rem;
+}
+.last-login .zvyrazni {
+  font-weight: bold;
+}
+
+.card-a-white {
+  color: #eee;
+}
+.card-fa {
+  margin-top: 2rem;
+}
+
+.lightbox-img .modal-body img {
+  width: 100%;
+}
+.lightbox-img .border-c {
+  max-height: 80vh;
+}
+/* --- Časť pre titulku stránky --- */
+.title-image {
+  margin: 1rem 0;
+  display: inline-block;
+}
+.title-image > div {
+  position: relative;
+  width: 9em;
+  background-color: #eee;
+  border: .15em solid #ccc;
+  float: left;
+}
+.title-image > div > i {
+  padding: .75rem 0;
+}
+.title-image h2 {
+  display: inline-block;
+  margin: 0 0 0 1ex;
+}
+.title-image h2 small{
+  font-size: 70%;
+}
+.title-image img {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+.title-image .add-title-image {
+  width: 100%;
+  white-space: normal;
+}
+.title-image .edit-title-image,
+.title-image .del-title-image {
+  display: inline-block;
+  position: absolute;
+  top: .1em;
+  background-color: rgba(255,255,255,.75);
+  opacity: .5;
+  padding: 0;
+}
+.title-image .edit-title-image:hover,
+.title-image .del-title-image:hover {
+  opacity: 1;
+}
+.title-image .edit-title-image {
+  left: .1em;
+}
+.title-image .del-title-image {
+  right: .1em;
+  color: #CC0F08;
+}
+.main-admin-menu ul {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+.main-admin-menu li {
+  list-style-type: none;
+  padding: 0.5em;
+  text-align: center;
+}
+.main-admin-menu li a {
+  display: inline-block;
+  width: 100%;
+  border: .2em solid #aaa;
+  border-radius: 0.3em;
+  opacity: .8;
+  min-height: 15rem;
+}
+.main-admin-menu li a:hover {
+  opacity: 1;
+}
+.main-admin-menu li a .avatar-img {
+  background-color: rgba(150, 150, 150, 0.35);
+}
+.main-admin-menu li a .avatar-img img {
+  width: 100%;
+}
+
+.neplati {
+  position: absolute;
+  background-color: rgba(255,255,255,.65);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+.neplati h4 {
+  margin: 7ex 2ex 1ex 2ex;
+  padding: 1ex;
+  background-color: rgba(255,255,255,.7);
+}
+
+
+
+/* --- Odstavec pre doplnujuce info nad formularom */
+.form-info-box {
+  font-size: 90%;
+  text-align: justify;
+}
+.form-info-box p {
+  margin-bottom: .25rem;
+}
+.form-info-box p:last-child {
+  margin-bottom: 0;
+}
+.form-info-box p:before{
+  content: " ";
+  display: inline-block;
+  width: 1rem;
+}
+/* --- Cast description vo formulary --- */
+.form-text {
+  font-size: 90%;
+}
+
+@media (min-width: 576px){ 
+  .col-last {
+    display: initial;
+  }
+  .last-login {
+    max-height: 20rem;
+  }
+}
+@media (min-width: 768px){
+  .last-login {
+    max-height: 19rem;
+  }
+}
+@media (min-width: 992px) {
+  .last-login {
+    max-height: 23rem;
+  }
+}
+@media (min-width: 1200px) {
+  .last-login {
+    max-height: 22rem;
+  }
+}
+
+.img-thumbnail {
+  padding: 0;
+  max-height: 5rem;
+  max-width: 75%;
+}
+
+/* ------ OLD CSS ------ */ 
+/* @todo - zistiť ich potrebu */
 h6 {
   font-size: 100%;
   float: left;
@@ -15,23 +241,16 @@ h6 {
   height: 100px;
   float: none;
 }
-.table-clenovia {
-  margin-top: 1em;
+.table {
+  margin-top: .5rem;
 }
-.table-clenovia td {
-  padding: 4px;
+.table td {
+  padding: .5rem;
 }
-.table-clenovia td.avatar {
-  width: 30px;
+.table .editacne {
+  width: 5rem;
 }
-.table-clenovia td.avatar img {
-  width: 25px;
-  display: inline;
-  margin: 0;
-  padding: 0;
-  float: none;
-  border: 0;
-}
+
 .notActivated {
   background-color: #ff4500;
   background-color: rgba(255, 250, 120, 0.8);
@@ -44,47 +263,47 @@ h6 {
   color: #FBEB03;
 }
 
-.table-clenovia td.pocet_pr {
+.pocet_pr {
   width: 200px;
 }
-.table-clenovia td.pocet_pr div {
-  height: 26px;
-  padding: 3px 0 0 2px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+.pocet_pr div {
+  height: 2.2em;
+  padding: .2em 0 .2em .2em;
+  border-radius: .2em;
 }
-.table-clenovia td.pocet_pr div span {
+.pocet_pr div span {
   display: inline-block;
-  height: 20px;
-  min-width: 10px;
+  height: 1.8em;
+  min-width: 1ex;
   background-color: rgba(50, 50, 50, 0.6);
   color: #dbeca7;
   border: 1px outset rgba(60, 60, 60, 0.4);
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  padding: 1px 2px 0 5px;
+  border-radius: .2em;
+  padding: 0 0 0 .2ex;
 }
-.table-clenovia td.pocet_pr div.vyb1 { background-color: #009918; }
-.table-clenovia td.pocet_pr div.vyb2 { background-color: #4169e1; }
-.table-clenovia td.pocet_pr div.vyb3 { background-color: #ffd700; }
-.table-clenovia td.pocet_pr div.vyb4 { background-color: #b22222; }
-.table-clenovia td.pocet_pr div.vyb5 { background-color: #000000; }
-.table-clenovia td.center {
+.pocet_pr div.vyb1 { background-color: #009918; }
+.pocet_pr div.vyb2 { background-color: #4169e1; }
+.pocet_pr div.vyb3 { background-color: #ffd700; }
+.pocet_pr div.vyb4 { background-color: #b22222; }
+.pocet_pr div.vyb5 { background-color: #000000; }
+
+.banned {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(236, 110, 110, 0.75);
   text-align: center;
+  padding-top: .5em;
+  font-weight: bold;
+  color: white;
 }
-.table-clenovia td.right {
-  text-align: right;
-  padding-right: 2px;
-}
-.table-clenovia td.editacne {
-  width: 50px;
-}
-.table-clenovia td.vklad {
+
+.vklad {
   background-color: rgba(0, 255, 0, 0.6);
 }
-.table-clenovia td.vyber {
+.vyber {
   background-color: rgba(255, 0, 0, 0.6);
   color: #ccc;
 }
@@ -108,72 +327,7 @@ h6 {
 .uroven-registracie-4 { background-color: #FB7604; color: #fff;}
 .uroven-registracie-5 { background-color: #CC0F08; color: #fff;}
 
-.main-admin-menu {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
-.main-admin-menu li {
-  list-style-type: none;
-  display: inline-block;
-  margin: 0;
-  padding: 0.5em;
-  vertical-align: bottom;
-  text-align: center;
-  /*float: left;*/
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  width: 25%;
-  position: relative;
-}
-.neplati {
-  position: absolute;
-  background-color: rgba(255,255,255,.65);
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-}
-.neplati h4 {
-  margin: 7ex 2ex 1ex 2ex;
-  padding: 1ex;
-  background-color: rgba(255,255,255,.7);
-}
-.main-admin-menu li div.menu-link-in a {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  border: .2em solid #aaa;
-  -webkit-border-radius: 0.3em;
-  -moz-border-radius: 0.3em;
-  border-radius: 0.3em;
-  opacity: .8;
-}
-.main-admin-menu li a .avatar-img {
-  background-color: rgba(128, 128, 128, 0.5);
-  border: 0;
-}
-.main-admin-menu li a .avatar-img img {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-.main-admin-menu li a > div {
-  background-color: #ccc;
-  font-weight: bold;
-  border-top: 1px solid #aaa;
-}
-.main-admin-menu li a:hover {
-  opacity: 1;
-}
+
 
 .edit-link-bar {
   table-layout: auto;
@@ -181,49 +335,6 @@ h6 {
 }
 .edit-link-bar a i{
   margin-right: .5ex;
-}
-
-.title-image {
-  margin-top: 15px;
-}
-.title-image>div {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: 9em;
-  background-color: #eee;
-  border: .15em solid #ccc;
-}
-.title-image h2 {
-  display: inline-block;
-  margin: 0 0 0 1ex;
-}
-.title-image img {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-}
-.title-image .add-title-image {
-  width: 100%;
-  white-space: normal;
-}
-.title-image .edit-title-image,
-.title-image .del-title-image {
-  display: inline-block;
-  position: absolute;
-  top: .1em;
-  opacity: .5;
-}
-.title-image .edit-title-image:hover,
-.title-image .del-title-image:hover {
-  opacity: 1;
-}
-.title-image .edit-title-image {
-  left: .1em;
-}
-.title-image .del-title-image {
-  right: .1em;
 }
 
 .clanok-casti {
@@ -384,13 +495,6 @@ div.alt {
   display: none;
 }
 
-.ui-accordion .ui-accordion-content {
-  padding: .2em .5em;
-  position: relative;
-}
-.ui-accordion .ui-accordion-header {
-  padding: 0 .2em 0 .7em;
-}
 .ui-tabs {
   clear: both;
 }
@@ -398,12 +502,30 @@ div.alt {
   padding: .5em .2em;
 }
 .oznam-ikonka {
-  /*background-color: #aaa;*/
   max-height: 18px;
 }
 .has-error .control-field {
   border-left: 2px solid #a94442;
 }
-#footer>.navbar-hore {
-  margin-bottom: 0;
+.form-horizontal .control-label-clanky {
+  text-align: left;
+}
+.form-horizontal .control-field textarea, .form-horizontal .control-field input[type=text] {
+  width: 100%;
+}
+.accordion-oznam {
+  padding: 0;
+}
+.accordion-oznam .card-header {
+  padding: .2rem;
+}
+.accordion-oznam .card-header button {
+  width: 100%;
+  text-align: left;
+}
+.accordion-oznam .card-body {
+  padding: 0;
+}
+.accordion-oznam .oznam-body {
+  padding: .25rem 1rem;
 }

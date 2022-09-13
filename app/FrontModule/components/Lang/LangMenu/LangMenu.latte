@@ -1,0 +1,9 @@
+<div  class="btn-group user-lang-menu" role="group" aria-label="Lang-menu" 
+      n:if="$langs !== null && count($langs)" 
+      n:inner-foreach="$langs as $lang">
+  <a href="{plink $lang['link'][0], $lang['link'][1]}" 
+     title="{$lang['title']}" role="button" aria-label="{$lang['name']|webalize}"
+     n:class="btn, strlen($lang['class']) ? $lang['class']">
+    {$lang['image']}
+  </a>
+</div>

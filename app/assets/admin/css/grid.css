@@ -323,3 +323,8 @@
   background-image: url("./images/upozornenie_s.png");
   color: #ffffff;
 }
+.img-thumbnail {
+  max-width: 90%;
+  max-height: 5rem;
+  padding: 0;
+}

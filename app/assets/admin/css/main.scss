@@ -2,11 +2,13 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import 'bootstrap/dist/css/bootstrap.css';
-@import 'bootstrap-vue/dist/bootstrap-vue.css';
 @import 'jquery-ui.css';
 @import '../../../../vendor/ublaboo/datagrid/assets/datagrid.css';
 @import '../../../../vendor/ublaboo/datagrid/assets/datagrid-spinners.css';
 @import 'scss/variables.scss';
+@import '~vuetify/src/styles/styles.sass';
+@import "~@mdi/font/css/materialdesignicons.min.css";
+
 
 @import 'formulare.css';
 @import 'lavy.css';

@@ -1,12 +1,14 @@
 <?php
+//declare(strict_types=1);
 
 namespace DbTable;
+
 use Nette;
 
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 27.01.2022
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
@@ -34,13 +36,11 @@ class User_main extends Table {
   /** @var string */
   protected $tableName = 'user_main';
 
-  /** @var Nette\Security\Passwords */
   private $passwords;
 
-  public function __construct(Nette\Database\Explorer $db, 
-                              Nette\Security\Passwords $passwords) {
-    parent::__construct($db);
+  public function __construct(Nette\Security\Passwords $passwords, Nette\Database\Explorer $db ) {
     $this->passwords = $passwords;
+    $this->connection = $db;
   }
 
   /** Test existencie emailu
@@ -53,19 +53,13 @@ class User_main extends Table {
   /** Aktualizuje IP adresu posledneho prihlasenia
    * @param int $id
    * @param string $ip
-   * @return bool */
+   * @return boolean */
   public function logLastIp(int $id, string $ip): bool {
     return $this->find($id)->update([self::COLUMN_LAST_IP => $ip]);
   }
   
 	/** Adds new user.
-   * @param string $meno
-   * @param string $priezvisko
-   * @param string $email
-   * @param string $password
-   * @param int $activated
-   * @param int $role
-   * @return Nette\Database\Table\ActiveRow
+   * @return Nette\Database\Table\ActiveRow|int|bool
    * @throws DuplicateNameEmailException */
 	public function add(string $meno, string $priezvisko, string $email, string $password, int $activated = 0, int $role = 0)	{
 		try {
@@ -73,12 +67,12 @@ class User_main extends Table {
       return $this->pridaj([
         self::COLUMN_MENO             => $meno,
         self::COLUMN_PRIEZVISKO       => $priezvisko,
-				self::COLUMN_PASSWORD_HASH    => $this->passwords->hash($password),
+				self::COLUMN_PASSWORD_HASH    => $this->passwords->needsRehash($password),
 				self::COLUMN_EMAIL            => $email,
         self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
         self::COLUMN_ACTIVATED        => $activated,
         self::COLUMN_ID_USER_ROLES    => $role,
-        self::COLUMN_CREATED          => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+        self::COLUMN_CREATED          => date("Y-m-d H:i:s", Time()),
 			]);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
       throw new DuplicateEmailException($e->getMessage());
@@ -87,16 +81,20 @@ class User_main extends Table {
   
   /**
    * @param Nette\Utils\ArrayHash $values
-   * @return Nette\Database\Table\ActiveRow|null
+   * @return Nette\Database\Table\ActiveRow|int|bool
    * @throws Nette\Database\DriverException */
   public function saveUser(Nette\Utils\ArrayHash $values) {
-    $id = $values->{self::COLUMN_ID};
-    if (isset($values->{self::COLUMN_BANNED}) && !$values->{self::COLUMN_BANNED}) { $values->offsetSet("ban_reason", NULL); }
-    if (isset($values->{self::COLUMN_TITUL_PRED}) && !strlen($values->{self::COLUMN_TITUL_PRED})) { $values->offsetSet(self::COLUMN_TITUL_PRED, NULL); }
-    if (isset($values->{self::COLUMN_TITUL_ZA}) && !strlen($values->{self::COLUMN_TITUL_ZA})) { $values->offsetSet(self::COLUMN_TITUL_ZA, NULL); }
-    
-    unset($values->id);
-    return $this->uloz($values, $id);
+    try {
+      $id = $values->{self::COLUMN_ID};
+      if (isset($values->{self::COLUMN_BANNED}) && !$values->{self::COLUMN_BANNED}) { $values->offsetSet("ban_reason", NULL); }
+      if (isset($values->{self::COLUMN_TITUL_PRED}) && !strlen($values->{self::COLUMN_TITUL_PRED})) { $values->offsetSet(self::COLUMN_TITUL_PRED, NULL); }
+      if (isset($values->{self::COLUMN_TITUL_ZA}) && !strlen($values->{self::COLUMN_TITUL_ZA})) { $values->offsetSet(self::COLUMN_TITUL_ZA, NULL); }
+      
+      unset($values->id);
+      return $this->uloz($values, $id);
+    } catch (\Exception $e) {
+      throw new Nette\Database\DriverException('Chyba ulozenia: '.$e->getMessage());
+    }
   }
   
   /**
@@ -147,6 +145,10 @@ class User_main extends Table {
    * @return int */
   public function findIdBy(array $param = []): int {
     return ($tmp = $this->findOneBy($param)) !== FALSE ? $tmp->{self::COLUMN_ID} : 0;
+  }
+
+  public function getUser(int $id): ?Nette\Database\Table\ActiveRow {
+    return $this->find($id);
   }
 }
 
