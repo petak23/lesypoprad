@@ -74,6 +74,8 @@ abstract class BasePresenter extends Presenter
   public $newsControlFactory;
   /** @var Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
   public $zobrazClanokControlFactory;
+  /** @var Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl @inject */
+  public $odkazNaClankyControlFactory;
   /** @var Components\Clanky\IAktualneClankyControl @inject */
   public $aktualneClankyControlFactory;
 
@@ -440,6 +442,19 @@ abstract class BasePresenter extends Presenter
   public function createComponentSlider()
   {
     return $this->sliderControlFactory->create();
+  }
+
+  /** 
+   * Komponenta pre vykreslenie odkazu na clanok s anotaciou
+   * @return \App\FrontModule\Components\Clanky\OdkazNaClankyControl */
+  public function createComponentOdkazNaClanky()
+  {
+    $servise = $this;
+    return new Multiplier(function ($id) use ($servise) {
+      $odkaz = $servise->odkazNaClankyControlFactory->create();
+      $odkaz->setArticle($id, $servise->language_id);
+      return $odkaz;
+    });
   }
 
   /** 

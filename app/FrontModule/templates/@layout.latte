@@ -91,16 +91,16 @@
           <div class="col-12">
             <ul class="nav justify-content-center footer-info">
               <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
-                {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+                {_'base_spravca'}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
                 ({$user_spravca->email|uprav_email})
               </li>
-              <li>&copy; {$udaje['copy']} 2011 - {date('Y')}</li>
+              <li>&copy; {$copy} 2011 - {date('Y')}</li>
               <li>
                 <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">
                   <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
                 </a>
               </li>
-              <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+              <li>{_'base_last_update'} {$verzia->modified|date:'j.n.Y'}</li>
               <li>created by <a href="http://tatravisual.sk/" title="tatravisual.sk" target="_new">tatravisual.sk</a></li>
             </ul>
           </div>  
@@ -109,7 +109,7 @@
               {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
               <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
             </span>
-            {control userLangMenu}
+            {control userMenu}
           </div>
         </div>
       </footer>
