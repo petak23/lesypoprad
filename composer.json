@@ -1,6 +1,6 @@
 {
 	"name": "petak23/lesypoprad",
-	"description": "Web page of sutaz.lesypoprad.sk",
+	"description": "Web page of lesypoprad.sk",
 	"homepage": "http://www.lesypoprad.sk",
 	"type": "project",
 	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
@@ -17,7 +17,10 @@
 	"config": {
     "platform": {
         "php": "8.0.1"
-    }
+    },
+		"allow-plugins": {
+			"symfony/thanks": true
+		}
 	},
 	"require": {
 		"php": ">=7.0",
@@ -32,17 +35,15 @@
 		"nette/mail": "^3.0",
 		"nette/robot-loader": "^3.0",
 		"nette/security": "^3.0",
-		"nette/utils": "^3.0",
+		"nette/utils": "^3.2",
 		"latte/latte": "^2.10",
 		"tracy/tracy": "^2.9",
-		"ublaboo/datagrid": "^6.2",
-    "ublaboo/datagrid-nette-database-data-source": "^2.0",
 		"texy/texy": "^3.1",
 		"dg/adminer-custom": "^1.24",
-		"contributte/webpack": "^2.0"
+		"contributte/webpack": "^2.1"
 	},
 	"require-dev": {
-		"nette/tester": "^2.2",
+		"nette/tester": "^2.4",
 		"symfony/thanks": "^1"
 	},
   "autoload": {
