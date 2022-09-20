@@ -2,45 +2,72 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 27.05.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 20.09.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  *
  * @param     
 *}
 {if $user->isAllowed('Front:Faktury', 'add')}
-  <button n:if="$user->isAllowed('Front:Faktury', 'add')" type="button" class="btn btn-info" data-toggle="modal" {if $id_dokument}data-show="true"{/if} data-target="#myModalAddFaktura" data-backdrop="" title="Pridaj dokument">
+  <button n:if="$user->isAllowed('Front:Faktury', 'add')" type="button" class="btn btn-info" 
+          data-toggle="modal" {if $id_dokument}data-show="true"{/if} data-target="#myModalAddFaktura" data-backdrop="" title="Pridaj dokument">
     <i class="fa fa-pencil"></i> Pridaj
   </button>
 {/if}
-{control fakturyGrid}
+<div n:if="count($flashes)" class="flash-messages" n:inner-foreach="$flashes as $flash">
+  {var $nees = explode(',', $flash->type)}
+  <div class="alert alert-{$nees[0]}" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+  </div>
+</div>
+<table class="table table-bordered table-striped table-sm mt-2 bg-success">
+  <thead>
+    <tr>
+      <th>Číslo</th>
+      <th n:if="$zmluvy">Zmluvná strana</th>
+      <th n:if="$zmluvy">Názov</th>
+      <th>Predmet</th>
+      <th n:if="$zmluvy">Cena</th>
+      <th>Dátum uzatvorenia zmluvy</th>
+      <th n:if="$zmluvy">Dátum ukončenia zmluvy</th>
+      <th>Detail</th>
+      <th>Akcie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr n:foreach="$faktury as $f">
+      <td>{$f->cislo}</td>
+      <td n:if="$zmluvy">{$f->subjekt}</td>
+      <td n:if="$zmluvy">{$f->nazov}</td>
+      <td>{$f->predmet}</td>
+      <td n:if="$zmluvy">{$f->cena} €</td>
+      <td>{$f->datum_vystavenia|date:'d.m.Y'}</td>
+      <td n:if="$zmluvy">{$f->datum_ukoncenia} €</td>
+      <td>{$f->subor}</td>
+      <td>E, D</td>
+    </tr>
+  </tbody>
+</table>
 {if $user->isAllowed('Front:Faktury', 'add')}
   {* -- Modal dialog pre zmenu vlastníka -- *}
-  {snippet myModalAddFaktura}
   <div class="modal fade" id="myModalAddFaktura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Pridaj dokument</h4>
-          {*<p>Aktuálny vlastník: {$clanok->hlavne_menu->user_profiles->meno} {$clanok->hlavne_menu->user_profiles->priezvisko}</p>*}
+          <h4 class="modal-title" id="myModalLabel">Pridaj</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
-          {control dokumentForm}
+          {control fakturyForm}
         </div>
       </div>
     </div>
   </div>
-  {/snippet}
-
-  {if $id_dokument}
-    <script>
-      $('#myModalAddFaktura').modal({
-          backdrop: ''
-      });
-      $('#myModalAddFaktura').modal('show');
-    </script>
-  {/if}
 {/if}

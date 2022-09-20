@@ -1,6 +1,6 @@
 {
   "name": "lesypoprad",
-  "version": "0.5.5",
+  "version": "0.5.10",
   "description": "webpage lesypoprad.sk",
   "main": "index.js",
   "directories": {
@@ -18,11 +18,11 @@
     "naja": "^2.3.0",
     "nette-forms": "^3.3.1",
     "portal-vue": "^2.1.7",
+    "trix": "^2.0.0-beta.0",
     "verte": "^0.0.12",
     "vue": "^2.6.14",
     "vue-dnd-zone": "^0.4.0",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.5.10",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -52,7 +52,6 @@
     "url-loader": "^4.1.1",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.14",
-    "vuetify-loader": "^1.7.3",
     "webpack": "^5.59.1",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",

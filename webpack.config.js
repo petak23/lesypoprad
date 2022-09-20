@@ -17,7 +17,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const {VueLoaderPlugin} = require("vue-loader");
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
+//const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack abilities
@@ -202,7 +202,7 @@ module.exports = {
     // enable vue-loader to use existing loader rules for other module types
 		new VueLoaderPlugin(),
 
-    new VuetifyLoaderPlugin(),
+    //new VuetifyLoaderPlugin(),
     
     // fix legacy jQuery plugins which depend on globals
 		new webpack.ProvidePlugin({

@@ -19,7 +19,6 @@ services:
   - App\FrontModule\Forms\User\SignInFormFactory
   - App\FrontModule\Forms\User\RegisterFormFactory
   - App\FrontModule\Forms\User\ResetPasswordFormFactory
-  - App\FrontModule\Components\Faktury\DokumentFormFactory
   - App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
 
   - App\FrontModule\Components\Autocomplete\IAutocompleteControl
@@ -50,7 +49,12 @@ services:
   - App\FrontModule\Components\User\IKontaktControl
 
   - App\FrontModule\Components\News\INewsControl
-  - App\FrontModule\Components\Faktury\IViewFakturyControl
+
+# Faktury component
+  - App\FrontModule\Components\Faktury\ViewFakturyControl(%wwwDir%, %prilohy_dir%)
+  - App\FrontModule\Components\Faktury\FakturyFormFactory(%wwwDir%, %prilohy_dir%)
+
+
 #  - App\FrontModule\Components\Oznam\IAktualneOznamyControl
   - App\FrontModule\Components\Clanky\IPrilohyClanokControl
 

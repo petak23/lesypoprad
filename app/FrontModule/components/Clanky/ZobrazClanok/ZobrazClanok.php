@@ -8,13 +8,13 @@ use Texy;
 /**
  * Komponenta pre zobrazenie konkretneho clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 16.09.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 class ZobrazClanokControl extends Control {
   /** @var Language_support\LanguageMain */
@@ -65,7 +65,7 @@ class ZobrazClanokControl extends Control {
       if (is_file(__DIR__ . "/ZobrazClanok_".$pt.".latte")) {
         $this->parentTemplate = "ZobrazClanok_".$pt.".latte";
       } else {
-        $this->err = sprintf($this->texts->trText('base_not_found'), $pt);
+        $this->err = sprintf($this->texts->translate('base_not_found'), $pt);
       }
     }
   }
@@ -83,7 +83,7 @@ class ZobrazClanokControl extends Control {
       if (is_file(__DIR__ ."/ZobrazClanok_".$pt.".latte")) {
         $this->parentTemplate = "ZobrazClanok_".$pt.".latte";
       } else {
-        $this->err = sprintf($this->texts->trText('base_not_found'), $pt);
+        $this->err = sprintf($this->texts->translate('base_not_found'), $pt);
       }
     }
     $this->template->setFile(__DIR__ ."/".$this->parentTemplate);
@@ -144,7 +144,7 @@ class ZobrazClanokControl extends Control {
       $vysledok = $text;
       if (count($rozloz)>1) {    //Ak som nasiel znacku
         $vysledok = $rozloz[0];
-        $vysledok .= Html::el('a class="cely_clanok"')->href("#")->title("Zobrazenie celého článku")->setHtml('&gt;&gt;&gt; '.$servise->texts->trText("viac"));
+        $vysledok .= Html::el('a class="cely_clanok"')->href("#")->title("Zobrazenie celého článku")->setHtml('&gt;&gt;&gt; '.$servise->texts->translate("viac"));
         $vysledok .= Html::el('span class="ostatok"')->setHtml($rozloz[1]);
       }
       return $vysledok;
@@ -154,7 +154,7 @@ class ZobrazClanokControl extends Control {
       $vysledok = $text;
       if (count($rozloz)>1) {    //Ak som nasiel znacku
         $vysledok = $rozloz[0];
-        $vysledok .= Html::el('a class="cely_clanok"')->href("#")->title("Zobrazenie celého článku")->setHtml('&gt;&gt;&gt; '.$servise->texts->trText("viac"));
+        $vysledok .= Html::el('a class="cely_clanok"')->href("#")->title("Zobrazenie celého článku")->setHtml('&gt;&gt;&gt; '.$servise->texts->translate("viac"));
         $vysledok .= Html::el('span class="ostatok"')->setHtml($rozloz[1]);
       }
       return $vysledok;
