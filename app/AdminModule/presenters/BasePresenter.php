@@ -14,7 +14,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 06.04.2022
+ * Posledna zmena(last change): 03.06.2022
  *
  * Modul: ADMIN
  *
@@ -22,7 +22,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.9
+ * @version 1.4.0
  */
 abstract class BasePresenter extends UI\Presenter
 {
@@ -173,6 +173,8 @@ abstract class BasePresenter extends UI\Presenter
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
+    $this->template->items_per_page = [1 => "10", 2 => "20", 3 => "50", -1 => "Všetky"];
+
     $servise = $this;
     $this->template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
       $polozka_class = $id_user_roles > 2 ? 'adminPol' : '';

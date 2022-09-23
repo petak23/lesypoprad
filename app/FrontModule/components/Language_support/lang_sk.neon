@@ -120,7 +120,7 @@ RegistraciaForm_z: 'Žena'
 
 ResetPasswordForm_h2: 'Reset hesla'
 reset_pass_txt1: 'Chystáte sa nastaviť nové heslo k Vášmu účtu. '
-reset_pass_email: 'Emailová adresa vášho účtu je: %s'
+reset_pass_email: 'Emailová adresa vášho účtu je:'
 reset_pass_txt2: 'Zadajte a potvrďte opätovným zadaním vaše nové heslo. '
 reset_pass_err1: 'Pokúsili ste sa spustiť akciu s nesprávnym parametrom! Akcia bola ukončená!'
 reset_pass_err2: 'Pokúsili ste sa zresetovať heslo účtu! Vaša požiadavka nemôže byť akceptovaná, lebo daný úžívateľ o resetovanie hesla nepožiadal, alebo je táto požiadavka už neaktuálna!'

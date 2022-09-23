@@ -1,17 +1,18 @@
 <script>
 /**
- * Komponenta pre vypísanie a spracovanie produktov.
+ * Komponenta pre vypísanie a spracovanie príloh.
  * Posledna zmena 24.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.0.5
  */
 
 import axios from "axios";
 import textCell from '../Grid/TextCell.vue'
+import selectCell from '../Grid/SelectCell.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -19,6 +20,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   components: {
     textCell,
+    selectCell,
   },
   props: {
     id_hlavne_menu: {
@@ -64,6 +66,10 @@ export default {
             thStyle: 'width: 15rem;'
           },
           {
+            key: 'znacka',
+            label: 'Značka',
+          },
+          {
             key: 'name',
             label: 'Názov',
             tdClass: "position-relative"
@@ -71,6 +77,11 @@ export default {
           {
             key: 'description',
             label: 'Popis',
+            tdClass: "position-relative"
+          },
+          {
+            key: 'type',
+            label: 'Typ',
             tdClass: "position-relative"
           },
           {
@@ -82,11 +93,17 @@ export default {
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
       error_msg: '',  // Chybová hláška
+      type: [
+        {value: 1, text: "Iné"}, 
+        {value: 2, text: "Obrázok"},
+        {value: 3, text: "Video"},
+        {value: 4, text: "Audio"}
+      ],
       selected: [],
     };
   },
   methods: {
-    deleteProduct(id) {
+    deleteDocument(id) {
       if (window.confirm('Naozaj chceš vymazať?')) {
         let odkaz = this.basePath + this.baseApiPath + "delete/" + id;
         axios
@@ -116,7 +133,7 @@ export default {
         })
         let vm = this
         axios.post(odkaz, {
-            to_del,
+            /*'to_delete': */to_del,
           })
           .then(function (response) {
             console.log(response.data)
@@ -143,11 +160,11 @@ export default {
       }
     },
     openmodal(index) {
-      this.id_p = index + (this.currentPage - 1) * this.itemsPerPageSelected;
-      this.$bvModal.show("modal-multi-product");
+      this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
+      this.$bvModal.show("modal-multi-documents");
     },
     closeme: function () {
-      this.$bvModal.hide("modal-multi-product");
+      this.$bvModal.hide("modal-multi-documents");
     },
     imgUrl() {
       return this.items[this.id_p] === undefined
@@ -172,7 +189,7 @@ export default {
           this.items_count()
         })
         .catch((error) => {
-          this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky produktov. <br/>Možná príčina: ' + error
+          this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky príloh. <br/>Možná príčina: ' + error
           this.loading = 2
           this.$root.$emit('flash_message', 
                            [{ 'message': this.error_msg, 
@@ -192,11 +209,11 @@ export default {
       this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
     selectAllRows() {
-      this.$refs.productsTable.selectAllRows()
+      this.$refs.documentsTable.selectAllRows()
       this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
     clearSelected() {
-      this.$refs.productsTable.clearSelected()
+      this.$refs.documentsTable.clearSelected()
       this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
   },
@@ -204,12 +221,12 @@ export default {
     // Načítanie údajov priamo z DB
     this.loadItems()
     
-    this.$root.$on('products_add', data => {
+    this.$root.$on('documents_add', data => {
 			this.items.push(...data)
       this.items_count()
 		})
 
-    this.$root.$on('products_delete', this.deleteMore)
+    this.$root.$on('documents_delete', this.deleteMore)
   },
 };
 </script>
@@ -217,7 +234,7 @@ export default {
 <template>
   <div>
     <b-table
-      id="my-products"
+      id="my-documents"
       :items="items"
       :per-page="itemsPerPageSelected"
       :current-page="currentPage"
@@ -229,7 +246,7 @@ export default {
       select-mode="multi"
       selectable
       @row-selected="onRowSelected"
-      ref="productsTable"
+      ref="documentsTable"
       sticky-header="30rem"
     >
       <template #head(selected)>
@@ -254,6 +271,9 @@ export default {
           @click="openmodal(data.index)"
         />
       </template>
+      <template #cell(znacka)="data">
+        {{ data.item.znacka }}
+      </template>
       <template #cell(name)="data">
         <text-cell
           :value="data.item.name"
@@ -270,6 +290,15 @@ export default {
           :id="data.item.id"
         ></text-cell>
       </template>
+      <template #cell(type)="data">
+        <select-cell
+          :value="data.item.type"
+          :apiLink="basePath + baseApiPath + 'update/'"
+          colName="type"
+          :id="data.item.id"
+          :options="type"
+        ></select-cell>
+      </template>
       <template #cell(action)="data" v-if="editEnabled">
         <!--button type="button" class="btn btn-info btn-sm" title="Edit">
           <i class="fa-solid fa-pen"></i>
@@ -278,7 +307,7 @@ export default {
           type="button"
           class="btn btn-danger btn-sm"
           title="Zmaž"
-          @click="deleteProduct(data.item.id)"
+          @click="deleteDocument(data.item.id)"
         >
           <i class="fa-solid fa-trash-can"></i>
         </button>
@@ -291,13 +320,13 @@ export default {
       <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
     </div>
     <b-modal
-      id="modal-multi-product"
+      id="modal-multi-document"
       centered
       size="xl"
       ok-only
       hide-header
       hide-footer
-      dialog-class="product-dialog"
+      dialog-class="document-dialog"
     >
       <img :src="imgUrl()" :alt="imgName()" @click="closeme" />
     </b-modal>
@@ -311,8 +340,8 @@ export default {
 button {
   margin-left: 0.1em;
 }
-#modal-multi-product {
-  .product-dialog {
+#modal-multi-document {
+  .document-dialog {
     max-width: 95vw !important;
   }
 

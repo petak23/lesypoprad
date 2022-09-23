@@ -13,7 +13,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 20.09.2022
+ * Posledna zmena(last change): 22.09.2022
  *
  *	Modul: FRONT
  *
@@ -21,12 +21,12 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.5
+ * @version 1.4.6
  */
 
 class ClankyPresenter extends BasePresenter {
 
-//  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
+  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
   
 	/** @var DbTable\Clanok_komponenty @inject*/
@@ -161,14 +161,14 @@ class ClankyPresenter extends BasePresenter {
     return $viewFaktury;
   }
   
-  /** 
+  /* * 
    * Komponenta pre vykreslenie podclankov na kartach
    * @return Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
-  public function createComponentZobrazKartyPodclankov() {
+  /*public function createComponentZobrazKartyPodclankov() {
     $odkaz = $this->zobrazKartyPodclankovControlFactory->create();
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
-  }
+  }*/
 
   /** 
    * Komponenta pre vykreslenie podclankov na kartach

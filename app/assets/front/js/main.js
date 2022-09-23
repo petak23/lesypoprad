@@ -19,6 +19,7 @@ import '../css/main.scss';
 import './jquery-1.12.4.js';
 import './jquery-ui-1.12.1.min.js';
 import './jquery.ui.datepicker-sk.js';
+import trix from 'trix';
 //import './datagrid.js';
 //import './js-image-slider.js';
 import './dropmenuJQ.js';

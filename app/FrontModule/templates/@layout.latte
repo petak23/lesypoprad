@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 20.09.2022
+ * Posledna zmena(last change): 22.09.2022
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -29,7 +29,6 @@
   {* ----- Favicon ------ *}
   {control favicon}
   {block head}{/block}
-  {*control jsBefore *}
 </head>
 
 <body>
@@ -54,14 +53,20 @@
       {*<div class="slider-main">{control slider}</div>*}
       {control confirmForm}
       {* ----- ZACIATOK content - centralna cast ----- *}
-      <div n:tag-if="FALSE" n:if="count($flashes)">
-        <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+      <div class="row" n:if="count($flashes)">
+        <div class="col-12" n:inner-foreach="$flashes as $flash">
           {var $nees = explode(',', $flash->type)}
-          <div class="alert alert-{$nees[0]}" role="alert">
+          {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
+          <div class="alert alert-{$nees[0]} fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+            <i n:if="$fa_code" class="{$fa_code}"></i>
+            {if isset($nees[1]) && $nees[1] == 'n'}
+              {_$flash->message|noescape}
+            {else}
+              {_$flash->message}
+            {/if}
           </div>
         </div>
       </div>
@@ -117,7 +122,6 @@
   </div>
 
   <script src="{webpack front.js}"></script>
-  {* control files:js *}
   {block spec_js}{/block}
   {control googleAnalytics}
 </body>

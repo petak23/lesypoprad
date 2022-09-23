@@ -44,7 +44,6 @@ services:
     arguments:
       nastavenie: %slider%
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
-  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
 #  - App\FrontModule\Components\Products\IProductsViewControl
   - App\FrontModule\Components\User\IKontaktControl
 

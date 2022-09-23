@@ -9,13 +9,13 @@ use Nette;
 
 /**
  * Komponenta pre zjedndusenie odoslania emailu
- * Posledna zmena(last change): 01.02.2022
+ * Posledna zmena(last change): 22.09.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 class EmailControl extends Nette\Application\UI\Control {
@@ -36,7 +36,7 @@ class EmailControl extends Nette\Application\UI\Control {
   private $admin_email;
   /** @var string */
   private $site_name;
-  /** @var string */
+  /** @var object */
   private $host_url;
 
   public function __construct(string $admin_email, 

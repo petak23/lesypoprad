@@ -1,13 +1,13 @@
 <script>
 /**
- * Komponenta pre vypísanie textového políčka gridu.
- * Posledna zmena 09.06.2022
+ * Komponenta pre vypísanie selectového políčka gridu.
+ * Posledna zmena 14.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.0
  */
 
 import axios from "axios";
@@ -18,7 +18,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   props: {
     value: {
-      type: String,
+      //type: String,
       default: '',
       //required: true,
     },
@@ -32,6 +32,10 @@ export default {
     },
     id: {
       type: Number,
+      required: true,
+    },
+    options: {
+      type: Array,
       required: true,
     }
   },
@@ -75,13 +79,22 @@ export default {
       this.editing = true
       // https://forum.vuejs.org/t/setting-focus-to-textarea-not-working/17891/5
       this.$nextTick(() => {
-        this.$refs.text_area.focus()
+        this.$refs.select_box.focus()
       })
     }
   },
   watch: { 
     value: function() {
       this.my_value = this.value  
+    }
+  },
+  computed: {
+    selected_val: function () {
+      let out = ''
+      this.options.forEach(item => {
+        if (item.value == this.my_value) out = item.text
+      })
+      return out
     }
   },
   created: function () {
@@ -92,31 +105,31 @@ export default {
 
 <template>
   <div 
-    class="text-col"
+    class="select-col"
     @click="edit"
   >
-    <div v-if="!editing">{{ my_value }}</div>
-    <textarea 
-      ref="text_area"
+    <div v-if="!editing">{{ selected_val }}</div>
+    <b-form-select 
       v-model="my_value"
+      :options="options"
+      :id="'select'+colName"
+      size="sm"
+      @change="updateItem"
       v-if="editing"
-      @blur="updateItem">
-    </textarea>
+      ref="select_box"
+    >
+    </b-form-select>
   </div>
 </template>
 
 
 <style>
-.text-col{
+.select-col{
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   /*border: 2px solid red;*/
-}
-textarea {
-  max-width: 100%;
-  height: 100%;
 }
 </style>

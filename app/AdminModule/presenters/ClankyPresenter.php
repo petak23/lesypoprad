@@ -9,7 +9,7 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 22.05.2022
+ * Posledna zmena(last change): 16.06.2022
  *
  *	Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use Nette\Application\UI\Form;
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 class ClankyPresenter extends ArticlePresenter
@@ -26,14 +26,9 @@ class ClankyPresenter extends ArticlePresenter
   // -- Komponenty
   /** @var Components\Clanky\IZobrazClanokAControl @inject */
   public $zobrazClanokControlFactory;
-  /** @var Components\Clanky\PrilohyClanok\IPrilohyClanokAControl @inject */
-  public $prilohyClanokControlFactory;
 
   /** @var string */
   protected $nadpis_h2 = "";
-
-  /** @var mixed */
-  public $priloha;
 
   /** @persistent */
   public $tabs_clanky = 'prilohy-tab';
@@ -49,8 +44,6 @@ class ClankyPresenter extends ArticlePresenter
   public function renderDefault()
   {
     parent::renderDefault();
-    $this->template->prilohy = $this->dokumenty->getPrilohy($this->zobraz_clanok->id_hlavne_menu);
-    //$this->template->products_count = $this->products->findBy(['id_hlavne_menu' => $this->zobraz_clanok->id_hlavne_menu])->count();
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
     $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
     $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
@@ -155,16 +148,6 @@ class ClankyPresenter extends ArticlePresenter
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
     $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu);
     return $zobrazClanok;
-  }
-
-  /** 
-   * Komponenta pre ukazanie priloh clanku.
-   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokAControl */
-  public function createComponentPrilohyClanok()
-  {
-    $prilohyClanok = $this->prilohyClanokControlFactory->create();
-    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
-    return $prilohyClanok;
   }
 
   public function actionKonvertuj($id = 0)

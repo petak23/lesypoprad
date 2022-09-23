@@ -6,34 +6,11 @@
 
   {control zobrazClanok}
 
-  <div>
-    {* Nav tabs *}
-    <ul class="nav nav-tabs clanky-tabs" role="tablist" id="articleTab">
-      <li class="nav-item">
-        <a n:class="nav-link, $tabs == 'prilohy-tab' ? active" id="prilohy-tab" href="#prilohyt" aria-controls="prilohy" role="tab" data-toggle="tab" aria-selected="{$tabs == 'prilohy-tab' ? 'true' : 'false'}">
-          Prílohy{if count($prilohy)} ({count($prilohy)}){/if}
-        </a>
-      </li>
-      {*<li class="nav-item">
-        <a n:class="nav-link, $tabs == 'products-tab' ? active" id="products-tab" href="#productst" aria-controls="products" role="tab" data-toggle="tab" aria-selected="{$tabs == 'products-tab' ? 'true' : 'false'}">
-          Produkty{if $products_count} ({$products_count}){/if} 
-        </a>
-      </li>*}
-    </ul>
-
-    {* Tab panes *}
-    <div class="tab-content" id="articlemyTabContent">
-      <div role="tabpanel" n:class="tab-pane, fade, $tabs == 'prilohy-tab' ? 'show active'" id="prilohyt" aria-labelledby="prilohy-tab">
-        {snippet prilohy}{control prilohyClanok}{/snippet}
-      </div>
-      {*<div role="tabpanel" n:class="tab-pane, fade, $tabs == 'products-tab' ? 'show active'" id="productst" aria-labelledby="products-tab">
-        <products-main 
-          base-path="{$basePath}"
-          id_hlavne_menu="{$clanok->id_hlavne_menu}"
-          admin-links="{($admin_links|to_json)}"
-          back-link="{link this}"
-        />
-      </div>*}
-    </div>
-  </div>
+  <main-documents-part 
+    base-path="{$basePath}"
+    id_hlavne_menu="{$clanok->id_hlavne_menu}"
+    admin-links="{($admin_links|to_json)}"
+    active-tab="{$tabs}"
+  >
+  </main-documents-part>
 </div>

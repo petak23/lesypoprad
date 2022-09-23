@@ -8,13 +8,13 @@ use Nette;
 
 /**
  * Komponenta pre zobrazenie podclankov na kartach
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 22.09.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 class FrontZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
 
@@ -36,7 +36,7 @@ class FrontZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param Language_support\LanguageMain $texts */
   public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, DbTable\Dokumenty $dokumenty, Language_support\LanguageMain $texts) {
-    parent::__construct();
+    //parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->dokumenty = $dokumenty;
     $this->texts = $texts;
@@ -59,7 +59,7 @@ class FrontZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
    * @return FrontZobrazKartyPodclankovControl */
   public function setArticle(int $id, string $language = 'sk', $kotva = "") {
     $this->texts->setLanguage($language);
-    $this->articles = $this->hlavne_menu_lang->subArticleToView($id_lang, $id);
+    $this->articles = $this->hlavne_menu_lang->subArticleToView($this->texts->getLanguage_id(), $id);
     $this->kotva = $kotva;
     return $this;
   }

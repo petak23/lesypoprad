@@ -21,27 +21,31 @@ parameters:
             to_foto_galery: 'Odkaz na fotogalériu'
             to_article: 'Odkaz na článok'
             foto_album: 'Odkaz pre fotogalériu'
-    aktualne:
-      nazov: 'Aktualne oznamy(aktuality)'
-      fa_ikonka: 'newspaper-o'
-      jedinecna: TRUE
-      parametre: NULL
+#    aktualne:
+#      nazov: 'Aktualne oznamy(aktuality)'
+#      fa_ikonka: 'newspaper-o'
+#      jedinecna: TRUE
+#      parametre: null
     viewFaktury:
       nazov: 'Zobrazenie faktúr'
       jedinecna: TRUE
       fa_ikonka: 'id-card-o'
-      parametre: NULL
+      parametre: null
     zobrazKartyPodclankov:
       nazov: 'Zobrazenie podčlánokv na kartách'
       jedinecna: FALSE
       fa_ikonka: 'columns'
-      parametre: NULL
+      parametre: null
     kontakt:
       nazov: 'Kontaktný formulár'
       fa_ikonka: 'comments'
       jedinecna: TRUE
-      parametre: NULL
+      parametre: null
 services:
 
 # Component Clanky\OdkazNaClanky
   - PeterVojtech\Clanky\OdkazNaClanky\IOdkazNaClankyControl
+
+# Component Clanky\ZobrazKartyPodclankov
+  - PeterVojtech\Clanky\ZobrazKartyPodclankov\IAdminZobrazKartyPodclankovControl
+  - PeterVojtech\Clanky\ZobrazKartyPodclankov\IFrontZobrazKartyPodclankovControl

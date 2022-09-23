@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\AdminModule\Components\Clanky\PrilohyClanok;
@@ -6,23 +7,21 @@ namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 use DbTable;
 use Nette;
 use Nette\Security\User;
-use Nette\Utils\Html;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Column\Action\Confirmation;
-use Ublaboo\DataGrid\Localization\SimpleTranslator;
+//use Nette\Utils\Html;
 
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 06.04.2022
+ * Posledna zmena(last change): 16.06.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
-class PrilohyClanokAControl extends Nette\Application\UI\Control {
+class PrilohyClanokAControl extends Nette\Application\UI\Control
+{
 
   /** @var DbTable\Dokumenty $clanok Info o clanku */
   public $dokumenty;
@@ -34,7 +33,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   private $prilohy_images;
   /** @var string */
   private $wwwDir;
-  
+
   /** &var EditPrilohyFormFactory */
   public $editPrilohyForm;
   /** &var AddMultiPrilohyFormFactory */
@@ -45,7 +44,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   private $user;
   /** @var DbTable\Hlavne_menu */
   private $hlavne_menu;
-  
+
   /** @var mixed */
   protected $big_img;
   /** @var string */
@@ -58,13 +57,16 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
    * @param EditPrilohyFormFactory $editPrilohyFormFactory
    * @param AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory
    * @param User $user */
-  public function __construct(array $prilohy_images,
-                              string $wwwDir,
-                              string $prilohy_adresar,
-                              DbTable\Dokumenty $dokumenty, DbTable\Hlavne_menu $hlavne_menu,
-                              EditPrilohyFormFactory $editPrilohyFormFactory,
-                              //AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
-                              User $user) {
+  public function __construct(
+    array $prilohy_images,
+    string $wwwDir,
+    string $prilohy_adresar,
+    DbTable\Dokumenty $dokumenty,
+    DbTable\Hlavne_menu $hlavne_menu,
+    EditPrilohyFormFactory $editPrilohyFormFactory,
+    //AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
+    User $user
+  ) {
     $this->dokumenty = $dokumenty;
     $this->editPrilohyForm = $editPrilohyFormFactory;
     //$this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
@@ -74,53 +76,56 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
     $this->prilohy_adresar = $prilohy_adresar;
     $this->wwwDir = $wwwDir;
   }
-  
+
   /** 
    * Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $nazov_stranky
    * @param string $name
    * @return PrilohyClanokControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $nazov_stranky, string $name): PrilohyClanokAControl {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $nazov_stranky, string $name): PrilohyClanokAControl
+  {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
-    
+
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
-    $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
+    $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main; //$this->vlastnik($hlm->id_user_main);
     // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
-    $opravnenie_add = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 1);
-    $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
-    $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
+    $opravnenie_add = $vlastnik ? TRUE : (bool)($hlm->id_hlavne_menu_opravnenie & 1);
+    $opravnenie_edit = $vlastnik ? TRUE : (bool)($hlm->id_hlavne_menu_opravnenie & 2);
+    $opravnenie_del = $vlastnik ? TRUE : (bool)($hlm->id_hlavne_menu_opravnenie & 4);
     // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
     $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : ($this->user->isAllowed($this->name, 'add') ? 2 : 0)) : 0;
     $this->admin_links = [
-      "alink" => ["druh_opravnenia" => $druh_opravnenia,
-                  "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$name.':addpol']
-                                                                         : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
-                  "text"    => "Pridaj podčlánok"
-                 ],
+      "alink" => [
+        "druh_opravnenia" => $druh_opravnenia,
+        "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main' => $name . ':addpol']
+          : ['main' => 'Clanky:add', 'uroven' => $hlm->uroven + 1]) : NULL,
+        "text"    => "Pridaj podčlánok"
+      ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($name, 'edit'),
       "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del') && !$this->hlavne_menu->maPodradenu($this->clanok->id_hlavne_menu),
       "vlastnik" => $vlastnik,
     ];
     return $this;
   }
-  
+
   /** 
    * Render */
-	public function render() {
+  public function render()
+  {
     $this->template->setFile(__DIR__ . '/PrilohyClanok.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->big_img = $this->big_img;
     $this->template->prilohy_adresar = $this->prilohy_adresar;
-		$this->template->render();
-	}
-  
+    $this->template->render();
+  }
+
   /**
    * Grid
    * @param string $name */
-  public function createComponentPrilohyGrid(string $name) {
+  /*public function createComponentPrilohyGrid(string $name) {
 		$grid = new DataGrid($this, $name);
 		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('znacka', 'Značka');
@@ -165,62 +170,45 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
                       })
            ->setTitle('Nezobraz obrázok v prílohách');
     }
-    
-    $translator = new SimpleTranslator([
-      'ublaboo_datagrid.no_item_found_reset' => 'Žiadné položky neboli nájdené. Filter môžete vynulovať...',
-      'ublaboo_datagrid.no_item_found' => 'Žiadné položky neboli nájdené.',
-      'ublaboo_datagrid.here' => 'tu',
-      'ublaboo_datagrid.items' => 'Položky',
-      'ublaboo_datagrid.all' => 'všetky',
-      'ublaboo_datagrid.from' => 'z',
-      'ublaboo_datagrid.reset_filter' => 'Resetovať filter',
-      'ublaboo_datagrid.group_actions' => 'Hromadné akcie',
-      'ublaboo_datagrid.show_all_columns' => 'Zobraziť všetky stĺpce',
-      'ublaboo_datagrid.hide_column' => 'Skryť stĺpec',
-      'ublaboo_datagrid.action' => 'Akcia',
-      'ublaboo_datagrid.previous' => 'Predošlá',
-      'ublaboo_datagrid.next' => 'Daľšia',
-      'ublaboo_datagrid.choose' => 'Vyberte',
-      'ublaboo_datagrid.execute' => 'Vykonať',
-      'ublaboo_datagrid.short' => 'Usporiadaj',
-    ]);
     $grid->setTranslator($translator);
     $grid->setRememberState(false);
-	}
-  
+	}*/
+
   /**
    * Signal na editaciu
    * @param int $id Id polozky na editaciu */
-  public function handleEdit(int $id): void {
+  /*public function handleEdit(int $id): void {
     $this->presenter->redirect('Dokumenty:edit', $id);
-  }
-  
+  }*/
+
   /**
    * Signal pre zobrazenie velkeho nahladu obrazka
    * @param int $id_big_image 
    * @return void */
-  public function handleBigImg(int $id_big_image): void {
+  /*public function handleBigImg(int $id_big_image): void {
     $this->big_img = $this->dokumenty->find($id_big_image);
     if ($this->httpRequest->isAjax()) {
       $this->redrawControl('lightbox-image-a');
     }
-  }
-  
+  }*/
+
   /** 
    * Komponenta formulara pre pridanie a editaciu prílohy polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentEditPrilohyForm(): Nette\Application\UI\Form {
-    $form = $this->editPrilohyForm->create($this->clanok->id_hlavne_menu, 
-                                           $this->template->basePath,
-                                           /*$this->presenter->link('Clanky:', $this->clanok->id_hlavne_menu)*/
-                                          );
-    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
+  public function createComponentEditPrilohyForm(): Nette\Application\UI\Form
+  {
+    $form = $this->editPrilohyForm->create(
+      $this->clanok->id_hlavne_menu,
+      $this->template->basePath,
+      /*$this->presenter->link('Clanky:', $this->clanok->id_hlavne_menu)*/
+    );
+    $form->setDefaults(["id" => 0, "id_hlavne_menu" => $this->clanok->id_hlavne_menu, "id_user_roles" => $this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) {
-      $this->presenter->flashRedirect(['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'success');
-		};
+      $this->presenter->flashRedirect(['this', ['tab' => 'prilohy-tab']], 'Príloha bola úspešne uložená!', 'success');
+    };
     return $this->presenter->_vzhladForm($form);
   }
-  
+
   /** 
    * Komponenta formulara pre pridanie viacerich prílohy polozky.
    * @return Nette\Application\UI\Form */
@@ -232,22 +220,30 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
 		};
     return $this->presenter->_vzhladForm($form);
   }*/
-  
-  public function handleShowInText(int $id): void {
+
+
+  /*$grid->addAction('showInText', '')
+           ->setClass(function($item) { 
+                        $pr = strtolower($item->pripona);
+                        return ($pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp') ? ("btn ".($item->zobraz_v_texte ? 'btn-success' : 'btn-warning')." btn-sm ajax") : 'display-none' ; 
+                      })
+           ->setTitle('Nezobraz obrázok v prílohách');*/
+  public function handleShowInText(int $id): void
+  {
     $priloha = $this->dokumenty->find($id);
-    $priloha->update(['zobraz_v_texte'=>(1 - $priloha->zobraz_v_texte)]);
-		if (!$this->presenter->isAjax()) {
+    $priloha->update(['zobraz_v_texte' => (1 - $priloha->zobraz_v_texte)]);
+    if (!$this->presenter->isAjax()) {
       $this->redirect('this');
     } else {
       $this->redrawControl('flashes');
       $this->redrawControl('prilohy-in');
     }
   }
-  
+
   /** 
    * Signal vymazavania
-	 * @param int $id Id polozky na zmazanie */
-	function handleConfirmedDelete(int $id): void {
+   * @param int $id Id polozky na zmazanie */
+  /*function handleConfirmedDelete(int $id): void {
     $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== null) {
@@ -266,18 +262,19 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
       $this->redrawControl('prilohy');
       $this['prilohyGrid']->reload();
     }
-  }
-  
+  }*/
+
   /** 
    * Funkcia vymaze subor ak exzistuje
-	 * @param string $subor Nazov suboru aj srelativnou cestou
-	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
-	private function _vymazSubor(string $subor): int {
+   * @param string $subor Nazov suboru aj srelativnou cestou
+   * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
+  /*private function _vymazSubor(string $subor): int {
 		return (is_file($subor)) ? (int)unlink($this->wwwDir."/".$subor) : -1;
-	}
+	}*/
 }
 
-interface IPrilohyClanokAControl {
+interface IPrilohyClanokAControl
+{
   /** @return PrilohyClanokAControl */
   function create();
 }
