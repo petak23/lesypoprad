@@ -10,7 +10,7 @@ services:
   - App\AdminModule\Presenters\HomepagePresenter(%parameters%)
   - App\AdminModule\Presenters\LangPresenter(%parameters%)
   - App\AdminModule\Presenters\MenuPresenter(%parameters%)
-  - App\AdminModule\Presenters\SliderPresenter(%datagrid.texts_for_translator%, %parameters%)
+  - App\AdminModule\Presenters\SliderPresenter(%parameters%)
   - App\AdminModule\Presenters\TexylaPresenter(%parameters%)
   - App\AdminModule\Presenters\UdajePresenter(%parameters%)
   - App\AdminModule\Presenters\UserCategoriesPresenter(%parameters%)

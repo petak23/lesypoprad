@@ -1,16 +1,6 @@
 {block content}
 <div class="col">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
-    {*<div class="col mb-4" n:foreach="$admin_menu as $am" >
-      <div class="card h-100" n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
-        <a n:href="$am->odkaz" title="{$am->nazov}">
-          <img class="card-img-top" src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
-          <div class="card-body">
-            <p class="card-text">{$am->nazov}</p>
-          </div>
-        </a>
-      </div>  
-    </div>*}
     <div class="col mb-4">
       <div class="card h-100 last-login">
         <img class="card-img-top" src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">

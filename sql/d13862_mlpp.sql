@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 5.5.33 dump
+-- Adminer 4.3.1 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -107,6 +107,7 @@ CREATE TABLE `dokumenty` (
   `thumb` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru thumb pre obrázky a iné ',
   `zmena` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
   `zobraz_v_texte` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Zobrazenie obrázku v texte',
+  `type` tinyint(4) DEFAULT '1' COMMENT 'Typ prílohy',
   `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT 'Počítadlo stiahnutí',
   PRIMARY KEY (`id`),
   UNIQUE KEY `spec_nazov` (`spec_nazov`),
@@ -118,33 +119,33 @@ CREATE TABLE `dokumenty` (
   CONSTRAINT `dokumenty_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
 
-INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `nazov`, `pripona`, `spec_nazov`, `popis`, `subor`, `thumb`, `zmena`, `zobraz_v_texte`, `pocitadlo`) VALUES
-(1,	22,	1,	0,	'#I-1#',	'028.JPG',	'JPG',	'028-jpg',	NULL,	'www/files/prilohy/028.JPG',	'www/files/prilohy/tb_028.JPG',	'2017-03-27 09:18:37',	1,	0),
-(2,	22,	1,	0,	'#I-2#',	'034.JPG',	'JPG',	'034-jpg',	NULL,	'www/files/prilohy/034.JPG',	'www/files/prilohy/tb_034.JPG',	'2017-03-27 09:20:17',	1,	0),
-(3,	22,	1,	0,	'#I-3#',	'cesta12-03-078.jpg',	'jpg',	'cesta12-03-078-jpg',	NULL,	'www/files/prilohy/cesta12-03-078.jpg',	'www/files/prilohy/tb_cesta12-03-078.jpg',	'2017-03-27 09:20:38',	1,	0),
-(4,	22,	1,	0,	'#I-4#',	'cestavysova-028.jpg',	'jpg',	'cestavysova-028-jpg',	NULL,	'www/files/prilohy/cestavysova-028.jpg',	'www/files/prilohy/tb_cestavysova-028.jpg',	'2017-03-27 09:20:56',	1,	0),
-(5,	22,	1,	0,	'#I-5#',	'cestavysova-031.jpg',	'jpg',	'cestavysova-031-jpg',	NULL,	'www/files/prilohy/cestavysova-031.jpg',	'www/files/prilohy/tb_cestavysova-031.jpg',	'2017-03-27 09:21:01',	1,	0),
-(6,	22,	1,	0,	'#I-6#',	'dostojevskeho-043.jpg',	'jpg',	'dostojevskeho-043-jpg',	NULL,	'www/files/prilohy/dostojevskeho-043.jpg',	'www/files/prilohy/tb_dostojevskeho-043.jpg',	'2017-03-27 09:21:20',	1,	0),
-(7,	22,	1,	0,	'#I-7#',	'dostojevskeho-105.jpg',	'jpg',	'dostojevskeho-105-jpg',	NULL,	'www/files/prilohy/dostojevskeho-105.jpg',	'www/files/prilohy/tb_dostojevskeho-105.jpg',	'2017-03-27 09:21:28',	1,	0),
-(8,	22,	1,	0,	'#I-8#',	'dostojevskeho-117.jpg',	'jpg',	'dostojevskeho-117-jpg',	NULL,	'www/files/prilohy/dostojevskeho-117.jpg',	'www/files/prilohy/tb_dostojevskeho-117.jpg',	'2017-03-27 09:21:38',	1,	0),
-(9,	22,	1,	0,	'#I-9#',	'dostojevskeho-124.jpg',	'jpg',	'dostojevskeho-124-jpg',	NULL,	'www/files/prilohy/dostojevskeho-124.jpg',	'www/files/prilohy/tb_dostojevskeho-124.jpg',	'2017-03-27 09:21:50',	1,	0),
-(10,	22,	1,	0,	'#I-10#',	'dostojevskeho-128.jpg',	'jpg',	'dostojevskeho-128-jpg',	NULL,	'www/files/prilohy/dostojevskeho-128.jpg',	'www/files/prilohy/tb_dostojevskeho-128.jpg',	'2017-03-27 09:22:10',	1,	0),
-(11,	22,	1,	0,	'#I-11#',	'vysov-004.JPG',	'JPG',	'vysov-004-jpg',	NULL,	'www/files/prilohy/vysov-004.JPG',	'www/files/prilohy/tb_vysov-004.JPG',	'2017-03-27 09:22:20',	1,	0),
-(12,	22,	1,	0,	'#I-12#',	'vysov-014.JPG',	'JPG',	'vysov-014-jpg',	NULL,	'www/files/prilohy/vysov-014.JPG',	'www/files/prilohy/tb_vysov-014.JPG',	'2017-03-27 09:22:37',	1,	0),
-(13,	22,	1,	0,	'#I-13#',	'vysov-017.JPG',	'JPG',	'vysov-017-jpg',	NULL,	'www/files/prilohy/vysov-017.JPG',	'www/files/prilohy/tb_vysov-017.JPG',	'2017-03-27 09:22:45',	1,	0),
-(14,	22,	1,	0,	'#I-14#',	'vysovakalamita-046.jpg',	'jpg',	'vysovakalamita-046-jpg',	NULL,	'www/files/prilohy/vysovakalamita-046.jpg',	'www/files/prilohy/tb_vysovakalamita-046.jpg',	'2017-03-27 09:23:07',	1,	0),
-(15,	22,	1,	0,	'#I-15#',	'vysovakalamita-049.jpg',	'jpg',	'vysovakalamita-049-jpg',	NULL,	'www/files/prilohy/vysovakalamita-049.jpg',	'www/files/prilohy/tb_vysovakalamita-049.jpg',	'2017-03-27 09:23:20',	1,	0),
-(16,	22,	1,	0,	'#I-16#',	'cesta12-03-079.jpg',	'jpg',	'cesta12-03-079-jpg',	NULL,	'www/files/prilohy/cesta12-03-079.jpg',	'www/files/prilohy/tb_cesta12-03-079.jpg',	'2017-03-27 09:23:31',	1,	0),
-(17,	22,	1,	0,	'#I-17#',	'vysov-005.JPG',	'JPG',	'vysov-005-jpg',	NULL,	'www/files/prilohy/vysov-005.JPG',	'www/files/prilohy/tb_vysov-005.JPG',	'2017-03-27 09:23:44',	1,	0),
-(27,	12,	2,	0,	'#I-27#',	'naucny-chodnik',	'jpg',	'naucny-chodnik-11-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-11.jpg',	'www/files/prilohy/tb_naucny-chodnik-11.jpg',	'2022-01-25 09:31:18',	1,	0),
-(28,	12,	1,	0,	'#I-28#',	'naucny-chodnik-21.jpg',	'jpg',	'naucny-chodnik-21-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-21.jpg',	'www/files/prilohy/tb_naucny-chodnik-21.jpg',	'2017-08-08 12:23:35',	1,	0),
-(29,	12,	1,	0,	'#I-29#',	'naucny-chodnik-31.jpg',	'jpg',	'naucny-chodnik-31-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-31.jpg',	'www/files/prilohy/tb_naucny-chodnik-31.jpg',	'2017-08-08 12:23:42',	1,	0),
-(30,	13,	1,	0,	'#I-30#',	'Pohľad z vyhliadky',	'jpg',	'kvetnica-vyhliadka-priloha11-jpg',	NULL,	'www/files/prilohy/kvetnica-vyhliadka-priloha11.jpg',	'www/files/prilohy/tb_kvetnica-vyhliadka-priloha11.jpg',	'2017-08-08 12:25:31',	1,	0),
-(31,	13,	1,	0,	'#I-31#',	'okruh-zdravia-21.jpg',	'jpg',	'okruh-zdravia-21-jpg',	NULL,	'www/files/prilohy/okruh-zdravia-21.jpg',	'www/files/prilohy/tb_okruh-zdravia-21.jpg',	'2017-08-08 12:24:51',	1,	0),
-(32,	13,	1,	0,	'#I-32#',	'Panoráma z vyhliadky',	'jpg',	'okruh-zdravia-31-jpg',	NULL,	'www/files/prilohy/okruh-zdravia-31.jpg',	'www/files/prilohy/tb_okruh-zdravia-31.jpg',	'2017-08-08 12:26:05',	1,	0),
-(33,	14,	1,	0,	'#I-33#',	'Cestou na Zámčisko',	'JPG',	'dsc-02201-jpg',	NULL,	'www/files/prilohy/DSC-02201.JPG',	'www/files/prilohy/tb_DSC-02201.JPG',	'2017-08-08 12:26:37',	1,	0),
-(34,	14,	1,	0,	'#I-34#',	'Chodník na Zámčisko',	'jpg',	'zamcisko-21-jpg',	NULL,	'www/files/prilohy/zamcisko-21.jpg',	'www/files/prilohy/tb_zamcisko-21.jpg',	'2017-08-08 12:27:01',	1,	0),
-(35,	14,	1,	0,	'#I-35#',	'Výhľad na Poprad a Vysoké Tatry',	'jpg',	'zamcisko-11-jpg',	NULL,	'www/files/prilohy/zamcisko-11.jpg',	'www/files/prilohy/tb_zamcisko-11.jpg',	'2017-08-08 12:27:24',	1,	0);
+INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `nazov`, `pripona`, `spec_nazov`, `popis`, `subor`, `thumb`, `zmena`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
+(1,	22,	1,	0,	'#I-1#',	'028.JPG',	'JPG',	'028-jpg',	NULL,	'www/files/prilohy/028.JPG',	'www/files/prilohy/tb_028.JPG',	'2017-03-27 09:18:37',	1,	1,	0),
+(2,	22,	1,	0,	'#I-2#',	'034.JPG',	'JPG',	'034-jpg',	NULL,	'www/files/prilohy/034.JPG',	'www/files/prilohy/tb_034.JPG',	'2017-03-27 09:20:17',	1,	1,	0),
+(3,	22,	1,	0,	'#I-3#',	'cesta12-03-078.jpg',	'jpg',	'cesta12-03-078-jpg',	NULL,	'www/files/prilohy/cesta12-03-078.jpg',	'www/files/prilohy/tb_cesta12-03-078.jpg',	'2017-03-27 09:20:38',	1,	1,	0),
+(4,	22,	1,	0,	'#I-4#',	'cestavysova-028.jpg',	'jpg',	'cestavysova-028-jpg',	NULL,	'www/files/prilohy/cestavysova-028.jpg',	'www/files/prilohy/tb_cestavysova-028.jpg',	'2017-03-27 09:20:56',	1,	1,	0),
+(5,	22,	1,	0,	'#I-5#',	'cestavysova-031.jpg',	'jpg',	'cestavysova-031-jpg',	NULL,	'www/files/prilohy/cestavysova-031.jpg',	'www/files/prilohy/tb_cestavysova-031.jpg',	'2017-03-27 09:21:01',	1,	1,	0),
+(6,	22,	1,	0,	'#I-6#',	'dostojevskeho-043.jpg',	'jpg',	'dostojevskeho-043-jpg',	NULL,	'www/files/prilohy/dostojevskeho-043.jpg',	'www/files/prilohy/tb_dostojevskeho-043.jpg',	'2017-03-27 09:21:20',	1,	1,	0),
+(7,	22,	1,	0,	'#I-7#',	'dostojevskeho-105.jpg',	'jpg',	'dostojevskeho-105-jpg',	NULL,	'www/files/prilohy/dostojevskeho-105.jpg',	'www/files/prilohy/tb_dostojevskeho-105.jpg',	'2017-03-27 09:21:28',	1,	1,	0),
+(8,	22,	1,	0,	'#I-8#',	'dostojevskeho-117.jpg',	'jpg',	'dostojevskeho-117-jpg',	NULL,	'www/files/prilohy/dostojevskeho-117.jpg',	'www/files/prilohy/tb_dostojevskeho-117.jpg',	'2017-03-27 09:21:38',	1,	1,	0),
+(9,	22,	1,	0,	'#I-9#',	'dostojevskeho-124.jpg',	'jpg',	'dostojevskeho-124-jpg',	NULL,	'www/files/prilohy/dostojevskeho-124.jpg',	'www/files/prilohy/tb_dostojevskeho-124.jpg',	'2017-03-27 09:21:50',	1,	1,	0),
+(10,	22,	1,	0,	'#I-10#',	'dostojevskeho-128.jpg',	'jpg',	'dostojevskeho-128-jpg',	NULL,	'www/files/prilohy/dostojevskeho-128.jpg',	'www/files/prilohy/tb_dostojevskeho-128.jpg',	'2017-03-27 09:22:10',	1,	1,	0),
+(11,	22,	1,	0,	'#I-11#',	'vysov-004.JPG',	'JPG',	'vysov-004-jpg',	NULL,	'www/files/prilohy/vysov-004.JPG',	'www/files/prilohy/tb_vysov-004.JPG',	'2017-03-27 09:22:20',	1,	1,	0),
+(12,	22,	1,	0,	'#I-12#',	'vysov-014.JPG',	'JPG',	'vysov-014-jpg',	NULL,	'www/files/prilohy/vysov-014.JPG',	'www/files/prilohy/tb_vysov-014.JPG',	'2017-03-27 09:22:37',	1,	1,	0),
+(13,	22,	1,	0,	'#I-13#',	'vysov-017.JPG',	'JPG',	'vysov-017-jpg',	NULL,	'www/files/prilohy/vysov-017.JPG',	'www/files/prilohy/tb_vysov-017.JPG',	'2017-03-27 09:22:45',	1,	1,	0),
+(14,	22,	1,	0,	'#I-14#',	'vysovakalamita-046.jpg',	'jpg',	'vysovakalamita-046-jpg',	NULL,	'www/files/prilohy/vysovakalamita-046.jpg',	'www/files/prilohy/tb_vysovakalamita-046.jpg',	'2017-03-27 09:23:07',	1,	1,	0),
+(15,	22,	1,	0,	'#I-15#',	'vysovakalamita-049.jpg',	'jpg',	'vysovakalamita-049-jpg',	NULL,	'www/files/prilohy/vysovakalamita-049.jpg',	'www/files/prilohy/tb_vysovakalamita-049.jpg',	'2017-03-27 09:23:20',	1,	1,	0),
+(16,	22,	1,	0,	'#I-16#',	'cesta12-03-079.jpg',	'jpg',	'cesta12-03-079-jpg',	NULL,	'www/files/prilohy/cesta12-03-079.jpg',	'www/files/prilohy/tb_cesta12-03-079.jpg',	'2017-03-27 09:23:31',	1,	1,	0),
+(17,	22,	1,	0,	'#I-17#',	'vysov-005.JPG',	'JPG',	'vysov-005-jpg',	NULL,	'www/files/prilohy/vysov-005.JPG',	'www/files/prilohy/tb_vysov-005.JPG',	'2017-03-27 09:23:44',	1,	1,	0),
+(27,	12,	2,	0,	'#I-27#',	'naucny-chodnik',	'jpg',	'naucny-chodnik-11-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-11.jpg',	'www/files/prilohy/tb_naucny-chodnik-11.jpg',	'2022-01-25 09:31:18',	1,	1,	0),
+(28,	12,	1,	0,	'#I-28#',	'naucny-chodnik-21.jpg',	'jpg',	'naucny-chodnik-21-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-21.jpg',	'www/files/prilohy/tb_naucny-chodnik-21.jpg',	'2017-08-08 12:23:35',	1,	1,	0),
+(29,	12,	1,	0,	'#I-29#',	'naucny-chodnik-31.jpg',	'jpg',	'naucny-chodnik-31-jpg',	NULL,	'www/files/prilohy/naucny-chodnik-31.jpg',	'www/files/prilohy/tb_naucny-chodnik-31.jpg',	'2017-08-08 12:23:42',	1,	1,	0),
+(30,	13,	1,	0,	'#I-30#',	'Pohľad z vyhliadky',	'jpg',	'kvetnica-vyhliadka-priloha11-jpg',	NULL,	'www/files/prilohy/kvetnica-vyhliadka-priloha11.jpg',	'www/files/prilohy/tb_kvetnica-vyhliadka-priloha11.jpg',	'2017-08-08 12:25:31',	1,	1,	0),
+(31,	13,	1,	0,	'#I-31#',	'okruh-zdravia-21.jpg',	'jpg',	'okruh-zdravia-21-jpg',	NULL,	'www/files/prilohy/okruh-zdravia-21.jpg',	'www/files/prilohy/tb_okruh-zdravia-21.jpg',	'2017-08-08 12:24:51',	1,	1,	0),
+(32,	13,	1,	0,	'#I-32#',	'Panoráma z vyhliadky',	'jpg',	'okruh-zdravia-31-jpg',	NULL,	'www/files/prilohy/okruh-zdravia-31.jpg',	'www/files/prilohy/tb_okruh-zdravia-31.jpg',	'2017-08-08 12:26:05',	1,	1,	0),
+(33,	14,	1,	0,	'#I-33#',	'Cestou na Zámčisko',	'JPG',	'dsc-02201-jpg',	NULL,	'www/files/prilohy/DSC-02201.JPG',	'www/files/prilohy/tb_DSC-02201.JPG',	'2017-08-08 12:26:37',	1,	1,	0),
+(34,	14,	1,	0,	'#I-34#',	'Chodník na Zámčisko',	'jpg',	'zamcisko-21-jpg',	NULL,	'www/files/prilohy/zamcisko-21.jpg',	'www/files/prilohy/tb_zamcisko-21.jpg',	'2017-08-08 12:27:01',	1,	1,	0),
+(35,	14,	1,	0,	'#I-35#',	'Výhľad na Poprad a Vysoké Tatry',	'jpg',	'zamcisko-11-jpg',	NULL,	'www/files/prilohy/zamcisko-11.jpg',	'www/files/prilohy/tb_zamcisko-11.jpg',	'2017-08-08 12:27:24',	1,	1,	0);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -671,7 +672,27 @@ INSERT INTO `faktury` (`id`, `id_hlavne_menu`, `nazov`, `cislo`, `predmet`, `cen
 (744,	24,	'',	'10/2021',	'prehľad objednávok za október 2021',	0.00,	'',	'2021-10-18',	NULL,	'objednavky-2021-10.pdf',	2,	0,	'2022-01-12 12:51:28',	0,	0,	0),
 (745,	24,	'',	'11/2021',	'prehľad objednávok za november 2021',	0.00,	'',	'2021-11-25',	NULL,	'objednavky-2021-11.pdf',	2,	0,	'2022-01-12 13:06:06',	0,	0,	0),
 (746,	24,	'',	'12/2021',	'prehľad objednávok za december 2021',	0.00,	'',	'2021-12-15',	NULL,	'objednavky-2021-12.pdf',	2,	0,	'2022-01-12 13:25:52',	0,	0,	0),
-(747,	23,	'',	'12/2021',	'prehľad faktúr za december 2021',	0.00,	'',	'2022-01-07',	NULL,	'faktury-2021-12.pdf',	2,	0,	'2022-01-14 12:43:16',	0,	0,	0);
+(747,	23,	'',	'12/2021',	'prehľad faktúr za december 2021',	0.00,	'',	'2022-01-07',	NULL,	'faktury-2021-12.pdf',	2,	0,	'2022-01-14 12:43:16',	0,	0,	0),
+(748,	24,	'',	'01/2022',	'prehľad objednávok za január 2022',	0.00,	'',	'2022-01-24',	NULL,	'objednavky-2022-01.pdf',	2,	0,	'2022-04-25 08:01:01',	0,	0,	0),
+(749,	24,	'',	'02/2022',	'prehľad objednávok za február 2022',	0.00,	'',	'2022-02-28',	NULL,	'objednavky-2022-02.pdf',	2,	0,	'2022-04-25 08:02:41',	0,	0,	0),
+(750,	24,	'',	'03/2022',	'prehľad objednávok za marec 2022',	0.00,	'',	'2022-03-25',	NULL,	'objednavky-2022-03.pdf',	2,	0,	'2022-04-25 08:13:50',	0,	0,	0),
+(751,	23,	'',	'01/2022',	'prehľad faktúr za obdobie január 2022',	0.00,	'',	'2022-01-31',	NULL,	'faktury-2022-01.pdf',	2,	0,	'2022-04-25 08:23:01',	0,	0,	0),
+(752,	23,	'',	'02/2022',	'prehľad faktúr za obdobie február 2022',	0.00,	'',	'2022-02-28',	NULL,	'faktury-2022-02.pdf',	2,	0,	'2022-04-25 08:41:31',	0,	0,	0),
+(753,	23,	'',	'03/2022',	'prehľad faktúr za obdobie marec 2022',	0.00,	'',	'2022-04-01',	NULL,	'faktury-2022-03.pdf',	2,	0,	'2022-04-25 08:49:53',	0,	0,	0),
+(754,	25,	'Rámcová zmluva',	'1/2022',	'ťažbové práce',	0.00,	'Jozef Hlavčák',	'2022-03-01',	'2022-12-31',	'img241.pdf',	2,	0,	'2022-05-10 07:50:14',	0,	0,	0),
+(756,	23,	'',	'04/2022',	'prehľad faktúr za apríl 2022',	0.00,	'',	'2022-05-02',	NULL,	'faktury-2022-04.pdf',	2,	0,	'2022-05-23 08:47:13',	0,	0,	0),
+(757,	24,	'',	'04/2022',	'prehľad objednávok za apríl 2022',	0.00,	'',	'2022-04-25',	NULL,	'objednavky-2022-04.pdf',	2,	0,	'2022-06-15 08:42:45',	0,	0,	0),
+(758,	23,	'',	'05/2022',	'prehľad faktúr za máj 2022',	0.00,	'',	'2022-06-01',	NULL,	'faktury-2022-05.pdf',	2,	0,	'2022-06-15 08:36:41',	0,	0,	0),
+(759,	24,	'',	'05/2022',	'prehľad objednávok za máj 2022',	0.00,	'',	'2022-05-27',	NULL,	'objednavky-2022-05.pdf',	2,	0,	'2022-06-15 08:42:24',	0,	0,	0),
+(760,	25,	'Rámcová zmluva',	'2/2022',	'pestovné práce',	0.00,	'Lesos, s.r.o. Šuňava',	NULL,	NULL,	'',	2,	0,	'2022-06-20 10:00:44',	0,	0,	0),
+(762,	25,	'',	'',	'',	0.00,	'',	NULL,	NULL,	'img251.pdf',	2,	0,	'2022-06-20 10:05:05',	0,	0,	0),
+(763,	25,	'Rámcová zmluva',	'2/2022',	'pestovné práce',	0.00,	'Lesos, s.r.o. Šuňava',	'2022-03-01',	'2022-12-31',	'img251.pdf',	2,	0,	'2022-06-20 10:03:16',	0,	0,	0),
+(764,	24,	'',	'06/2022',	'prehľad objednávok za jún 2022',	0.00,	'',	'2022-06-15',	NULL,	'objednavky-2022-06.pdf',	2,	0,	'2022-08-04 06:26:01',	0,	0,	0),
+(765,	23,	'',	'06/2022',	'prehľad faktúr za jún 2022',	0.00,	'',	'2022-07-01',	NULL,	'faktury-2022-06.pdf',	2,	0,	'2022-08-04 06:26:47',	0,	0,	0),
+(766,	23,	'',	'07/2022',	'prehľad faktúr za júl 2022',	0.00,	'',	'2022-08-01',	NULL,	'faktury-2022-07.pdf',	2,	0,	'2022-09-06 07:52:31',	0,	0,	0),
+(767,	24,	'',	'07/2022',	'prehľad objednávok za júl 2022',	0.00,	'',	'2022-07-15',	NULL,	'objednavky-2022-07.pdf',	2,	0,	'2022-09-06 07:58:30',	0,	0,	0),
+(768,	23,	'',	'08/2022',	'prehľad faktúr za august 2022',	0.00,	'',	'2022-09-02',	NULL,	'faktury-2022-08.pdf',	2,	0,	'2022-09-21 12:04:27',	0,	0,	0),
+(769,	24,	'',	'08/2022',	'prehľad objednávok za august 2022',	0.00,	'',	'2022-08-22',	NULL,	'objednavky-2022-08.pdf',	2,	0,	'2022-09-22 08:25:46',	0,	0,	0);
 
 DROP TABLE IF EXISTS `fotky`;
 CREATE TABLE `fotky` (
@@ -841,6 +862,7 @@ CREATE TABLE `hlavne_menu` (
   `zvyrazni` tinyint(4) NOT NULL DEFAULT '0' COMMENT '[5]Zvýraznenie položky menu pri pridaní obsahu',
   `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT '[R]Počítadlo kliknutí na položku',
   `nazov_ul_sub` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '[5]Názov pomocnej triedy ul-elsementu sub menu',
+  `id_hlavne_menu_template` int(11) DEFAULT '1' COMMENT 'Vzhľad šablóny',
   `absolutna` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Absolútna adresa',
   `ikonka` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov css ikonky',
   `avatar` varchar(300) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov a cesta k titulnému obrázku',
@@ -850,6 +872,7 @@ CREATE TABLE `hlavne_menu` (
   `aktualny_projekt` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Označenie aktuálneho projektu',
   `redirect_id` int(11) DEFAULT NULL COMMENT 'Id článku na ktorý sa má presmerovať',
   `id_dlzka_novinky` int(11) NOT NULL DEFAULT '1' COMMENT 'Do kedy je to novinka',
+  `id_user_categories` int(11) DEFAULT NULL COMMENT 'Opravnenie podľa kategórie',
   PRIMARY KEY (`id`),
   KEY `id_reg` (`id_user_roles`),
   KEY `druh` (`id_druh`),
@@ -859,8 +882,12 @@ CREATE TABLE `hlavne_menu` (
   KEY `id_user_profiles` (`id_user_main`),
   KEY `id_dlzka_novinky` (`id_dlzka_novinky`),
   KEY `id_hlavne_menu_opravnenie` (`id_hlavne_menu_opravnenie`),
+  KEY `id_hlavne_menu_template` (`id_hlavne_menu_template`),
+  KEY `id_user_categories` (`id_user_categories`),
+  CONSTRAINT `hlavne_menu_ibfk_13` FOREIGN KEY (`id_user_categories`) REFERENCES `user_categories` (`id`),
   CONSTRAINT `hlavne_menu_ibfk_10` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
   CONSTRAINT `hlavne_menu_ibfk_11` FOREIGN KEY (`id_hlavne_menu_opravnenie`) REFERENCES `hlavne_menu_opravnenie` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_12` FOREIGN KEY (`id_hlavne_menu_template`) REFERENCES `hlavne_menu_template` (`id`),
   CONSTRAINT `hlavne_menu_ibfk_2` FOREIGN KEY (`id_ikonka`) REFERENCES `ikonka` (`id`),
   CONSTRAINT `hlavne_menu_ibfk_4` FOREIGN KEY (`id_hlavicka`) REFERENCES `hlavicka` (`id`),
   CONSTRAINT `hlavne_menu_ibfk_5` FOREIGN KEY (`id_hlavne_menu_cast`) REFERENCES `hlavne_menu_cast` (`id`),
@@ -869,26 +896,26 @@ CREATE TABLE `hlavne_menu` (
   CONSTRAINT `hlavne_menu_ibfk_9` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
-INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`) VALUES
-(1,	'home',	1,	0,	NULL,	3,	0,	NULL,	1,	1,	0,	0,	0,	0,	0,	NULL,	'Homepage:',	NULL,	NULL,	0,	'2017-07-10 06:03:03',	NULL,	0,	NULL,	1),
-(2,	'sluzby',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	'36ubhgr5s6abwjj.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(3,	'pre-turistov',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	'ho4dhulx5z9nlcu.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(4,	'zverejnovanie-dokumentov',	1,	0,	NULL,	3,	0,	NULL,	2,	4,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	23,	1),
-(5,	'verejne-obstaravanie',	1,	0,	NULL,	3,	0,	NULL,	2,	5,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	21,	1),
-(7,	'fotogaleria',	1,	0,	NULL,	1,	0,	NULL,	2,	7,	0,	3,	0,	0,	0,	'foto_album',	NULL,	NULL,	'hxrw6ib3oz3axu2.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(9,	'o-nas',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	'LesyPP_Homepage',	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(12,	'naucny-chodnik-kvetnica',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	0,	0,	0,	0,	NULL,	NULL,	'compass',	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(13,	'okruh-zdravia',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(14,	'zelena-turisticka-trasa',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(15,	'ss-117-zakona-nr-sr-c-343-2015-z-z',	1,	0,	NULL,	1,	1,	5,	2,	2,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-11 04:53:53',	NULL,	0,	NULL,	1),
-(20,	'profil-verejneho-obstaravatela',	1,	0,	NULL,	1,	1,	5,	2,	1,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(21,	'pripravovane-vyzvy',	1,	0,	NULL,	1,	1,	5,	2,	3,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(22,	'lesna-cesta-vysova',	1,	0,	NULL,	1,	1,	7,	2,	1,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	'4b10lmlkc4qcgcu.jpg',	0,	'2017-07-13 09:02:07',	NULL,	0,	NULL,	1),
-(23,	'faktury',	1,	0,	NULL,	1,	1,	4,	2,	1,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(24,	'objednavky',	1,	0,	NULL,	1,	1,	4,	2,	2,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(25,	'zmluvy',	1,	0,	NULL,	1,	1,	4,	2,	3,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(26,	'zakazky-s-nizkou-hodnotou',	1,	0,	NULL,	1,	1,	4,	2,	4,	0,	3,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1),
-(34,	'kontakt',	1,	0,	NULL,	1,	0,	NULL,	2,	8,	0,	0,	0,	0,	0,	NULL,	NULL,	NULL,	NULL,	0,	'2017-07-13 09:21:05',	NULL,	0,	NULL,	1);
+INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`, `id_user_categories`) VALUES
+(1,	'home',	1,	0,	NULL,	3,	0,	NULL,	1,	1,	0,	0,	0,	0,	0,	NULL,	1,	'Homepage:',	NULL,	NULL,	0,	'2017-07-10 06:03:03',	NULL,	0,	NULL,	1,	NULL),
+(2,	'sluzby',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'36ubhgr5s6abwjj.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(3,	'pre-turistov',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'ho4dhulx5z9nlcu.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(4,	'zverejnovanie-dokumentov',	1,	0,	NULL,	3,	0,	NULL,	2,	4,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	23,	1,	NULL),
+(5,	'verejne-obstaravanie',	1,	0,	NULL,	3,	0,	NULL,	2,	5,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	21,	1,	NULL),
+(7,	'fotogaleria',	1,	0,	NULL,	1,	0,	NULL,	2,	7,	0,	3,	0,	0,	0,	'foto_album',	1,	NULL,	NULL,	'hxrw6ib3oz3axu2.png',	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(9,	'o-nas',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	'LesyPP_Homepage',	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(12,	'naucny-chodnik-kvetnica',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	'compass',	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(13,	'okruh-zdravia',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(14,	'zelena-turisticka-trasa',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(15,	'ss-117-zakona-nr-sr-c-343-2015-z-z',	1,	0,	NULL,	1,	1,	5,	2,	2,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-11 04:53:53',	NULL,	0,	NULL,	1,	NULL),
+(20,	'profil-verejneho-obstaravatela',	1,	0,	NULL,	1,	1,	5,	2,	1,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(21,	'pripravovane-vyzvy',	1,	0,	NULL,	1,	1,	5,	2,	3,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(22,	'lesna-cesta-vysova',	1,	0,	NULL,	1,	1,	7,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'4b10lmlkc4qcgcu.jpg',	0,	'2017-07-13 09:02:07',	NULL,	0,	NULL,	1,	NULL),
+(23,	'faktury',	1,	0,	NULL,	1,	1,	4,	2,	1,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(24,	'objednavky',	1,	0,	NULL,	1,	1,	4,	2,	2,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(25,	'zmluvy',	1,	0,	NULL,	1,	1,	4,	2,	3,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(26,	'zakazky-s-nizkou-hodnotou',	1,	0,	NULL,	1,	1,	4,	2,	4,	0,	3,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-06 07:29:44',	NULL,	0,	NULL,	1,	NULL),
+(34,	'kontakt',	1,	0,	NULL,	1,	0,	NULL,	2,	8,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-07-13 09:21:05',	NULL,	0,	NULL,	1,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
@@ -915,6 +942,8 @@ CREATE TABLE `hlavne_menu_lang` (
   `menu_name` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov položky v hlavnom menu pre daný jazyk',
   `h1part2` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Druhá časť názvu pre daný jazyk',
   `view_name` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Zobrazený názov položky pre daný jazyk',
+  `text` text COLLATE utf8_bin COMMENT 'Text článku v danom jazyku',
+  `anotacia` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Anotácia článku v danom jazyku',
   PRIMARY KEY (`id`),
   KEY `id_hlavne_menu` (`id_hlavne_menu`),
   KEY `id_lang` (`id_lang`),
@@ -924,26 +953,26 @@ CREATE TABLE `hlavne_menu_lang` (
   CONSTRAINT `hlavne_menu_lang_ibfk_3` FOREIGN KEY (`id_clanok_lang`) REFERENCES `clanok_lang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis položiek hlavného menu pre iný jazyk';
 
-INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_lang`, `menu_name`, `h1part2`, `view_name`) VALUES
-(1,	1,	1,	NULL,	'home',	NULL,	'Príroda blízko mesta'),
-(2,	1,	2,	4,	'služby',	NULL,	'Aktuálna ponuka služieb'),
-(3,	1,	3,	25,	'Pre turistov',	NULL,	'Turistický sprievodca po mestských lesoch'),
-(4,	1,	4,	NULL,	'Dokumenty',	NULL,	'Zverejňovanie dokumentov'),
-(5,	1,	5,	NULL,	'Obstarávanie',	NULL,	'Verejné obstarávanie'),
-(7,	1,	7,	26,	'Fotogaléria',	NULL,	'Fotogaléria'),
-(9,	1,	9,	2,	'Príroda blízko mesta',	NULL,	'Príroda blízko mesta'),
-(12,	1,	12,	5,	'Náučný chodník Kvetnica',	NULL,	'Náučný chodník Kvetnica'),
-(13,	1,	13,	6,	'Okruh zdravia',	NULL,	'Okruh zdravia'),
-(14,	1,	14,	7,	'Zámčisko',	NULL,	'Zámčisko'),
-(15,	1,	15,	8,	'Zákazky',	'§ 117 zákona NR SR č. 343/2015 Z.z.',	'Zákazky podľa § 117 zákona NR SR č. 343/2015 Z.z.'),
-(20,	1,	20,	13,	'Profil VO',	NULL,	'Profil verejného obstarávateľa'),
-(21,	1,	21,	14,	'Pripravované výzvy',	NULL,	'Pripravované výzvy'),
-(22,	1,	22,	15,	'Lesná cesta Vysová',	NULL,	'Lesná cesta Vysová'),
-(23,	1,	23,	16,	'Faktúry',	NULL,	'Faktúry'),
-(24,	1,	24,	17,	'Objednávky',	NULL,	'Objednávky'),
-(25,	1,	25,	18,	'Zmluvy',	NULL,	'Zmluvy'),
-(26,	1,	26,	19,	'Zákazky s nízkou hodnotou',	NULL,	'Zákazky s nízkou hodnotou'),
-(32,	1,	34,	23,	'Kontakt',	NULL,	'Kontaktujte nás');
+INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_lang`, `menu_name`, `h1part2`, `view_name`, `text`, `anotacia`) VALUES
+(1,	1,	1,	NULL,	'home',	NULL,	'Príroda blízko mesta',	NULL,	NULL),
+(2,	1,	2,	4,	'služby',	NULL,	'Aktuálna ponuka služieb',	NULL,	NULL),
+(3,	1,	3,	25,	'Pre turistov',	NULL,	'Turistický sprievodca po mestských lesoch',	NULL,	NULL),
+(4,	1,	4,	NULL,	'Dokumenty',	NULL,	'Zverejňovanie dokumentov',	NULL,	NULL),
+(5,	1,	5,	NULL,	'Obstarávanie',	NULL,	'Verejné obstarávanie',	NULL,	NULL),
+(7,	1,	7,	26,	'Fotogaléria',	NULL,	'Fotogaléria',	NULL,	NULL),
+(9,	1,	9,	2,	'Príroda blízko mesta',	NULL,	'Príroda blízko mesta',	NULL,	NULL),
+(12,	1,	12,	5,	'Náučný chodník Kvetnica',	NULL,	'Náučný chodník Kvetnica',	NULL,	NULL),
+(13,	1,	13,	6,	'Okruh zdravia',	NULL,	'Okruh zdravia',	NULL,	NULL),
+(14,	1,	14,	7,	'Zámčisko',	NULL,	'Zámčisko',	NULL,	NULL),
+(15,	1,	15,	8,	'Zákazky',	'§ 117 zákona NR SR č. 343/2015 Z.z.',	'Zákazky podľa § 117 zákona NR SR č. 343/2015 Z.z.',	NULL,	NULL),
+(20,	1,	20,	13,	'Profil VO',	NULL,	'Profil verejného obstarávateľa',	NULL,	NULL),
+(21,	1,	21,	14,	'Pripravované výzvy',	NULL,	'Pripravované výzvy',	NULL,	NULL),
+(22,	1,	22,	15,	'Lesná cesta Vysová',	NULL,	'Lesná cesta Vysová',	NULL,	NULL),
+(23,	1,	23,	16,	'Faktúry',	NULL,	'Faktúry',	NULL,	NULL),
+(24,	1,	24,	17,	'Objednávky',	NULL,	'Objednávky',	NULL,	NULL),
+(25,	1,	25,	18,	'Zmluvy',	NULL,	'Zmluvy',	NULL,	NULL),
+(26,	1,	26,	19,	'Zákazky s nízkou hodnotou',	NULL,	'Zákazky s nízkou hodnotou',	NULL,	NULL),
+(32,	1,	34,	23,	'Kontakt',	NULL,	'Kontaktujte nás',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_opravnenie`;
 CREATE TABLE `hlavne_menu_opravnenie` (
@@ -957,6 +986,17 @@ INSERT INTO `hlavne_menu_opravnenie` (`id`, `nazov`) VALUES
 (1,	'Pridávanie podčlánkov'),
 (2,	'Editácia položky'),
 (3,	'Pridávanie podčlánkov a editácia položky');
+
+DROP TABLE IF EXISTS `hlavne_menu_template`;
+CREATE TABLE `hlavne_menu_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT 'Názov vzhľadu',
+  `description` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'Popis vzhľadu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Vzhľad šablón pre položky menu';
+
+INSERT INTO `hlavne_menu_template` (`id`, `name`, `description`) VALUES
+(1,	'default',	'Základný vzhľad');
 
 DROP TABLE IF EXISTS `ikonka`;
 CREATE TABLE `ikonka` (
@@ -1054,6 +1094,7 @@ DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
   `id_user_roles` int(11) NOT NULL DEFAULT '5' COMMENT 'Id min úrovne pre editáciu',
+  `id_user_main` int(11) DEFAULT NULL COMMENT 'Id užívateľa, pre ktorého toto nastavenie platí.',
   `id_druh` int(11) DEFAULT NULL COMMENT 'Druhová skupina pre nastavenia',
   `id_udaje_typ` int(11) NOT NULL DEFAULT '1' COMMENT 'Typ input-u',
   `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
@@ -1064,37 +1105,39 @@ CREATE TABLE `udaje` (
   KEY `id_reg` (`id_user_roles`),
   KEY `id_druh` (`id_druh`),
   KEY `id_udaje_typ` (`id_udaje_typ`),
+  KEY `id_user_main` (`id_user_main`),
+  CONSTRAINT `udaje_ibfk_5` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
   CONSTRAINT `udaje_ibfk_2` FOREIGN KEY (`id_druh`) REFERENCES `druh` (`id`),
   CONSTRAINT `udaje_ibfk_3` FOREIGN KEY (`id_udaje_typ`) REFERENCES `udaje_typ` (`id`),
   CONSTRAINT `udaje_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
-INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
-(1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke',	0),
-(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
-(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
-(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
-(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
-(6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová',	0),
-(7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
-(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
-(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
-(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo',	0),
-(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
-(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
-(13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
-(14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
-(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
-(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
-(17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
-(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
-(19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
-(21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).',	0),
-(22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]',	0),
-(23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
-(24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
-(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
-(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);
+INSERT INTO `udaje` (`id`, `id_user_roles`, `id_user_main`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
+(1,	5,	NULL,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke',	0),
+(2,	5,	NULL,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
+(3,	5,	NULL,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
+(4,	5,	NULL,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
+(5,	5,	NULL,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
+(6,	5,	NULL,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová',	0),
+(7,	5,	NULL,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
+(8,	5,	NULL,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
+(9,	5,	NULL,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
+(10,	5,	NULL,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo',	0),
+(11,	5,	NULL,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
+(12,	5,	NULL,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
+(13,	4,	NULL,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
+(14,	4,	NULL,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
+(15,	5,	NULL,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
+(16,	5,	NULL,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
+(17,	5,	NULL,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
+(18,	5,	NULL,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
+(19,	4,	NULL,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
+(21,	4,	NULL,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).',	0),
+(22,	5,	NULL,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]',	0),
+(23,	4,	NULL,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
+(24,	5,	NULL,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
+(25,	4,	NULL,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
+(26,	5,	NULL,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -1164,8 +1207,8 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.114.14',	'2017-05-15 09:11:19',	'2022-02-18 13:09:18'),
-(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'78.98.103.105',	'2017-05-15 09:13:38',	'2022-02-02 14:04:26'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.60.62',	'2017-05-15 09:11:19',	'2022-09-26 05:36:10'),
+(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.40.22.123',	'2017-05-15 09:13:38',	'2022-09-21 12:03:19'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -1184,7 +1227,7 @@ CREATE TABLE `user_permission` (
 INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
 (1,	0,	4,	NULL),
 (2,	0,	6,	NULL),
-(3,	0,	7,	NULL),
+(3,	0,	7,	'default'),
 (4,	0,	8,	NULL),
 (5,	0,	1,	NULL),
 (6,	0,	5,	NULL),
@@ -1211,7 +1254,19 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (27,	5,	11,	NULL),
 (28,	5,	12,	NULL),
 (29,	5,	13,	NULL),
-(30,	5,	19,	NULL);
+(30,	5,	19,	NULL),
+(31,	3,	21,	NULL),
+(32,	1,	23,	'default,mailChange,passwordChange,activateNewEmail'),
+(33,	4,	7,	'default,edit'),
+(34,	4,	25,	NULL),
+(35,	0,	26,	NULL),
+(36,	0,	27,	'getsubmenu'),
+(37,	4,	28,	NULL),
+(38,	0,	29,	NULL),
+(39,	4,	27,	NULL),
+(40,	4,	30,	NULL),
+(41,	0,	31,	NULL),
+(42,	4,	32,	NULL);
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -1396,7 +1451,18 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (170,	1,	'2022-02-03 16:58:24'),
 (171,	1,	'2022-02-10 09:51:13'),
 (172,	2,	'2022-02-17 08:51:36'),
-(173,	1,	'2022-02-18 14:09:18');
+(173,	1,	'2022-02-18 14:09:18'),
+(174,	2,	'2022-04-25 10:00:04'),
+(175,	2,	'2022-05-10 09:44:58'),
+(176,	2,	'2022-05-12 12:33:20'),
+(177,	2,	'2022-05-23 10:15:50'),
+(178,	2,	'2022-06-15 10:35:53'),
+(179,	2,	'2022-06-20 11:59:37'),
+(180,	2,	'2022-08-04 08:25:16'),
+(181,	2,	'2022-09-06 09:51:43'),
+(182,	2,	'2022-09-21 14:03:19'),
+(183,	2,	'2022-09-22 10:24:00'),
+(184,	1,	'2022-09-26 07:36:10');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1413,8 +1479,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	27,	'M',	'2022-02-18 14:09:18',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
-(2,	NULL,	NULL,	NULL,	146,	'M',	'2022-02-17 08:51:36',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	28,	'M',	'2022-09-26 07:36:10',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
+(2,	NULL,	NULL,	NULL,	156,	'M',	'2022-09-22 10:24:00',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	2,	'M',	'2017-07-11 09:10:29',	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -1444,7 +1510,19 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (17,	'Admin:Slider'),
 (18,	'Admin:Oznam'),
 (19,	'Admin:Clanky'),
-(20,	'Admin:Texyla');
+(20,	'Admin:Texyla'),
+(21,	'Edit:Homepage'),
+(22,	'Edit:User'),
+(23,	'Edit:UserLog'),
+(24,	'Edit:Clanky'),
+(25,	'Admin:Products'),
+(26,	'Front:Search'),
+(27,	'Api:Menu'),
+(28,	'Api:User'),
+(29,	'Api:Dokumenty'),
+(30,	'Api:Products'),
+(31,	'Api:Texyla'),
+(32,	'Api:Slider');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -1486,4 +1564,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.4.5',	'mapy',	'<ul>\n	<li>\n		Oprava zobrazenia google m&aacute;p na bootstrap tab-och.</li>\n	<li>\n		Oprava zobrazenia hlavn&eacute;ho nadpisu.</li>\n	<li>\n		Drobn&eacute; zmeny v css</li>\n</ul>\n',	'2017-07-17 05:40:37'),
 (6,	1,	'0.4.7',	'nákľady, kontakt',	'<ul>\n	<li>\n		Oprava vzhľadu a veľkosti n&aacute;hľadov.</li>\n	<li>\n		Oprava kontaktn&eacute;ho formul&aacute;ra.</li>\n</ul>\n',	'2017-09-18 11:29:45');
 
--- 2022-02-25 13:13:47
+-- 2022-09-26 05:52:31

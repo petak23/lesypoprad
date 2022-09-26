@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 09.06.2022
+ * Posledná zmena(last change): 26.09.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 import Vue from 'vue';
@@ -20,7 +20,8 @@ import colorBorderChange from './components/ColorBorderChange.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
 import FlashMessage from "./components/FlashMessage"
 import SliderGrid from './components/Slider/SliderGrid'
-import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue";
+import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
+import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"
 
 
 // Make BootstrapVue available throughout your project
@@ -41,5 +42,6 @@ let vm = new Vue({
     Edittexts,
     FlashMessage,
     SliderGrid,
+    VerzieEditForm,
   },
 });   

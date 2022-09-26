@@ -1,13 +1,17 @@
-{* status 404 *}
-
 {block content}
-
-<h2 n:block="title">Nenájdená položka</h2>
-
-<div class="alert alert-danger">
-	<p>Ľutujeme, ale Vami požadovaná položka sa nenašla.</p>
-	<p>Alebo neexzistuje, alebo nemáte dostatočné oprávnenie na prezeranie.</p>
-</div>
-<div>
-  <p><a n:href="Slider:" title="Späť"><i class="fas fa-undo"></i> Naspäť na výpis slider-u</a></p>
+<div class="col-12 mt-5">
+	<div class="alert alert-danger" role="alert">
+		<i class="fa-solid fa-triangle-exclamation fa-5x fa-pull-left"></i>
+		<h4 class="alert-heading">Nenájdená položka</h4>
+		<p>
+			Ľutujeme, ale Vami požadovaný položka sa nenašla.<br />
+			Alebo neexzistuje, alebo nemáte dostatočné oprávnenie na prezeranie.
+		</p>
+		<hr>
+		<p class="mb-0">
+			<a n:href="Slider:" title="Späť" class="alert-link">
+				<i class="fas fa-undo"></i> Naspäť na výpis slider-u...
+			</a>
+		</p>
+	</div>
 </div>

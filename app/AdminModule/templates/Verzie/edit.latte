@@ -4,6 +4,9 @@
 <div class="col-12">
   <h2 n:block=title>{$h2}</h2>
   {control verzieEditForm}
+  <verzie-edit-form>
+  
+  </verzie-edit-form>
 </div>
 
 {/block}
@@ -46,7 +49,7 @@
 <script type="text/javascript">
   $.texyla.setDefaults({
     baseDir: {$baseUrl} + '/www/js/texyla',
-    iconPath: {$baseUrl} + '/www/ikonky/icons/%var%.png',
+    iconPath: {$baseUrl} + '/www/texyla/icons/%var%.png',
     previewPath: {$previewPath},
     filesPath: {$filesPath},
     filesUploadPath: {$filesUploadPath},

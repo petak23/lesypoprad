@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 02.06.2022
+ * Posledna zmena(last change): 26.09.2022
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -93,7 +93,7 @@
         </td>
         <td class="text-right align-middle">{$u->user_profiles->prihlas_teraz|date:'d.m.Y H:i:s'}</td>
         <td class="align-middle" n:if="$user_view_fields['categori']">
-          {var $out = $user_in_categories->findBy(['id_user_main'=>$u->id]);}
+          {var $out = $user_in_categories->findBy(['id_user_main'=>$u->id])}
           <span>
             {foreach $out as $v}
               <button title="$v->user_categories->name" class="btn btn-success btn-xs disabled">

@@ -15,7 +15,9 @@
         <div class="row" n:if="count($prilohy)" n:inner-foreach="$prilohy as $p">
           <div class="col-sm-4">
             <div class="thumbnail">
-              <img class="jslghtbx-thmb" src="{$basePath}/{$p->thumb_file}" alt="{$p->name}" data-jslghtbx="{$basePath}/{$p->main_file}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
+              <img class="jslghtbx-thmb" src="{$basePath}/{$p->thumb_file}"
+                    alt="{$p->name}" data-jslghtbx="{$basePath}/{$p->main_file}" 
+                    class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
               <div class="caption">
                 <p>{$p->name}</p>
               </div>
