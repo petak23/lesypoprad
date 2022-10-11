@@ -9,13 +9,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 03.06.2022
+ * Posledna zmena 05.10.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class RouterFactory
 {
@@ -69,6 +69,7 @@ class RouterFactory
       ->addRoute('api/menu/<action>[/<id>[/<lmodule>]]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default')
       ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
+      ->addRoute('api/faktury/<action>[/<id>]', 'Faktury:default')
       ->addRoute('api/products/<action>[/<id>]', 'Products:default')
       ->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
       ->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default');

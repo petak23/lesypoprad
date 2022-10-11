@@ -65,7 +65,7 @@ class SignInFormFactory
       ->onClick[] = [$this, 'signInFormSubmitted'];
     $form->addSubmit('forgottenPassword', 'SignInForm_forgottenPassword')
       ->setValidationScope([])
-      ->setHtmlAttribute('class', 'btn btn-secondary');
+      ->setHtmlAttribute('class', 'btn btn-info');
     $renderer = $form->getRenderer();
     //$renderer->wrappers['controls']['container'] = 'div class=sign-in-form';
     //$renderer->wrappers['pair']['container'] = 'div class="form-group row justify-content-center"';

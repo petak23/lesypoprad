@@ -2,16 +2,31 @@
 
 {block content}
 <div class="col-12">
-  <h2 n:block=title>{$h2}</h2>
-  {control verzieEditForm}
-  <verzie-edit-form>
-  
+  <h2 n:block=title>Editácia verzie: {$verzia->cislo}</h2>
+  {*control verzieEditForm*}
+  {*form verzieEditForm}
+    {dump $form->components['text']}
+    <ul class="errors" n:if="$form->hasErrors()">
+      <li n:foreach="$form->errors as $er">{$er}</li>
+    </ul>
+    
+    {label cislo /}{input cislo}
+    
+    <label name="text">Popis zmien:</label>
+    <input id="x" n:name="text" type="hidden">
+    <trix-editor input="x"></trix-editor>
+    
+    {input uloz}
+    {input cancel}
+  {/form*}
+  <verzie-edit-form
+    id="{$verzia->id}">
   </verzie-edit-form>
 </div>
 
 {/block}
 
-{block spec_css}
+{*block spec_css}
   <link rel="stylesheet" href="{$basePath}/www/jquery_ui/jquery-ui.css" type="text/css">
   <link rel="stylesheet" href="{$basePath}/www/texyla/css/texyla-style.css" type="text/css">
 	<link rel="stylesheet" href="{$basePath}/www/texyla/css/texyla-theme.css" type="text/css">
@@ -49,7 +64,7 @@
 <script type="text/javascript">
   $.texyla.setDefaults({
     baseDir: {$baseUrl} + '/www/js/texyla',
-    iconPath: {$baseUrl} + '/www/texyla/icons/%var%.png',
+    iconPath: {$baseUrl} + '/www/ikonky/icons/%var%.png',
     previewPath: {$previewPath},
     filesPath: {$filesPath},
     filesUploadPath: {$filesUploadPath},
@@ -58,3 +73,4 @@
     filesDeletePath: {$filesDeletePath}
   });
 </script>
+*}

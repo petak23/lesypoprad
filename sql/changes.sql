@@ -94,3 +94,18 @@ CHANGE `popis` `description` varchar(255) COLLATE 'utf8mb3_bin' NULL COMMENT 'Po
 CHANGE `subor` `main_file` varchar(255) COLLATE 'utf8mb3_bin' NOT NULL COMMENT 'Názov súboru s relatívnou cestou' AFTER `description`,
 CHANGE `thumb` `thumb_file` varchar(255) COLLATE 'utf8mb3_bin' NULL COMMENT 'Názov súboru thumb pre obrázky a iné ' AFTER `main_file`,
 CHANGE `zmena` `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka' AFTER `thumb_file`;
+
+/** added 05.10.2022 **/
+INSERT INTO `user_resource` (`name`)
+VALUES ('Api:Faktury');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('0', '33', 'default,item,getItems');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('3', '33', 'add,edit,delete');
+
+/** added 07.10.2022 **/
+UPDATE `faktury` SET
+`datum_ukoncenia` = NULL
+WHERE `datum_ukoncenia` LIKE '0000-00-00';

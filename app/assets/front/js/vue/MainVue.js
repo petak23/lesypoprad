@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 26.09.2022
+ * Posledná zmena(last change): 05.10.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.0
  */
 
 import Vue from 'vue';
@@ -15,14 +15,15 @@ import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
 import SingleUpload from './components/Uploader/SingleUpload'
 import MultipleUpload from './components/Uploader/MultipleUpload'
-import lastlogin from './components/MainFrame/LastLogin'
-import colorBorderChange from './components/ColorBorderChange.vue'
-import Edittexts from '../../../components/EditArticle/EditTexts'
 import FlashMessage from "./components/FlashMessage"
-import SliderGrid from './components/Slider/SliderGrid'
-import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
-import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"
+import FakturyMain from './components/Faktury/FakturyMain.vue'
+import moment from 'moment'
 
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD.MM.YYYY')
+  }
+})
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -37,13 +38,8 @@ let vm = new Vue({
   el: '#vueapp',
   components: { 
     SingleUpload,
-    lastlogin,
     MultipleUpload,
-    colorBorderChange,
-    MainDocumentsPart,
-    Edittexts,
     FlashMessage,
-    SliderGrid,
-    VerzieEditForm,
+    FakturyMain,
   },
 });   

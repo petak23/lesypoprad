@@ -6,7 +6,9 @@
 #
 services:
   - App\ApiModule\Presenters\DokumentyPresenter(%parameters%, %wwwDir%)
+  - App\ApiModule\Presenters\FakturyPresenter(%parameters%, %wwwDir%)
   - App\ApiModule\Presenters\MenuPresenter(%parameters%)
   - App\ApiModule\Presenters\SliderPresenter(%parameters%, %wwwDir%)
   - App\ApiModule\Presenters\TexylaPresenter(%parameters%)
   - App\ApiModule\Presenters\UserPresenter(%parameters%)
+  - App\ApiModule\Presenters\VerziePresenter(%parameters%)

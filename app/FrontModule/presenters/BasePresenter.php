@@ -582,10 +582,10 @@ abstract class BasePresenter extends Presenter
     $renderer->wrappers['error']['container'] = 'div class="row"';
     $renderer->wrappers['error']['item'] = 'div class="col-md-12 alert alert-danger"';
     $renderer->wrappers['controls']['container'] = NULL;
-    $renderer->wrappers['pair']['container'] = 'div class=form-group';
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
     $renderer->wrappers['pair']['.error'] = 'has-error';
-    $renderer->wrappers['control']['container'] = 'div class="col-sm-9 control-field"';
-    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
+    $renderer->wrappers['control']['container'] = 'div class="col-12 col-md-9 control-field"';
+    $renderer->wrappers['label']['container'] = 'div class="col-12 col-md-3 control-label"';
     $renderer->wrappers['control']['description'] = 'span class="help-block alert alert-info"';
     $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
     $renderer->wrappers['control']['errorcontainer'] = 'div class="help-block alert alert-danger"';

@@ -32,6 +32,7 @@
 </head>
 
 <body>
+<div id="vueapp">
   {control menu templateType=>'tree', templateFile=>'LesyPP_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE}
   <div id="paralaxDiv" class="parallax">
     <header class="">
@@ -120,9 +121,9 @@
       </footer>
     </div>
   </div>
-
-  <script src="{webpack front.js}"></script>
-  {block spec_js}{/block}
-  {control googleAnalytics}
+</div> {* -- id="vueapp" -- *}
+<script src="{webpack front.js}"></script>
+{block spec_js}{/block}
+{control googleAnalytics}
 </body>
 </html>

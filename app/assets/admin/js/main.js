@@ -12,3 +12,7 @@ window.Nette = netteForms;
 import '../css/main.scss';
 
 import './vue/MainVue.js';
+
+//import Trix from "trix"
+//Trix.config.blockAttributes.heading1.tagName = "h3"
+//Trix.start()

@@ -14,7 +14,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 03.06.2022
+ * Posledna zmena(last change): 03.10.2022
  *
  * Modul: ADMIN
  *
@@ -22,7 +22,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.0
+ * @version 1.4.1
  */
 abstract class BasePresenter extends UI\Presenter
 {
@@ -116,11 +116,11 @@ abstract class BasePresenter extends UI\Presenter
       $ur = $user->getLogoutReason();
       if ($ur === Nette\Security\UserStorage::LOGOUT_INACTIVITY) {
         $backlink = $this->getApplication()->storeRequest();
-        $this->flashRedirect([':Front:User:', ['backlink' => $backlink]], 'Boli ste príliš dlho neaktívny a preto ste boli odhlásený! Prosím, prihláste sa znovu.', 'danger');
+        $this->flashRedirect([':Front:User:#login-form-header', ['backlink' => $backlink]], 'Boli ste príliš dlho neaktívny a preto ste boli odhlásený! Prosím, prihláste sa znovu.', 'danger');
       } elseif ($ur === Nette\Security\UserStorage::LOGOUT_MANUAL) {
-        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu, pretože ste sa odhlásili!', 'warning');
+        $this->flashRedirect(':Front:User:#login-form-header', 'Nemáte dostatočné oprávnenie na danú operáciu, pretože ste sa odhlásili!', 'warning');
       } else {
-        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu!', 'danger');
+        $this->flashRedirect(':Front:User:#login-form-header', 'Nemáte dostatočné oprávnenie na danú operáciu!', 'danger');
       }
     }
     $modul_presenter = explode(":", $this->name);

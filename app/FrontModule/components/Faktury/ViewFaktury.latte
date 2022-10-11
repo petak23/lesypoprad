@@ -2,72 +2,26 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 20.09.2022
+ * Posledna zmena(last change): 11.10.2022
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
- *
- * @param     
+ * @version 1.0.4
+ *    
 *}
-{if $user->isAllowed('Front:Faktury', 'add')}
-  <button n:if="$user->isAllowed('Front:Faktury', 'add')" type="button" class="btn btn-info" 
-          data-toggle="modal" {if $id_dokument}data-show="true"{/if} data-target="#myModalAddFaktura" data-backdrop="" title="Pridaj dokument">
-    <i class="fa fa-pencil"></i> Pridaj
-  </button>
-{/if}
-<div n:if="count($flashes)" class="flash-messages" n:inner-foreach="$flashes as $flash">
-  {var $nees = explode(',', $flash->type)}
-  <div class="alert alert-{$nees[0]}" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
-  </div>
-</div>
-<table class="table table-bordered table-striped table-sm mt-2 bg-success">
-  <thead>
-    <tr>
-      <th>Číslo</th>
-      <th n:if="$zmluvy">Zmluvná strana</th>
-      <th n:if="$zmluvy">Názov</th>
-      <th>Predmet</th>
-      <th n:if="$zmluvy">Cena</th>
-      <th>Dátum uzatvorenia zmluvy</th>
-      <th n:if="$zmluvy">Dátum ukončenia zmluvy</th>
-      <th>Detail</th>
-      <th>Akcie</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr n:foreach="$faktury as $f">
-      <td>{$f->cislo}</td>
-      <td n:if="$zmluvy">{$f->subjekt}</td>
-      <td n:if="$zmluvy">{$f->nazov}</td>
-      <td>{$f->predmet}</td>
-      <td n:if="$zmluvy">{$f->cena} €</td>
-      <td>{$f->datum_vystavenia|date:'d.m.Y'}</td>
-      <td n:if="$zmluvy">{$f->datum_ukoncenia} €</td>
-      <td>{$f->subor}</td>
-      <td>E, D</td>
-    </tr>
-  </tbody>
-</table>
-{if $user->isAllowed('Front:Faktury', 'add')}
-  {* -- Modal dialog pre zmenu vlastníka -- *}
-  <div class="modal fade" id="myModalAddFaktura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Pridaj</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          {control fakturyForm}
-        </div>
-      </div>
-    </div>
-  </div>
+
+{if !$id_dokument}
+<faktury-main
+  n:if="!$id_dokument"
+  id_hlavne_menu="{$skupina}"
+  base-path="{$basePath}"
+  base-api-path="/api/faktury/"
+  admin-links="{$admin_links}"
+  zmluvy="{$zmluvy ? 1 : 0}"
+  id="faktury"
+>
+</faktury-main>
+
+{elseif $id_dokument && ($user->isAllowed('Front:Faktury', 'add') || $user->isAllowed('Front:Faktury', 'edit'))}
+  {control fakturyForm}
 {/if}

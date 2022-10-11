@@ -3,7 +3,12 @@
 <article class="article-main">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <h2 n:inner-block="title"><i class="fa fa-sign-in" aria-hidden="true"></i> {_'SignInForm_h2'}</h2>
+      <h2 n:inner-block="title" id="login-form-header">
+        <i class="fa fa-sign-in" aria-hidden="true"></i> {_'SignInForm_h2'}
+        <a aria-hidden="true" class="content-anchor" href="#login-form-header">
+          <i class="fa-solid fa-anchor"></i>
+        </a>
+      </h2>
       <div class="user-forms">{control signInForm}</div> 
     </div>
   </div>

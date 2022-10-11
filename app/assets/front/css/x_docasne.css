@@ -74,3 +74,11 @@ footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
 footer .user-lang-menu ul.nav {
   padding: 0;
 }
+
+.content-anchor{
+  font-size: 45%;
+  opacity: .1;
+}
+.content-anchor:hover {
+  opacity: .75;
+}
