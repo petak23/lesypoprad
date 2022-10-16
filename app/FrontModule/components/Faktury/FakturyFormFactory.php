@@ -11,13 +11,13 @@ use Nette\Utils;
 
 /**
  * Formular a jeho spracovanie pre zmenu vlastnika polozky.
- * Posledna zmena 11.10.2022
+ * Posledna zmena 12.10.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class FakturyFormFactory
 {
@@ -92,8 +92,9 @@ class FakturyFormFactory
    * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
   public function dokumentFormSubmitted(Form $form, $values): void
   {
+    //dumpe($values);
     try {
-      if ($values->subor && $values->subor->name != "") {
+      if ($values->subor->hasFile()) {
         $values->subor = $this->_uploadPriloha($values);
       } else {
         unset($values->subor);

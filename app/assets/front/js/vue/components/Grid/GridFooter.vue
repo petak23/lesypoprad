@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie footer-u gridu. Tj. paginátor a položiek na stránku
- * Posledna zmena 24.06.2022
+ * Posledna zmena 12.10.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  * 
  * @doc see file Grid_readme.md
  */
@@ -38,6 +38,10 @@ export default {
       type: Number,
       required: true,
     },
+    change_per_page_allowed: { // Zobrazenie zmeny počtu položiek na stránku 
+      type: Number,
+      default: 1, // Hodnota 0 zakazuje 
+    }
   },
   data() {
     return {
@@ -145,7 +149,7 @@ export default {
 </script>
 <template> 
   <div class="d-flex justify-content-between">
-    <div class="px-2">
+    <div class="px-2 items-count">
       {{ trans('items') }}{{ items_count }} 
       <small v-if="items_count > 1">
         ({{ count_from }} {{ count_to }})
@@ -160,7 +164,7 @@ export default {
       class="bg-secondary text-white my-0"
     >
     </b-pagination>
-    <form class="px-2 form-inline" v-if="items_count > 10">
+    <form class="px-2 form-inline" v-if="change_per_page_allowed && items_count > 10">
       <label class="my-0 mr-2" for="itemsPerPage">{{ trans('items_per_page') }}</label>
       <b-form-select 
         v-model="items_per_page_selected"
@@ -170,9 +174,12 @@ export default {
         @change="changeItemsPerPage">
       </b-form-select>
     </form>
+    <div v-else class="px-2">&nbsp;</div>
   </div>
 </template>
 
 <style scoped>
-
+.items-count {
+  color: #333;
+}
 </style>

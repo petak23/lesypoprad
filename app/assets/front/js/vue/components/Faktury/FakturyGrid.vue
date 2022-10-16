@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie faktúr.
- * Posledna zmena 05.10.2022
+ * Posledna zmena 12.10.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import axios from "axios";
@@ -281,7 +281,6 @@ export default {
       :striped="true"
       :busy="loading > 0"
       small
-      
       ref="documentsTable"
       sticky-header="30rem"
     >

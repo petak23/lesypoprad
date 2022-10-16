@@ -2,17 +2,16 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 11.10.2022
+ * Posledna zmena(last change): 12.10.2022
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  *    
 *}
 
-{if !$id_dokument}
+{if $id_dokument == -1}
 <faktury-main
-  n:if="!$id_dokument"
   id_hlavne_menu="{$skupina}"
   base-path="{$basePath}"
   base-api-path="/api/faktury/"
@@ -22,6 +21,6 @@
 >
 </faktury-main>
 
-{elseif $id_dokument && ($user->isAllowed('Front:Faktury', 'add') || $user->isAllowed('Front:Faktury', 'edit'))}
+{elseif $id_dokument != -1 && ($user->isAllowed('Front:Faktury', 'add') || $user->isAllowed('Front:Faktury', 'edit'))}
   {control fakturyForm}
 {/if}

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie faktúr.
- * Posledna zmena 05.10.2022
+ * Posledna zmena 12.10.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 import FakturyGrid from '../Faktury/FakturyGrid.vue'
 import MultipleUpload from '../Uploader/MultipleUpload.vue'
@@ -58,7 +58,7 @@ export default {
       admin_links: {},
       items_selected: 0, // Počet označených položiek
       items_count: 0,    // Celkový počet položiek
-      items_per_page_selected: 10,  // Počet položiek na stránku
+      items_per_page_selected: 20,  // Počet položiek na stránku
       currentPage: 1,    // Aktuálne zobrazená stránka
       language_texts: {  // Texty pre jazykové mutácie
         sk: {
@@ -121,13 +121,13 @@ export default {
 <template>
   <div class="card card-info">
     <div class="card-header">
-      <b-button 
-        v-if="admin_links.elink" 
-        v-b-modal.myModalAddMultiFakturyUpload variant="primary"
-        size="sm"
-      >
+      <a :href="'?viewFaktury-id=0&do=viewFaktury-edit'" 
+          v-if="admin_links.alink"  
+          title="edit"
+          class="btn btn-primary btn-sm"
+        >
         <i class="fas fa-copy"></i> {{ trans('add_items') }}
-      </b-button>
+      </a>
       <b-button class="ml-2" 
         variant="danger" 
         v-if="items_selected > 0"
@@ -166,6 +166,7 @@ export default {
         :base-api-path="baseApiPath"
         :id="id"
         :items_count="items_count"
+        :change_per_page_allowed="0"
       />
     </div>
   </div>

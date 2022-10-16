@@ -32,7 +32,7 @@ class ViewFakturyControl extends Nette\Application\UI\Control
   /** @var Nette\Security\User */
   private $user;
   /** @var int Id dokumentu */
-  private $id_dokument = 0;
+  private $id_dokument = -1;
 
   /** @var string */
   private $filesDir;
@@ -68,7 +68,15 @@ class ViewFakturyControl extends Nette\Application\UI\Control
     if (isset($toIdDocument[1]) && $toIdDocument[0] == 'viewFaktury-id_dokument') {
       $this->id_dokument = $toIdDocument[1];
       $this->template->id_dokument = $this->id_dokument;
-      $this["fakturyForm"]->setDefaults($this->faktury->find($this->id_dokument));
+      if ($this->id_dokument > 0) { // platí pre editáciu
+        $_de_va = $this->faktury->find($this->id_dokument)->toArray();
+        // Skonvertovanie na správny formát pre formulár
+        $_de_va['datum_vystavenia'] = $_de_va['datum_vystavenia']->format('Y-m-d');
+        if ($this->zmluvy) {
+          $_de_va['datum_ukoncenia'] = $_de_va['datum_ukoncenia']->format('Y-m-d');
+        }
+        $this["fakturyForm"]->setDefaults($_de_va);
+      }
     }
     $this->template->setFile(__DIR__ . '/ViewFaktury.latte');
     $this->template->skupina = $this->skupina;
@@ -76,11 +84,6 @@ class ViewFakturyControl extends Nette\Application\UI\Control
     $this->template->faktury = $this->faktury->findBy(['id_hlavne_menu' =>  $this->skupina])->order('datum_vystavenia DESC');
     $this->template->zmluvy = $this->zmluvy;
     $this->template->admin_links = Json::encode([
-      /*"alink" => [
-        "druh_opravnenia" => 2,
-        "link"    => "",
-        "text"    => "Pridaj"
-      ],*/
       "alink" => $this->user->isAllowed('Front:Faktury', 'edit'),
       "elink" => $this->user->isAllowed('Front:Faktury', 'edit'),
       "dlink" => $this->user->isAllowed('Front:Faktury', 'del'),
@@ -164,12 +167,12 @@ class ViewFakturyControl extends Nette\Application\UI\Control
   {
     $form = $this->fakturyFormFactory->create($this->skupina, $this->user->getId(), $this->presenter->upload_size);
     $form['uloz']->onClick[] = function ($form) {
-      if (!count($form->errors)) $this->id_dokument = 0;
+      if (!count($form->errors)) $this->id_dokument = -1;
       $this->flashMessage('Zmena bola úspešne uložená!', 'success');
       $this->redirect('this');
     };
     $form['cancel']->onClick[] =  function () {
-      $this->id_dokument = 0;
+      $this->id_dokument = -1;
       $this->redirect('this');
     };
     return $this->presenter->_vzhladForm($form);
