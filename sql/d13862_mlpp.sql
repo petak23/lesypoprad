@@ -1137,7 +1137,8 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_user_main`, `id_druh`, `id_udaje
 (23,	4,	NULL,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
 (24,	5,	NULL,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
 (25,	4,	NULL,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
-(26,	5,	NULL,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0);
+(26,	5,	NULL,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0),
+(27,	5,	NULL,	NULL,	1,	'faktury_per_page',	'20',	'Počet zobrazených faktúr na stranu',	0);
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -1207,7 +1208,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.60.62',	'2017-05-15 09:11:19',	'2022-09-26 05:36:10'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.79.215',	'2017-05-15 09:11:19',	'2022-10-18 09:32:15'),
 (2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.40.22.123',	'2017-05-15 09:13:38',	'2022-09-21 12:03:19'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1266,7 +1267,9 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (39,	4,	27,	NULL),
 (40,	4,	30,	NULL),
 (41,	0,	31,	NULL),
-(42,	4,	32,	NULL);
+(42,	4,	32,	NULL),
+(43,	0,	33,	'default,item,getItems'),
+(44,	3,	33,	'add,edit,delete');
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -1462,7 +1465,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (181,	2,	'2022-09-06 09:51:43'),
 (182,	2,	'2022-09-21 14:03:19'),
 (183,	2,	'2022-09-22 10:24:00'),
-(184,	1,	'2022-09-26 07:36:10');
+(184,	1,	'2022-09-26 07:36:10'),
+(185,	1,	'2022-10-18 11:32:15');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1479,7 +1483,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	28,	'M',	'2022-09-26 07:36:10',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
+(1,	NULL,	NULL,	NULL,	29,	'M',	'2022-10-18 11:32:15',	'files/1/4roakz37gkh1k25mrmcu2ov74.jpg',	'A'),
 (2,	NULL,	NULL,	NULL,	156,	'M',	'2022-09-22 10:24:00',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	2,	'M',	'2017-07-11 09:10:29',	NULL,	'A');
 
@@ -1522,7 +1526,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (29,	'Api:Dokumenty'),
 (30,	'Api:Products'),
 (31,	'Api:Texyla'),
-(32,	'Api:Slider');
+(32,	'Api:Slider'),
+(33,	'Api:Faktury');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -1564,4 +1569,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.4.5',	'mapy',	'<ul>\n	<li>\n		Oprava zobrazenia google m&aacute;p na bootstrap tab-och.</li>\n	<li>\n		Oprava zobrazenia hlavn&eacute;ho nadpisu.</li>\n	<li>\n		Drobn&eacute; zmeny v css</li>\n</ul>\n',	'2017-07-17 05:40:37'),
 (6,	1,	'0.4.7',	'nákľady, kontakt',	'<ul>\n	<li>\n		Oprava vzhľadu a veľkosti n&aacute;hľadov.</li>\n	<li>\n		Oprava kontaktn&eacute;ho formul&aacute;ra.</li>\n</ul>\n',	'2017-09-18 11:29:45');
 
--- 2022-09-26 05:52:31
+-- 2022-10-18 09:36:13

@@ -61,6 +61,22 @@ ADD FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`);
 
 ** ---- end 26.09.2022 ------------*/
 
+/* ---- added to master 18.10.2022 ----
+
+INSERT INTO `udaje` (`id`, `id_user_roles`, `id_user_main`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
+(27,	5,	NULL,	NULL,	1,	'faktury_per_page',	'20',	'Počet zobrazených faktúr na stranu',	0);
+
+INSERT INTO `user_resource` (`name`)
+VALUES ('Api:Faktury');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('0', '33', 'default,item,getItems');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('3', '33', 'add,edit,delete');
+
+** ---- end 18.10.2022 ------------*/
+
 UPDATE `udaje` SET `separate_settings` = '01' WHERE `id_druh` = '5';
 
 ALTER TABLE `hlavne_menu_cast`
@@ -95,17 +111,7 @@ CHANGE `subor` `main_file` varchar(255) COLLATE 'utf8mb3_bin' NOT NULL COMMENT '
 CHANGE `thumb` `thumb_file` varchar(255) COLLATE 'utf8mb3_bin' NULL COMMENT 'Názov súboru thumb pre obrázky a iné ' AFTER `main_file`,
 CHANGE `zmena` `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka' AFTER `thumb_file`;
 
-/** added 05.10.2022 **/
-INSERT INTO `user_resource` (`name`)
-VALUES ('Api:Faktury');
-
-INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('0', '33', 'default,item,getItems');
-
-INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('3', '33', 'add,edit,delete');
-
-/** added 07.10.2022 **/
+/** added 18.10.2022 **/
 UPDATE `faktury` SET
 `datum_ukoncenia` = NULL
 WHERE `datum_ukoncenia` LIKE '0000-00-00';

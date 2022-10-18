@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace DbTable;
 
+use Nette\Utils\Strings;
+
 /**
  * Model, ktory sa stara o tabulku faktury
  * 
- * Posledna zmena 05.10.2022
+ * Posledna zmena 18.10.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class Faktury extends Table
 {
@@ -31,9 +33,9 @@ class Faktury extends Table
 
 
   /** Vráti všetky položky ako pole */
-  public function getItemsArray(int $id_hlavne_menu): array
+  public function getItemsArray(int $id_hlavne_menu, string $order = "datum_vystavenia DESC"): array
   {
-    $t = $this->findBy(['id_hlavne_menu' => $id_hlavne_menu]);
+    $t = $this->findBy(['id_hlavne_menu' => $id_hlavne_menu])->order($order);
     $o = [];
     foreach ($t as $p) {
       $o[] = $p->toArray();
@@ -49,11 +51,7 @@ class Faktury extends Table
   {
     $pr = $this->find($id);
     if ($pr !== null) {
-      $o = $this->deleteFile($pr->main_file)
-        ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg'])
-          ? $this->deleteFile($pr->thumb_file) : true)
-        : false;
-      if ($o) {
+      if ($this->deleteFile($pr->subor)) {
         $pr->delete();
         return true;
       }

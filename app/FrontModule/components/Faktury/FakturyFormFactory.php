@@ -11,7 +11,7 @@ use Nette\Utils;
 
 /**
  * Formular a jeho spracovanie pre zmenu vlastnika polozky.
- * Posledna zmena 12.10.2022
+ * Posledna zmena 18.10.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
@@ -56,7 +56,8 @@ class FakturyFormFactory
     $form->addHidden('id_hlavne_menu', $id_hlavne_menu);
     $form->addHidden('id_user_main', $id_user_main);
     $form->addText('cislo', 'Číslo:', 20, 20);
-    $form->addText('subjekt', $zmluvy ? "Zmluvná strana:" : "Dodávateľ:", 50, 200);
+    $form->addText('subjekt', $zmluvy ? "Zmluvná strana:" : "Dodávateľ:", 50, 200)
+      ->setRequired(($zmluvy ? "Zmluvná strana" : "Dodávateľ") . " musí byť zadaný");
     if ($zmluvy) {
       $form->addText('nazov', "Názov", 50, 50)
         ->setRequired('Názov musí byť zadaný');
@@ -68,7 +69,8 @@ class FakturyFormFactory
       ->addRule(Form::FLOAT, 'Cena musí byť číslo')
       ->setRequired(FALSE);
     $form->addText('datum_vystavenia', $zmluvy ? "Dátum uzatvorenia zmluvy" : "Dátum vystavenia")
-      ->setHtmlType('date');
+      ->setHtmlType('date')
+      ->setRequired("Dátum musí byť zadaný");;
     if ($zmluvy) {
       $form->addText('datum_ukoncenia', 'Dátum ukončenia zmluvy')->setHtmlType('date');
     }

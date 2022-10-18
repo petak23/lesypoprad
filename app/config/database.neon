@@ -1,6 +1,9 @@
 database:
-	dsn: 'mysql:host=wm13.wedos.net;dbname=d13862_mlpp'
-	user:	w13862_mlpp 
-	password: userMLPP-449
+#	dsn: 'mysql:host=wm13.wedos.net;dbname=d13862_mlpp'
+#	user:	w13862_mlpp 
+#	password: userMLPP-449
+	dsn: 'mysql:host=md106.wedos.net;dbname=d264787_lesypp'
+	user:	w264787_lesypp 
+	password: uuB6K3b2
 	options:
 		lazy: yes

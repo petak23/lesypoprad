@@ -355,8 +355,9 @@ export default {
       </template>
       <template #cell(subor)="data">
         <a
-          :href="basePath + '/' + data.item.subor"
+          :href="basePath + '/www/files/prilohy/' + data.item.subor"
           :title="data.item.subject"
+          target="_blank"
         >
           {{ data.item.subor }}
         </a>
