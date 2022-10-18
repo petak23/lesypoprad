@@ -70,7 +70,7 @@ INSERT INTO `user_resource` (`name`)
 VALUES ('Api:Faktury');
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('0', '33', 'default,item,getItems');
+VALUES ('0', '33', 'default,item,getitems,getperpage');
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 VALUES ('3', '33', 'add,edit,delete');
