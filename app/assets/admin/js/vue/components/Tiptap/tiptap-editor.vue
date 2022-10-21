@@ -1,70 +1,5 @@
 <template>
   <div class="editor" v-if="editor">
-    <!--div v-if="editor">
-      <button @click="editor.chain().focus().toggleBold().run()" :disabled="!editor.can().chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        bold
-      </button>
-      <button @click="editor.chain().focus().toggleItalic().run()" :disabled="!editor.can().chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        italic
-      </button>
-      <button @click="editor.chain().focus().toggleStrike().run()" :disabled="!editor.can().chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        strike
-      </button>
-      <button @click="editor.chain().focus().toggleCode().run()" :disabled="!editor.can().chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-        code
-      </button>
-      <button @click="editor.chain().focus().unsetAllMarks().run()">
-        clear marks
-      </button>
-      <button @click="editor.chain().focus().clearNodes().run()">
-        clear nodes
-      </button>
-      <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-        paragraph
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-        h1
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-        h2
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-        h3
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
-        h4
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
-        h5
-      </button>
-      <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
-        h6
-      </button>
-      <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-        bullet list
-      </button>
-      <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-        ordered list
-      </button>
-      <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-        code block
-      </button>
-      <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-        blockquote
-      </button>
-      <button @click="editor.chain().focus().setHorizontalRule().run()">
-        horizontal rule
-      </button>
-      <button @click="editor.chain().focus().setHardBreak().run()">
-        hard break
-      </button>
-      <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().chain().focus().undo().run()">
-        undo
-      </button>
-      <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().chain().focus().redo().run()">
-        redo
-      </button>
-    </div-->
     <menu-bar class="editor__header" :editor="editor" />
     <editor-content :editor="editor" />
   </div>
@@ -72,8 +7,11 @@
 
 <script>
 import Highlight from '@tiptap/extension-highlight'
-import { Editor, EditorContent } from '@tiptap/vue-2'
 import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
+import { Editor, EditorContent } from '@tiptap/vue-2'
 
 import MenuBar from './MenuBar.vue'
 
@@ -117,8 +55,14 @@ export default {
       content: this.value,
       extensions: [
         StarterKit, 
+        Highlight,
+        TextStyle,
+        Color,
+        Link.configure({
+          //openOnClick: false,
+          validate: href => /^https?:\/\//.test(href),
+        }),
       ],
-      Highlight,
       onUpdate: () => {
         // HTML
         this.$emit('input', this.editor.getHTML())
@@ -152,7 +96,6 @@ export default {
     padding: 0 1rem;
   }
 
-  h1,
   h2,
   h3,
   h4,
@@ -161,13 +104,21 @@ export default {
     line-height: 1.1;
   }
 
+  a {
+    color: #68CEF8;
+  }
+
   code {
+    font-size: 0.9rem;
+    padding: 0.25em;
+    border-radius: 0.25em;
     background-color: rgba(#616161, 0.1);
     color: #616161;
+    box-decoration-break: clone;
   }
 
   pre {
-    background: #0D0D0D;
+    background: #575757;
     color: #FFF;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
@@ -187,6 +138,7 @@ export default {
   }
 
   blockquote {
+    margin-left: 1rem;
     padding-left: 1rem;
     border-left: 2px solid rgba(#0D0D0D, 0.1);
   }

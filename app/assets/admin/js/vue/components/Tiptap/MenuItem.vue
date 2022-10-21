@@ -6,14 +6,10 @@
     :title="title"
   >
     <i :class="'ri-' + icon"></i>
-    <!--svg class="remix">
-      <use :xlink:href="`${remixiconUrl}#ri-${icon}`" />
-    </svg-->
   </button>
 </template>
 
 <script>
-//import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg'
 import 'remixicon/fonts/remixicon.css'
 
 export default {

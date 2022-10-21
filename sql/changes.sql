@@ -1,82 +1,3 @@
-/* ---- added to master 26.09.2022 ----
-DROP TABLE IF EXISTS `hlavne_menu_template`;
-CREATE TABLE `hlavne_menu_template` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT 'Názov vzhľadu',
-  `description` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'Popis vzhľadu',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Vzhľad šablón pre položky menu';
-
-INSERT INTO `hlavne_menu_template` (`id`, `name`, `description`) VALUES
-(1,	'default',	'Základný vzhľad');
-
-ALTER TABLE `dokumenty`
-ADD `type` tinyint NULL DEFAULT '1' COMMENT 'Typ prílohy' AFTER `zobraz_v_texte`;
-
-ALTER TABLE `hlavne_menu`
-ADD `id_hlavne_menu_template` int NULL DEFAULT '1' COMMENT 'Vzhľad šablóny' AFTER `nazov_ul_sub`,
-ADD FOREIGN KEY (`id_hlavne_menu_template`) REFERENCES `hlavne_menu_template` (`id`);
-
-ALTER TABLE `hlavne_menu`
-ADD `id_user_categories` int NULL COMMENT 'Opravnenie podľa kategórie',
-ADD FOREIGN KEY (`id_user_categories`) REFERENCES `user_categories` (`id`);
-
-ALTER TABLE `hlavne_menu_lang`
-ADD `text` text COLLATE 'utf8_bin' NULL COMMENT 'Text článku v danom jazyku',
-ADD `anotacia` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Anotácia článku v danom jazyku' AFTER `text`;
-
-INSERT INTO `user_resource` (`id`, `name`) VALUES
-(21,	'Edit:Homepage'),
-(22,	'Edit:User'),
-(23,	'Edit:UserLog'),
-(24,	'Edit:Clanky'),
-(25,	'Admin:Products'),
-(26,	'Front:Search'),
-(27,	'Api:Menu'),
-(28,	'Api:User'),
-(29,	'Api:Dokumenty'),
-(30,	'Api:Products'),
-(31,	'Api:Texyla'),
-(32,	'Api:Slider');
-
-UPDATE `user_permission` SET `actions` = 'default' WHERE `id` = '3';
-
-INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
-(31,	3,	21,	NULL),
-(32,	1,	23,	'default,mailChange,passwordChange,activateNewEmail'),
-(33,	4,	7,	'default,edit'),
-(34,	4,	25,	NULL),
-(35,	0,	26,	NULL),
-(36,	0,	27,	'getsubmenu'),
-(37,	4,	28,	NULL),
-(38,	0,	29,	NULL),
-(39,	4,	27,	NULL),
-(40,	4,	30,	NULL),
-(41,	0,	31,	NULL),
-(42,	4,	32,	NULL);
-
-ALTER TABLE `udaje`
-ADD `id_user_main` int NULL COMMENT 'Id užívateľa, pre ktorého toto nastavenie platí.' AFTER `id_user_roles`,
-ADD FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`);
-
-** ---- end 26.09.2022 ------------*/
-
-/* ---- added to master 18.10.2022 ----
-
-INSERT INTO `udaje` (`id`, `id_user_roles`, `id_user_main`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
-(27,	5,	NULL,	NULL,	1,	'faktury_per_page',	'20',	'Počet zobrazených faktúr na stranu',	0);
-
-INSERT INTO `user_resource` (`name`)
-VALUES ('Api:Faktury');
-
-INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('0', '33', 'default,item,getitems,getperpage');
-
-INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('3', '33', 'add,edit,delete');
-
-** ---- end 18.10.2022 ------------*/
-
 UPDATE `udaje` SET `separate_settings` = '01' WHERE `id_druh` = '5';
 
 ALTER TABLE `hlavne_menu_cast`
@@ -115,3 +36,10 @@ CHANGE `zmena` `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy
 UPDATE `faktury` SET
 `datum_ukoncenia` = NULL
 WHERE `datum_ukoncenia` LIKE '0000-00-00';
+
+/** added 21.10.2022 **/
+INSERT INTO `user_resource` (`name`)
+VALUES ('Api:Verzie');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('3', '34', NULL);

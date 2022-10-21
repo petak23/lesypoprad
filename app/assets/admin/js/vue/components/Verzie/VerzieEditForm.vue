@@ -1,15 +1,19 @@
 <script>
 /**
  * Komponenta pre formulár na zadanie/editáciu verzií.
- * Posledna zmena 29.09.2022
+ * Posledna zmena 21.10.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 import Tiptap from "../Tiptap/tiptap-editor.vue";
+import axios from 'axios'
+
+//for Tracy Debug Bar
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
   components: {
@@ -20,14 +24,13 @@ export default {
       type: String,
       required: true
     },
-    value: {
+    basePath: {
       type: String,
-      default: '',
+      required: true
     },
   },
   data() {
     return {
-      text: "",
       form: {
         id: 0,
         id_user_main: 0,
@@ -54,6 +57,24 @@ export default {
       this.form.text = ""
       this.form.modified = ""
     },
+  },
+  mounted() {
+    // Načítanie údajov priamo z DB
+    let odkaz = this.basePath + '/api/verzie/getversion/' + this.id
+    axios.get(odkaz)
+          .then(response => {
+            console.log(response.data)
+            //this.dataSet(this.data_origin)
+            this.form.id = response.data.id
+            this.form.id_user_main = response.data.id_user_main
+            this.form.number = response.data.cislo
+            this.form.text = response.data.text
+            this.form.modified = response.data.modified
+          })
+          .catch((error) => {
+            console.log(odkaz);
+            console.log(error);
+          });
   }
 }
 </script>
