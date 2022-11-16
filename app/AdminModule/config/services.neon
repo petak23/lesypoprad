@@ -47,8 +47,6 @@ services:
   - App\AdminModule\Forms\User\EditUserMainFormFactory
   - App\AdminModule\Forms\User\EditUserProfilesFormFactory
 
-  - App\AdminModule\Forms\Verzie\EditVerzieFormFactory
-
 # component services 
   - App\AdminModule\Components\Article\IAdminAddMenu
   TitleArticleControl:

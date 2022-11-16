@@ -65,10 +65,10 @@ export default {
       ],
       onUpdate: () => {
         // HTML
-        this.$emit('input', this.editor.getHTML())
+        this.$root.$emit('tiptap_input', this.editor.getHTML())
 
         // JSON
-        // this.$emit('input', this.editor.getJSON())
+        //this.$root.$emit('tiptap_input_json', this.editor.getJSON())
       },
     })
   },

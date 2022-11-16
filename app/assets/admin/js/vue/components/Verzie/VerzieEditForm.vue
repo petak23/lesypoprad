@@ -47,34 +47,73 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault()
+      
+      let to_save = [this.form.number, this.form.text]
+      let odkaz = this.basePath + '/api/verzie/save/' + this.id
+      /* this.selected.forEach(function(item) {
+        to_del.push(item.id)
+      })*/
+      let vm = this
+      axios.post(odkaz, {
+          to_save,
+        })
+        .then(function (response) {
+          //console.log(response)
+          // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
+          window.location.href = vm.basePath + '/administration/verzie/';
+        
+          /*vm.$root.$emit('flash_message', 
+                            [{ 'message': 'Uložené', 
+                              'type':'success',
+                              'heading': 'Uloženie'
+                              }])*/
+        })
+        .catch(function (error) {
+          console.log(odkaz)
+          console.log(error)
+          vm.$root.$emit('flash_message', 
+                            [{ 'message': 'Pri vymazávaní došlo k chybe',
+                              'type':'danger',
+                              'heading': 'Chyba'
+                              }])
+        });
 
     },
     onReset(event) {
       event.preventDefault()
-      this.form.id = 0
+      /*this.form.id = 0
       this.form.id_user_main = 0
       this.form.number = ""
       this.form.text = ""
-      this.form.modified = ""
+      this.form.modified = ""*/
+      window.location.href = this.basePath + '/administration/verzie/';
     },
   },
   mounted() {
-    // Načítanie údajov priamo z DB
-    let odkaz = this.basePath + '/api/verzie/getversion/' + this.id
-    axios.get(odkaz)
-          .then(response => {
-            console.log(response.data)
-            //this.dataSet(this.data_origin)
-            this.form.id = response.data.id
-            this.form.id_user_main = response.data.id_user_main
-            this.form.number = response.data.cislo
-            this.form.text = response.data.text
-            this.form.modified = response.data.modified
-          })
-          .catch((error) => {
-            console.log(odkaz);
-            console.log(error);
-          });
+    if (this.id !== "0") { // Len pri editácii
+      // Načítanie údajov priamo z DB
+      let odkaz = this.basePath + '/api/verzie/getversion/' + this.id
+      axios.get(odkaz)
+            .then(response => {
+              console.log(response.data)
+              //this.dataSet(this.data_origin)
+              this.form.id = response.data.id
+              this.form.id_user_main = response.data.id_user_main
+              this.form.number = response.data.cislo
+              this.form.text = response.data.text
+              this.form.modified = response.data.modified
+            })
+            .catch((error) => {
+              console.log(odkaz);
+              console.log(error);
+            });
+    }
+  },
+  created() {
+    this.$root.$on('tiptap_input', data => {
+			//console.log(data)
+      this.form.text = data
+		})
   }
 }
 </script>
